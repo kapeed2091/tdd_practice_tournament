@@ -15,6 +15,23 @@ class Tournament(models.Model):
             from ..exceptions.exceptions import InvalidUserId
             raise InvalidUserId
 
+        from datetime import datetime
+        now = datetime.now()
+
+        from ib_common.date_time_utils.convert_datetime_to_local_string \
+            import convert_datetime_to_local_string
+        date_time_format = '%Y-%m-%d %H:%M:%S'
+
+        start_datetime_string = convert_datetime_to_local_string(
+            start_datetime, date_time_format
+        )
+        now_str = convert_datetime_to_local_string(
+            now, date_time_format
+        )
+        if start_datetime_string <= now_str:
+            from ..exceptions.exceptions import InvalidStartDateTime
+            raise InvalidStartDateTime
+
         obj = Tournament.objects.create(
             user_id=user_id,
             total_rounds=total_rounds,
