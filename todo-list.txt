@@ -5,9 +5,9 @@ Usecases:
     - User can play matches once the tournament is started
         - User will submit his score in the match
     - User can progress to next round if he wins the match
-    - User can get his current round
-    - User can get his opponent in any round
-    - User can get the winner of the tournament
+    - User can get his current round number
+    - User can get his opponent username in any round
+    - User can get the winner username of the tournament
 
 Assumptions:
     - Tournament will always be full before start time
