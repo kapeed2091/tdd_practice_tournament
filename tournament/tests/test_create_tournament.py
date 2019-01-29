@@ -14,8 +14,5 @@ class TestCreateTournament(TestCase):
             "no_of_rounds": 3,
             "start_datetime": start_datetime
         }
-        tournament_response = Tournament.create_tournament(
-            created_user_id=self.user_id,
-            no_of_rounds=3,
-            start_datetime=start_datetime)
+        tournament_response = Tournament.create_tournament(**tournament_request)
         self.assertEqual(tournament_request, tournament_response)
