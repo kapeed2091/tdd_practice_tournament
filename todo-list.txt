@@ -50,3 +50,8 @@ overall estimation time - (6 hr - 5 + 1)
    - User can get the winner user profile of any tournament (30 min)
         - successful
         - tournament is still on
+
+todo-list
+    - [create_tournament successful case]
+    - invalid start date
+    - invalid rounds
