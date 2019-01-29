@@ -12,9 +12,10 @@ class TestUserCreateTournament(TestCase):
 
         from tournament.models.tournament import Tournament
         tournament_details = Tournament.create_tournament(
-            no_of_rounds=no_of_rounds, start_date_time=start_date_time)
+            no_of_rounds=no_of_rounds, start_date_time=start_date_time,
+            username=self.username)
 
-        start_date_time_str = start_date_time.strftime("%Y-%m-%d")
+        start_date_time_str = start_date_time.strftime("%Y-%m-%d %H:%M:%S")
 
         self.assertEquals(start_date_time_str,
                           tournament_details['start_datetime'])
