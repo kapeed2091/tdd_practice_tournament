@@ -17,3 +17,7 @@ Assumptions:
    - In case of tie, Whoever submits the score first is winner
    - User profile has Name, Age, Gender
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
+
+
+
+Time Estimation: 10 Hours
