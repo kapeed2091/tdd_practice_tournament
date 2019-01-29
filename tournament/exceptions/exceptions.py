@@ -4,3 +4,7 @@ class InvalidUserId(Exception):
 
 class InvalidStartDateTime(Exception):
     pass
+
+
+class InvalidTotalRounds(Exception):
+    pass
