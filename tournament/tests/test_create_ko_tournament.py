@@ -13,7 +13,7 @@ class TestCreateKOTournament(TestCase):
         tournament_status = 'CAN_JOIN'
 
         input_tournament_details = {
-            'id': 1,
+            'id': '1',
             'name': 'tournament_1',
             'number_of_rounds': 2,
             'start_datetime': datetime.datetime(2019, 1, 30, 15, 00, 00),
