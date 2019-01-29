@@ -7,5 +7,6 @@ class TestCreateUser(TestCase):
         username = 'user1'
         from tournament.models import Player
         Player.create_player(username)
-        player_details = Player.get_player_dict(username=username)
+        player = Player.get_player(username)
+        player_details = player.get_player_dict()
         self.assertEqual(player_details['username'], username)

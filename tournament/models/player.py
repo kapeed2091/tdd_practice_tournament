@@ -9,8 +9,10 @@ class Player(models.Model):
         cls.objects.create(username=username)
 
     @classmethod
-    def get_player_dict(cls, username):
-        player = cls.objects.get(username=username)
+    def get_player(cls, username):
+        return cls.objects.get(username=username)
+
+    def get_player_dict(self):
         return {
-            'username': player.username
+            'username': self.username
         }
