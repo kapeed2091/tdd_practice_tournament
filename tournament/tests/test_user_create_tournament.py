@@ -32,3 +32,15 @@ class TestUserCreateTournament(TestCase):
             Tournament.create_tournament(
                 no_of_rounds=no_of_rounds, start_date_time=start_datetime,
                 username=self.username)
+
+    def test_user_create_tournament_with_non_positive_rounds(self):
+        from datetime import datetime, timedelta
+
+        no_of_rounds = 0
+        start_datetime = datetime.now() + timedelta(days=1)
+
+        with self.assertRaisesMessage(Exception, "Invalid no of rounds"):
+            from tournament.models.tournament import Tournament
+            Tournament.create_tournament(
+                no_of_rounds=no_of_rounds, start_date_time=start_datetime,
+                username=self.username)
