@@ -1,0 +1,8 @@
+git+https://github.com/anush0247/Zappa.git@apigateway_stages
+boto==2.41.0
+pyOpenSSL==17.4.0
+ndg-httpsclient==0.4.3
+pyasn1==0.4.2
+MySQL-python==1.2.5
+pylint
+ib-pylint
