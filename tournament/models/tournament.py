@@ -15,8 +15,16 @@ class Tournament(models.Model):
 
     @classmethod
     def create_tournament(cls, no_of_rounds, start_date_time, username):
+        cls.validate_start_datetime(start_datetime=start_date_time)
+
         tournament_obj = cls.objects.create(
             no_of_rounds=no_of_rounds,
             start_date_time=start_date_time, username=username)
 
         return tournament_obj.convert_tournament_to_dict()
+
+    @classmethod
+    def validate_start_datetime(cls, start_datetime):
+        from datetime import datetime
+        if datetime.now() > start_datetime:
+            raise Exception("Expected future date time")
