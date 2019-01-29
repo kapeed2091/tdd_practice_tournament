@@ -21,7 +21,7 @@ class Tournament(models.Model):
 
     @staticmethod
     def validate_no_of_rounds(no_of_rounds):
-        if no_of_rounds < 0:
+        if no_of_rounds <= 0:
             raise BadRequest('Invalid number of rounds')
 
     def convert_to_dict(self):
