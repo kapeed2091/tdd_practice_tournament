@@ -18,6 +18,11 @@ Assumptions:
    - User profile has Name, Age, Gender
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
 
-
+ToDo List:
+    User can create a knock-out tournament with configurable number of rounds and start datetime
+        - create knock-out tournament
+        - Accept only future date time for start datetime
+        - accept only positive integer for no_of_rounds
+        -
 
 Time Estimation: 10 Hours
