@@ -20,7 +20,7 @@ Assumptions:
 
 ToDo List:
     User can create a knock-out tournament with configurable number of rounds and start datetime
-        - invalid user
+        - [invalid user]
 Completed List
     User can create a knock-out tournament with configurable number of rounds and start datetime
         - create knock-out tournament
