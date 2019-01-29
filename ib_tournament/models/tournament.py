@@ -8,6 +8,7 @@ class Tournament(models.Model):
     @classmethod
     def create_tournament(cls, total_rounds, start_datetime_str):
         start_datetime = cls._get_start_datetime_object(start_datetime_str)
+        cls._validate_start_datetime(start_datetime)
         cls.objects.create(total_rounds=total_rounds,
                            start_datetime=start_datetime)
 
@@ -18,3 +19,15 @@ class Tournament(models.Model):
         from ib_tournament.constants.general import DEFAULT_DATE_TIME_FORMAT
         return convert_string_to_local_date_time(
             start_datetime_str, DEFAULT_DATE_TIME_FORMAT)
+
+    @classmethod
+    def _validate_start_datetime(cls, start_datetime):
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+        from ib_tournament.constants.exception_messages import INVALID_DATETIME
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+
+        curr_datetime = get_current_local_date_time()
+        if start_datetime <= curr_datetime:
+            raise BadRequest(*INVALID_DATETIME)
+        return
