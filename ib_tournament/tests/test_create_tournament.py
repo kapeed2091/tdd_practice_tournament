@@ -48,7 +48,6 @@ class TestCreateTournament(TestCase):
 
         total_rounds = -1
         start_datetime_str = self.get_next_day_datetime()
-        Tournament.create_tournament(total_rounds, start_datetime_str)
 
         from django_swagger_utils.drf_server.exceptions import BadRequest
         with self.assertRaisesMessage(BadRequest, "Invalid total rounds"):
