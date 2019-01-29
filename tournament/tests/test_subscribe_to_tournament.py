@@ -30,3 +30,15 @@ class TestSubscribeToTournament(TestCase):
         self.assertEqual(user_tournaments.count(), 1)
         self.assertEqual(user_tournament.user_id, user.id)
         self.assertEqual(user_tournament.tournament_id, tournament.id)
+
+    def test_case_invalid_tournament_id(self):
+        from tournament.models import User, UserTournament
+        user_name = "John"
+
+        user = User.objects.create(name=user_name)
+
+        tournament_id = 1
+
+        from tournament.exceptions.exceptions import InvalidTournamentId
+        with self.assertRaises(InvalidTournamentId):
+            UserTournament.subscribe_to_tournament(user.id, tournament_id)
