@@ -10,10 +10,11 @@ class TestUserCreateTournament(TestCase):
         no_of_rounds = 4
         start_date_time = datetime.now()
 
+        from tournament.models.tournament import Tournament
         tournament_details = Tournament.create_tournament(
-            rounds=no_of_rounds, start_date_time=start_date_time)
+            no_of_rounds=no_of_rounds, start_date_time=start_date_time)
 
-        start_date_time_str = start_date_time.strftime(fmt="%Y-%m-%d")
+        start_date_time_str = start_date_time.strftime("%Y-%m-%d")
 
         self.assertEquals(start_date_time_str,
                           tournament_details['start_datetime'])

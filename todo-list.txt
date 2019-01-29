@@ -20,7 +20,7 @@ Assumptions:
 
 ToDo List:
     User can create a knock-out tournament with configurable number of rounds and start datetime
-        - create knock-out tournament
+        - [create knock-out tournament]
         - Accept only future date time for start datetime
         - accept only positive integer for no_of_rounds
         -
