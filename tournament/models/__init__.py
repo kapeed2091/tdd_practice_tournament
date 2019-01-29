@@ -1,4 +1,8 @@
-__all__ = []
+from .ko_tournament import KOTournament
+
+__all__ = [
+    'KOTournament'
+]
 
 # class DummyModel(AbstractDateTimeModel):
 #     """

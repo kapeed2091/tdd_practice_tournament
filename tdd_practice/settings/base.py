@@ -130,6 +130,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',  # django sessions used in admin
     'django.contrib.messages',  # info, success, error message in response. admin requires this
     'django.contrib.staticfiles',  # host the static files
+    'tournament',
 ]
 
 THIRD_PARTY_APPS_BASE = [
