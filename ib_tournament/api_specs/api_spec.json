@@ -1,7 +1,7 @@
 {
         "swagger": "2.0",
         "host": "127.0.0.1:8000",
-        "basePath": "/api/tournament/",
+        "basePath": "/api/ib_tournament/",
         "info": {
             "version": "1.0.0",
             "title": "Simple API",

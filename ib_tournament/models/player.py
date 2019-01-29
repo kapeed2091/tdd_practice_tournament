@@ -22,7 +22,7 @@ class Player(models.Model):
     @classmethod
     def _validate_unique_username(cls, username):
         from django_swagger_utils.drf_server.exceptions import BadRequest
-        from tournament.constants.exception_messages import USERNAME_EXISTS
+        from ib_tournament.constants.exception_messages import USERNAME_EXISTS
         if Player.objects.filter(username=username):
             raise BadRequest(USERNAME_EXISTS)
         return
