@@ -54,5 +54,5 @@ overall estimation time - (6 hr - 5 + 1)
 todo-list
     - create_tournament successful case
     - invalid user_id
-    - [invalid start date]
-    - invalid rounds
+    - invalid start date
+    - [invalid rounds]
