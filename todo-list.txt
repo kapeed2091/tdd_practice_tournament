@@ -17,3 +17,36 @@ Assumptions:
    - In case of tie, Whoever submits the score first is winner
    - User profile has Name, Age, Gender
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
+
+overall estimation time - (6 hr - 5 + 1)
+   - User can create a knock-out tournament with configurable number of rounds and start datetime - (45 min)
+         - successful
+         - invalid start date
+         - invalid rounds
+         - maximum rounds
+
+   - User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status) - (30 min)
+        - successful
+   - User can subscribe to a tournament which is not yet started - (45 min)
+        - successful
+        - past tournament
+        - invalid tournament
+        - already subscribed
+   - User can play matches once the tournament is started
+       - User will submit his score in the match - (30 min)
+            - successful
+            - user not part of tournament
+            - invalid score
+   - User will progress to next round if he wins the match (25 min)
+        - successful
+   - User can get his current round number for a tournament (30 min)
+        - successful
+        - user not part of tournament
+
+   - User can get his opponent user profile in any round in a tournament (60 min)
+        - successful
+        - user has lost
+        - user not part of tournament
+   - User can get the winner user profile of any tournament (30 min)
+        - successful
+        - tournament is still on
