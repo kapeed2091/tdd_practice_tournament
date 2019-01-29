@@ -10,3 +10,12 @@ class TestCreateUser(TestCase):
         player = Player.get_player(username)
         player_details = player.get_player_dict()
         self.assertEqual(player_details['username'], username)
+
+    def test_unique_username(self):
+        username_1 = 'user1'
+        username_2 = 'user1'
+        from tournament.models import Player
+        Player.create_player(username_1)
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        with self.assertRaisesMessage(BadRequest, "Username already Exists"):
+            Player.create_player(username_2)
