@@ -31,3 +31,16 @@ class TestCreateTournament(TestCase):
 
         with self.assertRaisesMessage(BadRequest, 'Invalid number of rounds'):
             Tournament.create_tournament(**tournament_request)
+
+    def test_create_tournament_with_zero_no_of_rounds(self):
+        from tournament.models import Tournament
+        now = datetime.datetime.now()
+        start_datetime = now + datetime.timedelta(days=1)
+        tournament_request = {
+            "created_user_id": self.user_id,
+            "no_of_rounds": 0,
+            "start_datetime": start_datetime
+        }
+
+        with self.assertRaisesMessage(BadRequest, 'Invalid number of rounds'):
+            Tournament.create_tournament(**tournament_request)
