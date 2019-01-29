@@ -3,7 +3,7 @@ from django.test import TestCase
 
 class TestCreateTournament(TestCase):
 
-    def testcase_create_account(self):
+    def testcase_create_tournament(self):
         user_id = 1
         total_rounds = 4
         start_datetime = "2019-12-12 13:00:00"
