@@ -1,7 +1,7 @@
 - User can create a knock-out tournament with configurable number of rounds and start datetime
       1. User Can create a tournament with configurable number of rounds and start datetime
-      [2. When User creates a tournament with non-positive number of rounds, throw an exception]
-      3. When User creates a tournament with date_time <= now, should throw an exception
+      2. When User creates a tournament with non-positive number of rounds, throw an exception
+      [3. When User creates a tournament with date_time <= now, should throw an exception]
       4. When User Create a tournament with wrong user_id, should throw an exception
 - User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)
 - User can subscribe to a tournament which is not yet started

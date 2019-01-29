@@ -44,3 +44,16 @@ class TestCreateTournament(TestCase):
 
         with self.assertRaisesMessage(BadRequest, 'Invalid number of rounds'):
             Tournament.create_tournament(**tournament_request)
+
+    def test_create_tournament_with_start_datetime_less_than_now(self):
+        from tournament.models import Tournament
+        now = datetime.datetime.now()
+        start_datetime = now - datetime.timedelta(days=1)
+        tournament_request = {
+            "created_user_id": self.user_id,
+            "no_of_rounds": 3,
+            "start_datetime": start_datetime
+        }
+
+        with self.assertRaisesMessage(BadRequest, 'Invalid start_datetime'):
+            Tournament.create_tournament(**tournament_request)
