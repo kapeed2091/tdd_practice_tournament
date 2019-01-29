@@ -18,7 +18,15 @@ Assumptions:
    - User profile has Name, Age, Gender
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
 
-
-Doubts:
-1. Assumption that user profile has Name, Age, Gender, can we add these field at the start?
-2.
+TODOs:
+    - create user
+        - create user with username
+        - no two users can have same username
+    - create tournament with configurable number of rounds and start datetime
+    - get all tournaments
+    - subscribe to tournament
+    - play match
+    - end match
+    - get current round
+    - get opponent profile in round of a tournament
+    - get winner profile of tournament
