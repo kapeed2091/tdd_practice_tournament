@@ -15,6 +15,7 @@ THIRD_PARTY_APPS = [
 ]
 
 APPS = [
+    'tournament'
 ]
 
 INSTALLED_APPS += THIRD_PARTY_APPS
@@ -49,6 +50,7 @@ SWAGGER_UTILS = {
         },
     },
     "APPS": {
+        "tournament": {},
     },
     "HOST": os.environ.get('APIGATEWAY_ENDPOINT', '127.0.0.1:8000'),
 }
