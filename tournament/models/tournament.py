@@ -8,6 +8,13 @@ class Tournament(models.Model):
 
     @classmethod
     def create_tournament(cls, user_id, total_rounds, start_datetime):
+
+        from .user import User
+        user_exists = User.objects.filter(id=user_id).exists()
+        if not user_exists:
+            from ..exceptions.exceptions import InvalidUserId
+            raise InvalidUserId
+
         obj = Tournament.objects.create(
             user_id=user_id,
             total_rounds=total_rounds,
