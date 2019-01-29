@@ -17,7 +17,8 @@ Yet to do:
    - User can get the winner user profile of any tournament
 
 Completed:
-   -
+   - User can create a knock-out tournament with configurable number of rounds and start datetime
+        -
 
 Raise Appropriate custom exceptions wherever necessary
 
