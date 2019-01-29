@@ -1,15 +1,18 @@
 Usecases:
-    - User can create a knock-out tournament with configurable number of rounds and start time
-    - User can get list of all tournaments
-    - User can subscribe to a tournament which is not yet started
-    - User can play matches once the tournament is started
-        - User will submit his score in the match
-    - User can progress to next round if he wins the match
-    - User can get his current round
-    - User can get his opponent in any round
-    - User can get the winner of the tournament
+   - User can create a knock-out tournament with configurable number of rounds and start time
+   - User can get list of all tournaments
+   - User can subscribe to a tournament which is not yet started
+   - User can play matches once the tournament is started
+       - User will submit his score in the match
+   - User will progress to next round if he wins the match
+   - User can get his current round number for a tournament
+   - User can get his opponent user profile in any round in a tournament
+   - User can get the winner user profile of any tournament
+   
+Raise Appropriate custom exceptions wherever necessary
 
 Assumptions:
-    - Tournament will always be full before start time
-    - All players will play all their matches
-    - In case of tie, Whoever submits the score first is winner
+   - Tournament will always be full before start time
+   - All players will play all their matches
+   - In case of tie, Whoever submits the score first is winner
+   - User profile has Name, Age, Gender
