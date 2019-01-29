@@ -6,13 +6,17 @@ class Tournament(models.Model):
     start_date_time = models.DateTimeField()
     username = models.CharField(max_length=50)
 
+    def convert_tournament_to_dict(self):
+        start_datetime_str = \
+            self.start_date_time.strftime("%Y-%m-%d %H:%M:%S")
+
+        return {"no_of_rounds": self.no_of_rounds,
+                "start_datetime": start_datetime_str}
+
     @classmethod
     def create_tournament(cls, no_of_rounds, start_date_time, username):
         tournament_obj = cls.objects.create(
             no_of_rounds=no_of_rounds,
             start_date_time=start_date_time, username=username)
 
-        start_datetime_str = tournament_obj.start_date_time.strftime("%Y-%m-%d %H:%M:%S")
-
-        return {"no_of_rounds": tournament_obj.no_of_rounds,
-                "start_datetime": start_datetime_str}
+        return tournament_obj.convert_tournament_to_dict()
