@@ -57,4 +57,6 @@ todo-list
     - invalid start date
     - invalid rounds
     - user can subscribe for tournament which is not started
+    - invalid tournament_id
+    - invalid user_id
     - user cannot subscribe as it is full
