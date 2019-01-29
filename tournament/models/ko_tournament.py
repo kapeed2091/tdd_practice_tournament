@@ -16,6 +16,7 @@ class KOTournament(models.Model):
     def create_tournament(cls, user_id, t_id, name, number_of_rounds,
                           start_datetime, status):
         cls.is_valid_number_of_rounds(number_of_rounds=number_of_rounds)
+        cls.is_int_type(number_of_rounds=number_of_rounds)
         tournament = cls.create_tournament_in_db(
             t_id=t_id, name=name, number_of_rounds=number_of_rounds,
             start_datetime=start_datetime, status=status)
@@ -39,3 +40,8 @@ class KOTournament(models.Model):
     def is_valid_number_of_rounds(number_of_rounds):
         if number_of_rounds <= 0:
             raise Exception('Non-positive number of rounds given')
+
+    @staticmethod
+    def is_int_type(number_of_rounds):
+        if type(number_of_rounds) != int:
+            raise Exception('Float type number of rounds given')
