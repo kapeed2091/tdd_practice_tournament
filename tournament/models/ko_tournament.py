@@ -15,6 +15,7 @@ class KOTournament(models.Model):
     @classmethod
     def create_tournament(cls, user_id, t_id, name, number_of_rounds,
                           start_datetime, status):
+        cls.is_valid_number_of_rounds(number_of_rounds=number_of_rounds)
         tournament = cls.create_tournament_in_db(
             t_id=t_id, name=name, number_of_rounds=number_of_rounds,
             start_datetime=start_datetime, status=status)
@@ -33,3 +34,8 @@ class KOTournament(models.Model):
                 'number_of_rounds': self.number_of_rounds,
                 'start_datetime': self.start_datetime,
                 'status': self.status}
+
+    @staticmethod
+    def is_valid_number_of_rounds(number_of_rounds):
+        if number_of_rounds <= 0:
+            raise Exception('Non-positive number of rounds given')
