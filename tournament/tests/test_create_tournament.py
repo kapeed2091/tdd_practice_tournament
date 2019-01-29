@@ -1,6 +1,8 @@
 from django.test import TestCase
 import datetime
 
+from django_swagger_utils.drf_server.exceptions import BadRequest
+
 
 class TestCreateTournament(TestCase):
     user_id = 'User'
@@ -16,3 +18,16 @@ class TestCreateTournament(TestCase):
         }
         tournament_response = Tournament.create_tournament(**tournament_request)
         self.assertEqual(tournament_request, tournament_response)
+
+    def test_create_tournament_with_negative_no_of_rounds(self):
+        from tournament.models import Tournament
+        now = datetime.datetime.now()
+        start_datetime = now + datetime.timedelta(days=1)
+        tournament_request = {
+            "created_user_id": self.user_id,
+            "no_of_rounds": -1,
+            "start_datetime": start_datetime
+        }
+
+        with self.assertRaisesMessage(BadRequest, 'Invalid number of rounds'):
+            Tournament.create_tournament(**tournament_request)
