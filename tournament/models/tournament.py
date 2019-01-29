@@ -15,6 +15,16 @@ class Tournament(models.Model):
             from ..exceptions.exceptions import InvalidUserId
             raise InvalidUserId
 
+        cls._validate_start_datetime(start_datetime=start_datetime)
+        obj = Tournament.objects.create(
+            user_id=user_id,
+            total_rounds=total_rounds,
+            start_datetime=start_datetime
+        )
+        return obj
+
+    @staticmethod
+    def _validate_start_datetime(start_datetime):
         from datetime import datetime
         now = datetime.now()
 
@@ -31,10 +41,3 @@ class Tournament(models.Model):
         if start_datetime_string <= now_str:
             from ..exceptions.exceptions import InvalidStartDateTime
             raise InvalidStartDateTime
-
-        obj = Tournament.objects.create(
-            user_id=user_id,
-            total_rounds=total_rounds,
-            start_datetime=start_datetime
-        )
-        return obj
