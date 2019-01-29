@@ -73,7 +73,7 @@ class TestCreateTournament(TestCase):
     def test_case_invalid_total_rounds(self):
         user_id = 1
         total_rounds = -4
-        start_datetime = "2017-12-12 13:00:00"
+        start_datetime = "2019-12-12 13:00:00"
         user_name = "John"
 
         from ib_common.date_time_utils.convert_string_to_local_date_time \
