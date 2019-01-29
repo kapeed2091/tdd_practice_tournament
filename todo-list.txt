@@ -6,10 +6,11 @@ Usecases:
         - User will submit his score in the match
     - User can progress to next round if he wins the match
     - User can get his current round number
-    - User can get his opponent username in any round
-    - User can get the winner username of the tournament
+    - User can get his opponent user profile in any round
+    - User can get the winner user profile of the tournament
 
 Assumptions:
     - Tournament will always be full before start time
     - All players will play all their matches
     - In case of tie, Whoever submits the score first is winner
+    - User profile has Name, Age, Gender
