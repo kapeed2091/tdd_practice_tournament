@@ -55,4 +55,4 @@ todo-list
     - create_tournament successful case
     - invalid user_id
     - invalid start date
-    - [invalid rounds]
+    - invalid rounds

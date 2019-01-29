@@ -15,11 +15,10 @@ class Tournament(models.Model):
             from ..exceptions.exceptions import InvalidUserId
             raise InvalidUserId
 
-        if total_rounds < 1:
-            from ..exceptions.exceptions import InvalidTotalRounds
-            raise InvalidTotalRounds
+        cls._validate_total_rounds(total_rounds=total_rounds)
 
         cls._validate_start_datetime(start_datetime=start_datetime)
+
         obj = Tournament.objects.create(
             user_id=user_id,
             total_rounds=total_rounds,
@@ -45,3 +44,9 @@ class Tournament(models.Model):
         if start_datetime_string <= now_str:
             from ..exceptions.exceptions import InvalidStartDateTime
             raise InvalidStartDateTime
+
+    @staticmethod
+    def _validate_total_rounds(total_rounds):
+        if total_rounds < 1:
+            from ..exceptions.exceptions import InvalidTotalRounds
+            raise InvalidTotalRounds
