@@ -23,6 +23,9 @@ TODOs:
         - create user with username
         - no two users can have same username
     - create tournament with configurable number of rounds and start datetime
+        - create tournament
+        - create tournament with invalid datetime(yesterday's date)
+        - create tournament with rounds non positive
     - get all tournaments
     - subscribe to tournament
     - play match
