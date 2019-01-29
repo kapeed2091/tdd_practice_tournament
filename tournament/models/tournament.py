@@ -16,6 +16,7 @@ class Tournament(models.Model):
     @classmethod
     def create_tournament(cls, no_of_rounds, start_date_time, username):
         cls.validate_start_datetime(start_datetime=start_date_time)
+        cls.validate_no_of_rounds(no_of_rounds=no_of_rounds)
 
         tournament_obj = cls.objects.create(
             no_of_rounds=no_of_rounds,
@@ -28,3 +29,8 @@ class Tournament(models.Model):
         from datetime import datetime
         if datetime.now() > start_datetime:
             raise Exception("Expected future date time")
+
+    @classmethod
+    def validate_no_of_rounds(cls, no_of_rounds):
+        if no_of_rounds <= 0:
+            raise Exception("Invalid no of rounds")
