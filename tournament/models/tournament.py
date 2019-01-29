@@ -35,7 +35,7 @@ class Tournament(models.Model):
     @staticmethod
     def validate_start_datetime(start_datetime):
         now = datetime.datetime.now()
-        if start_datetime < now:
+        if start_datetime <= now:
             raise BadRequest('Invalid start_datetime')
 
     def convert_to_dict(self):
