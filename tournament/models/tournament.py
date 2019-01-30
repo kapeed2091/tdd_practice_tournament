@@ -11,23 +11,19 @@ class Tournament(models.Model):
 
     @classmethod
     def create_tournament(cls, user_id, total_rounds, start_datetime):
-
-        from .user import User
-        user_exists = User.objects.filter(id=user_id).exists()
-        if not user_exists:
-            from ..exceptions.exceptions import InvalidUserId
-            raise InvalidUserId
+        cls._validate_user_id(user_id=user_id)
 
         cls._validate_total_rounds(total_rounds=total_rounds)
 
         cls._validate_start_datetime(start_datetime=start_datetime)
 
-        obj = Tournament.objects.create(
+        from ..constants.general import TournamentStatus
+        Tournament.objects.create(
             user_id=user_id,
             total_rounds=total_rounds,
-            start_datetime=start_datetime
+            start_datetime=start_datetime,
+            status=TournamentStatus.CAN_JOIN.value
         )
-        return obj
 
     @staticmethod
     def _validate_start_datetime(start_datetime):
@@ -85,3 +81,11 @@ class Tournament(models.Model):
     def update_status(self, status):
         self.status = status
         self.save()
+
+    @staticmethod
+    def _validate_user_id(user_id):
+        from .user import User
+        user_exists = User.objects.filter(id=user_id).exists()
+        if not user_exists:
+            from ..exceptions.exceptions import InvalidUserId
+            raise InvalidUserId
