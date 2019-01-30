@@ -16,6 +16,7 @@ class KOTournament(models.Model):
     def create_tournament(cls, user_id, t_id, name, number_of_rounds,
                           start_datetime, status):
         cls.is_valid_number_of_rounds(number_of_rounds=number_of_rounds)
+        cls.is_start_datetime_in_past(start_datetime=start_datetime)
         tournament = cls.create_tournament_in_db(
             t_id=t_id, name=name, number_of_rounds=number_of_rounds,
             start_datetime=start_datetime, status=status)
@@ -39,6 +40,12 @@ class KOTournament(models.Model):
     def is_valid_number_of_rounds(cls, number_of_rounds):
         cls.is_non_int_type(number_of_rounds=number_of_rounds)
         cls.is_non_positive(number_of_rounds=number_of_rounds)
+
+    @staticmethod
+    def is_start_datetime_in_past(start_datetime):
+        import datetime
+        if start_datetime < datetime.datetime.now():
+            raise Exception('Start datetime is less than current time')
 
     @staticmethod
     def is_non_positive(number_of_rounds):
