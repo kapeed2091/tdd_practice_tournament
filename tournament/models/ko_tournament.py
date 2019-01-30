@@ -1,9 +1,9 @@
 from django.db import models
 from tournament.constants import TournamentStatus
+from tournament.constants.general import T_ID_MAX_LENGTH
 
 
 class KOTournament(models.Model):
-    T_ID_MAX_LENGTH = 20
     TOURNAMENT_NAME_MAX_LENGTH = 30
     TOURNAMENT_STATUS_MAX_LENGTH = 30
 
@@ -106,3 +106,10 @@ class KOTournament(models.Model):
     def is_non_int_type(number_of_rounds):
         if type(number_of_rounds) != int:
             raise Exception('Float type number of rounds given')
+
+    @classmethod
+    def is_tournament_exists(cls, tournament_id):
+        try:
+            cls.objects.get(t_id=tournament_id)
+        except:
+            raise Exception('Tournament doesnot exist')

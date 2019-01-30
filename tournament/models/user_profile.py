@@ -1,8 +1,9 @@
 from django.db import models
+from tournament.constants.general import USER_ID_MAX_LENGTH
 
 
 class UserProfile(models.Model):
-    user_id = models.CharField(max_length=20)
+    user_id = models.CharField(max_length=USER_ID_MAX_LENGTH)
 
     @classmethod
     def get_user(cls, user_id):

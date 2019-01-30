@@ -20,12 +20,12 @@ class TestSubscribeToTournament(TestCase):
             start_datetime=start_datetime)
 
         old_count = len(TournamentUser.objects.filter(
-            user_id=user_id, tournament_id=tournament_id))
+            user_id=user_id, t_id=tournament_id))
 
         TournamentUser.subscribe_to_tournament(user_id, tournament_id)
 
         new_count = len(TournamentUser.objects.filter(
-            user_id=user_id, tournament_id=tournament_id))
+            user_id=user_id, t_id=tournament_id))
 
         self.assertEquals(new_count-old_count, 1)
 

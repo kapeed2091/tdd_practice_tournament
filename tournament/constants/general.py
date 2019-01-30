@@ -7,3 +7,7 @@ class TournamentStatus(BaseEnumClass, Enum):
     FULL_YET_TO_START = 'FULL_YET_TO_START'
     IN_PROGRESS = 'IN_PROGRESS'
     COMPLETED = 'COMPLETED'
+
+
+T_ID_MAX_LENGTH = 20
+USER_ID_MAX_LENGTH = 20
