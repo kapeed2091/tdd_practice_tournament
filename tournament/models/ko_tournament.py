@@ -33,6 +33,9 @@ class KOTournament(models.Model):
         tournaments = cls.objects.all()
 
         all_tournaments = list()
+        for tournament in tournaments:
+            all_tournaments.append(tournament.convert_to_dict())
+
         return all_tournaments
 
     @classmethod
@@ -48,10 +51,10 @@ class KOTournament(models.Model):
             start_datetime=start_datetime, status=status)
 
     def convert_to_dict(self):
-        return {'t_id': self.t_id, 'name': self.name,
+        return {'t_id': str(self.t_id), 'name': str(self.name),
                 'number_of_rounds': self.number_of_rounds,
                 'start_datetime': self.start_datetime,
-                'status': self.status}
+                'status': str(self.status)}
 
     @classmethod
     def is_valid_number_of_rounds(cls, number_of_rounds):
