@@ -85,3 +85,12 @@ class TestSubscribeToTournament(TestCase):
         from django_swagger_utils.drf_server.exceptions import BadRequest
         with self.assertRaisesMessage(BadRequest, "Can\'t subscribe again"):
             Tournament.subscribe_to_tournament(tournament_id, player_id)
+
+    def test_subscribe_to_invalid_tournament(self):
+        from ib_tournament.models import Tournament
+
+        player_id = self.create_player(self.username)
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        with self.assertRaisesMessage(BadRequest, "Invalid Tournament"):
+            Tournament.subscribe_to_tournament(
+                tournament_id=1213, player_id=player_id)

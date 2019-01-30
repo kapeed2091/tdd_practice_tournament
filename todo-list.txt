@@ -38,7 +38,7 @@ TODOs:
         - user subscribing to tournament -- DONE
         - user can only subscribe to CAN_JOIN tournaments -- DONE
         - requested user should be valid user -- DONE
-        - subscribed player can't subscribe again
+        - subscribed player can't subscribe again -- DONE
         - subscribing to invalid tournament_id
         - tournament_status should change to FULL_YET_TO_START if max users subscribed
         - refactor testcases --> don't use internal functions
