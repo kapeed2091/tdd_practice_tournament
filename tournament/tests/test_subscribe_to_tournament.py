@@ -7,7 +7,7 @@ class TestSubscribeToTournament(TestCase):
     user = None
     user_2 = None
 
-    def testcase_subscribe_to_tournament(self):
+    def test_case_subscribe_to_tournament(self):
         from tournament.models import UserTournament
         self.create_user()
         self.create_tournament(user_id=self.user.id)
@@ -16,12 +16,12 @@ class TestSubscribeToTournament(TestCase):
             user_id=self.user.id, tournament_id=self.tournament.id
         )
 
-        user_tournaments = UserTournament.objects.all()
-        user_tournament = user_tournaments[0]
+        is_user_subscribed = UserTournament.objects.filter(
+            user_id=self.user.id, tournament_id=self.tournament.id
+        ).exists()
 
-        self.assertEqual(user_tournaments.count(), 1)
-        self.assertEqual(user_tournament.user_id, self.user.id)
-        self.assertEqual(user_tournament.tournament_id, self.tournament.id)
+        self.assertEqual(UserTournament.objects.all().count(), 1)
+        self.assertTrue(is_user_subscribed)
 
     def test_case_invalid_tournament_id(self):
         from tournament.models import UserTournament
