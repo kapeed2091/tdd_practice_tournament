@@ -29,6 +29,10 @@ class KOTournament(models.Model):
         return tournament.convert_to_dict()
 
     @classmethod
+    def get_all_tournaments(cls):
+        pass
+
+    @classmethod
     def generate_t_id(cls):
         import uuid
         return str(uuid.uuid4())[0:cls.T_ID_MAX_LENGTH]
