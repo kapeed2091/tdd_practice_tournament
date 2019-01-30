@@ -6,10 +6,14 @@ from django_swagger_utils.drf_server.exceptions import BadRequest
 
 class KoTournament(models.Model):
     USER_ID_LENGTH = 20
+    NAME_LENGTH = 20
+    STATUS_LENGTH = 20
 
     created_user_id = models.CharField(max_length=USER_ID_LENGTH)
+    name = models.CharField(max_length=NAME_LENGTH)
     no_of_rounds = models.PositiveIntegerField()
     start_datetime = models.DateTimeField()
+    status = models.CharField(max_length=STATUS_LENGTH)
 
     @classmethod
     def create_tournament(cls, created_user_id, no_of_rounds, start_datetime):
@@ -22,6 +26,10 @@ class KoTournament(models.Model):
             start_datetime=start_datetime
         )
         return tournament.convert_to_dict()
+
+    @classmethod
+    def get_all_tournaments(cls):
+        return []
 
     @classmethod
     def _validate_request(cls, no_of_rounds, start_datetime, user_id):

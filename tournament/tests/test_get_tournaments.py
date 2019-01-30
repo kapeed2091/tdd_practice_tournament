@@ -1,6 +1,8 @@
 import datetime
 from django.test import TestCase
 
+from tournament.constants.general import TournamentStatus
+
 
 class TestGetTournaments(TestCase):
 
