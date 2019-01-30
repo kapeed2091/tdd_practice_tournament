@@ -14,14 +14,14 @@ class TestGetTournaments(TestCase):
             "created_user_id": user_id_1,
             "name": "Tournament1",
             "no_of_rounds": 2,
-            "start_datetime": datetime.datetime.now() + datetime.timedelta(days=1),
+            "start_datetime": get_current_date_time() + datetime.timedelta(days=1),
             "status": TournamentStatus.YET_TO_START.value
         },
         {
             "created_user_id": user_id_2,
             "name": "Tournament2",
             "no_of_rounds": 3,
-            "start_datetime": datetime.datetime.now() - datetime.timedelta(days=1),
+            "start_datetime": get_current_datetime() - datetime.timedelta(days=1),
             "status": TournamentStatus.IN_PROGRESS.value
         }
     ]
