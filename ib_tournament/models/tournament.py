@@ -39,7 +39,9 @@ class Tournament(models.Model):
 
     @classmethod
     def subscribe_to_tournament(cls, tournament_id, player_id):
-        pass
+        from ib_tournament.models import TournamentPlayer
+        TournamentPlayer.create_tournament_player(tournament_id, player_id)
+        return
 
     @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
