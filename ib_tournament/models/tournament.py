@@ -14,17 +14,15 @@ class Tournament(models.Model):
         start_datetime = cls._get_start_datetime_object(start_datetime_str)
         cls._validate_start_datetime(start_datetime)
         cls._validate_total_rounds(total_rounds)
-        tournament = cls.objects.create(total_rounds=total_rounds,
-                                        start_datetime=start_datetime,
-                                        name=name)
+        tournament = cls._create_tournament_object(
+            total_rounds, start_datetime, name)
         return tournament.id
 
     @classmethod
     def get_all_tournaments(cls):
-        tournaments = cls.objects.all()
+        tournaments = cls._get_all_tournament_objects()
         ordered_tournaments = cls._order_tournaments(tournaments)
-        return [tournament.get_tournament_dict()
-                for tournament in ordered_tournaments]
+        return cls._get_tournament_details(ordered_tournaments)
 
     def get_tournament_dict(self):
         from ib_common.date_time_utils.convert_datetime_to_local_string import \
@@ -69,6 +67,17 @@ class Tournament(models.Model):
         return
 
     @classmethod
+    def _create_tournament_object(cls, total_rounds, start_datetime, name):
+        tournament = cls.objects.create(total_rounds=total_rounds,
+                                        start_datetime=start_datetime,
+                                        name=name)
+        return tournament
+
+    @classmethod
+    def _get_all_tournament_objects(cls):
+        return cls.objects.all()
+
+    @classmethod
     def _order_tournaments(cls, tournaments):
         tournaments = tournaments.order_by('status', 'start_datetime')
 
@@ -80,3 +89,8 @@ class Tournament(models.Model):
         ordered_tournaments = sorted(
             tournaments, key=lambda x: ordered_status.index(x.status))
         return ordered_tournaments
+
+    @classmethod
+    def _get_tournament_details(cls, tournaments):
+        return [tournament.get_tournament_dict()
+                for tournament in tournaments]
