@@ -32,6 +32,11 @@ TODOs:
         FULL_YET_TO_START, CAN_JOIN, IN_PROGRESS, COMPLETED] and start_datetime
         - get tournaments with offset and limit -- NOT LISTED IN USECASE
     - subscribe to tournament
+        - user subscribing to tournament
+        - user can only subscribe to CAN_JOIN tournaments
+        - tournament_status should change to FULL_YET_TO_START if max users subscribed
+        - user can only subscribe if tournament start_datetime isn't reached
+        - requested user should be valid user
     - play match
     - end match
     - get current round
