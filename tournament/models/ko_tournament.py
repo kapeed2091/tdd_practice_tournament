@@ -1,7 +1,8 @@
-import datetime
-
 from django.db import models
 from django_swagger_utils.drf_server.exceptions import BadRequest
+
+from tournament.constants.general import TournamentStatus
+from tournament.utils.date_time_utils import get_current_date_time
 
 
 class KoTournament(models.Model):
@@ -17,14 +18,17 @@ class KoTournament(models.Model):
 
     @classmethod
     def create_tournament(cls, created_user_id, name,
-                          no_of_rounds, start_datetime):
+                          no_of_rounds, start_datetime,
+                          status=TournamentStatus.YET_TO_START.value):
         cls._validate_request(no_of_rounds=no_of_rounds,
                               start_datetime=start_datetime,
                               user_id=created_user_id)
         tournament = cls.objects.create(
             created_user_id=created_user_id,
+            name=name,
             no_of_rounds=no_of_rounds,
-            start_datetime=start_datetime
+            start_datetime=start_datetime,
+            status=status
         )
         return tournament.convert_to_dict()
 
@@ -55,15 +59,17 @@ class KoTournament(models.Model):
 
     @staticmethod
     def _validate_start_datetime(start_datetime):
-        now = datetime.datetime.now()
+        now = get_current_date_time()
         if start_datetime <= now:
             raise BadRequest('Invalid start_datetime')
 
     def convert_to_dict(self):
         return {
             "created_user_id": self.created_user_id,
+            "name": self.name,
             "no_of_rounds": self.no_of_rounds,
-            "start_datetime": self.start_datetime
+            "start_datetime": self.start_datetime,
+            "status": self.status
         }
 
     def convert_to_dict2(self):
