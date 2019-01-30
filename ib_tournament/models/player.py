@@ -20,6 +20,17 @@ class Player(models.Model):
         }
 
     @classmethod
+    def get_player_by_id(cls, player_id):
+        try:
+            player = cls.objects.get(id=player_id)
+            return player
+        except cls.DoesNotExist:
+            from django_swagger_utils.drf_server.exceptions import BadRequest
+            from ib_tournament.constants.exception_messages import INVALID_USER
+            raise BadRequest(*INVALID_USER)
+        return
+
+    @classmethod
     def _validate_unique_username(cls, username):
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import USERNAME_EXISTS

@@ -39,7 +39,9 @@ class Tournament(models.Model):
 
     @classmethod
     def subscribe_to_tournament(cls, tournament_id, player_id):
-        from ib_tournament.models import TournamentPlayer
+        from ib_tournament.models import TournamentPlayer, Player
+
+        Player.get_player_by_id(player_id)
         tournament = cls.get_tournament(tournament_id)
         tournament.validate_tournament_state_to_subscribe()
         TournamentPlayer.create_tournament_player(tournament_id, player_id)
