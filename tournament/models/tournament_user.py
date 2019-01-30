@@ -16,10 +16,8 @@ class TournamentUser(models.Model):
 
     @classmethod
     def subscribe_to_tournament(cls, user_id, tournament_id):
-        from tournament.models import User, KoTournament
-
         user = cls._get_user(user_id)
-        tournament = KoTournament.get_tournament(tournament_id)
+        tournament = cls._get_tournament(tournament_id)
         cls._validate_subscribe_request(tournament=tournament, user=user)
         cls.objects.create(user=user, tournament=tournament)
 
@@ -30,6 +28,14 @@ class TournamentUser(models.Model):
             return User.get_user(user_id)
         except User.DoesNotExist:
             raise BadRequest('Invalid user id')
+
+    @staticmethod
+    def _get_tournament(tournament_id):
+        from tournament.models import KoTournament
+        try:
+            return KoTournament.get_tournament(tournament_id)
+        except KoTournament.DoesNotExist:
+            raise BadRequest('Invalid tournament id')
 
     @classmethod
     def _validate_subscribe_request(cls, tournament, user=user):
