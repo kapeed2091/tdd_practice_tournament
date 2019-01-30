@@ -64,4 +64,8 @@ todo-list
         - user cannot subscribe as it is full
         - user cannot subscribe as tournament is in progress
         - user cannot subscribe as tournament is completed
-        - [user is last person to subscribe for a tournament]
+        - user is last person to subscribe for a tournament
+    - User can play matches once the tournament is started
+        - [successful]
+        - match has not started
+        - user is not part of the tournament
