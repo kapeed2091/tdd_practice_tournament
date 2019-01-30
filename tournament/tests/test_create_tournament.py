@@ -38,6 +38,7 @@ class TestCreateTournament(TestCase):
         start_datetime = now + datetime.timedelta(days=1)
         tournament_request = {
             "created_user_id": self.user_id,
+            "name": "Tournament",
             "no_of_rounds": -1,
             "start_datetime": start_datetime
         }
@@ -51,6 +52,7 @@ class TestCreateTournament(TestCase):
         start_datetime = now + datetime.timedelta(days=1)
         tournament_request = {
             "created_user_id": self.user_id,
+            "name": "Tournament",
             "no_of_rounds": 0,
             "start_datetime": start_datetime
         }
@@ -64,6 +66,7 @@ class TestCreateTournament(TestCase):
         start_datetime = now - datetime.timedelta(days=1)
         tournament_request = {
             "created_user_id": self.user_id,
+            "name": "Tournament",
             "no_of_rounds": 3,
             "start_datetime": start_datetime
         }
@@ -77,6 +80,7 @@ class TestCreateTournament(TestCase):
         now = datetime.datetime.now()
         tournament_request = {
             "created_user_id": self.user_id,
+            "name": "Tournament",
             "no_of_rounds": 3,
             "start_datetime": now
         }
@@ -90,6 +94,7 @@ class TestCreateTournament(TestCase):
         start_datetime = now + datetime.timedelta(days=1)
         tournament_request = {
             "created_user_id": self.invalid_user_id,
+            "name": "Tournament",
             "no_of_rounds": 3,
             "start_datetime": start_datetime
         }

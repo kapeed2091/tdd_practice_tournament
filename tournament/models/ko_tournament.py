@@ -16,7 +16,8 @@ class KoTournament(models.Model):
     status = models.CharField(max_length=STATUS_LENGTH)
 
     @classmethod
-    def create_tournament(cls, created_user_id, no_of_rounds, start_datetime):
+    def create_tournament(cls, created_user_id, name,
+                          no_of_rounds, start_datetime):
         cls._validate_request(no_of_rounds=no_of_rounds,
                               start_datetime=start_datetime,
                               user_id=created_user_id)
