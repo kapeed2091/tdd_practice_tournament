@@ -12,6 +12,8 @@ class TournamentUser(models.Model):
 
         UserProfile.is_registered_user(user_id=user_id)
         KOTournament.is_tournament_exists(tournament_id=tournament_id)
+        tournament_obj = KOTournament.get_tournament(tournament_id=tournament_id)
+        KOTournament.is_tournament_started(tournament_obj=tournament_obj)
 
         cls.create_tournamentuser(user_id=user_id, tournament_id=tournament_id)
 

@@ -113,3 +113,15 @@ class KOTournament(models.Model):
             cls.objects.get(t_id=tournament_id)
         except:
             raise Exception('Tournament doesnot exist')
+
+    @classmethod
+    def is_tournament_started(cls, tournament_obj):
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+
+        if tournament_obj.start_datetime < get_current_local_date_time():
+            raise Exception('Tournament has started')
+
+    @classmethod
+    def get_tournament(cls, tournament_id):
+        return cls.objects.get(t_id=tournament_id)
