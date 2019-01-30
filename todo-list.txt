@@ -21,7 +21,7 @@ Assumptions:
 
 ToDo List:
   - User can subscribe to a tournament which is not yet started
-    - invalid tournament
+    - [invalid tournament]
     - when last member joins the tournament change the status to FULL_YET_TO_START
 Completed List
     User can create a knock-out tournament with configurable number of rounds and start datetime

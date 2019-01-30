@@ -47,6 +47,14 @@ class TestUserSubscribeToTournament(TestCase):
             TournamentUser.subscribe_user_to_tournament(
                 tournament_id=self.tournament.id, username=self.username)
 
+    def test_subscribe_to_valid_tournament(self):
+        self._populate_user()
+        with self.assertRaisesMessage(
+                Exception, "Invalid tournament id"):
+            from tournament.models.tournament_user import TournamentUser
+            TournamentUser.subscribe_user_to_tournament(
+                tournament_id=100, username=self.username)
+
     def _populate_user(self):
         from tournament.models.user import User
         self.user = User.objects.create(username=self.username)
