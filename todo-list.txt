@@ -60,5 +60,7 @@ todo-list
     - user can subscribe for tournament which is not started
         - invalid tournament_id
         - invalid user_id
-        - [user has already subscribed]
-        - user cannot subscribe as it is full
+        - user has already subscribed
+        - [user cannot subscribe as it is full]
+        - user cannot subscribe as tournament is in progress
+        - user cannot subscribe as tournament is completed

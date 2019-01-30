@@ -2,9 +2,12 @@ from django.db import models
 
 
 class Tournament(models.Model):
+    STATUS_MAX_LENGTH = 20
+
     user_id = models.PositiveIntegerField()
     total_rounds = models.PositiveIntegerField()
     start_datetime = models.DateTimeField()
+    status = models.CharField(max_length=STATUS_MAX_LENGTH)
 
     @classmethod
     def create_tournament(cls, user_id, total_rounds, start_datetime):
