@@ -20,6 +20,12 @@ class TournamentUser(models.Model):
 
         cls.objects.create(user_id=user_id, tournament_id=tournament_id)
 
+        if cls.is_max_participants_subscribed(tournament_id=tournament_id):
+            from tdd_practice.constants.general import TournamentStatus
+            Tournament.update_tournament_status(
+                tournament_id=tournament_id,
+                status=TournamentStatus.FULL_YET_TO_START.value)
+
     @classmethod
     def validate_user_already_subscribed(cls, tournament_id, username):
         try:
@@ -27,3 +33,19 @@ class TournamentUser(models.Model):
             raise Exception("User already subscribed to given tournament")
         except cls.DoesNotExist:
             pass
+
+    @classmethod
+    def get_subscribed_users_count(cls, tournament_id):
+        return cls.objects.filter(tournament_id=tournament_id).count()
+
+    @classmethod
+    def is_max_participants_subscribed(cls, tournament_id):
+        from .tournament import Tournament
+
+        no_of_participants = Tournament.get_no_of_participants_can_join(
+            tournament_id=tournament_id)
+        subscribed_users_count = cls.get_subscribed_users_count(
+            tournament_id=tournament_id)
+
+        return no_of_participants == subscribed_users_count
+

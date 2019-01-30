@@ -32,6 +32,12 @@ class Tournament(models.Model):
         cls.get_tournament_by_id(tournament_id=tournament_id)
 
     @classmethod
+    def update_tournament_status(cls, tournament_id, status):
+        tournament = cls.get_tournament_by_id(tournament_id=tournament_id)
+        tournament.status = status
+        tournament.save()
+
+    @classmethod
     def create_tournament(cls, no_of_rounds, start_datetime, username):
         from .user import User
 
@@ -85,3 +91,14 @@ class Tournament(models.Model):
             return cls.objects.get(id=tournament_id)
         except cls.DoesNotExist:
             raise Exception("Invalid tournament id")
+
+    @classmethod
+    def get_no_of_participants_can_join(cls, tournament_id):
+        tournament = cls.get_tournament_by_id(tournament_id=tournament_id)
+
+        return cls.calculate_no_participants(
+            no_of_rounds=tournament.no_of_rounds)
+
+    @classmethod
+    def calculate_no_participants(cls, no_of_rounds):
+        return 2**no_of_rounds
