@@ -33,9 +33,6 @@ class KOTournament(models.Model):
         tournaments = cls.objects.all()
 
         all_tournaments = list()
-        for tournament in tournaments:
-            all_tournaments.append(tournament.convert_to_dict())
-
         return all_tournaments
 
     @classmethod
