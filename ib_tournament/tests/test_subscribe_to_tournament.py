@@ -94,3 +94,22 @@ class TestSubscribeToTournament(TestCase):
         with self.assertRaisesMessage(BadRequest, "Invalid Tournament"):
             Tournament.subscribe_to_tournament(
                 tournament_id=1213, player_id=player_id)
+
+    def test_max_players_subscribed(self):
+        from ib_tournament.models import Tournament
+        from ib_tournament.constants.general import TournamentStatus
+
+        player_usernames = ['user1', 'user2', 'user3', 'user4']
+        player_ids = list()
+        for username in player_usernames:
+            player_ids.append(self.create_player(username))
+
+        tournament_id = Tournament.create_tournament(
+            total_rounds=2, start_datetime_str=get_next_day_datetime_str(),
+            name='Tournament 1')
+        for player_id in player_ids:
+            Tournament.subscribe_to_tournament(tournament_id, player_id)
+
+        tournament = Tournament.objects.get(id=tournament_id)
+        self.assertEqual(tournament.status,
+                         TournamentStatus.FULL_YET_TO_START.value)
