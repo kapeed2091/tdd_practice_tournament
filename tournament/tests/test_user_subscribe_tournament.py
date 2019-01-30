@@ -1,22 +1,24 @@
 from django.test import TestCase
 
+from tdd_practice.constants.general import TournamentStatus
+
 
 class TestUserSubscribeToTournament(TestCase):
     username = "user1"
     tournament = None
     user = None
+    tournament_status = TournamentStatus.CAN_JOIN.value
 
     def setUp(self):
         from datetime import datetime, timedelta
         from tournament.models import Tournament
-        from tdd_practice.constants.general import TournamentStatus
 
         curr_datetime = datetime.now()
         self.tournament = Tournament.objects.create(
             name="Knock Out",
             no_of_rounds=3,
             start_datetime=curr_datetime + timedelta(days=1),
-            status=TournamentStatus.CAN_JOIN.value)
+            status=self.tournament_status)
 
     def test_user_subscribe_to_tournament(self):
         self._populate_user()
@@ -38,6 +40,16 @@ class TestUserSubscribeToTournament(TestCase):
 
         with self.assertRaisesMessage(
                 Exception, "User already subscribed to given tournament"):
+            from tournament.models.tournament_user import TournamentUser
+            TournamentUser.subscribe_user_to_tournament(
+                tournament_id=self.tournament.id, username=self.username)
+
+    def test_subscribe_to_can_join_status_tournament(self):
+        self.tournament_status = TournamentStatus.IN_PROGRESS.value
+        self._populate_user()
+
+        with self.assertRaisesMessage(
+                Exception, "Can not join in the tournament"):
             from tournament.models.tournament_user import TournamentUser
             TournamentUser.subscribe_user_to_tournament(
                 tournament_id=self.tournament.id, username=self.username)
