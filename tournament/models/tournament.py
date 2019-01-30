@@ -42,3 +42,7 @@ class Tournament(models.Model):
     def validate_no_of_rounds(cls, no_of_rounds):
         if no_of_rounds <= 0:
             raise Exception("Invalid no of rounds")
+
+    @classmethod
+    def get_all_tournaments(cls):
+        return []
