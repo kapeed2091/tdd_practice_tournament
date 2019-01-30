@@ -3,9 +3,11 @@
       2. When User creates a tournament with non-positive number of rounds, throw an exception
       3. When User creates a tournament with date_time <= now, should throw an exception
       4. When User Create a tournament with wrong user_id, should throw an exception
-      [5. Encapsulation of methods
-      6. Refactor: Wrong Name for user_id_length in Tournament model]
+      5. Encapsulation of methods
+      6. Refactor: Wrong Name for user_id_length in Tournament model
 - User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)
+      1. User can all the tournaments
+      2. Should we validate user_id??
 - User can subscribe to a tournament which is not yet started
 - User can play matches once the tournament is started
      - User will submit his score in the match
@@ -13,3 +15,4 @@
 - User can get his current round number for a tournament
 - User can get his opponent user profile in any round in a tournament
 - User can get the winner user profile of any tournament
+- If we include status, how should the field get_updated?
