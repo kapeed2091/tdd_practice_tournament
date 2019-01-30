@@ -93,3 +93,22 @@ class TestCreateKOTournament(TestCase):
                 user_id=user_id, t_id=t_id, name=tournament_name,
                 number_of_rounds=number_of_rounds,
                 start_datetime=start_datetime, status=status)
+
+    def testcase_non_registered_users_cannot_create_tournament(self):
+        import datetime
+        from tournament.models import KOTournament
+
+        user_id = 'user_2'
+        t_id = '1'
+        tournament_name = 'tournament_1'
+        number_of_rounds = 2
+        start_datetime = datetime.datetime(2020, 1, 30, 05, 00, 00)
+        status = 'CAN_JOIN'
+
+        with self.assertRaisesMessage(
+                Exception,
+                expected_message='User not registered to create tournament'):
+            KOTournament.create_tournament(
+                user_id=user_id, t_id=t_id, name=tournament_name,
+                number_of_rounds=number_of_rounds,
+                start_datetime=start_datetime, status=status)

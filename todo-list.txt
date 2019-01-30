@@ -2,7 +2,6 @@ Usecases:
 
 Yet to do:
    - User can create a knock-out tournament with configurable number of rounds and start datetime
-        - Start datetime must be greater than now
         - User should be registered with us to create a tournament
         - Tournament status should be CAN_JOIN when created
         - Tournament id (t_id) should be unique
@@ -19,6 +18,7 @@ Completed:
    - User can create a knock-out tournament with configurable number of rounds and start datetime
         - Number of rounds should be non-negative integer
         - Number of rounds should be int type
+        - Start datetime must be greater than now
 
 Raise Appropriate custom exceptions wherever necessary
 
