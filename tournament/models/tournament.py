@@ -3,7 +3,9 @@ from django.db import models
 
 class Tournament(models.Model):
     STATUS_MAX_LENGTH = 20
+    NAME_MAX_LENGTH = 50
 
+    name = models.CharField(max_length=NAME_MAX_LENGTH)
     user_id = models.PositiveIntegerField()
     total_rounds = models.PositiveIntegerField()
     start_datetime = models.DateTimeField()
@@ -89,3 +91,7 @@ class Tournament(models.Model):
         if not user_exists:
             from ..exceptions.exceptions import InvalidUserId
             raise InvalidUserId
+
+    @classmethod
+    def get_all_tournament_details(cls):
+        return [{}, {}, {}, {}]
