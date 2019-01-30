@@ -9,6 +9,10 @@
       1. User can all the tournaments
       2. Should we validate user_id??
 - User can subscribe to a tournament which is not yet started
+      [1. User can subscribe to a tournament which is not yet started]
+      2. If User try to subscribe to tournament which has started, throw an exception
+      3. If User try to subscribe to tournament which has reached max members, throw an exception
+      4. If User try to subscribe to the which he already subscribed to, throw an exception
 - User can play matches once the tournament is started
      - User will submit his score in the match
 - User will progress to next round if he wins the match
@@ -18,4 +22,4 @@
 
 Additional TODO's
 - If we include status, how should the field get_updated?
-[- Should make tournament_name mandatory for 1st use-case]
+- Should make tournament_name mandatory for 1st use-case
