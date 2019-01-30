@@ -12,6 +12,7 @@ class TournamentUser(models.Model):
 
         cls.validate_user_already_subscribed(
             tournament_id=tournament_id, username=username)
+        Tournament.validate_tournament_id(tournament_id=tournament_id)
         Tournament.\
             validate_tournament_in_can_join_status(tournament_id=tournament_id)
 
