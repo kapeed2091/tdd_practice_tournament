@@ -61,3 +61,14 @@ class TestSubscribeToTournament(TestCase):
         with self.assertRaisesMessage(
                 BadRequest, "Invalid tournament state"):
             Tournament.subscribe_to_tournament(tournament_id, player_id)
+
+    def test_player_is_invalid(self):
+        from ib_tournament.models import Tournament
+        tournament_id = Tournament.create_tournament(
+            total_rounds=2, start_datetime_str=get_next_day_datetime_str(),
+            name='Tournament 1')
+
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        with self.assertRaisesMessage(
+                BadRequest, "Invalid User"):
+            Tournament.subscribe_to_tournament(tournament_id, player_id=1525)

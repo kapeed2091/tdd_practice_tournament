@@ -34,10 +34,10 @@ TODOs:
     - user can subscribe to tournament
         - user subscribing to tournament
         - user can only subscribe to CAN_JOIN tournaments
-        - tournament_status should change to FULL_YET_TO_START if max users subscribed
         - requested user should be valid user
         - subscribed player can't subscribe again
         - subscribing to invalid tournament_id
+        - tournament_status should change to FULL_YET_TO_START if max users subscribed
     - play match
     - end match
     - get current round
