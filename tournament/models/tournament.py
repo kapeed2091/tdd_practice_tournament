@@ -94,4 +94,17 @@ class Tournament(models.Model):
 
     @classmethod
     def get_all_tournament_details(cls):
-        return [{}, {}, {}, {}]
+        details = []
+        for each_obj in cls.objects.all():
+            details.append(each_obj.convert_to_dict())
+
+        return details
+
+    def convert_to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "total_rounds": self.total_rounds,
+            "start_datetime": self.start_datetime,
+            "status": self.status
+        }
