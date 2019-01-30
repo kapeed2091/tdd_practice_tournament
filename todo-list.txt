@@ -51,6 +51,7 @@ overall estimation time - (6 hr - 5 + 1)
         - successful
         - tournament is still on
 
+Updated time line - (11 hr(13 - 2))
 todo-list
     - create_tournament successful case
     - invalid user_id
