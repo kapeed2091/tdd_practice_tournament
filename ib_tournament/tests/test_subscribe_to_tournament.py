@@ -17,12 +17,24 @@ def get_next_day_datetime_str():
 class TestSubscribeToTournament(TestCase):
     username = 'user1'
 
-    def test_subscribe_to_tournament(self):
-        from ib_tournament.models import Tournament, Player, TournamentPlayer
+    @staticmethod
+    def create_player(username):
+        from ib_tournament.models import Player
+        Player.create_player(username)
+        player = Player.get_player(username)
+        return player.id
 
-        Player.create_player(self.username)
-        player = Player.get_player(self.username)
-        player_id = player.id
+    @staticmethod
+    def update_tournament_status(tournament_id, status):
+        from ib_tournament.models import Tournament
+        tournament = Tournament.objects.get(id=tournament_id)
+        tournament.status = status
+        tournament.save()
+
+    def test_subscribe_to_tournament(self):
+        from ib_tournament.models import Tournament, TournamentPlayer
+
+        player_id = self.create_player(self.username)
         tournament_id = Tournament.create_tournament(
             total_rounds=2, start_datetime_str=get_next_day_datetime_str(),
             name='Tournament 1')
@@ -33,3 +45,19 @@ class TestSubscribeToTournament(TestCase):
         tournament_player_dict = tournament_player.get_tournament_player_dict()
         self.assertEqual(tournament_player_dict['tournament_id'], tournament_id)
         self.assertEqual(tournament_player_dict['player_id'], player_id)
+
+    def test_player_can_subscribe_to_can_join_tournaments(self):
+        from ib_tournament.models import Tournament
+        from ib_tournament.constants.general import TournamentStatus
+
+        player_id = self.create_player(self.username)
+        tournament_id = Tournament.create_tournament(
+            total_rounds=2, start_datetime_str=get_next_day_datetime_str(),
+            name='Tournament 1')
+        self.update_tournament_status(
+            tournament_id, TournamentStatus.FULL_YET_TO_START.value)
+
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        with self.assertRaisesMessage(
+                BadRequest, "Invalid tournament state"):
+            Tournament.subscribe_to_tournament(tournament_id, player_id)
