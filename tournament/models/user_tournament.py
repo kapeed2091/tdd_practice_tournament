@@ -23,20 +23,20 @@ class UserTournament(models.Model):
 
         Tournament.validate_tournament_status(status=tournament.status)
 
-        total_rounds = tournament.total_rounds
-        max_num_of_participants = 2 ** total_rounds
-        registered_persons_count_for_tournament = \
-            cls.objects.filter(tournament_id=tournament_id).count()
+        is_last_person = cls._is_last_person(
+            tournament_id=tournament_id, total_rounds=tournament.total_rounds
+        )
 
         cls.objects.create(
             user_id=user_id,
             tournament_id=tournament_id
         )
 
-        if max_num_of_participants - 1 == registered_persons_count_for_tournament:
+        if is_last_person:
             from ..constants.general import TournamentStatus
-            tournament.status = TournamentStatus.FULL_YET_TO_START.value
-            tournament.save()
+            tournament.update_status(
+                status=TournamentStatus.FULL_YET_TO_START.value
+            )
 
     @classmethod
     def _validate_user_tournament_exists(cls, user_id, tournament_id):
@@ -47,3 +47,15 @@ class UserTournament(models.Model):
         if user_tournament_exists:
             from ..exceptions.exceptions import UserAlreadyRegistered
             raise UserAlreadyRegistered
+
+    @classmethod
+    def _is_last_person(cls, tournament_id, total_rounds):
+        total_rounds = total_rounds
+        max_num_of_participants = 2 ** total_rounds
+        registered_tournament_members_count = \
+            cls.objects.filter(tournament_id=tournament_id).count()
+
+        is_last_person = \
+            max_num_of_participants - 1 == registered_tournament_members_count
+
+        return is_last_person

@@ -81,3 +81,7 @@ class Tournament(models.Model):
 
         elif status == TournamentStatus.COMPLETED.value:
             raise InvalidCompletedRegister
+
+    def update_status(self, status):
+        self.status = status
+        self.save()
