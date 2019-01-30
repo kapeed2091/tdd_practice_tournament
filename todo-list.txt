@@ -20,6 +20,8 @@ Completed:
         - User should be registered with us to create a tournament
         - Tournament id (t_id) should be unique
         - Tournament status should be CAN_JOIN when created
+   - User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)
+        - Should return empty list if no tournaments
 
 Raise Appropriate custom exceptions wherever necessary
 
