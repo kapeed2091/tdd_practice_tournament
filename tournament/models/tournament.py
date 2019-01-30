@@ -20,6 +20,14 @@ class Tournament(models.Model):
                 }
 
     @classmethod
+    def validate_tournament_in_can_join_status(cls, tournament_id):
+        try:
+            cls.get_tournament(tournament_id=tournament_id,
+                               status=TournamentStatus.CAN_JOIN.value)
+        except Exception:
+            raise Exception("User can not join in the tournament")
+
+    @classmethod
     def create_tournament(cls, no_of_rounds, start_datetime, username):
         from .user import User
 
@@ -59,3 +67,10 @@ class Tournament(models.Model):
 
         return tournaments
 
+    @classmethod
+    def get_tournament(cls, tournament_id, status):
+        try:
+            return cls.objects.get(id=tournament_id, status=status)
+        except cls.DoesNotExist:
+            raise Exception(
+                "No tournament exists with given tournament id and status")

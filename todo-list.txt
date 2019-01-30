@@ -21,7 +21,6 @@ Assumptions:
 
 ToDo List:
   - User can subscribe to a tournament which is not yet started
-    - [tournament not in CAN_JOIN  status]
     - invalid tournament
     - when last member joins the tournament change the status to FULL_YET_TO_START
 Completed List
@@ -36,5 +35,6 @@ Completed List
         - user subscribing to tournament
         - user does not exist
         - user already subscribed
+        - tournament not in CAN_JOIN  status
 Time Estimation: 10 Hours
 Updated Time Estimation: 12 Hours
