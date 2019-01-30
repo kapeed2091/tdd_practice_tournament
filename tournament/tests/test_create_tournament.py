@@ -6,6 +6,7 @@ import copy
 from django_swagger_utils.drf_server.exceptions import BadRequest
 
 from tournament.constants.general import TournamentStatus
+from tournament.utils.date_time_utils import get_current_date_time
 
 
 class TestCreateTournament(TestCase):
@@ -34,7 +35,7 @@ class TestCreateTournament(TestCase):
 
     def test_create_tournament_with_negative_no_of_rounds(self):
         from tournament.models import KoTournament
-        now = datetime.datetime.now()
+        now = get_current_date_time()
         start_datetime = now + datetime.timedelta(days=1)
         tournament_request = {
             "created_user_id": self.user_id,
@@ -48,7 +49,7 @@ class TestCreateTournament(TestCase):
 
     def test_create_tournament_with_zero_no_of_rounds(self):
         from tournament.models import KoTournament
-        now = datetime.datetime.now()
+        now = get_current_date_time()
         start_datetime = now + datetime.timedelta(days=1)
         tournament_request = {
             "created_user_id": self.user_id,
@@ -62,7 +63,7 @@ class TestCreateTournament(TestCase):
 
     def test_create_tournament_with_start_datetime_less_than_now(self):
         from tournament.models import KoTournament
-        now = datetime.datetime.now()
+        now = get_current_date_time()
         start_datetime = now - datetime.timedelta(days=1)
         tournament_request = {
             "created_user_id": self.user_id,
@@ -77,7 +78,7 @@ class TestCreateTournament(TestCase):
     @freeze_time('12-09-2018 12:12:12')
     def test_create_tournament_with_start_datetime_equals_now(self):
         from tournament.models import KoTournament
-        now = datetime.datetime.now()
+        now = get_current_date_time()
         tournament_request = {
             "created_user_id": self.user_id,
             "name": "Tournament",
@@ -90,7 +91,7 @@ class TestCreateTournament(TestCase):
 
     def test_create_tournament_with_wrong_user_id(self):
         from tournament.models import KoTournament
-        now = datetime.datetime.now()
+        now = get_current_date_time()
         start_datetime = now + datetime.timedelta(days=1)
         tournament_request = {
             "created_user_id": self.invalid_user_id,
