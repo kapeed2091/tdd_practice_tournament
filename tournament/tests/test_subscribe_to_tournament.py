@@ -92,7 +92,6 @@ class TestSubscribeToTournament(TestCase):
             user_id=user.id,
             tournament_id=tournament.id
         )
-        UserTournament.subscribe_to_tournament(user.id, tournament.id)
 
         from tournament.exceptions.exceptions import UserAlreadyRegistered
         with self.assertRaises(UserAlreadyRegistered):

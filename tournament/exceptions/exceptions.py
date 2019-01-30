@@ -12,3 +12,7 @@ class InvalidTotalRounds(Exception):
 
 class InvalidTournamentId(Exception):
     pass
+
+
+class UserAlreadyRegistered(Exception):
+    pass
