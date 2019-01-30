@@ -2,6 +2,8 @@ Usecases:
 
 Yet to do:
    - User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)
+        - Should return empty list if no tournaments
+        - User should be registered
    - User can subscribe to a tournament which is not yet started
    - User can play matches once the tournament is started
        - User will submit his score in the match
