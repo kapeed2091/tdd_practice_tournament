@@ -30,7 +30,7 @@ class KOTournament(models.Model):
 
     @classmethod
     def get_all_tournaments(cls):
-        tournaments = cls.objects.all()
+        tournaments = cls.all_tournaments()
 
         all_tournaments = list()
         for tournament in tournaments:
@@ -63,7 +63,6 @@ class KOTournament(models.Model):
 
     @staticmethod
     def is_start_datetime_in_past(start_datetime):
-        import datetime
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time
 
@@ -77,6 +76,18 @@ class KOTournament(models.Model):
             raise Exception('Invalid Tournament Status at creation')
 
     @staticmethod
+    def is_registered_user(user_id):
+        from tournament.models import UserProfile
+        try:
+            UserProfile.get_user(user_id=user_id)
+        except models.ObjectDoesNotExist:
+            raise Exception('User not registered to create tournament')
+
+    @classmethod
+    def all_tournaments(cls):
+        return cls.objects.all()
+
+    @staticmethod
     def is_non_positive(number_of_rounds):
         if number_of_rounds <= 0:
             raise Exception('Non-positive number of rounds given')
@@ -85,11 +96,3 @@ class KOTournament(models.Model):
     def is_non_int_type(number_of_rounds):
         if type(number_of_rounds) != int:
             raise Exception('Float type number of rounds given')
-
-    @staticmethod
-    def is_registered_user(user_id):
-        from tournament.models import UserProfile
-        try:
-            UserProfile.get_user(user_id=user_id)
-        except models.ObjectDoesNotExist:
-            raise Exception('User not registered to create tournament')
