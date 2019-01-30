@@ -29,7 +29,8 @@ class KoTournament(models.Model):
 
     @classmethod
     def get_all_tournaments(cls):
-        return []
+        tournaments = cls.objects.all()
+        return [each.convert_to_dict2() for each in tournaments]
 
     @classmethod
     def _validate_request(cls, no_of_rounds, start_datetime, user_id):
@@ -62,4 +63,13 @@ class KoTournament(models.Model):
             "created_user_id": self.created_user_id,
             "no_of_rounds": self.no_of_rounds,
             "start_datetime": self.start_datetime
+        }
+
+    def convert_to_dict2(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "no_of_rounds": self.no_of_rounds,
+            "start_datetime": self.start_datetime,
+            "status": self.status
         }

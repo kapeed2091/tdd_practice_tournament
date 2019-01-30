@@ -15,4 +15,7 @@
 - User can get his current round number for a tournament
 - User can get his opponent user profile in any round in a tournament
 - User can get the winner user profile of any tournament
+
+Additional TODO's
 - If we include status, how should the field get_updated?
+- Should make tournament_name mandatory for 1st use-case
