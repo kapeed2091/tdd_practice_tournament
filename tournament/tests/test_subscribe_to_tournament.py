@@ -4,10 +4,11 @@ from django.test import TestCase
 class TestSubscribeToTournament(TestCase):
 
     def testcase_user_subscribe_to_tournament(self):
-        from tournament.models import TournamentUser
+        from tournament.models import TournamentUser, UserProfile
         user_id = 'user_1'
         tournament_id = 'tournament_1'
 
+        UserProfile.objects.create(user_id=user_id)
         old_count = len(TournamentUser.objects.filter(
             user_id=user_id, tournament_id=tournament_id))
 
