@@ -147,3 +147,37 @@ class TestSubscribeToTournament(TestCase):
                 Exception, expected_message='Already Subscribed to Tournament'):
             TournamentUser.subscribe_to_tournament(
                 user_id=user_id, tournament_id=tournament_id)
+
+    def testcase_change_tournament_status_when_last_user_subscribes(self):
+        from tournament.models import TournamentUser, UserProfile, \
+            KOTournament
+        import datetime
+        from ib_common.date_time_utils.get_current_local_date_time \
+            import get_current_local_date_time
+
+        start_datetime = \
+            get_current_local_date_time() + datetime.timedelta(minutes=10)
+        number_of_rounds = 2
+        user_id = 'user'
+        tournament_id = 'tournament_1'
+
+        UserProfile.objects.create(user_id=user_id)
+        KOTournament.objects.create(
+            t_id=tournament_id, name='tournament_name_1',
+            number_of_rounds=number_of_rounds,
+            start_datetime=start_datetime, status='CAN_JOIN')
+
+        for i in range(0, pow(2, number_of_rounds)-1):
+            user_id = 'user_' + str(i)
+            UserProfile.objects.create(user_id=user_id)
+            TournamentUser.subscribe_to_tournament(
+                user_id=user_id, tournament_id=tournament_id)
+
+        prev_t_state = KOTournament.objects.get(t_id=tournament_id)
+        self.assertEquals(prev_t_state.status,'CAN_JOIN')
+
+        user_id = 'user'
+        TournamentUser.subscribe_to_tournament(
+            user_id=user_id, tournament_id=tournament_id)
+        new_t_state = KOTournament.objects.get(t_id=tournament_id)
+        self.assertEquals(new_t_state.status, 'FULL_YET_TO_START')
