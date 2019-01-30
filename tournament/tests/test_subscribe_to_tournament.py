@@ -117,6 +117,7 @@ class TestSubscribeToTournament(TestCase):
             TournamentUser.subscribe_to_tournament(
                 user_id=user_id, tournament_id=tournament_id)
 
+        user_id = 'user'
         with self.assertRaisesMessage(
                 Exception, expected_message='Tournament is full'):
             TournamentUser.subscribe_to_tournament(

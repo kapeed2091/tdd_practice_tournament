@@ -10,6 +10,9 @@ class TournamentUser(models.Model):
     def subscribe_to_tournament(cls, user_id, tournament_id):
         from tournament.models import UserProfile, KOTournament
 
+        if len(cls.objects.filter(user_id=user_id, t_id=tournament_id)) > 0:
+            raise Exception('Already Subscribed to Tournament')
+
         UserProfile.is_registered_user(user_id=user_id)
         KOTournament.is_tournament_exists(tournament_id=tournament_id)
         tournament_obj = KOTournament.get_tournament(tournament_id=tournament_id)
