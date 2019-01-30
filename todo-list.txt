@@ -20,21 +20,22 @@ Assumptions:
 
 TODOs:
     - create user
-        - create user with username
-        - no two users can have same username
+        - create user with username -- DONE
+        - no two users can have same username -- DONE
     - user can create tournament with configurable number of rounds and start datetime
-        - create tournament
-        - create tournament with invalid datetime(yesterday's date)
-        - create tournament with rounds non positive
+        - create tournament -- DONE
+        - create tournament with invalid datetime(yesterday's date) -- DONE
+        - create tournament with rounds non positive -- DONE
+        - create tournament by user
     - user can get all tournaments
-        - get tournaments having tournaments in all states
+        - get tournaments having tournaments in all states -- DONE
         - get tournaments with ordering according to status order:[
-        FULL_YET_TO_START, CAN_JOIN, IN_PROGRESS, COMPLETED] and start_datetime
+        FULL_YET_TO_START, CAN_JOIN, IN_PROGRESS, COMPLETED] and start_datetime -- DONE
         - get tournaments with offset and limit -- NOT LISTED IN USECASE
     - user can subscribe to tournament
-        - user subscribing to tournament
-        - user can only subscribe to CAN_JOIN tournaments
-        - requested user should be valid user
+        - user subscribing to tournament -- DONE
+        - user can only subscribe to CAN_JOIN tournaments -- DONE
+        - requested user should be valid user -- DONE
         - subscribed player can't subscribe again
         - subscribing to invalid tournament_id
         - tournament_status should change to FULL_YET_TO_START if max users subscribed
