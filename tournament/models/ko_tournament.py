@@ -1,4 +1,5 @@
 from django.db import models
+from tournament.constants import TournamentStatus
 
 
 class KOTournament(models.Model):
@@ -10,7 +11,8 @@ class KOTournament(models.Model):
     name = models.CharField(max_length=TOURNAMENT_NAME_MAX_LENGTH)
     number_of_rounds = models.IntegerField()
     start_datetime = models.DateTimeField()
-    status = models.CharField(max_length=TOURNAMENT_STATUS_MAX_LENGTH)
+    status = models.CharField(max_length=TOURNAMENT_STATUS_MAX_LENGTH,
+                              default=TournamentStatus.CAN_JOIN.value)
 
     @classmethod
     def create_tournament(cls, user_id, name, number_of_rounds,
@@ -56,6 +58,12 @@ class KOTournament(models.Model):
             raise Exception('Start datetime is less than current time')
 
     @staticmethod
+    def is_valid_creation_status(status):
+        from tournament.constants import TournamentStatus
+        if status != TournamentStatus.CAN_JOIN.value:
+            raise Exception('Invalid Tournament Status at creation')
+
+    @staticmethod
     def is_non_positive(number_of_rounds):
         if number_of_rounds <= 0:
             raise Exception('Non-positive number of rounds given')
@@ -72,9 +80,3 @@ class KOTournament(models.Model):
             UserProfile.get_user(user_id=user_id)
         except models.ObjectDoesNotExist:
             raise Exception('User not registered to create tournament')
-
-    @staticmethod
-    def is_valid_creation_status(status):
-        from tournament.constants import TournamentStatus
-        if status != TournamentStatus.CAN_JOIN.value:
-            raise Exception('Invalid Tournament Status at creation')
