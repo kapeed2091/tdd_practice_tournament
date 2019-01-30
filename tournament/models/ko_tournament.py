@@ -125,3 +125,8 @@ class KOTournament(models.Model):
     @classmethod
     def get_tournament(cls, tournament_id):
         return cls.objects.get(t_id=tournament_id)
+
+    @classmethod
+    def is_valid_subscribe_status(cls, tournament_obj):
+        if tournament_obj.status != TournamentStatus.CAN_JOIN.value:
+            raise Exception('Invalid Tournament Status to subscribe')
