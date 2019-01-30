@@ -6,14 +6,14 @@ def get_all_tournaments():
     tournaments_data = [
         {
             'tournament_id': 1,
-            'name': 'Tournament 1',
-            'status': TournamentStatus.CAN_JOIN.value,
+            'name': 'Tournament 2',
+            'status': TournamentStatus.FULL_YET_TO_START.value,
             'total_rounds': 2
         },
         {
             'tournament_id': 2,
-            'name': 'Tournament 2',
-            'status': TournamentStatus.FULL_YET_TO_START.value,
+            'name': 'Tournament 1',
+            'status': TournamentStatus.CAN_JOIN.value,
             'total_rounds': 2
         },
         {

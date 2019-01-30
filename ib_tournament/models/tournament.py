@@ -22,8 +22,9 @@ class Tournament(models.Model):
     @classmethod
     def get_all_tournaments(cls):
         tournaments = cls.objects.all()
+        ordered_tournaments = cls._order_tournaments(tournaments)
         return [tournament.get_tournament_dict()
-                for tournament in tournaments]
+                for tournament in ordered_tournaments]
 
     def get_tournament_dict(self):
         from ib_common.date_time_utils.convert_datetime_to_local_string import \
@@ -66,3 +67,16 @@ class Tournament(models.Model):
         if total_rounds <= 0:
             raise BadRequest(*INVALID_TOTAL_ROUNDS)
         return
+
+    @classmethod
+    def _order_tournaments(cls, tournaments):
+        tournaments = tournaments.order_by('status', 'start_datetime')
+
+        from ib_tournament.constants.general import TournamentStatus
+        ordered_status = [TournamentStatus.FULL_YET_TO_START.value,
+                          TournamentStatus.CAN_JOIN.value,
+                          TournamentStatus.IN_PROGRESS.value,
+                          TournamentStatus.COMPLETED.value]
+        ordered_tournaments = sorted(
+            tournaments, key=lambda x: ordered_status.index(x.status))
+        return ordered_tournaments
