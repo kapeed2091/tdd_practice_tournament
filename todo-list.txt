@@ -37,6 +37,7 @@ TODOs:
         - get tournaments with offset and limit -- NOT LISTED IN USECASE
         - refactor testcases --> don't use internal functions
         - get all tournaments by user
+        - invalid user_id in get all tournaments
     - user can subscribe to tournament
         - user subscribing to tournament -- DONE
         - user can only subscribe to CAN_JOIN tournaments -- DONE

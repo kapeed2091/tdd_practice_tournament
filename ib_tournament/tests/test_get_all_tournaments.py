@@ -216,3 +216,12 @@ class TestGetAllTournaments(TestCase):
         self.create_tournaments(tournaments_to_create)
         tournaments_list = Tournament.get_all_tournaments()
         self.assertEqual(tournaments_list, ordered_tournaments_data)
+
+    def test_invalid_user(self):
+        from ib_tournament.models import Tournament
+
+        tournaments_data = get_all_tournaments()
+        self.create_tournaments(tournaments_data)
+        tournaments_list = Tournament.get_all_tournaments_by_player(
+            player_id=1234)
+        self.assertEqual(tournaments_list, tournaments_data)
