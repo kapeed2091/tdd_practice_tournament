@@ -130,3 +130,7 @@ class KOTournament(models.Model):
     def is_valid_subscribe_status(cls, tournament_obj):
         if tournament_obj.status != TournamentStatus.CAN_JOIN.value:
             raise Exception('Invalid Tournament Status to subscribe')
+
+    @classmethod
+    def get_max_participants_count(self, tournament_obj):
+        return pow(2, tournament_obj.number_of_rounds)
