@@ -22,19 +22,26 @@ class TestCreateKOTournament(TestCase):
 
         from tournament.models import KOTournament, UserProfile
         UserProfile.objects.create(user_id=user_id)
-        tournament_details = KOTournament.create_tournament(
-            user_id=user_id, t_id=t_id, name=tournament_name,
+        tournament_details = KOTournament.assign_t_id_to_tournament(
+            t_id=t_id, name=tournament_name,
             number_of_rounds=number_of_rounds,
             start_datetime=start_datetime, status=status)
 
-        self.assertEquals(input_tournament_details, tournament_details)
+        output_tournament_details = {
+            't_id': tournament_details.t_id,
+            'name': tournament_details.name,
+            'number_of_rounds': tournament_details.number_of_rounds,
+            'start_datetime': tournament_details.start_datetime,
+            'status': tournament_details.status
+        }
+
+        self.assertEquals(input_tournament_details, output_tournament_details)
 
     def testcase_non_positive_number_of_rounds(self):
         import datetime
         from tournament.models import KOTournament, UserProfile
 
         user_id = 'user_1'
-        t_id = '1'
         tournament_name = 'tournament_1'
         number_of_rounds_case1 = 0
         number_of_rounds_case2 = -1
@@ -46,7 +53,7 @@ class TestCreateKOTournament(TestCase):
                 Exception,
                 expected_message='Non-positive number of rounds given'):
             KOTournament.create_tournament(
-            user_id=user_id, t_id=t_id, name=tournament_name,
+            user_id=user_id, name=tournament_name,
             number_of_rounds=number_of_rounds_case1,
             start_datetime=start_datetime, status=status)
 
@@ -54,7 +61,7 @@ class TestCreateKOTournament(TestCase):
                 Exception,
                 expected_message='Non-positive number of rounds given'):
             KOTournament.create_tournament(
-            user_id=user_id, t_id=t_id, name=tournament_name,
+            user_id=user_id, name=tournament_name,
             number_of_rounds=number_of_rounds_case2,
             start_datetime=start_datetime, status=status)
 
@@ -63,7 +70,6 @@ class TestCreateKOTournament(TestCase):
         from tournament.models import KOTournament, UserProfile
 
         user_id = 'user_1'
-        t_id = '1'
         tournament_name = 'tournament_1'
         number_of_rounds = 1.5
         start_datetime = datetime.datetime(2019, 1, 30, 15, 00, 00)
@@ -74,7 +80,7 @@ class TestCreateKOTournament(TestCase):
                 Exception,
                 expected_message='Float type number of rounds given'):
             KOTournament.create_tournament(
-                user_id=user_id, t_id=t_id, name=tournament_name,
+                user_id=user_id, name=tournament_name,
                 number_of_rounds=number_of_rounds,
                 start_datetime=start_datetime, status=status)
 
@@ -83,7 +89,6 @@ class TestCreateKOTournament(TestCase):
         from tournament.models import KOTournament, UserProfile
 
         user_id = 'user_1'
-        t_id = '1'
         tournament_name = 'tournament_1'
         number_of_rounds = 2
         start_datetime = datetime.datetime(2019, 1, 30, 01, 00, 00)
@@ -94,7 +99,7 @@ class TestCreateKOTournament(TestCase):
                 Exception,
                 expected_message='Start datetime is less than current time'):
             KOTournament.create_tournament(
-                user_id=user_id, t_id=t_id, name=tournament_name,
+                user_id=user_id, name=tournament_name,
                 number_of_rounds=number_of_rounds,
                 start_datetime=start_datetime, status=status)
 
@@ -103,7 +108,6 @@ class TestCreateKOTournament(TestCase):
         from tournament.models import KOTournament
 
         user_id = 'non_user_1'
-        t_id = '1'
         tournament_name = 'tournament_1'
         number_of_rounds = 2
         start_datetime = datetime.datetime(2020, 1, 30, 05, 00, 00)
@@ -113,7 +117,7 @@ class TestCreateKOTournament(TestCase):
                 Exception,
                 expected_message='User not registered to create tournament'):
             KOTournament.create_tournament(
-                user_id=user_id, t_id=t_id, name=tournament_name,
+                user_id=user_id, name=tournament_name,
                 number_of_rounds=number_of_rounds,
                 start_datetime=start_datetime, status=status)
 
@@ -132,15 +136,13 @@ class TestCreateKOTournament(TestCase):
 
         UserProfile.objects.create(user_id=user_id)
 
-        tournament_details_1 = KOTournament.create_tournament(
-            user_id=user_id, t_id=t_id, name=tournament_name_1,
+        tournament_details_1 = KOTournament.assign_t_id_to_tournament(
+            t_id=t_id, name=tournament_name_1,
             number_of_rounds=number_of_rounds_1,
             start_datetime=start_datetime, status=status)
 
-        with self.assertRaisesMessage(
-                Exception,
-                expected_message='Tournaments with same t_id cannot be created'):
-            KOTournament.create_tournament(
-                user_id=user_id, t_id=t_id, name=tournament_name_2,
+        with self.assertRaises(Exception):
+            KOTournament.assign_t_id_to_tournament(
+                t_id=t_id, name=tournament_name_2,
                 number_of_rounds=number_of_rounds_2,
                 start_datetime=start_datetime, status=status)
