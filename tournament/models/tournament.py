@@ -70,7 +70,11 @@ class Tournament(models.Model):
     @staticmethod
     def validate_tournament_status(status):
         from ..constants.general import TournamentStatus
-        from ..exceptions.exceptions import InvalidFullYetToStartRegister
+        from ..exceptions.exceptions import InvalidFullYetToStartRegister, \
+            InvalidInProgresstRegister
 
         if status == TournamentStatus.FULL_YET_TO_START.value:
             raise InvalidFullYetToStartRegister
+
+        elif status == TournamentStatus.IN_PROGRESS.value:
+            raise InvalidInProgresstRegister
