@@ -159,7 +159,9 @@ class TestCreateKOTournament(TestCase):
         status = 'COMPLETED'
 
         UserProfile.objects.create(user_id=user_id)
-        with self.assertRaises(Exception):
+        with self.assertRaisesMessage(
+                Exception,
+                expected_message='Invalid Tournament Status at creation'):
             KOTournament.create_tournament(
                 user_id=user_id, name=tournament_name,
                 number_of_rounds=number_of_rounds,
