@@ -69,13 +69,14 @@ class Tournament(models.Model):
     @classmethod
     def create_tournament_by_player(cls, player_id, tournament_details):
         from ib_tournament.models import Player
-        Player.get_player_by_id(player_id)
-
         total_rounds = tournament_details['total_rounds']
         start_datetime = cls._get_start_datetime_object(
             tournament_details['start_datetime_str'])
+
+        Player.get_player_by_id(player_id)
         cls._validate_start_datetime(start_datetime)
         cls._validate_total_rounds(total_rounds)
+        
         tournament = cls._create_tournament_object(
             total_rounds, start_datetime, tournament_details['name'])
         return tournament.id
