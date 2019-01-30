@@ -46,5 +46,5 @@ class TestSubscribeToTournament(TestCase):
     def test_subscribe_to_tournament_which_has_started(self):
         from tournament.models import TournamentUser
 
-        with self.assertRaisesMessage(Forbidden, 'Tournament has already started'):
+        with self.assertRaisesMessage(Forbidden, 'Subscription can only be done before starting of the Tournament'):
             TournamentUser.subscribe_to_tournament(user_id='User2', tournament_id=2)
