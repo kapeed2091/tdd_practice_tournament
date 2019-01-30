@@ -33,4 +33,3 @@ class TestSubscribeToTournament(TestCase):
         newly_added_obj = newly_added_objs[0]
         self.assertEqual(newly_added_obj.user.user_id, 'User2')
         self.assertEqual(newly_added_obj.tournament.id, 1)
-
