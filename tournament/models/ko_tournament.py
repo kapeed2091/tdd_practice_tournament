@@ -30,7 +30,9 @@ class KOTournament(models.Model):
 
     @classmethod
     def get_all_tournaments(cls, user_id):
-        cls.is_registered_user(user_id=user_id)
+        from tournament.models import UserProfile
+        UserProfile.is_registered_user(user_id=user_id)
+
         tournaments = cls.all_tournaments()
         all_tournaments = cls.all_tournaments_list(tournaments=tournaments)
 
@@ -51,7 +53,9 @@ class KOTournament(models.Model):
     @classmethod
     def validate_create_request(cls, user_id, number_of_rounds, start_datetime,
                                 status):
-        cls.is_registered_user(user_id=user_id)
+        from tournament.models import UserProfile
+
+        UserProfile.is_registered_user(user_id=user_id)
         cls.is_valid_number_of_rounds(number_of_rounds=number_of_rounds)
         cls.is_start_datetime_in_past(start_datetime=start_datetime)
         cls.is_valid_creation_status(status=status)
@@ -80,14 +84,6 @@ class KOTournament(models.Model):
         from tournament.constants import TournamentStatus
         if status != TournamentStatus.CAN_JOIN.value:
             raise Exception('Invalid Tournament Status at creation')
-
-    @staticmethod
-    def is_registered_user(user_id):
-        from tournament.models import UserProfile
-        try:
-            UserProfile.get_user(user_id=user_id)
-        except models.ObjectDoesNotExist:
-            raise Exception('User not registered')
 
     @classmethod
     def all_tournaments(cls):
