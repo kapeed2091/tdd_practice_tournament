@@ -200,6 +200,14 @@ class TestGetAllTournaments(TestCase):
         tournaments_list = Tournament.get_all_tournaments()
         self.assertEqual(tournaments_list, tournaments_data)
 
+    def test_get_all_tournaments_by_user(self):
+        from ib_tournament.models import Tournament
+
+        tournaments_data = get_all_tournaments()
+        self.create_tournaments(tournaments_data)
+        tournaments_list = Tournament.get_all_tournaments_by_player()
+        self.assertEqual(tournaments_list, tournaments_data)
+
     def test_ordered_tournaments(self):
         from ib_tournament.models import Tournament
 
