@@ -8,3 +8,5 @@ INVALID_TOURNAMENT_STATE = ('Invalid tournament state',
                             'INVALID_TOURNAMENT_STATE')
 
 INVALID_USER = ('Invalid User', 'INVALID_USER')
+
+CAN_NOT_SUBSCRIBE_AGAIN = ('Can\'t subscribe again', 'CAN_NOT_SUBSCRIBE_AGAIN')

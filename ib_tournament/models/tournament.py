@@ -44,6 +44,7 @@ class Tournament(models.Model):
         Player.get_player_by_id(player_id)
         tournament = cls.get_tournament(tournament_id)
         tournament.validate_tournament_state_to_subscribe()
+        cls._validate_player_already_subscribed(tournament_id, player_id)
         TournamentPlayer.create_tournament_player(tournament_id, player_id)
         return
 
@@ -117,4 +118,15 @@ class Tournament(models.Model):
 
         if self.status != TournamentStatus.CAN_JOIN.value:
             raise BadRequest(*INVALID_TOURNAMENT_STATE)
+        return
+
+    @classmethod
+    def _validate_player_already_subscribed(cls, tournament_id, player_id):
+        from ib_tournament.models import TournamentPlayer
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            CAN_NOT_SUBSCRIBE_AGAIN
+        if TournamentPlayer.get_tournament_player_exists(
+                tournament_id, player_id):
+            raise BadRequest(CAN_NOT_SUBSCRIBE_AGAIN)
         return
