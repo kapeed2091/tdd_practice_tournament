@@ -21,6 +21,13 @@ class UserTournament(models.Model):
             from ..exceptions.exceptions import UserAlreadyRegistered
             raise UserAlreadyRegistered
 
+        from ..constants.general import TournamentStatus
+        tournament = Tournament.objects.get(id=tournament_id)
+
+        from ..exceptions.exceptions import InvalidFullYetToStartRegister
+        if tournament.status == TournamentStatus.FULL_YET_TO_START.value:
+            raise InvalidFullYetToStartRegister
+
         cls.objects.create(
             user_id=user_id,
             tournament_id=tournament_id
