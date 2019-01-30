@@ -50,7 +50,13 @@ class Tournament(models.Model):
 
     @classmethod
     def get_tournament(cls, tournament_id):
-        return cls.objects.get(id=tournament_id)
+        try:
+            return cls.objects.get(id=tournament_id)
+        except cls.DoesNotExist:
+            from django_swagger_utils.drf_server.exceptions import BadRequest
+            from ib_tournament.constants.exception_messages import \
+                INVALID_TOURNAMENT
+            raise BadRequest(*INVALID_TOURNAMENT)
 
     @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
