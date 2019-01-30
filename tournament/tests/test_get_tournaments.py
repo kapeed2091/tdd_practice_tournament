@@ -2,6 +2,7 @@ import datetime
 from django.test import TestCase
 
 from tournament.constants.general import TournamentStatus
+from tournament.utils.date_time_utils import get_current_date_time
 
 
 class TestGetTournaments(TestCase):
@@ -21,7 +22,7 @@ class TestGetTournaments(TestCase):
             "created_user_id": user_id_2,
             "name": "Tournament2",
             "no_of_rounds": 3,
-            "start_datetime": get_current_datetime() - datetime.timedelta(days=1),
+            "start_datetime": get_current_date_time() - datetime.timedelta(days=1),
             "status": TournamentStatus.IN_PROGRESS.value
         }
     ]
