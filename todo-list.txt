@@ -38,6 +38,7 @@ TODOs:
         - refactor testcases --> don't use internal functions
         - get all tournaments by user
         - invalid user_id in get all tournaments
+        - remove get_all_tournaments(incorrect implementation)
     - user can subscribe to tournament
         - user subscribing to tournament -- DONE
         - user can only subscribe to CAN_JOIN tournaments -- DONE
