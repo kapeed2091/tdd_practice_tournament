@@ -30,7 +30,7 @@ TODOs:
         - get tournaments having tournaments in all states
         - get tournaments with ordering according to status order:[
         FULL_YET_TO_START, CAN_JOIN, IN_PROGRESS, COMPLETED] and start_datetime
-        - get tournaments with offset and limit
+        - get tournaments with offset and limit -- NOT LISTED IN USECASE
     - subscribe to tournament
     - play match
     - end match
