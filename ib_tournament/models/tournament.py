@@ -43,7 +43,7 @@ class Tournament(models.Model):
 
         Player.get_player_by_id(player_id)
         tournament = cls.get_tournament(tournament_id)
-        tournament.validate_tournament_state_to_subscribe()
+        cls._validate_tournament_state_to_subscribe(tournament.status)
         cls._validate_player_already_subscribed(tournament_id, player_id)
         TournamentPlayer.create_tournament_player(tournament_id, player_id)
         tournament.update_status_to_full_yet_to_start()
@@ -58,6 +58,13 @@ class Tournament(models.Model):
             from ib_tournament.constants.exception_messages import \
                 INVALID_TOURNAMENT
             raise BadRequest(*INVALID_TOURNAMENT)
+
+    def update_status_to_full_yet_to_start(self):
+        from ib_tournament.constants.general import TournamentStatus
+        if self._get_max_participants_count_reached():
+            self._update_tournament_status(
+                TournamentStatus.FULL_YET_TO_START.value)
+        return
 
     @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
@@ -117,13 +124,14 @@ class Tournament(models.Model):
         return [tournament.get_tournament_dict()
                 for tournament in tournaments]
 
-    def validate_tournament_state_to_subscribe(self):
+    @staticmethod
+    def _validate_tournament_state_to_subscribe(status):
         from ib_tournament.constants.general import TournamentStatus
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import \
             INVALID_TOURNAMENT_STATE
 
-        if self.status != TournamentStatus.CAN_JOIN.value:
+        if status != TournamentStatus.CAN_JOIN.value:
             raise BadRequest(*INVALID_TOURNAMENT_STATE)
         return
 
@@ -138,13 +146,6 @@ class Tournament(models.Model):
             raise BadRequest(CAN_NOT_SUBSCRIBE_AGAIN)
         return
 
-    def update_status_to_full_yet_to_start(self):
-        from ib_tournament.constants.general import TournamentStatus
-        if self._get_max_participants_count_reached():
-            self._update_tournament_status(
-                TournamentStatus.FULL_YET_TO_START.value)
-        return
-
     def _get_max_participants_count_reached(self):
         from ib_tournament.models import TournamentPlayer
         total_tournament_players = \
@@ -152,10 +153,10 @@ class Tournament(models.Model):
         return total_tournament_players == \
                self._get_maximum_players_in_tournament()
 
-    def _get_maximum_players_in_tournament(self):
-        total_rounds = self.total_rounds
-        return 2 ** total_rounds
-
     def _update_tournament_status(self, status):
         self.status = status
         self.save()
+
+    def _get_maximum_players_in_tournament(self):
+        total_rounds = self.total_rounds
+        return 2 ** total_rounds
