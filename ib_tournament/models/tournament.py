@@ -1,21 +1,42 @@
 from django.db import models
+from ib_tournament.constants.general import TournamentStatus
 
 
 class Tournament(models.Model):
     total_rounds = models.IntegerField()
     start_datetime = models.DateTimeField()
+    name = models.CharField(max_length=50)
+    status = models.CharField(
+        max_length=50, default=TournamentStatus.CAN_JOIN.value)
 
     @classmethod
-    def create_tournament(cls, total_rounds, start_datetime_str, name, status):
+    def create_tournament(cls, total_rounds, start_datetime_str, name):
         start_datetime = cls._get_start_datetime_object(start_datetime_str)
         cls._validate_start_datetime(start_datetime)
         cls._validate_total_rounds(total_rounds)
-        cls.objects.create(total_rounds=total_rounds,
-                           start_datetime=start_datetime)
+        tournament = cls.objects.create(total_rounds=total_rounds,
+                                        start_datetime=start_datetime,
+                                        name=name)
+        return tournament.id
 
     @classmethod
     def get_all_tournaments(cls):
-        return []
+        tournaments = cls.objects.all()
+        return [tournament.get_tournament_dict()
+                for tournament in tournaments]
+
+    def get_tournament_dict(self):
+        from ib_common.date_time_utils.convert_datetime_to_local_string import \
+            convert_datetime_to_local_string
+        from ib_tournament.constants.general import DEFAULT_DATE_TIME_FORMAT
+        return {
+            'id': self.id,
+            'name': self.name,
+            'status': self.status,
+            'start_datetime': convert_datetime_to_local_string(
+                self.start_datetime, DEFAULT_DATE_TIME_FORMAT),
+            'total_rounds': self.total_rounds
+        }
 
     @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):

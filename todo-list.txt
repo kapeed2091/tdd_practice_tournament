@@ -1,6 +1,6 @@
-Usecases: Total time: 13 hrs
+Usecases: Total time: 13 hrs + 1 hr
    - User can create a knock-out tournament with configurable number of rounds and start datetime - 2: 30 hrs
-   - User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status) - 1 hr
+   - User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status) - 1 hr + 1 hr
    - User can subscribe to a tournament which is not yet started - 1: 30 hrs
    - User can play matches once the tournament is started - 3: 00 hrs
        - User will submit his score in the match
@@ -28,6 +28,9 @@ TODOs:
         - create tournament with rounds non positive
     - get all tournaments
         - get tournaments having tournaments in all states
+        - get tournaments with ordering according to status order:[
+        FULL_YET_TO_START, CAN_JOIN, IN_PROGRESS, COMPLETED] and start_datetime
+        - get tournaments with offset and limit
     - subscribe to tournament
     - play match
     - end match
