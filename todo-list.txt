@@ -20,6 +20,12 @@ Assumptions:
    - list of all tournaments are ordered in descending order wrt start_datetime
 
 ToDo List:
+    User can play matches once the tournament is started
+       - [start tournament when start datetime is reached]
+            - change tournament status
+            - create matches
+       - play match
+       - User will submit his score in the match
 
 Completed List
     User can create a knock-out tournament with configurable number of rounds and start datetime
