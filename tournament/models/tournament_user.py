@@ -7,4 +7,4 @@ class TournamentUser(models.Model):
 
     @classmethod
     def subscribe_to_tournament(cls, user_id, tournament_id):
-        pass
+        cls.objects.create(user_id=user_id, tournament_id=tournament_id)
