@@ -20,7 +20,8 @@ class TestUserSubscribeToTournament(TestCase):
     def test_user_subscribe_to_tournament(self):
         self._populate_user()
 
-        TournamentUser.subscribe_user_to_tournamament(
+        from tournament.models.tournament_user import TournamentUser
+        TournamentUser.subscribe_user_to_tournament(
             tournament_id=self.tournament.id, username=self.username)
         self._validate_user_subscribed()
 
@@ -29,5 +30,6 @@ class TestUserSubscribeToTournament(TestCase):
         User.objects.create(username=self.username)
 
     def _validate_user_subscribed(self):
+        from tournament.models.tournament_user import TournamentUser
         TournamentUser.objects.get(user__username=self.username,
-                                   tourmament_id=self.tournament.id)
+                                   tournament_id=self.tournament.id)

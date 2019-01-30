@@ -1,4 +1,5 @@
 from .tournament import Tournament
 from .user import User
-__all__ = ['Tournament', 'User']
+from .tournament_user import TournamentUser
+__all__ = ['Tournament', 'User', 'TournamentUser']
 
