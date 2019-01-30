@@ -6,7 +6,7 @@
       5. Encapsulation of methods
       6. Refactor: Wrong Name for user_id_length in Tournament model
 - User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)
-      [1. User can all the tournaments]
+      1. User can all the tournaments
       2. Should we validate user_id??
 - User can subscribe to a tournament which is not yet started
 - User can play matches once the tournament is started
@@ -18,4 +18,4 @@
 
 Additional TODO's
 - If we include status, how should the field get_updated?
-- Should make tournament_name mandatory for 1st use-case
+[- Should make tournament_name mandatory for 1st use-case]
