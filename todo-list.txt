@@ -2,7 +2,6 @@ Usecases:
 
 Yet to do:
    - User can create a knock-out tournament with configurable number of rounds and start datetime
-        - User should be registered with us to create a tournament
         - Tournament status should be CAN_JOIN when created
         - Tournament id (t_id) should be unique
    - User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)
@@ -19,6 +18,7 @@ Completed:
         - Number of rounds should be non-negative integer
         - Number of rounds should be int type
         - Start datetime must be greater than now
+        - User should be registered with us to create a tournament
 
 Raise Appropriate custom exceptions wherever necessary
 
@@ -31,9 +31,11 @@ Assumptions:
 
 My Assumptions:
    - Tournament name length is less than 30
-   - Changed id field in tournament to t_id
+   - Changed id field in tournament to t_id with max length 20
    - Timezone warning is reported in terminal, couldn't find suitable way to handle it
    - default status of tournament is CAN_JOIN
+   - Userprofile has extra field user_id which is unique
+   - user_id max length is 20
 
 Time estimate:
    - Hrs - 2, 0.5, 1, 2, 2, 1, 0.5, 1, buffer 3

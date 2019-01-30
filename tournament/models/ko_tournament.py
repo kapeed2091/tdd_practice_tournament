@@ -15,6 +15,7 @@ class KOTournament(models.Model):
     @classmethod
     def create_tournament(cls, user_id, t_id, name, number_of_rounds,
                           start_datetime, status):
+        cls.is_registered_user(user_id=user_id)
         cls.is_valid_number_of_rounds(number_of_rounds=number_of_rounds)
         cls.is_start_datetime_in_past(start_datetime=start_datetime)
         tournament = cls.create_tournament_in_db(
@@ -56,3 +57,11 @@ class KOTournament(models.Model):
     def is_non_int_type(number_of_rounds):
         if type(number_of_rounds) != int:
             raise Exception('Float type number of rounds given')
+
+    @staticmethod
+    def is_registered_user(user_id):
+        from tournament.models import UserProfile
+        try:
+            UserProfile.get_user(user_id=user_id)
+        except models.ObjectDoesNotExist:
+            raise Exception('User not registered to create tournament')

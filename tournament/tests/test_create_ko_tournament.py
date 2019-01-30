@@ -20,7 +20,8 @@ class TestCreateKOTournament(TestCase):
             'status': 'CAN_JOIN'
         }
 
-        from tournament.models import KOTournament
+        from tournament.models import KOTournament, UserProfile
+        UserProfile.objects.create(user_id=user_id)
         tournament_details = KOTournament.create_tournament(
             user_id=user_id, t_id=t_id, name=tournament_name,
             number_of_rounds=number_of_rounds,
@@ -30,7 +31,7 @@ class TestCreateKOTournament(TestCase):
 
     def testcase_non_positive_number_of_rounds(self):
         import datetime
-        from tournament.models import KOTournament
+        from tournament.models import KOTournament, UserProfile
 
         user_id = 'user_1'
         t_id = '1'
@@ -40,6 +41,7 @@ class TestCreateKOTournament(TestCase):
         start_datetime = datetime.datetime(2019, 1, 30, 15, 00, 00)
         status = 'CAN_JOIN'
 
+        UserProfile.objects.create(user_id=user_id)
         with self.assertRaisesMessage(
                 Exception,
                 expected_message='Non-positive number of rounds given'):
@@ -58,7 +60,7 @@ class TestCreateKOTournament(TestCase):
 
     def testcase_float_number_of_rounds(self):
         import datetime
-        from tournament.models import KOTournament
+        from tournament.models import KOTournament, UserProfile
 
         user_id = 'user_1'
         t_id = '1'
@@ -67,6 +69,7 @@ class TestCreateKOTournament(TestCase):
         start_datetime = datetime.datetime(2019, 1, 30, 15, 00, 00)
         status = 'CAN_JOIN'
 
+        UserProfile.objects.create(user_id=user_id)
         with self.assertRaisesMessage(
                 Exception,
                 expected_message='Float type number of rounds given'):
@@ -77,7 +80,7 @@ class TestCreateKOTournament(TestCase):
 
     def testcase_start_datetime_is_greater_than_current_time(self):
         import datetime
-        from tournament.models import KOTournament
+        from tournament.models import KOTournament, UserProfile
 
         user_id = 'user_1'
         t_id = '1'
@@ -86,6 +89,7 @@ class TestCreateKOTournament(TestCase):
         start_datetime = datetime.datetime(2019, 1, 30, 01, 00, 00)
         status = 'CAN_JOIN'
 
+        UserProfile.objects.create(user_id=user_id)
         with self.assertRaisesMessage(
                 Exception,
                 expected_message='Start datetime is less than current time'):
