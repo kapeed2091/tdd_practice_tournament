@@ -29,7 +29,13 @@ class KOTournament(models.Model):
         return tournament.convert_to_dict()
 
     @classmethod
-    def get_all_tournaments(cls):
+    def get_all_tournaments(cls, user_id):
+        try:
+            from tournament.models import UserProfile
+            UserProfile.get_user(user_id=user_id)
+        except:
+            raise Exception('User not registered')
+
         tournaments = cls.all_tournaments()
 
         all_tournaments = list()

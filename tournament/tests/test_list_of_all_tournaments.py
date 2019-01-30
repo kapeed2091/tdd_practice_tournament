@@ -4,9 +4,11 @@ from django.test import TestCase
 class TestListAllTournaments(TestCase):
 
     def testcase_list_all_tournaments_when_no_tournaments(self):
-        from tournament.models import KOTournament
+        from tournament.models import KOTournament, UserProfile
+        user_id = 'user_1'
 
-        all_tournaments = KOTournament.get_all_tournaments()
+        UserProfile.objects.create(user_id=user_id)
+        all_tournaments = KOTournament.get_all_tournaments(user_id=user_id)
         self.assertEquals(all_tournaments, [])
 
     def testcase_list_all_tournaments(self):
@@ -56,7 +58,8 @@ class TestListAllTournaments(TestCase):
             number_of_rounds=number_of_rounds,
             start_datetime=start_datetime_2, status=status)
 
-        actual_all_tournaments = KOTournament.get_all_tournaments()
+        actual_all_tournaments = KOTournament.get_all_tournaments(
+            user_id=user_id)
 
         import deepdiff
         diff = deepdiff.DeepDiff(expected_all_tournaments,
