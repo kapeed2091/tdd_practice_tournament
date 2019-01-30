@@ -16,7 +16,11 @@ class Tournament(models.Model):
             self.start_date_time.strftime("%Y-%m-%d %H:%M:%S")
 
         return {"no_of_rounds": self.no_of_rounds,
-                "start_datetime": start_datetime_str}
+                "start_datetime": start_datetime_str,
+                "id": self.id,
+                "name": self.name,
+                "status": self.status
+                }
 
     @classmethod
     def create_tournament(cls, no_of_rounds, start_date_time, username):
@@ -45,4 +49,12 @@ class Tournament(models.Model):
 
     @classmethod
     def get_all_tournaments(cls):
-        return []
+        tournament_objs = cls.objects.all().order_by('-start_date_time')
+
+        tournaments = []
+
+        for tournament_obj in tournament_objs:
+            tournaments.append(tournament_obj.convert_tournament_to_dict())
+
+        return tournaments
+
