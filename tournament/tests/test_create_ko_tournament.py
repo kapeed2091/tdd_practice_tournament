@@ -74,3 +74,22 @@ class TestCreateKOTournament(TestCase):
                 user_id=user_id, t_id=t_id, name=tournament_name,
                 number_of_rounds=number_of_rounds,
                 start_datetime=start_datetime, status=status)
+
+    def testcase_start_datetime_is_greater_than_current_time(self):
+        import datetime
+        from tournament.models import KOTournament
+
+        user_id = 'user_1'
+        t_id = '1'
+        tournament_name = 'tournament_1'
+        number_of_rounds = 2
+        start_datetime = datetime.datetime(2019, 1, 30, 01, 00, 00)
+        status = 'CAN_JOIN'
+
+        with self.assertRaisesMessage(
+                Exception,
+                expected_message='Start datetime is less than current time'):
+            KOTournament.create_tournament(
+                user_id=user_id, t_id=t_id, name=tournament_name,
+                number_of_rounds=number_of_rounds,
+                start_datetime=start_datetime, status=status)
