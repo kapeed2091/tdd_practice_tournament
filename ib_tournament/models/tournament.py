@@ -40,8 +40,14 @@ class Tournament(models.Model):
     @classmethod
     def subscribe_to_tournament(cls, tournament_id, player_id):
         from ib_tournament.models import TournamentPlayer
+        tournament = cls.get_tournament(tournament_id)
+        tournament.validate_tournament_state_to_subscribe()
         TournamentPlayer.create_tournament_player(tournament_id, player_id)
         return
+
+    @classmethod
+    def get_tournament(cls, tournament_id):
+        return cls.objects.get(id=tournament_id)
 
     @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
@@ -100,3 +106,13 @@ class Tournament(models.Model):
     def _get_tournament_details(cls, tournaments):
         return [tournament.get_tournament_dict()
                 for tournament in tournaments]
+
+    def validate_tournament_state_to_subscribe(self):
+        from ib_tournament.constants.general import TournamentStatus
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            INVALID_TOURNAMENT_STATE
+
+        if self.status != TournamentStatus.CAN_JOIN.value:
+            raise BadRequest(*INVALID_TOURNAMENT_STATE)
+        return
