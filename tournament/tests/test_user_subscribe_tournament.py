@@ -4,6 +4,7 @@ from django.test import TestCase
 class TestUserSubscribeToTournament(TestCase):
     username = "user1"
     tournament = None
+    user = None
 
     def setUp(self):
         from datetime import datetime, timedelta
@@ -31,11 +32,26 @@ class TestUserSubscribeToTournament(TestCase):
             TournamentUser.subscribe_user_to_tournament(
                 tournament_id=self.tournament.id, username="user")
 
+    def test_user_already_subscribed(self):
+        self._populate_user()
+        self._subscribe_user_to_tournament()
+
+        with self.assertRaisesMessage(
+                Exception, "User already subscribed to given tournament"):
+            from tournament.models.tournament_user import TournamentUser
+            TournamentUser.subscribe_user_to_tournament(
+                tournament_id=self.tournament.id, username=self.username)
+
     def _populate_user(self):
         from tournament.models.user import User
-        User.objects.create(username=self.username)
+        self.user = User.objects.create(username=self.username)
 
     def _validate_user_subscribed(self):
         from tournament.models.tournament_user import TournamentUser
         TournamentUser.objects.get(user__username=self.username,
                                    tournament_id=self.tournament.id)
+
+    def _subscribe_user_to_tournament(self):
+        from tournament.models import TournamentUser
+        TournamentUser.objects.create(
+            tournament_id=self.tournament.id, user_id=self.user.id)

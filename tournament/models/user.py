@@ -15,4 +15,7 @@ class User(models.Model):
 
     @classmethod
     def get_user_id(cls, username):
-        return cls.objects.get(username=username).id
+        try:
+            return cls.objects.get(username=username).id
+        except cls.DoesNotExist:
+            raise Exception("Invalid user")
