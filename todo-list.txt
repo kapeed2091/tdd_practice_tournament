@@ -29,6 +29,7 @@ TODOs:
         - create tournament by user -- DONE
         - invalid user_id while create tournament
         - refactor testcases --> don't use internal functions
+        - remove create_tournament (incorrect implementation)
     - user can get all tournaments
         - get tournaments having tournaments in all states -- DONE
         - get tournaments with ordering according to status order:[

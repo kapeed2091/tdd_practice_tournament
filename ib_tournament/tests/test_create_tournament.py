@@ -81,3 +81,19 @@ class TestCreateTournament(TestCase):
         with self.assertRaisesMessage(BadRequest, "Invalid total rounds"):
             Tournament.create_tournament(
                 total_rounds, start_datetime_str, self.name)
+
+    def test_invalid_user(self):
+        from ib_tournament.models import Tournament
+
+        total_rounds = 3
+        start_datetime_str = self.get_next_day_datetime()
+
+        tournament_details = {
+            'name': self.name,
+            'total_rounds': total_rounds,
+            'start_datetime_str': start_datetime_str
+        }
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        with self.assertRaisesMessage(BadRequest, "Invalid User"):
+            Tournament.create_tournament_by_player(
+                player_id=2324, tournament_details=tournament_details)
