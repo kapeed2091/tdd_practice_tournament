@@ -44,7 +44,7 @@ class TestGetTournament(TestCase):
             Tournament.objects.create(
                 name=tournament['name'],
                 no_of_rounds=tournament['no_of_rounds'],
-                start_date_time=tournament['start_datetime'],
+                start_datetime=tournament['start_datetime'],
                 status=tournament['status'])
 
     def test_get_all_tournaments(self):

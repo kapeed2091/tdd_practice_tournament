@@ -8,15 +8,15 @@ class TestUserCreateTournament(TestCase):
         from datetime import datetime, timedelta
 
         no_of_rounds = 4
-        start_date_time = datetime.now() + timedelta(days=1)
+        start_datetime = datetime.now() + timedelta(days=1)
         self._populate_user()
 
         from tournament.models.tournament import Tournament
         tournament_details = Tournament.create_tournament(
-            no_of_rounds=no_of_rounds, start_date_time=start_date_time,
+            no_of_rounds=no_of_rounds, start_datetime=start_datetime,
             username=self.username)
 
-        start_date_time_str = start_date_time.strftime("%Y-%m-%d %H:%M:%S")
+        start_date_time_str = start_datetime.strftime("%Y-%m-%d %H:%M:%S")
 
         self.assertEquals(start_date_time_str,
                           tournament_details['start_datetime'])
@@ -31,7 +31,7 @@ class TestUserCreateTournament(TestCase):
         with self.assertRaisesMessage(Exception, "Expected future date time"):
             from tournament.models.tournament import Tournament
             Tournament.create_tournament(
-                no_of_rounds=no_of_rounds, start_date_time=start_datetime,
+                no_of_rounds=no_of_rounds, start_datetime=start_datetime,
                 username=self.username)
 
     def test_user_create_tournament_with_non_positive_rounds(self):
@@ -44,7 +44,7 @@ class TestUserCreateTournament(TestCase):
         with self.assertRaisesMessage(Exception, "Invalid no of rounds"):
             from tournament.models.tournament import Tournament
             Tournament.create_tournament(
-                no_of_rounds=no_of_rounds, start_date_time=start_datetime,
+                no_of_rounds=no_of_rounds, start_datetime=start_datetime,
                 username=self.username)
 
     def test_invalid_user_create_tournament(self):
@@ -56,7 +56,7 @@ class TestUserCreateTournament(TestCase):
         with self.assertRaisesMessage(Exception, "Invalid username"):
             from tournament.models.tournament import Tournament
             Tournament.create_tournament(
-                no_of_rounds=no_of_rounds, start_date_time=start_datetime,
+                no_of_rounds=no_of_rounds, start_datetime=start_datetime,
                 username="user")
 
     def _populate_user(self):

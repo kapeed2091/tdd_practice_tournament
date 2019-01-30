@@ -6,14 +6,14 @@ from tdd_practice.constants.general import TournamentStatus
 class Tournament(models.Model):
     name = models.CharField(max_length=50)
     no_of_rounds = models.IntegerField()
-    start_date_time = models.DateTimeField()
+    start_datetime = models.DateTimeField()
     username = models.CharField(max_length=50)
     status = models.CharField(max_length=20,
                               default=TournamentStatus.CAN_JOIN.value)
 
     def convert_tournament_to_dict(self):
         start_datetime_str = \
-            self.start_date_time.strftime("%Y-%m-%d %H:%M:%S")
+            self.start_datetime.strftime("%Y-%m-%d %H:%M:%S")
 
         return {"no_of_rounds": self.no_of_rounds,
                 "start_datetime": start_datetime_str,
@@ -23,16 +23,16 @@ class Tournament(models.Model):
                 }
 
     @classmethod
-    def create_tournament(cls, no_of_rounds, start_date_time, username):
+    def create_tournament(cls, no_of_rounds, start_datetime, username):
         from .user import User
 
-        cls.validate_start_datetime(start_datetime=start_date_time)
+        cls.validate_start_datetime(start_datetime=start_datetime)
         cls.validate_no_of_rounds(no_of_rounds=no_of_rounds)
         User.validate_username(username=username)
 
         tournament_obj = cls.objects.create(
             no_of_rounds=no_of_rounds,
-            start_date_time=start_date_time, username=username)
+            start_datetime=start_datetime, username=username)
 
         return tournament_obj.convert_tournament_to_dict()
 
@@ -49,7 +49,7 @@ class Tournament(models.Model):
 
     @classmethod
     def get_all_tournaments(cls):
-        tournament_objs = cls.objects.all().order_by('-start_date_time')
+        tournament_objs = cls.objects.all().order_by('-start_datetime')
 
         tournaments = []
 
