@@ -12,14 +12,11 @@ class Tournament(models.Model):
                               default=TournamentStatus.CAN_JOIN.value)
 
     def convert_tournament_to_dict(self):
-        start_datetime_str = \
-            self.start_datetime.strftime("%Y-%m-%d %H:%M:%S")
-
         return {"no_of_rounds": self.no_of_rounds,
-                "start_datetime": start_datetime_str,
+                "start_datetime": self.start_datetime,
                 "id": self.id,
-                "name": self.name,
-                "status": self.status
+                "name": str(self.name),
+                "status": str(self.status)
                 }
 
     @classmethod
@@ -38,8 +35,12 @@ class Tournament(models.Model):
 
     @classmethod
     def validate_start_datetime(cls, start_datetime):
-        from datetime import datetime
-        if datetime.now() > start_datetime:
+        from ib_common.date_time_utils.get_current_local_date_time \
+            import get_current_local_date_time
+
+        curr_datetime = get_current_local_date_time()
+
+        if curr_datetime > start_datetime:
             raise Exception("Expected future date time")
 
     @classmethod

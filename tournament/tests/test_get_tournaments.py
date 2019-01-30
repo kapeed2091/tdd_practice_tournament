@@ -2,9 +2,11 @@ from django.test import TestCase
 
 
 class TestGetTournament(TestCase):
-    from datetime import datetime, timedelta
+    from datetime import timedelta
+    from ib_common.date_time_utils.get_current_local_date_time \
+        import get_current_local_date_time
 
-    curr_datetime = datetime.now()
+    curr_datetime = get_current_local_date_time()
     username = "user1"
     tournaments_data = [
         {
@@ -50,9 +52,8 @@ class TestGetTournament(TestCase):
     def test_get_all_tournaments(self):
         from tournament.models import Tournament
         tournaments = Tournament.get_all_tournaments()
-
         from deepdiff import DeepDiff
-        self.assertTrue(DeepDiff(self.get_expected_tournaments(), tournaments))
+        self.assertEquals({}, DeepDiff(self.tournaments_data, tournaments))
 
     def get_expected_tournaments(self):
         expected_tournaments = []

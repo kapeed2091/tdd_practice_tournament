@@ -20,9 +20,13 @@ Assumptions:
    - list of all tournaments are ordered in descending order wrt start_datetime
 
 ToDo List:
-    User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)
-    - invalid username
-
+  - User can subscribe to a tournament which is not yet started
+    - [user subscribing to tournament]
+    - user does not exist
+    - user already subscribed
+    - tournament not in CAN_JOIN  status
+    - invalid tournament
+    - when last member joins the tournament change the status to FULL_YET_TO_START
 Completed List
     User can create a knock-out tournament with configurable number of rounds and start datetime
         - create knock-out tournament
