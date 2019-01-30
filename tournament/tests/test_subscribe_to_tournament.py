@@ -47,3 +47,24 @@ class TestSubscribeToTournament(TestCase):
         with self.assertRaisesMessage(
                 Exception, expected_message='Tournament doesnot exist'):
             TournamentUser.subscribe_to_tournament(user_id, tournament_id)
+
+    def testcase_subscribe_to_tournament_after_start_datetime(self):
+        from tournament.models import TournamentUser, UserProfile, KOTournament
+        import datetime
+        from ib_common.date_time_utils.get_current_local_date_time \
+            import get_current_local_date_time
+
+        start_datetime = \
+            get_current_local_date_time() + datetime.timedelta(minutes=-10)
+        user_id = 'user_1'
+        tournament_id = 'tournament_1'
+
+        UserProfile.objects.create(user_id=user_id)
+        KOTournament.objects.create(
+            t_id=tournament_id, name='tournament_name_1', number_of_rounds=2,
+            start_datetime=start_datetime)
+
+        with self.assertRaisesMessage(
+                Exception, expected_message='Tournament has started'):
+            TournamentUser.subscribe_to_tournament(user_id=user_id,
+                                                   tournament_id=tournament_id)
