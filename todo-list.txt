@@ -27,6 +27,7 @@ TODOs:
         - create tournament with invalid datetime(yesterday's date)
         - create tournament with rounds non positive
     - get all tournaments
+        - get tournaments having tournaments in all states
     - subscribe to tournament
     - play match
     - end match
