@@ -60,7 +60,10 @@ class TestSubscribeToTournament(TestCase):
     def test_case_user_registering_tournament_which_is_full(self):
         from tournament.models import UserTournament
         self.create_user()
-        self.create_tournament(user_id=self.user.id)
+        self.create_tournament(
+            user_id=self.user.id,
+            status=TournamentStatus.FULL_YET_TO_START.value
+        )
 
         from tournament.exceptions.exceptions import \
             InvalidFullYetToStartRegister

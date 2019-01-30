@@ -16,3 +16,7 @@ class InvalidTournamentId(Exception):
 
 class UserAlreadyRegistered(Exception):
     pass
+
+
+class InvalidFullYetToStartRegister(Exception):
+    pass
