@@ -8,3 +8,7 @@ class InvalidStartDateTime(Exception):
 
 class InvalidTotalRounds(Exception):
     pass
+
+
+class InvalidTournamentId(Exception):
+    pass
