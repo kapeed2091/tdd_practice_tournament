@@ -21,9 +21,7 @@ Assumptions:
 
 ToDo List:
     User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)
-    - [get list of all tournaments]
     - invalid username
-    -
 
 Completed List
     User can create a knock-out tournament with configurable number of rounds and start datetime
@@ -31,5 +29,7 @@ Completed List
         - Accept only future date time for start datetime
         - accept only positive integer for no_of_rounds
         - invalid user
+    User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)
+        - get list of all tournaments
 Time Estimation: 10 Hours
 Updated Time Estimation: 12 Hours
