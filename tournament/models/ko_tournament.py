@@ -15,6 +15,7 @@ class KOTournament(models.Model):
     @classmethod
     def create_tournament(cls, user_id, t_id, name, number_of_rounds,
                           start_datetime, status):
+        cls.is_available_t_id(t_id=t_id)
         cls.is_registered_user(user_id=user_id)
         cls.is_valid_number_of_rounds(number_of_rounds=number_of_rounds)
         cls.is_start_datetime_in_past(start_datetime=start_datetime)
@@ -65,3 +66,9 @@ class KOTournament(models.Model):
             UserProfile.get_user(user_id=user_id)
         except models.ObjectDoesNotExist:
             raise Exception('User not registered to create tournament')
+
+    @classmethod
+    def is_available_t_id(cls, t_id):
+        tournaments = cls.objects.filter(t_id=t_id)
+        if len(tournaments) > 0:
+            raise Exception('Tournaments with same t_id cannot be created')
