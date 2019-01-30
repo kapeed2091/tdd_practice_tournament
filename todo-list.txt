@@ -22,16 +22,16 @@ TODOs:
     - create user
         - create user with username
         - no two users can have same username
-    - create tournament with configurable number of rounds and start datetime
+    - user can create tournament with configurable number of rounds and start datetime
         - create tournament
         - create tournament with invalid datetime(yesterday's date)
         - create tournament with rounds non positive
-    - get all tournaments
+    - user can get all tournaments
         - get tournaments having tournaments in all states
         - get tournaments with ordering according to status order:[
         FULL_YET_TO_START, CAN_JOIN, IN_PROGRESS, COMPLETED] and start_datetime
         - get tournaments with offset and limit -- NOT LISTED IN USECASE
-    - subscribe to tournament
+    - user can subscribe to tournament
         - user subscribing to tournament
         - user can only subscribe to CAN_JOIN tournaments
         - tournament_status should change to FULL_YET_TO_START if max users subscribed
