@@ -17,10 +17,10 @@ class KOTournament(models.Model):
     @classmethod
     def create_tournament(cls, user_id, name, number_of_rounds,
                           start_datetime, status):
-        cls.is_registered_user(user_id=user_id)
-        cls.is_valid_number_of_rounds(number_of_rounds=number_of_rounds)
-        cls.is_start_datetime_in_past(start_datetime=start_datetime)
-        cls.is_valid_creation_status(status=status)
+        cls.validate_create_request(
+            user_id=user_id, number_of_rounds=number_of_rounds,
+            start_datetime=start_datetime, status=status)
+
         t_id = cls.generate_t_id()
         tournament = cls.assign_t_id_to_tournament(
             t_id=t_id, name=name, number_of_rounds=number_of_rounds,
@@ -30,17 +30,9 @@ class KOTournament(models.Model):
 
     @classmethod
     def get_all_tournaments(cls, user_id):
-        try:
-            from tournament.models import UserProfile
-            UserProfile.get_user(user_id=user_id)
-        except:
-            raise Exception('User not registered')
-
+        cls.is_registered_user(user_id=user_id)
         tournaments = cls.all_tournaments()
-
-        all_tournaments = list()
-        for tournament in tournaments:
-            all_tournaments.append(tournament.convert_to_dict())
+        all_tournaments = cls.all_tournaments_list(tournaments=tournaments)
 
         return all_tournaments
 
@@ -55,6 +47,14 @@ class KOTournament(models.Model):
         return cls.objects.create(
             t_id=t_id, name=name, number_of_rounds=number_of_rounds,
             start_datetime=start_datetime, status=status)
+
+    @classmethod
+    def validate_create_request(cls, user_id, number_of_rounds, start_datetime,
+                                status):
+        cls.is_registered_user(user_id=user_id)
+        cls.is_valid_number_of_rounds(number_of_rounds=number_of_rounds)
+        cls.is_start_datetime_in_past(start_datetime=start_datetime)
+        cls.is_valid_creation_status(status=status)
 
     def convert_to_dict(self):
         return {'t_id': str(self.t_id), 'name': str(self.name),
@@ -87,11 +87,19 @@ class KOTournament(models.Model):
         try:
             UserProfile.get_user(user_id=user_id)
         except models.ObjectDoesNotExist:
-            raise Exception('User not registered to create tournament')
+            raise Exception('User not registered')
 
     @classmethod
     def all_tournaments(cls):
         return cls.objects.all()
+
+    @classmethod
+    def all_tournaments_list(cls, tournaments):
+        all_tournaments = list()
+        for tournament in tournaments:
+            all_tournaments.append(tournament.convert_to_dict())
+
+        return all_tournaments
 
     @staticmethod
     def is_non_positive(number_of_rounds):

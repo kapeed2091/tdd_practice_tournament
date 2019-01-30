@@ -131,7 +131,7 @@ class TestCreateKOTournament(TestCase):
 
         with self.assertRaisesMessage(
                 Exception,
-                expected_message='User not registered to create tournament'):
+                expected_message='User not registered'):
             KOTournament.create_tournament(
                 user_id=user_id, name=tournament_name,
                 number_of_rounds=number_of_rounds,
