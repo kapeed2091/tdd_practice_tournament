@@ -1,4 +1,5 @@
 from django.test import TestCase
+from tournament.constants.general import TournamentStatus
 
 
 class TestSubscribeToTournament(TestCase):
@@ -56,7 +57,20 @@ class TestSubscribeToTournament(TestCase):
                 user_id=self.user.id, tournament_id=self.tournament.id
             )
 
-    def create_tournament(self, user_id):
+    def test_case_user_registering_tournament_which_is_full(self):
+        from tournament.models import UserTournament
+        self.create_user()
+        self.create_tournament(user_id=self.user.id)
+
+        from tournament.exceptions.exceptions import \
+            InvalidFullYetToStartRegister
+        with self.assertRaises(InvalidFullYetToStartRegister):
+            UserTournament.subscribe_to_tournament(
+                user_id=self.user.id, tournament_id=self.tournament.id
+            )
+
+    def create_tournament(
+            self, user_id, status=TournamentStatus.CAN_JOIN.value):
         from tournament.models import Tournament
 
         total_rounds = 4
@@ -72,7 +86,8 @@ class TestSubscribeToTournament(TestCase):
         tournament = Tournament.objects.create(
             user_id=user_id,
             total_rounds=total_rounds,
-            start_datetime=start_datetime
+            start_datetime=start_datetime,
+            status=status
         )
         self.tournament = tournament
 
