@@ -146,3 +146,21 @@ class TestCreateKOTournament(TestCase):
                 t_id=t_id, name=tournament_name_2,
                 number_of_rounds=number_of_rounds_2,
                 start_datetime=start_datetime, status=status)
+
+    def testcase_status_when_tournament_created(self):
+        import datetime
+        from tournament.models import KOTournament, UserProfile
+
+        user_id = 'user_1'
+        t_id = '1'
+        tournament_name = 'tournament_1'
+        number_of_rounds = 2
+        start_datetime = datetime.datetime(2019, 1, 30, 15, 00, 00)
+        status = 'COMPLETED'
+
+        UserProfile.objects.create(user_id=user_id)
+        with self.assertRaises(Exception):
+            KOTournament.create_tournament(
+                user_id=user_id, name=tournament_name,
+                number_of_rounds=number_of_rounds,
+                start_datetime=start_datetime, status=status)
