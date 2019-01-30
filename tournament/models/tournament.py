@@ -50,3 +50,11 @@ class Tournament(models.Model):
         if total_rounds < 1:
             from ..exceptions.exceptions import InvalidTotalRounds
             raise InvalidTotalRounds
+
+    @classmethod
+    def validate_tournament_id(cls, tournament_id):
+        tournament_exists = cls.objects.filter(id=tournament_id).exists()
+
+        if not tournament_exists:
+            from ..exceptions.exceptions import InvalidTournamentId
+            raise InvalidTournamentId
