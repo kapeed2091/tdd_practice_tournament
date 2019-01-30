@@ -1,10 +1,15 @@
 from django.db import models
 
+from tdd_practice.constants.general import TournamentStatus
+
 
 class Tournament(models.Model):
+    name = models.CharField(max_length=50)
     no_of_rounds = models.IntegerField()
     start_date_time = models.DateTimeField()
     username = models.CharField(max_length=50)
+    status = models.CharField(max_length=20,
+                              default=TournamentStatus.CAN_JOIN.value)
 
     def convert_tournament_to_dict(self):
         start_datetime_str = \
