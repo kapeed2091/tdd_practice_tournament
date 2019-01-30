@@ -2,6 +2,10 @@ from django.test import TestCase
 
 
 class TestCreateTournament(TestCase):
+    from ib_tournament.constants.general import TournamentStatus
+
+    name = 'Tournament 1'
+    status = TournamentStatus.CAN_JOIN.value
 
     @staticmethod
     def get_next_day_datetime():
@@ -22,7 +26,8 @@ class TestCreateTournament(TestCase):
         total_rounds = 3
         start_datetime_str = self.get_next_day_datetime()
         initial_tournaments_count = Tournament.objects.count()
-        Tournament.create_tournament(total_rounds, start_datetime_str)
+        Tournament.create_tournament(total_rounds, start_datetime_str,
+                                     self.name, self.status)
         tournaments_count = Tournament.objects.count()
 
         self.assertEqual(tournaments_count - initial_tournaments_count, 1)
@@ -41,7 +46,8 @@ class TestCreateTournament(TestCase):
         from ib_tournament.models import Tournament
         from django_swagger_utils.drf_server.exceptions import BadRequest
         with self.assertRaisesMessage(BadRequest, "Invalid Datetime"):
-            Tournament.create_tournament(total_rounds, start_datetime_str)
+            Tournament.create_tournament(total_rounds, start_datetime_str,
+                                         self.name, self.status)
 
     def test_invalid_total_rounds(self):
         from ib_tournament.models import Tournament
@@ -51,4 +57,5 @@ class TestCreateTournament(TestCase):
 
         from django_swagger_utils.drf_server.exceptions import BadRequest
         with self.assertRaisesMessage(BadRequest, "Invalid total rounds"):
-            Tournament.create_tournament(total_rounds, start_datetime_str)
+            Tournament.create_tournament(total_rounds, start_datetime_str,
+                                         self.name, self.status)

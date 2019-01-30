@@ -6,12 +6,16 @@ class Tournament(models.Model):
     start_datetime = models.DateTimeField()
 
     @classmethod
-    def create_tournament(cls, total_rounds, start_datetime_str):
+    def create_tournament(cls, total_rounds, start_datetime_str, name, status):
         start_datetime = cls._get_start_datetime_object(start_datetime_str)
         cls._validate_start_datetime(start_datetime)
         cls._validate_total_rounds(total_rounds)
         cls.objects.create(total_rounds=total_rounds,
                            start_datetime=start_datetime)
+
+    @classmethod
+    def get_all_tournaments(cls):
+        return []
 
     @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
