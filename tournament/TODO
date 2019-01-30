@@ -12,8 +12,8 @@
       1. User can subscribe to a tournament
       2. If User try to subscribe to tournament which has started, throw an exception
       3. If User try to subscribe to tournament which has reached max members, throw an exception
-      [4. If User try to subscribe to the which he already subscribed to, throw an exception]
-      5. Invalid user_id
+      4. If User try to subscribe to the which he already subscribed to, throw an exception
+      [5. Invalid user_id]
       6. Invalid tournament_id
 - User can play matches once the tournament is started
      - User will submit his score in the match
