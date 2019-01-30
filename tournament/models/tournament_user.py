@@ -18,9 +18,7 @@ class TournamentUser(models.Model):
 
         max_participants = KOTournament.get_max_participants_count(
             tournament_obj=tournament_obj)
-
         subscribed_participants = len(cls.objects.filter(t_id=tournament_id))
-
         if subscribed_participants == max_participants:
             raise Exception('Tournament is full')
 

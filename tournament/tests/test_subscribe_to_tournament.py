@@ -121,3 +121,28 @@ class TestSubscribeToTournament(TestCase):
                 Exception, expected_message='Tournament is full'):
             TournamentUser.subscribe_to_tournament(
                 user_id=user_id, tournament_id=tournament_id)
+
+    def testcase_subscribe_to_same_tournament_second_time(self):
+        from tournament.models import TournamentUser, UserProfile, \
+            KOTournament
+        import datetime
+        from ib_common.date_time_utils.get_current_local_date_time \
+            import get_current_local_date_time
+
+        start_datetime = \
+            get_current_local_date_time() + datetime.timedelta(minutes=10)
+        user_id = 'user_1'
+        tournament_id = 'tournament_2'
+
+        UserProfile.objects.create(user_id=user_id)
+        KOTournament.objects.create(
+            t_id=tournament_id, name='tournament_name_2',
+            number_of_rounds=2,
+            start_datetime=start_datetime, status='CAN_JOIN')
+        TournamentUser.subscribe_to_tournament(
+            user_id=user_id, tournament_id=tournament_id)
+
+        with self.assertRaisesMessage(
+                Exception, expected_message='Already Subscribed to Tournament'):
+            TournamentUser.subscribe_to_tournament(
+                user_id=user_id, tournament_id=tournament_id)
