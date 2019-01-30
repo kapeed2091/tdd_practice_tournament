@@ -1,5 +1,6 @@
 import datetime
 from django.test import TestCase
+from django_swagger_utils.drf_server.exceptions import Forbidden
 
 from tournament.utils.date_time_utils import get_current_date_time
 
@@ -15,6 +16,13 @@ class TestSubscribeToTournament(TestCase):
             name='Tournament1',
             no_of_rounds=3,
             start_datetime=now + datetime.timedelta(days=1)
+        )
+
+        KoTournament.objects.create(
+            created_user_id='User',
+            name='Tournament1',
+            no_of_rounds=3,
+            start_datetime=now - datetime.timedelta(days=1)
         )
 
         User.objects.create(
@@ -34,3 +42,9 @@ class TestSubscribeToTournament(TestCase):
         newly_added_obj = newly_added_objs[0]
         self.assertEqual(newly_added_obj.user.user_id, 'User2')
         self.assertEqual(newly_added_obj.tournament.id, 1)
+
+    def test_subscribe_to_tournament_which_has_started(self):
+        from tournament.models import TournamentUser
+
+        with self.assertRaisesMessage(Forbidden, 'Tournament has already started'):
+            TournamentUser.subscribe_to_tournament(user_id='User2', tournament_id=2)
