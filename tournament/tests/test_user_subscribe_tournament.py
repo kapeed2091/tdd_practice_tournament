@@ -25,6 +25,12 @@ class TestUserSubscribeToTournament(TestCase):
             tournament_id=self.tournament.id, username=self.username)
         self._validate_user_subscribed()
 
+    def test_invalid_user_subscribe_to_tournament(self):
+        with self.assertRaisesMessage(Exception, "Invalid user"):
+            from tournament.models.tournament_user import TournamentUser
+            TournamentUser.subscribe_user_to_tournament(
+                tournament_id=self.tournament.id, username="user")
+
     def _populate_user(self):
         from tournament.models.user import User
         User.objects.create(username=self.username)
