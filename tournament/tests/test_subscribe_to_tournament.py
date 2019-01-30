@@ -5,6 +5,7 @@ from tournament.constants.general import TournamentStatus
 class TestSubscribeToTournament(TestCase):
     tournament = None
     user = None
+    user_2 = None
 
     def testcase_subscribe_to_tournament(self):
         from tournament.models import UserTournament
@@ -100,11 +101,28 @@ class TestSubscribeToTournament(TestCase):
                 user_id=self.user.id, tournament_id=self.tournament.id
             )
 
+    def test_case_user_is_last_person_to_join_tournament(self):
+        from tournament.models import UserTournament, Tournament
+        self.create_user()
+        self.create_second_user()
+        self.create_tournament(user_id=self.user.id)
+        self.create_user_tournament()
+
+        UserTournament.subscribe_to_tournament(
+            user_id=self.user_2.id, tournament_id=self.tournament.id
+        )
+
+        tournament = Tournament.objects.get(id=self.tournament.id)
+
+        self.assertEqual(
+            tournament.status, TournamentStatus.FULL_YET_TO_START.value
+        )
+
     def create_tournament(
             self, user_id, status=TournamentStatus.CAN_JOIN.value):
         from tournament.models import Tournament
 
-        total_rounds = 4
+        total_rounds = 1
         start_datetime = "2019-12-12 13:00:00"
 
         from ib_common.date_time_utils.convert_string_to_local_date_time \
@@ -129,6 +147,14 @@ class TestSubscribeToTournament(TestCase):
 
         user = User.objects.create(name=user_name)
         self.user = user
+
+    def create_second_user(self):
+        from tournament.models import User
+
+        user_name = "John Abraham"
+
+        user = User.objects.create(name=user_name)
+        self.user_2 = user
 
     def create_user_tournament(self):
         from tournament.models import UserTournament
