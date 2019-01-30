@@ -82,7 +82,7 @@ class Tournament(models.Model):
         return tournament.id
 
     @classmethod
-    def get_all_tournaments_by_player(cls):
+    def get_all_tournaments_by_player(cls, player_id):
         tournaments = cls._get_all_tournament_objects()
         ordered_tournaments = cls._order_tournaments(tournaments)
         return cls._get_tournament_details(ordered_tournaments)

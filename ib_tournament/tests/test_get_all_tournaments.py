@@ -203,9 +203,13 @@ class TestGetAllTournaments(TestCase):
     def test_get_all_tournaments_by_user(self):
         from ib_tournament.models import Tournament
 
+        username = 'user1'
         tournaments_data = get_all_tournaments()
         self.create_tournaments(tournaments_data)
-        tournaments_list = Tournament.get_all_tournaments_by_player()
+        from ib_tournament.models import Player
+        Player.create_player(username)
+        player = Player.get_player(username)
+        tournaments_list = Tournament.get_all_tournaments_by_player(player.id)
         self.assertEqual(tournaments_list, tournaments_data)
 
     def test_ordered_tournaments(self):
@@ -222,6 +226,7 @@ class TestGetAllTournaments(TestCase):
 
         tournaments_data = get_all_tournaments()
         self.create_tournaments(tournaments_data)
-        tournaments_list = Tournament.get_all_tournaments_by_player(
-            player_id=1234)
-        self.assertEqual(tournaments_list, tournaments_data)
+
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        with self.assertRaisesMessage(BadRequest, "Invalid User"):
+            Tournament.get_all_tournaments_by_player(player_id=1234)
