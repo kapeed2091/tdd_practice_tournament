@@ -6,3 +6,6 @@ class User(models.Model):
 
     user_id = models.CharField(max_length=USER_ID_LENGTH)
 
+    @classmethod
+    def get_user(cls, user_id):
+        return cls.objects.get(user_id=user_id)

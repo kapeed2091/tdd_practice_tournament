@@ -1,9 +1,9 @@
-from .tournament import Tournament
+from .ko_tournament import KoTournament
 from .user import User
 
 
 __all__ = [
-    'Tournament',
+    'KoTournament',
     'User'
 ]
 
