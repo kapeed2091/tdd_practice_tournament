@@ -32,6 +32,28 @@ class TestCreateTournament(TestCase):
 
         self.assertEqual(tournaments_count - initial_tournaments_count, 1)
 
+    def test_create_tournament_by_user(self):
+        from ib_tournament.models import Tournament
+
+        username = 'user1'
+        total_rounds = 3
+        start_datetime_str = self.get_next_day_datetime()
+        initial_tournaments_count = Tournament.objects.count()
+
+        tournament_details = {
+            'name': self.name,
+            'total_rounds': total_rounds,
+            'start_datetime_str': start_datetime_str
+        }
+        from ib_tournament.models import Player
+        Player.create_player(username)
+        player = Player.get_player(username)
+        Tournament.create_tournament_by_player(
+            player_id=player.id, tournament_details=tournament_details)
+        tournaments_count = Tournament.objects.count()
+
+        self.assertEqual(tournaments_count - initial_tournaments_count, 1)
+
     def test_invalid_datetime(self):
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time

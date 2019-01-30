@@ -67,6 +67,17 @@ class Tournament(models.Model):
         return
 
     @classmethod
+    def create_tournament_by_player(cls, player_id, tournament_details):
+        total_rounds = tournament_details['total_rounds']
+        start_datetime = cls._get_start_datetime_object(
+            tournament_details['start_datetime_str'])
+        cls._validate_start_datetime(start_datetime)
+        cls._validate_total_rounds(total_rounds)
+        tournament = cls._create_tournament_object(
+            total_rounds, start_datetime, tournament_details['name'])
+        return tournament.id
+
+    @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
         from ib_common.date_time_utils.convert_string_to_local_date_time \
             import convert_string_to_local_date_time
