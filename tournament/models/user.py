@@ -12,3 +12,7 @@ class User(models.Model):
     @classmethod
     def is_username_does_not_exist(cls, username):
         return not cls.objects.filter(username=username).exists()
+
+    @classmethod
+    def get_user_id(cls, username):
+        return cls.objects.get(username=username).id
