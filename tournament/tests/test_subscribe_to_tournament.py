@@ -102,3 +102,9 @@ class TestSubscribeToTournament(TestCase):
 
         with self.assertRaisesMessage(BadRequest, 'Invalid user id'):
             TournamentUser.subscribe_to_tournament(user_id='User10', tournament_id=3)
+
+    def test_subscribe_to_tournament_with_wrong_tournament_id(self):
+        from tournament.models import TournamentUser
+
+        with self.assertRaisesMessage(BadRequest, 'Invalid tournament id'):
+            TournamentUser.subscribe_to_tournament(user_id='User2', tournament_id=10)
