@@ -2,7 +2,6 @@ Usecases:
 
 Yet to do:
    - User can subscribe to a tournament which is not yet started
-        - Cannot subscribe if user is not registered
         - Cannot subscribe if tournament doesn't exist
         - Cannot subscribe if tournament is full
         - Cannot subscribe if tournament has started or completed
@@ -27,6 +26,8 @@ Completed:
    - User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)
         - Should return empty list if no tournaments
         - User should be registered
+   - User can subscribe to a tournament which is not yet started
+        - Cannot subscribe if user is not registered
 
 Raise Appropriate custom exceptions wherever necessary
 

@@ -27,3 +27,13 @@ class TestSubscribeToTournament(TestCase):
         with self.assertRaisesMessage(
                 Exception, expected_message='User not registered'):
             TournamentUser.subscribe_to_tournament(user_id, tournament_id)
+
+    def testcase_tournament_should_exist_to_subscribe(self):
+        from tournament.models import TournamentUser, UserProfile
+        user_id = 'user_1'
+        tournament_id = 'tournament_1'
+
+        UserProfile.objects.create(user_id=user_id)
+        with self.assertRaisesMessage(
+                Exception, expected_message='Tournament doesnot exist'):
+            TournamentUser.subscribe_to_tournament(user_id, tournament_id)
