@@ -20,6 +20,12 @@ class TestCreateTournament(TestCase):
         return convert_datetime_to_local_string(
             next_day_datetime, DEFAULT_DATE_TIME_FORMAT)
 
+    @staticmethod
+    def create_player(username):
+        from ib_tournament.models import Player
+        player = Player.objects.create(username=username)
+        return player.id
+
     def test_create_tournament(self):
         from ib_tournament.models import Tournament
 
@@ -45,11 +51,9 @@ class TestCreateTournament(TestCase):
             'total_rounds': total_rounds,
             'start_datetime_str': start_datetime_str
         }
-        from ib_tournament.models import Player
-        Player.create_player(username)
-        player = Player.get_player(username)
+        player_id = self.create_player(username)
         Tournament.create_tournament_by_player(
-            player_id=player.id, tournament_details=tournament_details)
+            player_id=player_id, tournament_details=tournament_details)
         tournaments_count = Tournament.objects.count()
 
         self.assertEqual(tournaments_count - initial_tournaments_count, 1)

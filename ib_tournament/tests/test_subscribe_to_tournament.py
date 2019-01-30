@@ -20,9 +20,22 @@ class TestSubscribeToTournament(TestCase):
     @staticmethod
     def create_player(username):
         from ib_tournament.models import Player
-        Player.create_player(username)
-        player = Player.get_player(username)
+        player = Player.objects.create(username=username)
         return player.id
+
+    @staticmethod
+    def create_tournament(tournament_details):
+        from ib_tournament.models import Tournament
+        from ib_common.date_time_utils.convert_string_to_local_date_time \
+            import convert_string_to_local_date_time
+        from ib_tournament.constants.general import DEFAULT_DATE_TIME_FORMAT
+
+        start_datetime = convert_string_to_local_date_time(
+            tournament_details['start_datetime'], DEFAULT_DATE_TIME_FORMAT)
+        tournament = Tournament.objects.create(
+            total_rounds=tournament_details['total_rounds'],
+            start_datetime=start_datetime, name=tournament_details['name'])
+        return tournament.id
 
     @staticmethod
     def update_tournament_status(tournament_id, status):
@@ -35,25 +48,32 @@ class TestSubscribeToTournament(TestCase):
         from ib_tournament.models import Tournament, TournamentPlayer
 
         player_id = self.create_player(self.username)
-        tournament_id = Tournament.create_tournament(
-            total_rounds=2, start_datetime_str=get_next_day_datetime_str(),
-            name='Tournament 1')
+        tournament_details = {
+            'total_rounds': 2,
+            'start_datetime': get_next_day_datetime_str(),
+            'name': 'Tournament 1'
+        }
+        tournament_id = self.create_tournament(tournament_details)
+        pre_tournament_players_count = TournamentPlayer.objects.filter(
+            tournament_id=tournament_id, player_id=player_id).count()
         Tournament.subscribe_to_tournament(
             tournament_id=tournament_id, player_id=player_id)
-        tournament_player = TournamentPlayer.get_tournament_player(
-            tournament_id=tournament_id, player_id=player_id)
-        tournament_player_dict = tournament_player.get_tournament_player_dict()
-        self.assertEqual(tournament_player_dict['tournament_id'], tournament_id)
-        self.assertEqual(tournament_player_dict['player_id'], player_id)
+        post_tournament_players_count = TournamentPlayer.objects.filter(
+            tournament_id=tournament_id, player_id=player_id).count()
+        self.assertEqual(
+            post_tournament_players_count - pre_tournament_players_count, 1)
 
     def test_player_can_subscribe_to_can_join_tournaments(self):
         from ib_tournament.models import Tournament
         from ib_tournament.constants.general import TournamentStatus
 
         player_id = self.create_player(self.username)
-        tournament_id = Tournament.create_tournament(
-            total_rounds=2, start_datetime_str=get_next_day_datetime_str(),
-            name='Tournament 1')
+        tournament_details = {
+            'total_rounds': 2,
+            'start_datetime': get_next_day_datetime_str(),
+            'name': 'Tournament 1'
+        }
+        tournament_id = self.create_tournament(tournament_details)
         self.update_tournament_status(
             tournament_id, TournamentStatus.FULL_YET_TO_START.value)
 
@@ -64,9 +84,12 @@ class TestSubscribeToTournament(TestCase):
 
     def test_player_is_invalid(self):
         from ib_tournament.models import Tournament
-        tournament_id = Tournament.create_tournament(
-            total_rounds=2, start_datetime_str=get_next_day_datetime_str(),
-            name='Tournament 1')
+        tournament_details = {
+            'total_rounds': 2,
+            'start_datetime': get_next_day_datetime_str(),
+            'name': 'Tournament 1'
+        }
+        tournament_id = self.create_tournament(tournament_details)
 
         from django_swagger_utils.drf_server.exceptions import BadRequest
         with self.assertRaisesMessage(
@@ -77,9 +100,12 @@ class TestSubscribeToTournament(TestCase):
         from ib_tournament.models import Tournament
 
         player_id = self.create_player(self.username)
-        tournament_id = Tournament.create_tournament(
-            total_rounds=2, start_datetime_str=get_next_day_datetime_str(),
-            name='Tournament 1')
+        tournament_details = {
+            'total_rounds': 2,
+            'start_datetime': get_next_day_datetime_str(),
+            'name': 'Tournament 1'
+        }
+        tournament_id = self.create_tournament(tournament_details)
         Tournament.subscribe_to_tournament(
             tournament_id=tournament_id, player_id=player_id)
         from django_swagger_utils.drf_server.exceptions import BadRequest
@@ -104,9 +130,12 @@ class TestSubscribeToTournament(TestCase):
         for username in player_usernames:
             player_ids.append(self.create_player(username))
 
-        tournament_id = Tournament.create_tournament(
-            total_rounds=2, start_datetime_str=get_next_day_datetime_str(),
-            name='Tournament 1')
+        tournament_details = {
+            'total_rounds': 2,
+            'start_datetime': get_next_day_datetime_str(),
+            'name': 'Tournament 1'
+        }
+        tournament_id = self.create_tournament(tournament_details)
         for player_id in player_ids:
             Tournament.subscribe_to_tournament(tournament_id, player_id)
 

@@ -28,16 +28,16 @@ TODOs:
         - create tournament with rounds non positive -- DONE
         - create tournament by user -- DONE
         - invalid user_id while create tournament -- DONE
-        - refactor testcases --> don't use internal functions
+        - refactor testcases --> don't use internal functions -- DONE
         - remove create_tournament (incorrect implementation)
     - user can get all tournaments
         - get tournaments having tournaments in all states -- DONE
         - get tournaments with ordering according to status order:[
         FULL_YET_TO_START, CAN_JOIN, IN_PROGRESS, COMPLETED] and start_datetime -- DONE
         - get tournaments with offset and limit -- NOT LISTED IN USECASE
-        - refactor testcases --> don't use internal functions
-        - get all tournaments by user
-        - invalid user_id in get all tournaments
+        - refactor testcases --> don't use internal functions -- DONE
+        - get all tournaments by user -- DONE
+        - invalid user_id in get all tournaments -- DONE
         - remove get_all_tournaments(incorrect implementation)
     - user can subscribe to tournament
         - user subscribing to tournament -- DONE
@@ -46,7 +46,7 @@ TODOs:
         - subscribed player can't subscribe again -- DONE
         - subscribing to invalid tournament_id
         - tournament_status should change to FULL_YET_TO_START if max users subscribed -- DONE
-        - refactor testcases --> don't use internal functions
+        - refactor testcases --> don't use internal functions -- DONE
 
     - play match
     - end match
