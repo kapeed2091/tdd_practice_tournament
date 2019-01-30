@@ -13,6 +13,21 @@ class UserTournament(models.Model):
 
         User.validate_user_id(user_id=user_id)
 
+        cls._validate_user_tournament_exists(
+            user_id=user_id, tournament_id=tournament_id
+        )
+
+        tournament = Tournament.objects.get(id=tournament_id)
+
+        cls._validate_tournament_status(status=tournament.status)
+
+        cls.objects.create(
+            user_id=user_id,
+            tournament_id=tournament_id
+        )
+
+    @classmethod
+    def _validate_user_tournament_exists(cls, user_id, tournament_id):
         user_tournament_exists = cls.objects.filter(
             user_id=user_id, tournament_id=tournament_id
         )
@@ -21,14 +36,10 @@ class UserTournament(models.Model):
             from ..exceptions.exceptions import UserAlreadyRegistered
             raise UserAlreadyRegistered
 
+    @staticmethod
+    def _validate_tournament_status(status):
         from ..constants.general import TournamentStatus
-        tournament = Tournament.objects.get(id=tournament_id)
-
         from ..exceptions.exceptions import InvalidFullYetToStartRegister
-        if tournament.status == TournamentStatus.FULL_YET_TO_START.value:
-            raise InvalidFullYetToStartRegister
 
-        cls.objects.create(
-            user_id=user_id,
-            tournament_id=tournament_id
-        )
+        if status == TournamentStatus.FULL_YET_TO_START.value:
+            raise InvalidFullYetToStartRegister
