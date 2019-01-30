@@ -27,11 +27,13 @@ TODOs:
         - create tournament with invalid datetime(yesterday's date) -- DONE
         - create tournament with rounds non positive -- DONE
         - create tournament by user
+        - refactor testcases --> don't use internal functions
     - user can get all tournaments
         - get tournaments having tournaments in all states -- DONE
         - get tournaments with ordering according to status order:[
         FULL_YET_TO_START, CAN_JOIN, IN_PROGRESS, COMPLETED] and start_datetime -- DONE
         - get tournaments with offset and limit -- NOT LISTED IN USECASE
+        - refactor testcases --> don't use internal functions
     - user can subscribe to tournament
         - user subscribing to tournament -- DONE
         - user can only subscribe to CAN_JOIN tournaments -- DONE
@@ -39,6 +41,8 @@ TODOs:
         - subscribed player can't subscribe again
         - subscribing to invalid tournament_id
         - tournament_status should change to FULL_YET_TO_START if max users subscribed
+        - refactor testcases --> don't use internal functions
+
     - play match
     - end match
     - get current round

@@ -72,3 +72,16 @@ class TestSubscribeToTournament(TestCase):
         with self.assertRaisesMessage(
                 BadRequest, "Invalid User"):
             Tournament.subscribe_to_tournament(tournament_id, player_id=1525)
+
+    def test_player_can_not_subscribe_twice(self):
+        from ib_tournament.models import Tournament
+
+        player_id = self.create_player(self.username)
+        tournament_id = Tournament.create_tournament(
+            total_rounds=2, start_datetime_str=get_next_day_datetime_str(),
+            name='Tournament 1')
+        Tournament.subscribe_to_tournament(
+            tournament_id=tournament_id, player_id=player_id)
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        with self.assertRaisesMessage(BadRequest, "Can\'t subscribe again"):
+            Tournament.subscribe_to_tournament(tournament_id, player_id)
