@@ -59,3 +59,7 @@ class UserTournament(models.Model):
             max_num_of_participants - 1 == registered_tournament_members_count
 
         return is_last_person
+
+    @classmethod
+    def can_user_play_in_tournament(cls, user_id, tournament_id):
+        return False
