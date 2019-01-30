@@ -97,7 +97,7 @@ class Tournament(models.Model):
         details = []
         for each_obj in cls.objects.all():
             details.append(each_obj.convert_to_dict())
-
+        details = sorted(details, key=lambda k: k['start_datetime'])
         return details
 
     def convert_to_dict(self):
