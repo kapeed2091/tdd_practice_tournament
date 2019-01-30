@@ -33,6 +33,10 @@ class KoTournament(models.Model):
         return tournament.convert_to_dict()
 
     @classmethod
+    def get_tournament(cls, tournament_id):
+        return cls.objects.get(id=tournament_id)
+
+    @classmethod
     def get_all_tournaments(cls):
         tournaments = cls.objects.all()
         return [each.convert_to_dict2() for each in tournaments]
