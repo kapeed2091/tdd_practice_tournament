@@ -26,3 +26,7 @@ class TournamentPlayer(models.Model):
     def get_tournament_player_exists(cls, tournament_id, player_id):
         return cls.objects.filter(
             tournament_id=tournament_id, player_id=player_id).exists()
+
+    @classmethod
+    def get_tournament_players_count(cls, tournament_id):
+        return cls.objects.filter(tournament_id=tournament_id).count()

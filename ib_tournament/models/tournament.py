@@ -46,6 +46,7 @@ class Tournament(models.Model):
         tournament.validate_tournament_state_to_subscribe()
         cls._validate_player_already_subscribed(tournament_id, player_id)
         TournamentPlayer.create_tournament_player(tournament_id, player_id)
+        tournament.update_status_to_full_yet_to_start()
         return
 
     @classmethod
@@ -136,3 +137,25 @@ class Tournament(models.Model):
                 tournament_id, player_id):
             raise BadRequest(CAN_NOT_SUBSCRIBE_AGAIN)
         return
+
+    def update_status_to_full_yet_to_start(self):
+        from ib_tournament.constants.general import TournamentStatus
+        if self._get_max_participants_count_reached():
+            self._update_tournament_status(
+                TournamentStatus.FULL_YET_TO_START.value)
+        return
+
+    def _get_max_participants_count_reached(self):
+        from ib_tournament.models import TournamentPlayer
+        total_tournament_players = \
+            TournamentPlayer.get_tournament_players_count(self.id)
+        return total_tournament_players == \
+               self._get_maximum_players_in_tournament()
+
+    def _get_maximum_players_in_tournament(self):
+        total_rounds = self.total_rounds
+        return 2 ** total_rounds
+
+    def _update_tournament_status(self, status):
+        self.status = status
+        self.save()
