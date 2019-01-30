@@ -55,6 +55,38 @@ class TestUserSubscribeToTournament(TestCase):
             TournamentUser.subscribe_user_to_tournament(
                 tournament_id=100, username=self.username)
 
+    def test_change_tournament_status_to_full_yet_start(self):
+        self._create_tournament()
+        users = self._populate_users()
+        self._subscribe_users_to_tournament(users[1:])
+
+        from tournament.models.tournament_user import TournamentUser
+        TournamentUser.subscribe_user_to_tournament(
+            tournament_id=self.tournament.id, username=users[0].username)
+
+        from tournament.models import Tournament
+        tournament = Tournament.objects.get(id=self.tournament.id)
+
+        self.assertEquals(TournamentStatus.FULL_YET_TO_START.value,
+                          tournament.status)
+
+    def _populate_users(self):
+        from tournament.models.user import User
+        no_of_rounds = self.tournament.no_of_rounds
+        no_of_participants = 2**no_of_rounds
+
+        users = []
+        for index in range(no_of_participants):
+            users.append(User.objects.create(username="user"+str(index+1)))
+        return users
+
+    def _subscribe_users_to_tournament(self, users):
+        from tournament.models import TournamentUser
+
+        for user in users:
+            TournamentUser.objects.create(
+                tournament_id=self.tournament.id, user_id=user.id)
+
     def _populate_user(self):
         from tournament.models.user import User
         self.user = User.objects.create(username=self.username)
