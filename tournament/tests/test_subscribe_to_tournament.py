@@ -1,6 +1,6 @@
 import datetime
 from django.test import TestCase
-from django_swagger_utils.drf_server.exceptions import Forbidden
+from django_swagger_utils.drf_server.exceptions import Forbidden, BadRequest
 
 from tournament.utils.date_time_utils import get_current_date_time
 
@@ -90,3 +90,10 @@ class TestSubscribeToTournament(TestCase):
 
         with self.assertRaisesMessage(Forbidden, 'There is no place for new subscriptions'):
             TournamentUser.subscribe_to_tournament(user_id='User5', tournament_id=3)
+
+    def test_subscribe_to_tournament_again(self):
+        from tournament.models import TournamentUser
+
+        with self.assertRaisesMessage(BadRequest, 'Already subscribed to this tournament'):
+            TournamentUser.subscribe_to_tournament(user_id='User2', tournament_id=3)
+
