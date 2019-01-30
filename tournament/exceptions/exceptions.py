@@ -24,3 +24,7 @@ class InvalidFullYetToStartRegister(Exception):
 
 class InvalidInProgresstRegister(Exception):
     pass
+
+
+class InvalidCompletedRegister(Exception):
+    pass
