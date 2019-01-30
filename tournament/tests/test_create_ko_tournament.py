@@ -98,7 +98,7 @@ class TestCreateKOTournament(TestCase):
         import datetime
         from tournament.models import KOTournament
 
-        user_id = 'user_2'
+        user_id = 'non_user_1'
         t_id = '1'
         tournament_name = 'tournament_1'
         number_of_rounds = 2
