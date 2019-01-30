@@ -30,7 +30,7 @@ class Tournament(models.Model):
             convert_datetime_to_local_string
         from ib_tournament.constants.general import DEFAULT_DATE_TIME_FORMAT
         return {
-            'id': self.id,
+            'tournament_id': self.id,
             'name': self.name,
             'status': self.status,
             'start_datetime': convert_datetime_to_local_string(
