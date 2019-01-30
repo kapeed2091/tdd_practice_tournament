@@ -23,10 +23,20 @@ class UserTournament(models.Model):
 
         Tournament.validate_tournament_status(status=tournament.status)
 
+        total_rounds = tournament.total_rounds
+        max_num_of_participants = 2 ** total_rounds
+        registered_persons_count_for_tournament = \
+            cls.objects.filter(tournament_id=tournament_id).count()
+
         cls.objects.create(
             user_id=user_id,
             tournament_id=tournament_id
         )
+
+        if max_num_of_participants - 1 == registered_persons_count_for_tournament:
+            from ..constants.general import TournamentStatus
+            tournament.status = TournamentStatus.FULL_YET_TO_START.value
+            tournament.save()
 
     @classmethod
     def _validate_user_tournament_exists(cls, user_id, tournament_id):
