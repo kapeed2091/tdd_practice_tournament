@@ -61,3 +61,16 @@ class Tournament(models.Model):
         if not tournament_exists:
             from ..exceptions.exceptions import InvalidTournamentId
             raise InvalidTournamentId
+
+    @classmethod
+    def get_tournament_by_id(cls, tournament_id):
+        obj = cls.objects.get(id=tournament_id)
+        return obj
+
+    @staticmethod
+    def validate_tournament_status(status):
+        from ..constants.general import TournamentStatus
+        from ..exceptions.exceptions import InvalidFullYetToStartRegister
+
+        if status == TournamentStatus.FULL_YET_TO_START.value:
+            raise InvalidFullYetToStartRegister
