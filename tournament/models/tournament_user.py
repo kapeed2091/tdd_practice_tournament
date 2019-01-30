@@ -17,7 +17,6 @@ class TournamentUser(models.Model):
         KOTournament.is_tournament_exists(tournament_id=tournament_id)
         tournament_obj = KOTournament.get_tournament(tournament_id=tournament_id)
         KOTournament.is_tournament_started(tournament_obj=tournament_obj)
-        KOTournament.is_valid_subscribe_status(tournament_obj=tournament_obj)
 
         max_participants = KOTournament.get_max_participants_count(
             tournament_obj=tournament_obj)
@@ -25,7 +24,12 @@ class TournamentUser(models.Model):
         if subscribed_participants == max_participants:
             raise Exception('Tournament is full')
 
+        KOTournament.is_valid_subscribe_status(tournament_obj=tournament_obj)
+
         cls.create_tournamentuser(user_id=user_id, tournament_id=tournament_id)
+        if max_participants - subscribed_participants == 1:
+            KOTournament.change_tournament_status_to_full(
+                tournament_obj=tournament_obj)
 
     @classmethod
     def create_tournamentuser(cls, user_id, tournament_id):

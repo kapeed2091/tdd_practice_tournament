@@ -134,3 +134,8 @@ class KOTournament(models.Model):
     @classmethod
     def get_max_participants_count(self, tournament_obj):
         return pow(2, tournament_obj.number_of_rounds)
+
+    @classmethod
+    def change_tournament_status_to_full(cls, tournament_obj):
+        tournament_obj.status = TournamentStatus.FULL_YET_TO_START.value
+        tournament_obj.save()
