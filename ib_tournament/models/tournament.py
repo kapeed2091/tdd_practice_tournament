@@ -38,6 +38,10 @@ class Tournament(models.Model):
         }
 
     @classmethod
+    def subscribe_to_tournament(cls, tournament_id, player_id):
+        pass
+
+    @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
         from ib_common.date_time_utils.convert_string_to_local_date_time \
             import convert_string_to_local_date_time
