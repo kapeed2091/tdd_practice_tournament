@@ -9,6 +9,7 @@ class TestUserCreateTournament(TestCase):
 
         no_of_rounds = 4
         start_date_time = datetime.now() + timedelta(days=1)
+        self._populate_user()
 
         from tournament.models.tournament import Tournament
         tournament_details = Tournament.create_tournament(
@@ -26,7 +27,7 @@ class TestUserCreateTournament(TestCase):
 
         no_of_rounds = 4
         start_datetime = datetime.now() - timedelta(days=1)
-
+        self._populate_user()
         with self.assertRaisesMessage(Exception, "Expected future date time"):
             from tournament.models.tournament import Tournament
             Tournament.create_tournament(
@@ -38,6 +39,7 @@ class TestUserCreateTournament(TestCase):
 
         no_of_rounds = 0
         start_datetime = datetime.now() + timedelta(days=1)
+        self._populate_user()
 
         with self.assertRaisesMessage(Exception, "Invalid no of rounds"):
             from tournament.models.tournament import Tournament
@@ -56,3 +58,7 @@ class TestUserCreateTournament(TestCase):
             Tournament.create_tournament(
                 no_of_rounds=no_of_rounds, start_date_time=start_datetime,
                 username="user")
+
+    def _populate_user(self):
+        from tournament.models.user import User
+        User.objects.create(username=self.username)

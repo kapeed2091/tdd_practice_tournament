@@ -15,8 +15,11 @@ class Tournament(models.Model):
 
     @classmethod
     def create_tournament(cls, no_of_rounds, start_date_time, username):
+        from .user import User
+
         cls.validate_start_datetime(start_datetime=start_date_time)
         cls.validate_no_of_rounds(no_of_rounds=no_of_rounds)
+        User.validate_username(username=username)
 
         tournament_obj = cls.objects.create(
             no_of_rounds=no_of_rounds,

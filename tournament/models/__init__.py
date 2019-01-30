@@ -1,3 +1,4 @@
 from .tournament import Tournament
-__all__ = ['Tournament']
+from .user import User
+__all__ = ['Tournament', 'User']
 
