@@ -175,6 +175,7 @@ def get_ordered_tournaments():
 
 
 class TestGetAllTournaments(TestCase):
+    username = 'user1'
 
     @staticmethod
     def create_player(username):
@@ -208,21 +209,12 @@ class TestGetAllTournaments(TestCase):
             tournament_id = self.create_tournament(t_dict)
             self.update_tournament_status(tournament_id, t_dict['status'])
 
-    def test_get_all_tournaments(self):
-        from ib_tournament.models import Tournament
-
-        tournaments_data = get_all_tournaments()
-        self.create_tournaments(tournaments_data)
-        tournaments_list = Tournament.get_all_tournaments()
-        self.assertEqual(tournaments_list, tournaments_data)
-
     def test_get_all_tournaments_by_user(self):
         from ib_tournament.models import Tournament
 
-        username = 'user1'
         tournaments_data = get_all_tournaments()
         self.create_tournaments(tournaments_data)
-        player_id = self.create_player(username)
+        player_id = self.create_player(self.username)
         tournaments_list = Tournament.get_all_tournaments_by_player(player_id)
         self.assertEqual(tournaments_list, tournaments_data)
 
@@ -231,8 +223,9 @@ class TestGetAllTournaments(TestCase):
 
         tournaments_to_create, ordered_tournaments_data = \
             get_ordered_tournaments()
+        player_id = self.create_player(self.username)
         self.create_tournaments(tournaments_to_create)
-        tournaments_list = Tournament.get_all_tournaments()
+        tournaments_list = Tournament.get_all_tournaments_by_player(player_id)
         self.assertEqual(tournaments_list, ordered_tournaments_data)
 
     def test_invalid_user(self):
