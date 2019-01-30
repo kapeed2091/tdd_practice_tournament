@@ -40,13 +40,17 @@ class TestCreateKOTournament(TestCase):
         start_datetime = datetime.datetime(2019, 1, 30, 15, 00, 00)
         status = 'CAN_JOIN'
 
-        with self.assertRaises(Exception):
+        with self.assertRaisesMessage(
+                Exception,
+                expected_message='Non-positive number of rounds given'):
             KOTournament.create_tournament(
             user_id=user_id, t_id=t_id, name=tournament_name,
             number_of_rounds=number_of_rounds_case1,
             start_datetime=start_datetime, status=status)
 
-        with self.assertRaises(Exception):
+        with self.assertRaisesMessage(
+                Exception,
+                expected_message='Non-positive number of rounds given'):
             KOTournament.create_tournament(
             user_id=user_id, t_id=t_id, name=tournament_name,
             number_of_rounds=number_of_rounds_case2,
@@ -63,7 +67,9 @@ class TestCreateKOTournament(TestCase):
         start_datetime = datetime.datetime(2019, 1, 30, 15, 00, 00)
         status = 'CAN_JOIN'
 
-        with self.assertRaises(Exception):
+        with self.assertRaisesMessage(
+                Exception,
+                expected_message='Float type number of rounds given'):
             KOTournament.create_tournament(
                 user_id=user_id, t_id=t_id, name=tournament_name,
                 number_of_rounds=number_of_rounds,
