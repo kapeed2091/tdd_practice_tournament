@@ -20,3 +20,7 @@ class UserAlreadyRegistered(Exception):
 
 class InvalidFullYetToStartRegister(Exception):
     pass
+
+
+class InvalidInProgresstRegister(Exception):
+    pass
