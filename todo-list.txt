@@ -54,10 +54,10 @@ overall estimation time - (6 hr - 5 + 1)
 Updated time line - (11 hr(13 - 2))
 todo-list
     - create_tournament successful case
-    - invalid user_id
-    - invalid start date
-    - invalid rounds
+        - invalid user_id
+        - invalid start date
+        - invalid rounds
     - user can subscribe for tournament which is not started
-    - [invalid tournament_id]
-    - invalid user_id
-    - user cannot subscribe as it is full
+        - invalid tournament_id
+        - [invalid user_id]
+        - user cannot subscribe as it is full
