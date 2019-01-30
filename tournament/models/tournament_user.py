@@ -1,5 +1,5 @@
 from django.db import models
-from django_swagger_utils.drf_server.exceptions import Forbidden
+from django_swagger_utils.drf_server.exceptions import Forbidden, BadRequest
 
 from tournament.models import User, KoTournament
 from tournament.utils.date_time_utils import get_current_date_time
@@ -11,18 +11,31 @@ class TournamentUser(models.Model):
     tournament = models.ForeignKey(KoTournament)
 
     @classmethod
+    def get_tournament_user(cls, tournament, user):
+        return cls.objects.get(tournament=tournament, user=user)
+
+    @classmethod
     def subscribe_to_tournament(cls, user_id, tournament_id):
         from tournament.models import User, KoTournament
 
         user = User.get_user(user_id)
         tournament = KoTournament.get_tournament(tournament_id)
-        cls._validate_subscribe_request(tournament)
+        cls._validate_subscribe_request(tournament=tournament, user=user)
         cls.objects.create(user=user, tournament=tournament)
 
     @classmethod
-    def _validate_subscribe_request(cls, tournament):
+    def _validate_subscribe_request(cls, tournament, user=user):
+        cls._validate_weather_already_subscribed(tournament=tournament, user=user)
         cls._validate_tournament_start_datetime(tournament)
         cls._validate_max_members(tournament)
+
+    @classmethod
+    def _validate_weather_already_subscribed(cls, tournament, user):
+        try:
+            cls.get_tournament_user(tournament=tournament, user=user)
+            raise BadRequest('Already subscribed to this tournament')
+        except cls.DoesNotExist:
+            pass
 
     @staticmethod
     def _validate_tournament_start_datetime(tournament):
