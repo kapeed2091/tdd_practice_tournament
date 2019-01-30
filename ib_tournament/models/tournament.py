@@ -10,12 +10,18 @@ class Tournament(models.Model):
         max_length=50, default=TournamentStatus.CAN_JOIN.value)
 
     @classmethod
-    def create_tournament(cls, total_rounds, start_datetime_str, name):
-        start_datetime = cls._get_start_datetime_object(start_datetime_str)
+    def create_tournament_by_player(cls, player_id, tournament_details):
+        from ib_tournament.models import Player
+        total_rounds = tournament_details['total_rounds']
+        start_datetime = cls._get_start_datetime_object(
+            tournament_details['start_datetime_str'])
+
+        Player.get_player_by_id(player_id)
         cls._validate_start_datetime(start_datetime)
         cls._validate_total_rounds(total_rounds)
+
         tournament = cls._create_tournament_object(
-            total_rounds, start_datetime, name)
+            total_rounds, start_datetime, tournament_details['name'])
         return tournament.id
 
     @classmethod
@@ -65,21 +71,6 @@ class Tournament(models.Model):
             self._update_tournament_status(
                 TournamentStatus.FULL_YET_TO_START.value)
         return
-
-    @classmethod
-    def create_tournament_by_player(cls, player_id, tournament_details):
-        from ib_tournament.models import Player
-        total_rounds = tournament_details['total_rounds']
-        start_datetime = cls._get_start_datetime_object(
-            tournament_details['start_datetime_str'])
-
-        Player.get_player_by_id(player_id)
-        cls._validate_start_datetime(start_datetime)
-        cls._validate_total_rounds(total_rounds)
-        
-        tournament = cls._create_tournament_object(
-            total_rounds, start_datetime, tournament_details['name'])
-        return tournament.id
 
     @classmethod
     def get_all_tournaments_by_player(cls, player_id):

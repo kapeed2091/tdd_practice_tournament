@@ -4,6 +4,7 @@ from django.test import TestCase
 class TestCreateTournament(TestCase):
     from ib_tournament.constants.general import TournamentStatus
 
+    username = 'user1'
     name = 'Tournament 1'
     status = TournamentStatus.CAN_JOIN.value
 
@@ -26,18 +27,6 @@ class TestCreateTournament(TestCase):
         player = Player.objects.create(username=username)
         return player.id
 
-    def test_create_tournament(self):
-        from ib_tournament.models import Tournament
-
-        total_rounds = 3
-        start_datetime_str = self.get_next_day_datetime()
-        initial_tournaments_count = Tournament.objects.count()
-        Tournament.create_tournament(
-            total_rounds, start_datetime_str, self.name)
-        tournaments_count = Tournament.objects.count()
-
-        self.assertEqual(tournaments_count - initial_tournaments_count, 1)
-
     def test_create_tournament_by_user(self):
         from ib_tournament.models import Tournament
 
@@ -51,7 +40,7 @@ class TestCreateTournament(TestCase):
             'total_rounds': total_rounds,
             'start_datetime_str': start_datetime_str
         }
-        player_id = self.create_player(username)
+        player_id = self.create_player(self.username)
         Tournament.create_tournament_by_player(
             player_id=player_id, tournament_details=tournament_details)
         tournaments_count = Tournament.objects.count()
@@ -67,24 +56,35 @@ class TestCreateTournament(TestCase):
 
         start_datetime_str = convert_datetime_to_local_string(
             get_current_local_date_time(), DEFAULT_DATE_TIME_FORMAT)
-        total_rounds = 3
+
+        tournament_details = {
+            'name': self.name,
+            'total_rounds': 3,
+            'start_datetime_str': start_datetime_str
+        }
+        player_id = self.create_player(self.username)
 
         from ib_tournament.models import Tournament
         from django_swagger_utils.drf_server.exceptions import BadRequest
         with self.assertRaisesMessage(BadRequest, "Invalid Datetime"):
-            Tournament.create_tournament(
-                total_rounds, start_datetime_str, self.name)
+            Tournament.create_tournament_by_player(
+                player_id, tournament_details)
 
     def test_invalid_total_rounds(self):
         from ib_tournament.models import Tournament
 
-        total_rounds = -1
         start_datetime_str = self.get_next_day_datetime()
 
+        tournament_details = {
+            'name': self.name,
+            'total_rounds': -1,
+            'start_datetime_str': start_datetime_str
+        }
+        player_id = self.create_player(self.username)
         from django_swagger_utils.drf_server.exceptions import BadRequest
         with self.assertRaisesMessage(BadRequest, "Invalid total rounds"):
-            Tournament.create_tournament(
-                total_rounds, start_datetime_str, self.name)
+            Tournament.create_tournament_by_player(
+                player_id, tournament_details)
 
     def test_invalid_user(self):
         from ib_tournament.models import Tournament
