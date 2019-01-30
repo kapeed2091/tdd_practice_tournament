@@ -86,6 +86,20 @@ class TestSubscribeToTournament(TestCase):
                 user_id=self.user.id, tournament_id=self.tournament.id
             )
 
+    def test_case_user_registering_tournament_which_is_completed(self):
+        from tournament.models import UserTournament
+        self.create_user()
+        self.create_tournament(
+            user_id=self.user.id,
+            status=TournamentStatus.COMPLETED.value
+        )
+
+        from tournament.exceptions.exceptions import InvalidCompletedRegister
+        with self.assertRaises(InvalidCompletedRegister):
+            UserTournament.subscribe_to_tournament(
+                user_id=self.user.id, tournament_id=self.tournament.id
+            )
+
     def create_tournament(
             self, user_id, status=TournamentStatus.CAN_JOIN.value):
         from tournament.models import Tournament
