@@ -13,6 +13,14 @@ class UserTournament(models.Model):
 
         User.validate_user_id(user_id=user_id)
 
+        user_tournament_exists = cls.objects.filter(
+            user_id=user_id, tournament_id=tournament_id
+        )
+
+        if user_tournament_exists:
+            from ..exceptions.exceptions import UserAlreadyRegistered
+            raise UserAlreadyRegistered
+
         cls.objects.create(
             user_id=user_id,
             tournament_id=tournament_id
