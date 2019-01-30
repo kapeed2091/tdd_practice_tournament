@@ -7,8 +7,26 @@ from tournament.utils.date_time_utils import get_current_date_time
 
 class TestSubscribeToTournament(TestCase):
 
+    users = [
+        {
+            'user_id': 'User1'
+        },
+        {
+            'user_id': 'User2'
+        },
+        {
+            'user_id': 'User3'
+        },
+        {
+            'user_id': 'User4'
+        },
+        {
+            'user_id': 'User5'
+        }
+    ]
+
     def setUp(self):
-        from tournament.models import KoTournament, User
+        from tournament.models import KoTournament, User, TournamentUser
 
         now = get_current_date_time()
         KoTournament.objects.create(
@@ -25,8 +43,26 @@ class TestSubscribeToTournament(TestCase):
             start_datetime=now - datetime.timedelta(days=1)
         )
 
+        tournament3 = KoTournament.objects.create(
+            created_user_id='User',
+            name='Tournament3',
+            no_of_rounds=2,
+            start_datetime=now + datetime.timedelta(days=1)
+        )
+
+        users_to_create = [
+            {
+                'user_id': 'User' + str(each)
+            } for each in range(1, 5)
+        ]
+        for each in users_to_create:
+            user = User.objects.create(**each)
+            TournamentUser.objects.create(
+                user=user,
+                tournament=tournament3
+            )
         User.objects.create(
-            user_id='User2'
+            user_id='User5'
         )
 
     def test_subscribe_to_tournament(self):
@@ -48,3 +84,9 @@ class TestSubscribeToTournament(TestCase):
 
         with self.assertRaisesMessage(Forbidden, 'Subscription can only be done before starting of the Tournament'):
             TournamentUser.subscribe_to_tournament(user_id='User2', tournament_id=2)
+
+    def test_subscribe_to_tournament_after_reaching_max_members(self):
+        from tournament.models import TournamentUser
+
+        with self.assertRaisesMessage(Forbidden, 'There is no place for new subscriptions'):
+            TournamentUser.subscribe_to_tournament(user_id='User5', tournament_id=3)
