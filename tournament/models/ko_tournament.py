@@ -18,6 +18,7 @@ class KOTournament(models.Model):
         cls.is_registered_user(user_id=user_id)
         cls.is_valid_number_of_rounds(number_of_rounds=number_of_rounds)
         cls.is_start_datetime_in_past(start_datetime=start_datetime)
+        cls.is_valid_creation_status(status=status)
         t_id = cls.generate_t_id()
         tournament = cls.assign_t_id_to_tournament(
             t_id=t_id, name=name, number_of_rounds=number_of_rounds,
@@ -71,3 +72,9 @@ class KOTournament(models.Model):
             UserProfile.get_user(user_id=user_id)
         except models.ObjectDoesNotExist:
             raise Exception('User not registered to create tournament')
+
+    @staticmethod
+    def is_valid_creation_status(status):
+        from tournament.constants import TournamentStatus
+        if status != TournamentStatus.CAN_JOIN.value:
+            raise Exception('Invalid Tournament Status at creation')
