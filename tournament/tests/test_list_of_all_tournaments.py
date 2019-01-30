@@ -11,7 +11,8 @@ class TestListAllTournaments(TestCase):
 
     def testcase_list_all_tournaments(self):
         from tournament.models import KOTournament, UserProfile
-        from ib_common.date_time_utils.get_current_local_date_time import get_current_local_date_time
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
         import datetime
         user_id = 'user_1'
         t_id_1 = '1'
@@ -19,8 +20,10 @@ class TestListAllTournaments(TestCase):
         tournament_name_1 = 'tournament_1'
         tournament_name_2 = 'tournament_2'
         number_of_rounds = 2
-        start_datetime_1 = get_current_local_date_time()+datetime.timedelta(hours=1)
-        start_datetime_2 = get_current_local_date_time()+datetime.timedelta(days=365)
+        start_datetime_1 = get_current_local_date_time()+\
+                           datetime.timedelta(hours=1)
+        start_datetime_2 = get_current_local_date_time()+\
+                           datetime.timedelta(days=365)
         status = 'CAN_JOIN'
 
         expected_all_tournaments = list()
@@ -56,5 +59,6 @@ class TestListAllTournaments(TestCase):
         actual_all_tournaments = KOTournament.get_all_tournaments()
 
         import deepdiff
-        diff = deepdiff.DeepDiff(expected_all_tournaments, actual_all_tournaments)
+        diff = deepdiff.DeepDiff(expected_all_tournaments,
+                                 actual_all_tournaments)
         self.assertEquals(diff, {})

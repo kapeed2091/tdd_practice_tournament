@@ -64,7 +64,10 @@ class KOTournament(models.Model):
     @staticmethod
     def is_start_datetime_in_past(start_datetime):
         import datetime
-        if start_datetime < datetime.datetime.now():
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+
+        if start_datetime < get_current_local_date_time():
             raise Exception('Start datetime is less than current time')
 
     @staticmethod

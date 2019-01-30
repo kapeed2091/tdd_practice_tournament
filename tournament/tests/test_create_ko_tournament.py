@@ -5,18 +5,22 @@ class TestCreateKOTournament(TestCase):
 
     def testcase_create_ko_tournament(self):
         import datetime
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+
         user_id = 'user_1'
         t_id = '1'
         tournament_name = 'tournament_1'
         number_of_rounds = 2
-        start_datetime = datetime.datetime(2019, 1, 30, 15, 00, 00)
+        start_datetime = get_current_local_date_time()+\
+                           datetime.timedelta(hours=1)
         status = 'CAN_JOIN'
 
         input_tournament_details = {
             't_id': '1',
             'name': 'tournament_1',
             'number_of_rounds': 2,
-            'start_datetime': datetime.datetime(2019, 1, 30, 15, 00, 00),
+            'start_datetime': start_datetime,
             'status': 'CAN_JOIN'
         }
 
@@ -40,12 +44,15 @@ class TestCreateKOTournament(TestCase):
     def testcase_non_positive_number_of_rounds(self):
         import datetime
         from tournament.models import KOTournament, UserProfile
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
 
         user_id = 'user_1'
         tournament_name = 'tournament_1'
         number_of_rounds_case1 = 0
         number_of_rounds_case2 = -1
-        start_datetime = datetime.datetime(2019, 1, 30, 15, 00, 00)
+        start_datetime = get_current_local_date_time()+\
+                           datetime.timedelta(hours=1)
         status = 'CAN_JOIN'
 
         UserProfile.objects.create(user_id=user_id)
@@ -68,11 +75,14 @@ class TestCreateKOTournament(TestCase):
     def testcase_float_number_of_rounds(self):
         import datetime
         from tournament.models import KOTournament, UserProfile
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
 
         user_id = 'user_1'
         tournament_name = 'tournament_1'
         number_of_rounds = 1.5
-        start_datetime = datetime.datetime(2019, 1, 30, 15, 00, 00)
+        start_datetime = get_current_local_date_time()+\
+                           datetime.timedelta(hours=1)
         status = 'CAN_JOIN'
 
         UserProfile.objects.create(user_id=user_id)
@@ -87,11 +97,14 @@ class TestCreateKOTournament(TestCase):
     def testcase_start_datetime_is_greater_than_current_time(self):
         import datetime
         from tournament.models import KOTournament, UserProfile
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
 
         user_id = 'user_1'
         tournament_name = 'tournament_1'
         number_of_rounds = 2
-        start_datetime = datetime.datetime(2019, 1, 30, 01, 00, 00)
+        start_datetime = get_current_local_date_time()+\
+                           datetime.timedelta(hours=-10)
         status = 'CAN_JOIN'
 
         UserProfile.objects.create(user_id=user_id)
@@ -106,11 +119,14 @@ class TestCreateKOTournament(TestCase):
     def testcase_non_registered_users_cannot_create_tournament(self):
         import datetime
         from tournament.models import KOTournament
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
 
         user_id = 'non_user_1'
         tournament_name = 'tournament_1'
         number_of_rounds = 2
-        start_datetime = datetime.datetime(2020, 1, 30, 05, 00, 00)
+        start_datetime = get_current_local_date_time()+\
+                           datetime.timedelta(hours=1)
         status = 'CAN_JOIN'
 
         with self.assertRaisesMessage(
@@ -124,6 +140,8 @@ class TestCreateKOTournament(TestCase):
     def testcase_create_multiple_tournaments_with_same_t_id(self):
         import datetime
         from tournament.models import KOTournament, UserProfile
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
 
         user_id = 'non_user_1'
         t_id = '1'
@@ -131,7 +149,8 @@ class TestCreateKOTournament(TestCase):
         tournament_name_2 = 'tournament_2'
         number_of_rounds_1 = 2
         number_of_rounds_2 = 3
-        start_datetime = datetime.datetime(2020, 1, 30, 05, 00, 00)
+        start_datetime = get_current_local_date_time()+\
+                           datetime.timedelta(hours=1)
         status = 'CAN_JOIN'
 
         UserProfile.objects.create(user_id=user_id)
@@ -150,12 +169,15 @@ class TestCreateKOTournament(TestCase):
     def testcase_status_when_tournament_created(self):
         import datetime
         from tournament.models import KOTournament, UserProfile
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
 
         user_id = 'user_1'
         t_id = '1'
         tournament_name = 'tournament_1'
         number_of_rounds = 2
-        start_datetime = datetime.datetime(2019, 1, 30, 15, 00, 00)
+        start_datetime = get_current_local_date_time()+\
+                           datetime.timedelta(hours=1)
         status = 'COMPLETED'
 
         UserProfile.objects.create(user_id=user_id)
