@@ -16,7 +16,18 @@
       [5. Invalid user_id]
       6. Invalid tournament_id
 - User can play matches once the tournament is started
+      [1. User can play match]
+      2. If User try to play the match with out tournament getting started, throw an exception
+      3. User try to play the same match again
+      4. User try to play the match after the match is completed.
+      5. Wrong user_id/match_id (User does not belong to that match)
+      6. Wrong user_id(Does Not Exist)
+      7. Wrong match_id(Does Not Exist)
      - User will submit his score in the match
+      1. User will submit his score in the match
+      2. Wrong user_id/match_id (User does not belong to the match)
+      3. Wrong user_id(Does Not Exist)
+      4. Wrong match_id(Does Not Exist)
 - User will progress to next round if he wins the match
 - User can get his current round number for a tournament
 - User can get his opponent user profile in any round in a tournament
@@ -25,3 +36,6 @@
 Additional TODO's
 - If we include status, how should the field get_updated?
 - Should make tournament_name mandatory for 1st use-case
+
+Assumptions for 4th Use Case:
+1. If Tournament status is 'COMPLETED' then Match status will also be in 'COMPLETED'
