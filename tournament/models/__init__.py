@@ -1,12 +1,14 @@
 from .ko_tournament import KoTournament
 from .user import User
 from .tournament_user import TournamentUser
+from .match import Match
 
 
 __all__ = [
     'KoTournament',
     'User',
-    'TournamentUser'
+    'TournamentUser',
+    'Match'
 ]
 
 # class DummyModel(AbstractDateTimeModel):

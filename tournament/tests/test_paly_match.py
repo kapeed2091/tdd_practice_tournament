@@ -2,7 +2,7 @@ import datetime
 from django.test import TestCase
 from ib_common.date_time_utils.get_current_datetime import get_current_datetime
 
-from tournament.constants.general import TournamentStatus
+from tournament.constants.general import TournamentStatus, MatchStatus
 
 
 class TestPlayMatch(TestCase):
@@ -25,7 +25,7 @@ class TestPlayMatch(TestCase):
         Match.objects.create(
             user=user1,
             tournament=tournament,
-            status=MatchStatus.YET_TO_PALY.value
+            status=MatchStatus.YET_TO_START.value
         )
 
     def test_play_match(self):
