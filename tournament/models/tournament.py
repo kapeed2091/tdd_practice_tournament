@@ -39,6 +39,10 @@ class Tournament(models.Model):
             tournament.\
                 update_status(status=TournamentStatus.IN_PROGRESS.value)
 
+            from .tournament_match import TournamentMatch
+            TournamentMatch.\
+                create_tournament_matches(tournament_id=tournament_id)
+
     def is_tournament_crossed_start_datetime(self):
         from ib_common.date_time_utils.get_current_local_date_time \
             import get_current_local_date_time
