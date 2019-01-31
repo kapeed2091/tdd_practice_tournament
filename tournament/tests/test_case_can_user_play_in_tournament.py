@@ -41,3 +41,22 @@ class TestCanUserPlayInTournament(TestCase):
         )
 
         self.assertTrue(status)
+
+    def test_case_user_not_in_tournament(self):
+        from tournament.models import User, Tournament
+        user = User.objects.create(name=self.user_name)
+        self.user = user
+
+        obj = Tournament.objects.create(
+            user_id=self.user_id,
+            total_rounds=self.total_rounds,
+            start_datetime=self.start_datetime,
+            status=TournamentStatus.IN_PROGRESS.value
+        )
+        self.tournament = obj
+
+        from ..exceptions.exceptions import UserNotInTournamnet
+        with self.assertRaises(UserNotInTournamnet):
+            UserTournament.can_user_play_in_tournament(
+                user_id=self.user.id, tournament_id=self.tournament.id
+            )
