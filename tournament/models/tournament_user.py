@@ -10,27 +10,53 @@ class TournamentUser(models.Model):
     def subscribe_to_tournament(cls, user_id, tournament_id):
         from tournament.models import UserProfile, KOTournament
 
-        if len(cls.objects.filter(user_id=user_id, t_id=tournament_id)) > 0:
-            raise Exception('Already Subscribed to Tournament')
-
+        cls.is_tournament_user_exists(user_id=user_id,
+                                      tournament_id=tournament_id)
         UserProfile.is_registered_user(user_id=user_id)
-        KOTournament.is_tournament_exists(tournament_id=tournament_id)
-        tournament_obj = KOTournament.get_tournament(tournament_id=tournament_id)
-        KOTournament.is_tournament_started(tournament_obj=tournament_obj)
+        KOTournament.validate_subscribe_request(tournament_id=tournament_id)
 
-        max_participants = KOTournament.get_max_participants_count(
-            tournament_obj=tournament_obj)
-        subscribed_participants = len(cls.objects.filter(t_id=tournament_id))
-        if subscribed_participants == max_participants:
-            raise Exception('Tournament is full')
+        max_users_count = KOTournament.get_max_users_count(
+            tournament_id=tournament_id)
+        subscribed_users_count = cls.get_subscribed_users_count(
+            tournament_id=tournament_id)
 
-        KOTournament.is_valid_subscribe_status(tournament_obj=tournament_obj)
-
+        cls.is_tournament_full(subscribed_users_count=subscribed_users_count,
+                               max_users_count=max_users_count)
         cls.create_tournamentuser(user_id=user_id, tournament_id=tournament_id)
-        if max_participants - subscribed_participants == 1:
-            KOTournament.change_tournament_status_to_full(
-                tournament_obj=tournament_obj)
+        cls.change_tournament_status_to_full(
+            subscribed_users_count=subscribed_users_count,
+            max_users_count=max_users_count, tournament_id=tournament_id)
 
     @classmethod
     def create_tournamentuser(cls, user_id, tournament_id):
         cls.objects.create(user_id=user_id, t_id=tournament_id)
+
+    @classmethod
+    def is_tournament_user_exists(cls, user_id, tournament_id):
+        if len(cls.objects.filter(user_id=user_id, t_id=tournament_id)) > 0:
+            raise Exception('Already Subscribed to Tournament')
+
+    @classmethod
+    def get_subscribed_users_count(cls, tournament_id):
+        return len(cls.objects.filter(t_id=tournament_id))
+
+    @staticmethod
+    def is_tournament_full(subscribed_users_count, max_users_count):
+        if subscribed_users_count == max_users_count:
+            raise Exception('Tournament is full')
+
+    @classmethod
+    def change_tournament_status_to_full(cls, subscribed_users_count,
+                                         max_users_count, tournament_id):
+        if cls.is_last_subscriber(subscribed_users_count=subscribed_users_count,
+                                  max_users_count=max_users_count):
+            from tournament.models import KOTournament
+            KOTournament.change_tournament_status_to_full(
+                tournament_id=tournament_id)
+
+    @staticmethod
+    def is_last_subscriber(subscribed_users_count, max_users_count):
+        if max_users_count - subscribed_users_count == 1:
+            return True
+        else:
+            return False

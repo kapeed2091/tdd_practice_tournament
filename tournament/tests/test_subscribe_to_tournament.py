@@ -114,8 +114,7 @@ class TestSubscribeToTournament(TestCase):
         for i in range(0,pow(2,number_of_rounds)):
             user_id = 'user_' + str(i)
             UserProfile.objects.create(user_id=user_id)
-            TournamentUser.subscribe_to_tournament(
-                user_id=user_id, tournament_id=tournament_id)
+            TournamentUser.objects.create(user_id=user_id, t_id=tournament_id)
 
         user_id = 'user'
         with self.assertRaisesMessage(

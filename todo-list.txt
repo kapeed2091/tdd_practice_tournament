@@ -45,12 +45,12 @@ Assumptions:
 My Assumptions:
    - Tournament name length is less than 30
    - Changed id field in tournament to t_id with max length 20
-   - Timezone warning is reported in terminal, couldn't find suitable way to handle it
    - default status of tournament is CAN_JOIN
    - Userprofile has extra field - user_id which is unique
    - user_id max length is 20
    - Immediately after creating tournament, we are updating status to CAN_JOIN (No specific time when the subscription begins)
    - User who creates tournament will not be directly subscribed to tournament
+   - Upon last slot subscription, we change tournament status to FULL_YET_TO_START
 
 Time estimate:
    - Hrs - 2, 0.5, 1, 2, 2, 1, 0.5, 1, buffer 3
