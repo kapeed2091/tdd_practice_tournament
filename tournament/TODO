@@ -16,8 +16,8 @@
       [5. Invalid user_id]
       6. Invalid tournament_id
 - User can play matches once the tournament is started
-      [1. User can play match]
-      2. If User try to play the match with out tournament getting started, throw an exception
+      1. User can play match
+      [2. If User try to play the match with out tournament getting started, throw an exception]
       3. User try to play the same match again
       4. User try to play the match after the match is completed.
       5. Wrong user_id/match_id (User does not belong to that match)
