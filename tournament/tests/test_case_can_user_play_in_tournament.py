@@ -27,7 +27,7 @@ class TestCanUserPlayInTournament(TestCase):
             user_id=self.user_id,
             total_rounds=self.total_rounds,
             start_datetime=self.start_datetime,
-            status=TournamentStatus.CAN_JOIN.value
+            status=TournamentStatus.IN_PROGRESS.value
         )
         self.tournament = obj
 

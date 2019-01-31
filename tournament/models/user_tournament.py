@@ -62,4 +62,12 @@ class UserTournament(models.Model):
 
     @classmethod
     def can_user_play_in_tournament(cls, user_id, tournament_id):
+        from ..models.tournament import Tournament
+        tournament = Tournament.get_tournament_by_id(
+            tournament_id=tournament_id
+        )
+
+        from ..constants.general import TournamentStatus
+        if tournament.status == TournamentStatus.IN_PROGRESS.value:
+            return True
         return False
