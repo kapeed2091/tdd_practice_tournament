@@ -18,6 +18,7 @@ Assumptions:
    - User profile has Name, Age, Gender
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
    - list of all tournaments are ordered in descending order wrt start_datetime
+   -
 
 ToDo List:
     User can play matches once the tournament is started

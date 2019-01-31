@@ -9,17 +9,19 @@ class TestStartTournament(TestCase):
 
     def test_start_tournament(self):
         from tournament.models import Tournament
-        Tournament.start_tournament(tourament_id=self.tournament.id)
+        self._create_tournament()
+        Tournament.start_tournament(tournament_id=self.tournament.id)
 
         from tournament.models import Tournament
         tournament = Tournament.objects.get(id=self.tournament.id)
 
+        from tournament.models.tournament_match import TournamentMatch
         no_matches = \
-            TournamentMatch.get_no_matches(tournament_id=tournament.id)
+            TournamentMatch.objects.filter(tournament_id=tournament.id).count()
 
         self.assertEquals(TournamentStatus.IN_PROGRESS.value,
                           tournament.status)
-        self.assertEquals(self._get_no_of_matches(), no_matches)
+        self.assertEquals(self._calculate_no_matches(), no_matches)
 
     def _create_tournament(self):
         from tournament.models import Tournament
@@ -33,7 +35,7 @@ class TestStartTournament(TestCase):
             start_datetime=curr_datetime,
             status=self.tournament_status)
 
-    def _get_no_of_matches(self):
+    def _calculate_no_matches(self):
         no_of_rounds = self.tournament.no_of_rounds
         no_of_participants = 2**no_of_rounds
         no_of_matches = no_of_participants - 1
