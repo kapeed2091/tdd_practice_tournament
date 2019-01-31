@@ -28,3 +28,7 @@ class InvalidInProgresstRegister(Exception):
 
 class InvalidCompletedRegister(Exception):
     pass
+
+
+class UserNotInTournamnet(Exception):
+    pass
