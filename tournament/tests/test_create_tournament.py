@@ -35,7 +35,7 @@ class TestCreateTournament(TestCase):
     def test_case_invalid_user_id(self):
         from tournament.models import Tournament
 
-        from tournament.exceptions.exceptions import InvalidUserId
+        from tournament.exceptions.custom_exceptions import InvalidUserId
         with self.assertRaises(InvalidUserId):
             Tournament.create_tournament(
                 user_id=self.user_id, total_rounds=self.total_rounds,
@@ -53,7 +53,7 @@ class TestCreateTournament(TestCase):
 
         from tournament.models import Tournament
 
-        from tournament.exceptions.exceptions import InvalidStartDateTime
+        from tournament.exceptions.custom_exceptions import InvalidStartDateTime
         with self.assertRaises(InvalidStartDateTime):
             Tournament.create_tournament(
                 user_id=self.user_id, total_rounds=self.total_rounds,
@@ -66,7 +66,7 @@ class TestCreateTournament(TestCase):
 
         from tournament.models import Tournament
 
-        from tournament.exceptions.exceptions import InvalidTotalRounds
+        from tournament.exceptions.custom_exceptions import InvalidTotalRounds
         with self.assertRaises(InvalidTotalRounds):
             Tournament.create_tournament(
                 user_id=self.user_id, total_rounds=self.total_rounds,

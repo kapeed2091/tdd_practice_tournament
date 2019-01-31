@@ -43,13 +43,13 @@ class Tournament(models.Model):
             now, date_time_format
         )
         if start_datetime_string <= now_str:
-            from ..exceptions.exceptions import InvalidStartDateTime
+            from ..exceptions.custom_exceptions import InvalidStartDateTime
             raise InvalidStartDateTime
 
     @staticmethod
     def _validate_total_rounds(total_rounds):
         if total_rounds < 1:
-            from ..exceptions.exceptions import InvalidTotalRounds
+            from ..exceptions.custom_exceptions import InvalidTotalRounds
             raise InvalidTotalRounds
 
     @classmethod
@@ -57,7 +57,7 @@ class Tournament(models.Model):
         tournament_exists = cls.objects.filter(id=tournament_id).exists()
 
         if not tournament_exists:
-            from ..exceptions.exceptions import InvalidTournamentId
+            from ..exceptions.custom_exceptions import InvalidTournamentId
             raise InvalidTournamentId
 
     @classmethod
@@ -68,7 +68,7 @@ class Tournament(models.Model):
     @staticmethod
     def validate_tournament_status(status):
         from ..constants.general import TournamentStatus
-        from ..exceptions.exceptions import InvalidFullYetToStartRegister, \
+        from ..exceptions.custom_exceptions import InvalidFullYetToStartRegister, \
             InvalidInProgresstRegister, InvalidCompletedRegister
 
         if status == TournamentStatus.FULL_YET_TO_START.value:
@@ -89,7 +89,7 @@ class Tournament(models.Model):
         from .user import User
         user_exists = User.objects.filter(id=user_id).exists()
         if not user_exists:
-            from ..exceptions.exceptions import InvalidUserId
+            from ..exceptions.custom_exceptions import InvalidUserId
             raise InvalidUserId
 
     @classmethod

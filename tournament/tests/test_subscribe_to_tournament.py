@@ -28,7 +28,7 @@ class TestSubscribeToTournament(TestCase):
         self.create_user()
         tournament_id = 1
 
-        from tournament.exceptions.exceptions import InvalidTournamentId
+        from tournament.exceptions.custom_exceptions import InvalidTournamentId
         with self.assertRaises(InvalidTournamentId):
             UserTournament.subscribe_to_tournament(
                 user_id=self.user.id, tournament_id=tournament_id
@@ -40,7 +40,7 @@ class TestSubscribeToTournament(TestCase):
         user_id = 1
         self.create_tournament(user_id=user_id)
 
-        from tournament.exceptions.exceptions import InvalidUserId
+        from tournament.exceptions.custom_exceptions import InvalidUserId
         with self.assertRaises(InvalidUserId):
             UserTournament.subscribe_to_tournament(
                 user_id=user_id, tournament_id=self.tournament.id
@@ -52,7 +52,7 @@ class TestSubscribeToTournament(TestCase):
         self.create_tournament(user_id=self.user.id)
         self.create_user_tournament()
 
-        from tournament.exceptions.exceptions import UserAlreadyRegistered
+        from tournament.exceptions.custom_exceptions import UserAlreadyRegistered
         with self.assertRaises(UserAlreadyRegistered):
             UserTournament.subscribe_to_tournament(
                 user_id=self.user.id, tournament_id=self.tournament.id
@@ -66,7 +66,7 @@ class TestSubscribeToTournament(TestCase):
             status=TournamentStatus.FULL_YET_TO_START.value
         )
 
-        from tournament.exceptions.exceptions import \
+        from tournament.exceptions.custom_exceptions import \
             InvalidFullYetToStartRegister
         with self.assertRaises(InvalidFullYetToStartRegister):
             UserTournament.subscribe_to_tournament(
@@ -81,7 +81,7 @@ class TestSubscribeToTournament(TestCase):
             status=TournamentStatus.IN_PROGRESS.value
         )
 
-        from tournament.exceptions.exceptions import InvalidInProgresstRegister
+        from tournament.exceptions.custom_exceptions import InvalidInProgresstRegister
         with self.assertRaises(InvalidInProgresstRegister):
             UserTournament.subscribe_to_tournament(
                 user_id=self.user.id, tournament_id=self.tournament.id
@@ -95,7 +95,7 @@ class TestSubscribeToTournament(TestCase):
             status=TournamentStatus.COMPLETED.value
         )
 
-        from tournament.exceptions.exceptions import InvalidCompletedRegister
+        from tournament.exceptions.custom_exceptions import InvalidCompletedRegister
         with self.assertRaises(InvalidCompletedRegister):
             UserTournament.subscribe_to_tournament(
                 user_id=self.user.id, tournament_id=self.tournament.id

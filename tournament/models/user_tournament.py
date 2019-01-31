@@ -45,7 +45,7 @@ class UserTournament(models.Model):
         )
 
         if user_tournament_exists:
-            from ..exceptions.exceptions import UserAlreadyRegistered
+            from ..exceptions.custom_exceptions import UserAlreadyRegistered
             raise UserAlreadyRegistered
 
     @classmethod
@@ -62,6 +62,16 @@ class UserTournament(models.Model):
 
     @classmethod
     def can_user_play_in_tournament(cls, user_id, tournament_id):
+        from ..exceptions.custom_exceptions import UserAlreadyRegistered, \
+            UserNotInTournamnet
+
+        user_in_tournament = cls.objects.filter(
+            user_id=user_id, tournament_id=tournament_id
+        ).exists()
+
+        if not user_in_tournament:
+            raise UserNotInTournamnet
+
         from ..models.tournament import Tournament
         tournament = Tournament.get_tournament_by_id(
             tournament_id=tournament_id

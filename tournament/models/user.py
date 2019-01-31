@@ -10,5 +10,5 @@ class User(models.Model):
     def validate_user_id(cls, user_id):
         user_exists = User.objects.filter(id=user_id).exists()
         if not user_exists:
-            from ..exceptions.exceptions import InvalidUserId
+            from ..exceptions.custom_exceptions import InvalidUserId
             raise InvalidUserId
