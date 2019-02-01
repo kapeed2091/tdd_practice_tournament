@@ -1,0 +1,19 @@
+step-1:
+    select a test case from to-do list
+    write a test case clearly(proper build, checking types of the arguments that are passed, proper assertions)
+    and see it fail because of compilation error
+
+step -2:
+    implement details just enough to get the state of test case from compilation error state to red state
+
+step 3
+    Now implement the functionality just enough to pass the test case if the functionality is obvious
+    if functionality is not obvious use fake implementation to pass it and then write new test case
+    with different parameters and repeat the above steps
+    Based on the two test cases write the implementation and get the test case to the green state
+
+step 4
+    Refactor the code based on the checklist we have and then test the code again to ensure that tests wont fail
+
+step 5
+    write a new test case and repeat the process
