@@ -1,19 +1,24 @@
-step-1:
+step-1 Quickly add a test:
     select a test case from to-do list
     write a test case clearly(proper build, checking types of the arguments that are passed, proper assertions)
     and see it fail because of compilation error
 
-step -2:
+step -2 run all tests and see the new one fail :
     implement details just enough to get the state of test case from compilation error state to red state
 
-step 3
+step 3 make a little change:
     Now implement the functionality just enough to pass the test case if the functionality is obvious
-    if functionality is not obvious use fake implementation to pass it and then write new test case
-    with different parameters and repeat the above steps
-    Based on the two test cases write the implementation and get the test case to the green state
+    if functionality is not obvious use fake implementation to pass it
 
-step 4
+step 4 run all test s and see them all succeed:
+    run all tests and get the test case to the green state
+
+step 5 Refactor to remove duplication:
     Refactor the code based on the checklist we have and then test the code again to ensure that tests wont fail
+    update to-do list
+    check code from different person point of view
 
-step 5
-    write a new test case and repeat the process
+
+proper - derive from use case
+red state - define what it is?
+write new test case with different parameters and repeat the above steps

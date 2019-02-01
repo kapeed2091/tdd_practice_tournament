@@ -66,6 +66,10 @@ todo-list
         - user cannot subscribe as tournament is completed
         - user is last person to subscribe for a tournament
     - User can play matches once the tournament is started
-        - successful
+        - successful case
         - match has not started
-        - [user is not part of the tournament]
+        - user is not part of the tournament
+    - User will submit his score in the match - (30 min)
+            - successful
+            - user not part of tournament
+            - invalid score
