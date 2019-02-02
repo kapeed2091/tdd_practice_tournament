@@ -69,18 +69,3 @@ class TestUtils(TestCase):
         )
 
         return obj
-
-    @staticmethod
-    def create_user_tournament_(
-            user_id, tournament_id, status=UserTournamentStatus.ALIVE.value,
-            round_number=1
-    ):
-        from tournaments.models import UserTournament
-
-        obj = UserTournament.objects.create(
-            user_id=user_id,
-            tournament_id=tournament_id,
-            status=status,
-            round_number=round_number
-        )
-        return obj

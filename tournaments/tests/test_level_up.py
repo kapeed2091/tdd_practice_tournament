@@ -9,10 +9,10 @@ class TestLevelUp(TestUtils):
 
         tournament = self.create_tournament(user_id=user_1.id)
 
-        self.create_user_tournament_(
+        self.create_user_tournament(
             user_id=user_1.id, tournament_id=tournament.id
         )
-        self.create_user_tournament_(
+        self.create_user_tournament(
             user_id=user_2.id, tournament_id=tournament.id
         )
 
