@@ -13,6 +13,7 @@ class TestSubmitScore(TestCase):
     user1_id = 'User1'
     invalid_user_id = 'InvalidUser'
     match_id = 'Match'
+    invalid_match_id = 'InvalidMatch'
 
     def setUp(self):
         from tournament.models import User, KoTournament, Match
@@ -55,5 +56,15 @@ class TestSubmitScore(TestCase):
             Match.submit_score(
                 user_id=self.invalid_user_id,
                 match_id=self.match_id,
+                score=10
+            )
+
+    def test_submit_score_with_invalid_match(self):
+        from tournament.models import Match
+
+        with self.assertRaisesMessage(NotFound, 'User does not exist with the given user id'):
+            Match.submit_score(
+                user_id=self.user1_id,
+                match_id=self.invalid_match_id,
                 score=10
             )
