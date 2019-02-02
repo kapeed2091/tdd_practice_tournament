@@ -38,13 +38,13 @@ class Match(models.Model):
         self.status = status
         self.save()
 
-    @classmethod
-    def _get_match_to_submit_score(cls, user, match_id):
-        return cls.objects.get(user=user, match_id=match_id)
-
     def update_score(self, score):
         self.score = score
         self.save()
+
+    @classmethod
+    def _get_match_to_submit_score(cls, user, match_id):
+        return cls.objects.get(user=user, match_id=match_id)
 
     @staticmethod
     def _get_user(user_id):
