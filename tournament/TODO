@@ -1,12 +1,9 @@
 TO BE IMPLEMENTED:
-   - User can play matches once the tournament is started
-     - User will submit his score in the match
-          4. User does not belong to the match
 
 IN_PROGRESS:
    - User can play matches once the tournament is started
      - User will submit his score in the match
-          3. Invalid Match id
+         4. User does not belong to the match
 
 
 COMPLETED:
@@ -22,6 +19,7 @@ COMPLETED:
       - User will submit his score in the match
           1. User will submit score for a match
           2. Invalid User id
+          3. Invalid Match id
 
 ASSUMPTIONS:
    1. Assuming the Match model will have the following fields
