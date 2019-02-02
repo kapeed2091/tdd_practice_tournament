@@ -19,6 +19,7 @@ class Match(models.Model):
     @classmethod
     def play_match(cls, user_id, match_id):
         user = cls._get_user(user_id)
+        cls._validate_match(match_id)
         match = cls._get_match(user=user, match_id=match_id)
         cls._validate_tournament(tournament=match.tournament)
         match.update_status(status=MatchStatus.IN_PROGRESS.value)
@@ -44,3 +45,16 @@ class Match(models.Model):
     @classmethod
     def _get_match(cls, user, match_id):
         return cls.objects.get(user=user, match_id=match_id)
+
+    @classmethod
+    def _validate_match(cls, match_id):
+        if cls._does_not_match_exists(match_id):
+            raise NotFound('Match does not exist with the given match id')
+
+    @classmethod
+    def _does_not_match_exists(cls, match_id):
+        return not cls._does_match_exists(match_id)
+
+    @classmethod
+    def _does_match_exists(cls, match_id):
+        return cls.objects.filter(match_id=match_id).exists()
