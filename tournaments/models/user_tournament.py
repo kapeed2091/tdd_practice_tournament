@@ -102,4 +102,14 @@ class UserTournament(models.Model):
 
     @classmethod
     def level_up(cls, user_id, match_id):
-        pass
+        from .match import Match
+        match = Match.get_match_by_id(match_id=match_id)
+
+        tournament_id = match.tournament_id
+
+        match_round_number = match.round_number
+
+        obj = cls.objects.get(user_id=user_id, tournament_id=tournament_id)
+
+        obj.round_number = match_round_number + 1
+        obj.save()
