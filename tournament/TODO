@@ -10,8 +10,7 @@ TO BE IMPLEMENTED:
           3. Invalid Match id
 
 IN_PROGRESS:
-   - User can play matches once the tournament is started
-          2. If User try to play match where tournament has not started, raise an exception
+
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -19,6 +18,7 @@ COMPLETED:
 
    - User can play matches once the tournament is started
           1. User can play match
+          2. If User try to play match where tournament has not started, raise an exception
 
 ASSUMPTIONS:
    1. Assuming the Match model will have the following fields

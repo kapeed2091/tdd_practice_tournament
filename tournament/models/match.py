@@ -25,6 +25,10 @@ class Match(models.Model):
         cls._validate_tournament(tournament=match.tournament)
         match.update_status(status=MatchStatus.IN_PROGRESS.value)
 
+    def update_status(self, status):
+        self.status = status
+        self.save()
+
     @staticmethod
     def _validate_tournament(tournament):
         if tournament.is_not_started():
@@ -33,7 +37,3 @@ class Match(models.Model):
     @classmethod
     def _get_match(cls, user, match_id):
         return cls.objects.get(user=user, match_id=match_id)
-
-    def update_status(self, status):
-        self.status = status
-        self.save()
