@@ -8,6 +8,19 @@ class TestPlayMatch(TestCase):
 
     def test_play_match(self):
         self._populate_user()
+        from ib_common.date_time_utils.get_current_local_date_time \
+            import get_current_local_date_time
+        from datetime import timedelta
+        from tournament.models import Tournament
+
+        curr_datetime = get_current_local_date_time()
+        from tdd_practice.constants.general import TournamentStatus
+        self.tournament = Tournament.objects.create(
+            name="Knock Out",
+            no_of_rounds=3,
+            start_datetime=curr_datetime + timedelta(days=1),
+            status=TournamentStatus.IN_PROGRESS.value)
+
         self._create_match()
         from tournament.models.match import Match
         Match.play_match(match_id=self.match.id, user_id=self.user.id)
