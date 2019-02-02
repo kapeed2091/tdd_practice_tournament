@@ -1,9 +1,7 @@
-from django.test import TestCase
-
-from tournaments.constants.general import TournamentStatus
+from .test_utils import TestUtils
 
 
-class TestCreateMatch(TestCase):
+class TestCreateMatch(TestUtils):
 
     def test_create_match(self):
         from tournaments.models import Match
@@ -33,7 +31,8 @@ class TestCreateMatch(TestCase):
         tournament_id = 1
         round_number = 3
 
-        from tournaments.exceptions.custom_exceptions import InvalidTournamentId
+        from tournaments.exceptions.custom_exceptions import \
+            InvalidTournamentId
         with self.assertRaises(InvalidTournamentId):
             Match.create_match(tournament_id, round_number)
 
@@ -48,32 +47,3 @@ class TestCreateMatch(TestCase):
         from tournaments.exceptions.custom_exceptions import InvalidRoundNumber
         with self.assertRaises(InvalidRoundNumber):
             Match.create_match(tournament.id, round_number)
-
-    @staticmethod
-    def create_tournament(
-            user_id, status=TournamentStatus.IN_PROGRESS.value):
-        from tournaments.models import Tournament
-
-        total_rounds = 4
-
-        from ib_common.date_time_utils.get_current_local_date_time import \
-            get_current_local_date_time
-        start_datetime = get_current_local_date_time()
-
-        tournament = Tournament.objects.create(
-            user_id=user_id,
-            total_rounds=total_rounds,
-            start_datetime=start_datetime,
-            status=status
-        )
-
-        return tournament
-
-    @staticmethod
-    def create_user():
-        from tournaments.models import User
-
-        user_name = "John"
-
-        user = User.objects.create(name=user_name)
-        return user
