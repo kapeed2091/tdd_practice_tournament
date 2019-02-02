@@ -1,12 +1,15 @@
 from django.db import models
+from tournament.constants.general import T_ID_MAX_LENGTH,USER_ID_MAX_LENGTH
 
 
 class TournamentMatch(models.Model):
-    t_id = models.CharField(max_length=20)
-    player_one = models.CharField(max_length=20)
-    player_two = models.CharField(max_length=20)
+    t_id = models.CharField(max_length=T_ID_MAX_LENGTH)
+    player_one = models.CharField(max_length=USER_ID_MAX_LENGTH)
+    player_two = models.CharField(max_length=USER_ID_MAX_LENGTH)
 
     @classmethod
-    def create_match(cls, tournament_id, user_id_1, user_id_2):
-        cls.objects.create(t_id=tournament_id, player_one=user_id_1,
-                           player_two=user_id_2)
+    def create_match(cls, request_data):
+        cls.objects.create(
+            t_id=request_data['tournament_id'],
+            player_one=request_data['player_one_user_id'],
+            player_two=request_data['player_two_user_id'])
