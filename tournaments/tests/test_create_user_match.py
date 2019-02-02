@@ -58,6 +58,23 @@ class TestCreateUserMatch(TestCase):
         with self.assertRaises(InvalidUserId):
             UserMatch.create_user_match(user_id, match.id)
 
+    def test_user_not_in_tournament(self):
+        from tournaments.models import UserMatch
+        user = self.create_user()
+        user_2 = self.create_second_user()
+
+        tournament = self.create_tournament(user_id=user.id)
+
+        round_number = 2
+        match = self.create_match(
+            tournament_id=tournament.id, round_number=round_number
+        )
+
+        from tournaments.exceptions.custom_exceptions import \
+            UserNotInTournamnet
+        with self.assertRaises(UserNotInTournamnet):
+            UserMatch.create_user_match(user_2.id, match.id)
+
     @staticmethod
     def create_tournament(
             user_id, status=TournamentStatus.IN_PROGRESS.value):
@@ -97,3 +114,12 @@ class TestCreateUserMatch(TestCase):
         )
 
         return match
+
+    @staticmethod
+    def create_second_user():
+        from tournaments.models import User
+
+        user_name = "John-2"
+
+        user = User.objects.create(name=user_name)
+        return user
