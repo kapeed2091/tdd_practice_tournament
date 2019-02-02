@@ -100,3 +100,20 @@ class TestPlayMatch(TestCase):
 
         tm_player = TMPlayer.objects.get(id=tm_player_id)
         self.assertEqual(tm_player.status, 'IN_PROGRESS')
+
+    def test_match_is_in_yet_to_start_to_play(self):
+        from ib_tournament.models import TMPlayer
+        from ib_tournament.constants.general import TMPlayerStatus
+
+        tm_players = TMPlayer.objects.all()
+        tm_player = tm_players[0]
+        player_id = tm_players[0].player_id
+        tournament_match_id = tm_players[0].tournament_match_id
+        tm_player.status = TMPlayerStatus.COMPLETED.value
+
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            TM_PLAYER_NOT_IN_YET_TO_START
+        with self.assertRaisesMessage(
+                BadRequest, TM_PLAYER_NOT_IN_YET_TO_START[0]):
+            TMPlayer.play_match(player_id, tournament_match_id)
