@@ -23,7 +23,6 @@ Assumptions:
 
 ToDo List:
     User can play matches once the tournament is started
-       - start tournament when start datetime is reached
        - User will submit his score in the match
        - user not in given match
 
