@@ -1,41 +1,29 @@
-- User can create a knock-out tournament with configurable number of rounds and start datetime
-      1. User Can create a tournament with configurable number of rounds and start datetime
-      2. When User creates a tournament with non-positive number of rounds, throw an exception
-      3. When User creates a tournament with date_time <= now, should throw an exception
-      4. When User Create a tournament with wrong user_id, should throw an exception
-      5. Encapsulation of methods
-      6. Refactor: Wrong Name for user_id_length in Tournament model
-- User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)
-      1. User can all the tournaments
-      2. Should we validate user_id??
-- User can subscribe to a tournament which is not yet started
-      1. User can subscribe to a tournament
-      2. If User try to subscribe to tournament which has started, throw an exception
-      3. If User try to subscribe to tournament which has reached max members, throw an exception
-      4. If User try to subscribe to the which he already subscribed to, throw an exception
-      [5. Invalid user_id]
-      6. Invalid tournament_id
-- User can play matches once the tournament is started
-      1. User can play match
-      [2. If User try to play the match with out tournament getting started, throw an exception]
-      3. User try to play the same match again
-      4. User try to play the match after the match is completed.
-      5. Wrong user_id/match_id (User does not belong to that match)
-      6. Wrong user_id(Does Not Exist)
-      7. Wrong match_id(Does Not Exist)
+TO BE IMPLEMENTED:
+   - User can play matches once the tournament is started
+          1. User can play match
+          2. If User try to play match where tournament has not started, raise an exception
+          3. Invalid user id
+          4. Invalid match id
      - User will submit his score in the match
-      1. User will submit his score in the match
-      2. Wrong user_id/match_id (User does not belong to the match)
-      3. Wrong user_id(Does Not Exist)
-      4. Wrong match_id(Does Not Exist)
-- User will progress to next round if he wins the match
-- User can get his current round number for a tournament
-- User can get his opponent user profile in any round in a tournament
-- User can get the winner user profile of any tournament
+          1. User will submit score for a match
+          2. Invalid User id
+          3. Invalid Match id
 
-Additional TODO's
-- If we include status, how should the field get_updated?
-- Should make tournament_name mandatory for 1st use-case
+   - There should be a Match for an user to play(Dependent Task)
 
-Assumptions for 4th Use Case:
-1. If Tournament status is 'COMPLETED' then Match status will also be in 'COMPLETED'
+IN_PROGRESS:
+
+COMPLETED:
+
+ASSUMPTIONS:
+   1. Assuming the Match model will have the following fields
+          a. match_id
+          b. user
+          c. tournament
+          d. score(default=0)
+          e. status
+DOUBTS:
+   1. Can user play same match multiple times.
+   2. Will there be any time constraints to play a match
+   3. Can the use submit scores multiple times for the same match
+   4. If the User does not submit the score, will the default=0
