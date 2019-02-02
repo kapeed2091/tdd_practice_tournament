@@ -1,5 +1,5 @@
 from django.db import models
-from django_swagger_utils.drf_server.exceptions import Forbidden
+from django_swagger_utils.drf_server.exceptions import Forbidden, NotFound
 
 from tournament.constants.exception_messages import MATCH_CAN_BE_PLAYED_ONLY_AFTER_THE_TOURNAMENT_HAS_STARTED
 from tournament.constants.general import MatchStatus
@@ -18,9 +18,7 @@ class Match(models.Model):
 
     @classmethod
     def play_match(cls, user_id, match_id):
-        from tournament.models import User
-
-        user = User.get_user(user_id)
+        user = cls._get_user(user_id)
         match = cls._get_match(user=user, match_id=match_id)
         cls._validate_tournament(tournament=match.tournament)
         match.update_status(status=MatchStatus.IN_PROGRESS.value)
@@ -28,6 +26,15 @@ class Match(models.Model):
     def update_status(self, status):
         self.status = status
         self.save()
+
+    @staticmethod
+    def _get_user(user_id):
+        from tournament.models import User
+
+        try:
+            return User.get_user(user_id)
+        except User.DoesNotExist:
+            raise NotFound('User does not exist with the given user id')
 
     @staticmethod
     def _validate_tournament(tournament):
