@@ -22,3 +22,5 @@ TOURNAMENT_STATUS_IS_NOT_FULL_YET_TO_START = (
 
 TM_PLAYER_NOT_IN_YET_TO_START = ('Player status should be YET_TO_START to play',
                                  'TM_PLAYER_NOT_IN_YET_TO_START')
+
+PLAYER_NOT_IN_MATCH = ('Player is not in Match', 'PLAYER_NOT_IN_MATCH')
