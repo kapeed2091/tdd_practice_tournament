@@ -19,4 +19,6 @@ class Match(models.Model):
 
     @classmethod
     def get_tournament_by_match_id(cls, match_id):
-        return
+        match = cls.objects.get(id=match_id)
+        return match.tournament
+
