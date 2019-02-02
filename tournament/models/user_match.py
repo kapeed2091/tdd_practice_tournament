@@ -7,4 +7,7 @@ class UserMatch(models.Model):
 
     @classmethod
     def create_user_match(cls, user_id, match_id):
-        pass
+        cls.objects.create(
+            user_id=user_id,
+            match_id=match_id
+        )
