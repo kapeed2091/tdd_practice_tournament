@@ -17,6 +17,8 @@ Assumptions:
    - In case of tie, Whoever submits the score first is winner
    - User profile has Name, Age, Gender
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
+   - User will have his default score as -1 when UserMatch object is created
+   - User score will always be a non-negative integer
 
 overall estimation time - (6 hr - 5 + 1)
    - User can create a knock-out tournament with configurable number of rounds and start datetime - (45 min)
@@ -66,12 +68,13 @@ todo-list
         - user cannot subscribe as tournament is completed
         - user is last person to subscribe for a tournament
     - User can play matches once the tournament is started
-        - [successful case] - match has to be created and UserMatch has to created
         - UserMatch
                 - invalid match status ?? OPEN | COMPLETED
                 - user status is DEAD
-        - match has not started
-        - user is not part of the tournament
+        - User will submit his score in the match - (30 min)
+            - [successful]
+            - user not part of tournament
+            - invalid score
     - User will submit his score in the match - (30 min)
             - successful
             - user not part of tournament
