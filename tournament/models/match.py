@@ -11,3 +11,7 @@ class Match(models.Model):
     tournament = models.ForeignKey(KoTournament)
     score = models.IntegerField(default=0)
     status = models.CharField(max_length=STATUS_LENGTH)
+
+    @classmethod
+    def play_match(cls, user_id, match_id):
+        pass

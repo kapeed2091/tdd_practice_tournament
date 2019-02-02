@@ -3,7 +3,7 @@ from ib_common.date_time_utils.get_current_datetime import get_current_datetime
 
 import datetime
 
-from tournament.constants.general import TournamentStatus
+from tournament.constants.general import TournamentStatus, MatchStatus
 
 
 class TestPlayMatch(TestCase):
