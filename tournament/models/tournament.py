@@ -32,25 +32,6 @@ class Tournament(models.Model):
         cls.get_tournament_by_id(tournament_id=tournament_id)
 
     @classmethod
-    def start_tournament(cls, tournament_id):
-        tournament = cls.get_tournament_by_id(tournament_id=tournament_id)
-
-        if tournament.is_tournament_crossed_start_datetime():
-            tournament.\
-                update_status(status=TournamentStatus.IN_PROGRESS.value)
-
-            from .tournament_match import TournamentMatch
-            TournamentMatch.\
-                create_tournament_matches(tournament_id=tournament_id)
-
-    def is_tournament_crossed_start_datetime(self):
-        from ib_common.date_time_utils.get_current_local_date_time \
-            import get_current_local_date_time
-
-        curr_datetime = get_current_local_date_time()
-        return self.start_datetime <= curr_datetime
-
-    @classmethod
     def update_tournament_status(cls, tournament_id, status):
         tournament = cls.get_tournament_by_id(tournament_id=tournament_id)
         tournament.update_status(status=status)

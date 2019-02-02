@@ -22,7 +22,8 @@ Assumptions:
 
 ToDo List:
     User can play matches once the tournament is started
-       - [play match]
+       - start tournament when start datetime is reached
+       - play match
        - User will submit his score in the match
 
 Completed List
@@ -40,9 +41,5 @@ Completed List
         - tournament not in CAN_JOIN  status
         - invalid tournament
         - when last member joins the tournament change the status to FULL_YET_TO_START
-    - User can play matches once the tournament is started
-        - start tournament when start datetime is reached
-            - change tournament status
-            - create matches
 Time Estimation: 10 Hours
 Updated Time Estimation: 12 Hours
