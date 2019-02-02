@@ -19,7 +19,9 @@ class TestCreateUserMatch(TestCase):
         )
 
         initial_objects_count = UserMatch.objects.all().count()
-        UserMatch.create_user_match(user.id, match.id)
+        UserMatch.create_user_match(
+            user_id=user.id, match_id=match.id
+        )
         final_objects_count = UserMatch.objects.all().count()
 
         objects_newly_created_count = \
@@ -46,7 +48,9 @@ class TestCreateUserMatch(TestCase):
 
         from tournaments.exceptions.custom_exceptions import InvalidMatchId
         with self.assertRaises(InvalidMatchId):
-            UserMatch.create_user_match(user.id, match_id)
+            UserMatch.create_user_match(
+                user_id=user.id, match_id=match_id
+            )
 
     def test_invalid_user_id(self):
         from tournaments.models import UserMatch
@@ -81,7 +85,9 @@ class TestCreateUserMatch(TestCase):
         from tournaments.exceptions.custom_exceptions import \
             UserNotInTournament
         with self.assertRaises(UserNotInTournament):
-            UserMatch.create_user_match(user_2.id, match.id)
+            UserMatch.create_user_match(
+                user_id=user_2.id, match_id=match.id
+            )
 
     @staticmethod
     def create_tournament(
