@@ -86,3 +86,20 @@ class TestStartTournament(TestCase):
             START_DATE_NOT_REACHED
         with self.assertRaisesMessage(BadRequest, START_DATE_NOT_REACHED[0]):
             Tournament.start_tournament(tournament_id)
+
+    def test_tournament_status_is_full_yet_to_start(self):
+        from ib_tournament.models import Tournament
+
+        tournament_details = {
+            'total_rounds': 2,
+            'start_datetime': get_curr_day_datetime_str(),
+            'name': 'Tournament 1'
+        }
+        tournament_id = self.create_tournament(tournament_details)
+
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            TOURNAMENT_STATUS_IS_NOT_FULL_YET_TO_START
+        with self.assertRaisesMessage(
+                BadRequest, TOURNAMENT_STATUS_IS_NOT_FULL_YET_TO_START[0]):
+            Tournament.start_tournament(tournament_id)
