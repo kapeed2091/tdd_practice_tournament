@@ -35,12 +35,13 @@ class TestPlayMatch(TestCase):
         )
 
     def test_user_will_play_match(self):
-        from tournament.models import Match
+        from tournament.models import User, Match
 
-        match_before = Match.objects.get(user_id=self.user1_id, match_id=self.match1_id)
+        user1 = User.objects.get(user_id=self.user1_id)
+        match_before = Match.objects.get(user=user1, match_id=self.match1_id)
         self.assertEqual(match_before.status, MatchStatus.YET_TO_START.value)
 
         Match.play_match(user_id=self.user1_id, match_id=self.match1_id)
 
-        match = Match.objects.get(user_id=self.user1_id, match_id=self.match1_id)
+        match = Match.objects.get(user=user1, match_id=self.match1_id)
         self.assertEqual(match.status, MatchStatus.IN_PROGRESS.value)
