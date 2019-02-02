@@ -86,6 +86,12 @@ class Tournament(models.Model):
         return
 
     @classmethod
+    def get_no_of_matches(cls, tournament_id):
+        tournament = cls.get_tournament(tournament_id)
+        return cls._get_total_matches_count_from_total_rounds(
+            tournament.total_rounds)
+
+    @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
         from ib_common.date_time_utils.convert_string_to_local_date_time \
             import convert_string_to_local_date_time
@@ -205,3 +211,7 @@ class Tournament(models.Model):
         if status != TournamentStatus.FULL_YET_TO_START.value:
             raise BadRequest(*TOURNAMENT_STATUS_IS_NOT_FULL_YET_TO_START)
         return
+
+    @classmethod
+    def _get_total_matches_count_from_total_rounds(cls, total_rounds):
+        return (2 ** total_rounds) - 1
