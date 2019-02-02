@@ -7,4 +7,6 @@ class Match(models.Model):
 
     @classmethod
     def play_match(cls, match_id, user_id):
-        pass
+        match = cls.objects.get(id=match_id, user_id=user_id)
+        match.status = "IN_PROGRESS"
+        match.save()
