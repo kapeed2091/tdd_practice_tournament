@@ -22,4 +22,6 @@ class UserProfile(models.Model):
             cls.get_user(user_id=user_id_1)
             cls.get_user(user_id=user_id_2)
         except:
-            raise Exception('User(s) not registered')
+            from tournament.constants.exception_messages import \
+                USERS_OR_ONE_OF_THE_USER_NOT_REGISTERED
+            raise Exception(*USERS_OR_ONE_OF_THE_USER_NOT_REGISTERED)

@@ -9,7 +9,6 @@ Yet to do:
         - User can play tournament only if tournament status is IN_PROGRESS
         - User should have a match to play in that round
    - Create matches once tournament starts
-        - *Both users should be registered with us
         - Both users should be subscribed to tournament
         - Only one match will be created for a tournament round for a user
    - Tournament status should be in IN_PROGRESS, after match creation
@@ -41,6 +40,7 @@ Completed:
         - create tournament match with two users
         - create match only if current time is greater than tournament start_datetime
         - Tournament should exist
+        - Both users should be registered with us
 
 Raise Appropriate custom exceptions wherever necessary
 
