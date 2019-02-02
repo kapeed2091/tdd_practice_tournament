@@ -12,3 +12,6 @@ INVALID_USER = ('Invalid User', 'INVALID_USER')
 CAN_NOT_SUBSCRIBE_AGAIN = ('Can\'t subscribe again', 'CAN_NOT_SUBSCRIBE_AGAIN')
 
 INVALID_TOURNAMENT = ('Invalid Tournament', 'INVALID_TOURNAMENT')
+
+START_DATE_NOT_REACHED = ('Start date not reached yet.!',
+                          'START_DATE_NOT_REACHED')

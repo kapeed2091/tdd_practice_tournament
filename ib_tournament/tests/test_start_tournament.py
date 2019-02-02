@@ -70,6 +70,7 @@ class TestStartTournament(TestCase):
         tournament_id = self.create_tournament(tournament_details)
 
         from django_swagger_utils.drf_server.exceptions import BadRequest
-        from ib_tournament.constants.exception_messages import START_DATE_NOT_REACHED
-        with self.assertRaisesMessage(BadRequest, START_DATE_NOT_REACHED[1]):
+        from ib_tournament.constants.exception_messages import \
+            START_DATE_NOT_REACHED
+        with self.assertRaisesMessage(BadRequest, START_DATE_NOT_REACHED[0]):
             Tournament.start_tournament(tournament_id)
