@@ -163,5 +163,6 @@ class TestSubscribeToTournament(TestCase):
         UserTournament.objects.create(
             user_id=self.user.id,
             tournament_id=self.tournament.id,
-            status=UserTournamentStatus.ALIVE.value
+            status=UserTournamentStatus.ALIVE.value,
+            round_number=1
         )

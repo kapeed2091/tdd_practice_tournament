@@ -44,14 +44,17 @@ class TestUtils(TestCase):
         return match
 
     @staticmethod
-    def create_user_tournament(user_id, tournament_id,
-                               status=UserTournamentStatus.ALIVE.value):
+    def create_user_tournament(
+            user_id, tournament_id, status=UserTournamentStatus.ALIVE.value,
+            round_number=1
+    ):
         from tournaments.models import UserTournament
 
         obj = UserTournament.objects.create(
             user_id=user_id,
             tournament_id=tournament_id,
-            status=status
+            status=status,
+            round_number=round_number
         )
         return obj
 
