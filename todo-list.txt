@@ -67,10 +67,15 @@ todo-list
         - user is last person to subscribe for a tournament
     - User can play matches once the tournament is started
         - successful case - match has to be created and tournamentmatch has to created
-            - [match has to be created]
+            - [invalid tournament_id]
+            - invalid round number
         - match has not started
         - user is not part of the tournament
     - User will submit his score in the match - (30 min)
             - successful
             - user not part of tournament
             - invalid score
+
+Completed
+    Create Match
+        - successful case

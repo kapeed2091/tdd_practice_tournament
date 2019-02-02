@@ -22,3 +22,12 @@ class TestCreateMatch(TestCase):
 
         self.assertTrue(match_exists)
         self.assertEqual(objects_newly_created_count, 1)
+
+    def test_invalid_tournament(self):
+        from tournament.models import Match
+        tournament_id = 1
+        round_number = 3
+
+        from tournament.exceptions.custom_exceptions import InvalidTournamentId
+        with self.assertRaises(InvalidTournamentId):
+            Match.create_match(tournament_id, round_number)
