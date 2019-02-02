@@ -22,3 +22,11 @@ class Match(models.Model):
         if round_number < 0:
             from ..exceptions.custom_exceptions import InvalidRoundNumber
             raise InvalidRoundNumber
+
+    @classmethod
+    def validate_match_id(cls, match_id):
+        match_exists = cls.objects.filter(id=match_id).exists()
+
+        if not match_exists:
+            from ..exceptions.custom_exceptions import InvalidMatchId
+            raise InvalidMatchId
