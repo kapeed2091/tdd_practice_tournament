@@ -9,6 +9,9 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def create_match(cls, request_data):
+        from tournament.models import KOTournament
+        KOTournament.validate_start_datetime(
+            tournament_id=request_data['tournament_id'])
         cls.objects.create(
             t_id=request_data['tournament_id'],
             player_one=request_data['player_one_user_id'],

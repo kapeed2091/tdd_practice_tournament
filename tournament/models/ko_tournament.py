@@ -147,3 +147,13 @@ class KOTournament(models.Model):
         tournament_obj = cls.get_tournament(tournament_id=tournament_id)
         tournament_obj.is_tournament_started()
         tournament_obj.is_valid_subscribe_status()
+
+    @classmethod
+    def validate_start_datetime(cls, tournament_id):
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+
+        tournament_obj = cls.get_tournament(tournament_id=tournament_id)
+        if tournament_obj.start_datetime > get_current_local_date_time():
+            raise Exception(
+                'Tournament Match cannot be created before start datetime')
