@@ -120,7 +120,7 @@ class TMPlayer(models.Model):
         tm_players = TMPlayer.objects.filter(
             tournament_match_id=tournament_match_id)
         if cls._can_update_winner(tm_players):
-            winner_id = cls._get_winner_by_score(tm_players)
+            winner_id = cls._get_winner(tm_players)
             TournamentMatch.update_winner(tournament_match_id, winner_id)
         return
 
@@ -142,22 +142,23 @@ class TMPlayer(models.Model):
             return True
 
     @classmethod
-    def _get_winner_by_score(cls, tm_players):
+    def _get_winner(cls, tm_players):
         tm_player_1 = tm_players[0]
         tm_player_2 = tm_players[1]
+        return cls._get_winner_by_score(tm_player_1, tm_player_2)
 
+    @classmethod
+    def _get_winner_by_score(cls, tm_player_1, tm_player_2):
         if tm_player_1.score > tm_player_2.score:
             return tm_player_1.player_id
         elif tm_player_2.score > tm_player_1.score:
             return tm_player_2.player_id
         else:
-            return cls._get_winner_by_completed_datetime(tm_players)
+            return cls._get_winner_by_completed_datetime(
+                tm_player_1, tm_player_2)
 
     @classmethod
-    def _get_winner_by_completed_datetime(cls, tm_players):
-        tm_player_1 = tm_players[0]
-        tm_player_2 = tm_players[1]
-
+    def _get_winner_by_completed_datetime(cls, tm_player_1, tm_player_2):
         if tm_player_1.completed_datetime < tm_player_2.completed_datetime:
             return tm_player_1.player_id
         else:
