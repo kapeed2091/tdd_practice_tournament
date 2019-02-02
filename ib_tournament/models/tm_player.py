@@ -113,11 +113,20 @@ class TMPlayer(models.Model):
 
     @classmethod
     def _can_update_winner(cls, tm_players):
-        from ib_tournament.constants.general import TournamentStatus
-        for tm_player in tm_players:
-            if tm_player.status != TournamentStatus.COMPLETED.value:
-                return False
+        players_status_list = cls._get_players_status_list(tm_players)
+        if cls._is_status_other_than_completed(players_status_list):
+            return False
         return True
+
+    @classmethod
+    def _get_players_status_list(cls, tm_players):
+        return [tm_player.status for tm_player in tm_players]
+
+    @staticmethod
+    def _is_status_other_than_completed(player_status_list):
+        from ib_tournament.constants.general import TournamentStatus
+        if list(set(player_status_list)) != [TournamentStatus.COMPLETED.value]:
+            return True
 
     @classmethod
     def _get_winner_by_score(cls, tm_players):
