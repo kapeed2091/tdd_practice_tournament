@@ -11,6 +11,7 @@ class TestPlayMatch(TestCase):
 
     user_id = 'User'
     user1_id = 'User1'
+    user2_id = 'User2'
     invalid_user_id = 'InvalidUser'
     match1_id = 'Match1'
     match2_id = 'Match2'
@@ -23,6 +24,11 @@ class TestPlayMatch(TestCase):
         user1 = User.objects.create(
             user_id=self.user1_id
         )
+
+        User.objects.create(
+            user_id=self.user2_id
+        )
+
         tournament1 = KoTournament.objects.create(
             created_user_id=self.user_id,
             name='Tournament1',
@@ -82,3 +88,9 @@ class TestPlayMatch(TestCase):
 
         with self.assertRaisesMessage(NotFound, 'Match does not exist with the given match id'):
             Match.play_match(user_id=self.user1_id, match_id=self.invalid_match_id)
+
+    def test_play_match_user_does_not_belong_to_match(self):
+        from tournament.models import Match
+
+        with self.assertRaisesMessage(Forbidden, 'User does not belong to the match'):
+            Match.play_match(user_id=self.user2_id, match_id=self.match1_id)
