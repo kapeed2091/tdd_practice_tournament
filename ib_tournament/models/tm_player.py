@@ -7,6 +7,7 @@ class TMPlayer(models.Model):
     tournament_match = models.ForeignKey('ib_tournament.TournamentMatch')
     status = models.CharField(max_length=50,
                               default=TMPlayerStatus.YET_TO_START.value)
+    score = models.IntegerField(default=0)
 
     class Meta:
         unique_together = ('player', 'tournament_match')
@@ -30,6 +31,10 @@ class TMPlayer(models.Model):
         cls._validate_status_to_play(tournament_match.status)
         cls._update_status(tournament_match, TMPlayerStatus.IN_PROGRESS.value)
         return
+
+    @classmethod
+    def submit_score(cls, player_id, tournament_match_id, score):
+        pass
 
     @staticmethod
     def _group_players_as_group_of_two(player_ids):

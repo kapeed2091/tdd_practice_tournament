@@ -27,6 +27,7 @@ Assumptions:
             - YET_TO_START state when it is created initially
             - IN_PROGRESS, once the player starts playing the match
             - COMPLETED, once the player submits his score
+       - assuming that initial score is 0
 
 TODOs(To be Implemented list):
     - play match (low priority)
