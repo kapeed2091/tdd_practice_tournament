@@ -78,6 +78,8 @@ class Tournament(models.Model):
     def start_tournament(cls, tournament_id):
         from ib_tournament.constants.general import TournamentStatus
         tournament = cls.get_tournament(tournament_id)
+        cls._validate_start_datetime_to_start_tournament(
+            tournament.start_datetime)
         cls._update_status(
             tournament, TournamentStatus.IN_PROGRESS.value)
         return
@@ -176,3 +178,18 @@ class Tournament(models.Model):
     def _get_maximum_players_in_tournament(self):
         total_rounds = self.total_rounds
         return 2 ** total_rounds
+
+    @classmethod
+    def _validate_start_datetime_to_start_tournament(cls, start_datetime):
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            START_DATE_NOT_REACHED
+        if cls._is_future_datetime(start_datetime):
+            raise BadRequest(*START_DATE_NOT_REACHED)
+
+    @classmethod
+    def _is_future_datetime(cls, start_datetime):
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+        curr_datetime = get_current_local_date_time()
+        return start_datetime > curr_datetime

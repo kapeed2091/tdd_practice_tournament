@@ -14,6 +14,18 @@ def get_next_day_datetime_str():
         next_day_datetime, DEFAULT_DATE_TIME_FORMAT)
 
 
+def get_curr_day_datetime_str():
+    from ib_common.date_time_utils.get_current_local_date_time import \
+        get_current_local_date_time
+    from ib_common.date_time_utils.convert_datetime_to_local_string import \
+        convert_datetime_to_local_string
+    from ib_tournament.constants.general import DEFAULT_DATE_TIME_FORMAT
+
+    curr_day_datetime = get_current_local_date_time()
+    return convert_datetime_to_local_string(
+        curr_day_datetime, DEFAULT_DATE_TIME_FORMAT)
+
+
 class TestStartTournament(TestCase):
     username = 'user1'
 
@@ -50,7 +62,7 @@ class TestStartTournament(TestCase):
 
         tournament_details = {
             'total_rounds': 2,
-            'start_datetime': get_next_day_datetime_str(),
+            'start_datetime': get_curr_day_datetime_str(),
             'name': 'Tournament 1'
         }
         tournament_id = self.create_tournament(tournament_details)
