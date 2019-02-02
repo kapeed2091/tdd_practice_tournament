@@ -66,10 +66,9 @@ todo-list
         - user cannot subscribe as tournament is completed
         - user is last person to subscribe for a tournament
     - User can play matches once the tournament is started
-        - successful case - match has to be created and UserMatch has to created
-            - UserMatch
-                    - invalid match status ?? OPEN | COMPLETED
-                - [user_id not in tournament]
+        - [successful case] - match has to be created and UserMatch has to created
+        - UserMatch
+                - invalid match status ?? OPEN | COMPLETED
                 - user status is DEAD
         - match has not started
         - user is not part of the tournament
@@ -87,4 +86,4 @@ Completed
         - successful creation
         - invalid match id - does not exist
         - invalid user_id
-
+        - user_id not in tournament

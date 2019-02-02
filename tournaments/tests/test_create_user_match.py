@@ -69,7 +69,7 @@ class TestCreateUserMatch(TestCase):
     def test_user_not_in_tournament(self):
         from tournaments.models import UserMatch
         user = self.create_user()
-        user_2 = self.create_second_user()
+        user_2 = self.create_user(name="John_2")
 
         tournament = self.create_tournament(user_id=user.id)
 
@@ -104,12 +104,10 @@ class TestCreateUserMatch(TestCase):
         return tournament
 
     @staticmethod
-    def create_user():
+    def create_user(name="John"):
         from tournaments.models import User
 
-        user_name = "John"
-
-        user = User.objects.create(name=user_name)
+        user = User.objects.create(name=name)
         return user
 
     @staticmethod
@@ -122,15 +120,6 @@ class TestCreateUserMatch(TestCase):
         )
 
         return match
-
-    @staticmethod
-    def create_second_user():
-        from tournaments.models import User
-
-        user_name = "John-2"
-
-        user = User.objects.create(name=user_name)
-        return user
 
     @staticmethod
     def create_user_tournament(user_id, tournament_id):
