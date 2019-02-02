@@ -35,8 +35,7 @@ class TMPlayer(models.Model):
     @classmethod
     def submit_score(cls, player_id, tournament_match_id, score):
         tournament_match = cls._get_tm_player(player_id, tournament_match_id)
-        tournament_match.score = score
-        tournament_match.save()
+        cls._update_score(tournament_match, score)
         return
 
     @staticmethod
@@ -82,4 +81,8 @@ class TMPlayer(models.Model):
 
     def _update_status(self, status):
         self.status = status
+        self.save()
+
+    def _update_score(self, score):
+        self.score = score
         self.save()
