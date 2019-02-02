@@ -29,5 +29,9 @@ class UserMatch(models.Model):
         )
 
     def submit_score(self, score):
+        if score < 0:
+            from tournaments.exceptions.custom_exceptions import InvalidScore
+            raise InvalidScore
+
         self.score = score
         self.save()
