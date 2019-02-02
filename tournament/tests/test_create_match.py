@@ -12,10 +12,13 @@ class TestCreateMatch(TestCase):
         Match.create_match(tournament_id, round_number)
         final_objects_count = Match.objects.all().count()
 
+        objects_newly_created_count = \
+            final_objects_count - initial_objects_count
+
         match_exists = Match.objects.filter(
             tournament_id=tournament_id,
             round_number=round_number
         ).exists()
 
         self.assertTrue(match_exists)
-        self.assertEqual(final_objects_count - initial_objects_count, 1)
+        self.assertEqual(objects_newly_created_count, 1)
