@@ -30,3 +30,8 @@ class TournamentPlayer(models.Model):
     @classmethod
     def get_tournament_players_count(cls, tournament_id):
         return cls.objects.filter(tournament_id=tournament_id).count()
+
+    @classmethod
+    def get_player_ids_of_tournament(cls, tournament_id):
+        return list(cls.objects.filter(tournament_id=tournament_id).values_list(
+            'player_id', flat=True))

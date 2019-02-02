@@ -12,6 +12,11 @@ class TournamentMatch(models.Model):
         return
 
     @classmethod
+    def get_tournament_match_ids_of_tournament(cls, tournament_id):
+        return list(cls.objects.filter(tournament_id=tournament_id).values_list(
+            'id', flat=True))
+
+    @classmethod
     def _create_tournament_matches_to_create(cls, tournament_id, matches_count):
         t_matches_to_create = cls._get_tournament_matches_to_create(
             tournament_id, matches_count)

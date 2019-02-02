@@ -86,5 +86,5 @@ class TestAddPlayersToMatch(TestCase):
         for tournament_match in tournament_matches:
             if tournament_match.id in tournament_match_ids:
                 tm_players_count_per_match = TMPlayer.objects.filter(
-                    tournament_match_id=tournament_match.id)
+                    tournament_match_id=tournament_match.id).count()
                 self.assertEqual(tm_players_count_per_match, 2)
