@@ -40,3 +40,7 @@ class InvalidRoundNumber(Exception):
 
 class InvalidMatchId(Exception):
     pass
+
+
+class InvalidScore(Exception):
+    pass
