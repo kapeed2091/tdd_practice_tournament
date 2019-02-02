@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django_swagger_utils.drf_server.exceptions import Forbidden
+from django_swagger_utils.drf_server.exceptions import Forbidden, NotFound
 from ib_common.date_time_utils.get_current_datetime import get_current_datetime
 
 import datetime
@@ -11,6 +11,7 @@ class TestPlayMatch(TestCase):
 
     user_id = 'User'
     user1_id = 'User1'
+    invalid_user_id = 'InvalidUser'
     match1_id = 'Match1'
     match2_id = 'Match2'
 
@@ -68,3 +69,9 @@ class TestPlayMatch(TestCase):
 
         with self.assertRaisesMessage(Forbidden, 'Match can be played only after the tournament has started'):
             Match.play_match(user_id=self.user1_id, match_id=self.match2_id)
+
+    def test_play_match_with_invalid_user(self):
+        from tournament.models import Match
+
+        with self.assertRaisesMessage(NotFound, 'User does not exist with the given user id'):
+            Match.play_match(user_id=self.invalid_user_id, match_id=self.match2_id)

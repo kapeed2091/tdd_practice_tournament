@@ -1,16 +1,15 @@
 TO BE IMPLEMENTED:
    - User can play matches once the tournament is started
-          1. User can play match
-          2. If User try to play match where tournament has not started, raise an exception
-          3. Invalid user id
           4. Invalid match id
+          5. User does not belong to the match
      - User will submit his score in the match
           1. User will submit score for a match
           2. Invalid User id
           3. Invalid Match id
 
 IN_PROGRESS:
-
+   - User can play matches once the tournament is started
+          3. Invalid user id
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -35,3 +34,6 @@ DOUBTS:
    2. Will there be any time constraints to play a match
    3. Can the use submit scores multiple times for the same match
    4. If the User does not submit the score, will the default=0
+
+
+**DoesNotExist is being thrown as COMPILE ERROR.Should we consider it as COMPILE ERROR??**
