@@ -22,6 +22,18 @@ class UserMatch(models.Model):
             user_id=user_id, tournament_id=tournament_id
         )
 
+        from tournaments.constants.general import UserTournamentStatus
+        from .user_tournament import UserTournament
+        is_user_dead = UserTournament.objects.filter(
+            user_id=user_id, tournament_id=tournament_id,
+            status=UserTournamentStatus.DEAD.value
+        ).exists()
+
+        if is_user_dead:
+            from tournaments.exceptions.custom_exceptions import \
+                UserNotInTournamentAnymore
+            raise UserNotInTournamentAnymore
+
         cls._validate_match_users_count(match_id=match.id)
 
         cls.objects.create(

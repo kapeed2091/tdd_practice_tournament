@@ -10,6 +10,11 @@ class TournamentStatus(BaseEnumClass, Enum):
     COMPLETED = 'COMPLETED'
 
 
+class UserTournamentStatus(BaseEnumClass, Enum):
+    ALIVE = "ALIVE"
+    DEAD = "DEAD"
+
+
 DEFAULT_SCORE = -1
 
 MAX_NUM_OF_PEOPLE_FOR_MATCH = 2
