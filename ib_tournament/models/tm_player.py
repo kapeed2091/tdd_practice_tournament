@@ -34,11 +34,11 @@ class TMPlayer(models.Model):
 
     @classmethod
     def submit_score(cls, player_id, tournament_match_id, score):
-        from ib_tournament.constants.general import TournamentStatus
+        from ib_tournament.constants.general import TMPlayerStatus
         tm_player = cls._get_tm_player(player_id, tournament_match_id)
         cls._validate_status_to_submit_score(tm_player.status)
         cls._update_score(tm_player, score)
-        cls._update_status(tm_player, TournamentStatus.COMPLETED.value)
+        cls._update_status(tm_player, TMPlayerStatus.COMPLETED.value)
         return
 
     @staticmethod
