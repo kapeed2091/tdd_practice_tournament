@@ -18,11 +18,11 @@ Assumptions:
    - User profile has Name, Age, Gender
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
    - updating tournament status to IN_PROGRESS once the tournament is started
+   - tournament status should be FULL_YET_TO_START before starting tournament
 
 TODOs(To be Implemented list):
     - start tournament
-        - starting tournament before start_datetime reaches
-
+        - tournament status should be FULL_YET_TO_START before starting tournament
     - create matches
     - add players to matches
     - play match
@@ -33,7 +33,7 @@ TODOs(To be Implemented list):
     
 In Progress List:
     - start tournament
-        - update status to IN_PROGRESS
+        - starting tournament before start_datetime reaches
 
 
 Completed List:
@@ -64,4 +64,6 @@ Completed List:
         - subscribed player can't subscribe again 
         - subscribing to invalid tournament_id
         - tournament_status should change to FULL_YET_TO_START if max users subscribed 
-        - refactor testcases --> don't use internal functions 
+        - refactor testcases --> don't use internal functions
+    - start tournament
+        - update status to IN_PROGRESS
