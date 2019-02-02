@@ -36,6 +36,7 @@ class TMPlayer(models.Model):
     def submit_score(cls, player_id, tournament_match_id, score):
         from ib_tournament.constants.general import TournamentStatus
         tm_player = cls._get_tm_player(player_id, tournament_match_id)
+        cls._validate_status_to_submit_score(tm_player.status)
         cls._update_score(tm_player, score)
         cls._update_status(tm_player, TournamentStatus.COMPLETED.value)
         return
@@ -88,3 +89,12 @@ class TMPlayer(models.Model):
     def _update_score(self, score):
         self.score = score
         self.save()
+
+    @classmethod
+    def _validate_status_to_submit_score(cls, status):
+        from ib_tournament.constants.general import TMPlayerStatus
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            SUBMIT_WHEN_STATUS_IS_IN_PROGRESS
+        if status != TMPlayerStatus.IN_PROGRESS.value:
+            raise BadRequest(*SUBMIT_WHEN_STATUS_IS_IN_PROGRESS)
