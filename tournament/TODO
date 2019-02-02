@@ -10,7 +10,8 @@ TO BE IMPLEMENTED:
           3. Invalid Match id
 
 IN_PROGRESS:
-
+   - User can play matches once the tournament is started
+          2. If User try to play match where tournament has not started, raise an exception
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -28,6 +29,7 @@ ASSUMPTIONS:
           e. status
 
    2. Assuming after play_match is called by user, match status will change to 'IN_PROGRESS'
+   3. After the tournament reach start_datetime, status will change to 'IN_PROGRESS' else will be in 'YET_TO_START'
 DOUBTS:
    1. Can user play same match multiple times.
    2. Will there be any time constraints to play a match
