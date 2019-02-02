@@ -88,28 +88,3 @@ class TestCreateUserMatch(TestUtils):
             UserMatch.create_user_match(
                 user_id=user_2.id, match_id=match.id
             )
-
-    def test_user_playing_wrong_match(self):
-        from tournaments.models import UserMatch
-
-        user_1 = self.create_user()
-        tournament = self.create_tournament(user_id=user_1.id)
-        self.create_user_tournament(
-            user_id=user_1.id, tournament_id=tournament.id
-        )
-
-        user_2 = self.create_user("John-2")
-        self.create_user_tournament(
-            user_id=user_2.id, tournament_id=tournament.id
-        )
-
-        match = self.create_match(tournament_id=tournament.id, round_number=1)
-        self.create_user_match(user_id=user_1.id, match_id=match.id)
-
-        user_3 = self.create_user("John-3")
-
-        from tournaments.exceptions.custom_exceptions import MatchIdOverused
-        with self.assertRaises(MatchIdOverused):
-            UserMatch.create_user_match(
-                user_id=user_3.id, match_id=match.id
-            )
