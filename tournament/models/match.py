@@ -3,6 +3,7 @@ from django.db import models
 
 class Match(models.Model):
     user = models.ForeignKey('tournament.User')
+    tournament = models.ForeignKey('tournament.Tournament', null=True)
     status = models.CharField(max_length=20, null=True)
 
     @classmethod
@@ -15,3 +16,7 @@ class Match(models.Model):
     def update_match_status(self, status):
         self.status = status
         self.save()
+
+    @classmethod
+    def get_tournament_by_match_id(cls, match_id):
+        return
