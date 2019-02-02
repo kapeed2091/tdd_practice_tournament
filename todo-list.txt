@@ -32,6 +32,11 @@ Assumptions:
        - assuming match winner is None by default
        - assuming completed_datetime is None by default
 
+Doubts:
+    Technical Doubts:
+        - what to with the test case which directly goes to GREEN state(
+        refer: player can submit only if he is part of match)
+
 TODOs(To be Implemented list):
     - match winner progress to next round
     - User will progress to next round if he wins the match
@@ -45,8 +50,7 @@ TODOs(To be Implemented list):
             - validate player_id, raise appropriate custom exception
     
 In Progress List:
-    - player submits match score
-        - In case of tie, Whoever submits the score first is winner
+
 
 Completed List:
     - create user
@@ -96,3 +100,4 @@ Completed List:
         # TODO: Doubt: How to handle this
         - player can submit only if he is part of match --> ALREADY HANDLED
         - declare match winner when second player submits score
+        - In case of tie, Whoever submits the score first is winner
