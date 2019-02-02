@@ -34,7 +34,10 @@ class TMPlayer(models.Model):
 
     @classmethod
     def submit_score(cls, player_id, tournament_match_id, score):
-        pass
+        tournament_match = cls._get_tm_player(player_id, tournament_match_id)
+        tournament_match.score = score
+        tournament_match.save()
+        return
 
     @staticmethod
     def _group_players_as_group_of_two(player_ids):
