@@ -39,6 +39,7 @@ class TMPlayer(models.Model):
         cls._validate_status_to_submit_score(tm_player.status)
         cls._update_score(tm_player, score)
         cls._update_status(tm_player, TMPlayerStatus.COMPLETED.value)
+        cls._update_match_winner(tournament_match_id)
         return
 
     @staticmethod
@@ -98,3 +99,32 @@ class TMPlayer(models.Model):
             SUBMIT_WHEN_STATUS_IS_IN_PROGRESS
         if status != TMPlayerStatus.IN_PROGRESS.value:
             raise BadRequest(*SUBMIT_WHEN_STATUS_IS_IN_PROGRESS)
+
+    @classmethod
+    def _update_match_winner(cls, tournament_match_id):
+        from ib_tournament.models import TMPlayer, TournamentMatch
+
+        tm_players = TMPlayer.objects.filter(
+            tournament_match_id=tournament_match_id)
+        if cls._can_update_winner(tm_players):
+            winner_id = cls._get_winner_by_score(tm_players)
+            TournamentMatch.update_winner(tournament_match_id, winner_id)
+        return
+
+    @classmethod
+    def _can_update_winner(cls, tm_players):
+        from ib_tournament.constants.general import TournamentStatus
+        for tm_player in tm_players:
+            if tm_player.status != TournamentStatus.COMPLETED.value:
+                return False
+        return True
+
+    @classmethod
+    def _get_winner_by_score(cls, tm_players):
+        tm_player_1 = tm_players[0]
+        tm_player_2 = tm_players[1]
+
+        if tm_player_1.score > tm_player_2.score:
+            return tm_player_1.player_id
+        else:
+            return tm_player_2.player_id

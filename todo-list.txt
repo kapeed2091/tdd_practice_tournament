@@ -32,6 +32,8 @@ Assumptions:
        - assuming match winner is None by default
 
 TODOs(To be Implemented list):
+    - player submits match score
+        - In case of tie, Whoever submits the score first is winner
     - match winner progress to next round
     - User will progress to next round if he wins the match
     - get current round
