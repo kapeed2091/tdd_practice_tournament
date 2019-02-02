@@ -113,3 +113,21 @@ class TestSubmitScore(TestCase):
         TMPlayer.submit_score(player_id, tournament_match_id, score)
         tm_player = TMPlayer.objects.get(id=tm_player_id)
         self.assertEqual(tm_player.status, TournamentStatus.COMPLETED.value)
+
+    def test_submit_only_when_status_is_in_progress(self):
+        from ib_tournament.models import TMPlayer
+        from ib_tournament.constants.general import TournamentStatus
+        tm_players = TMPlayer.objects.all()
+        tm_player = tm_players[0]
+        player_id = tm_players[0].player_id
+        tournament_match_id = tm_players[0].tournament_match_id
+        score = 50
+        tm_player.status = TournamentStatus.COMPLETED.value
+        tm_player.save()
+
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            SUBMIT_WHEN_STATUS_IS_IN_PROGRESS
+        with self.assertRaisesMessage(
+                BadRequest, SUBMIT_WHEN_STATUS_IS_IN_PROGRESS[0]):
+            TMPlayer.submit_score(player_id, tournament_match_id, score)
