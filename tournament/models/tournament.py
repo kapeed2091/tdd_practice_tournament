@@ -32,7 +32,7 @@ class Tournament(models.Model):
         cls.get_tournament_by_id(tournament_id=tournament_id)
 
     def is_tournament_not_started(self):
-        return self._is_tournament_started()
+        return not self._is_tournament_started()
 
     def _is_tournament_started(self):
         return self.status == TournamentStatus.IN_PROGRESS.value

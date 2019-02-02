@@ -11,6 +11,8 @@ class Match(models.Model):
         from tdd_practice.constants.general import UserMatchStatus
 
         match = cls.objects.get(id=match_id, user_id=user_id)
+        match.validate_play_match()
+
         match.update_match_status(status=UserMatchStatus.IN_PROGRESS.value)
 
     def update_match_status(self, status):
@@ -22,3 +24,6 @@ class Match(models.Model):
         match = cls.objects.get(id=match_id)
         return match.tournament
 
+    def validate_play_match(self):
+        if self.tournament.is_tournament_not_started():
+            raise Exception("User can not play match until match is started")
