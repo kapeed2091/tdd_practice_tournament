@@ -10,11 +10,15 @@ class Match(models.Model):
         from .tournament import Tournament
         Tournament.validate_tournament_id(tournament_id=tournament_id)
 
-        if round_number < 0:
-            from ..exceptions.custom_exceptions import InvalidRoundNumber
-            raise InvalidRoundNumber
+        cls._validate_round_number(round_number=round_number)
 
         cls.objects.create(
             tournament_id=tournament_id,
             round_number=round_number
         )
+
+    @staticmethod
+    def _validate_round_number(round_number):
+        if round_number < 0:
+            from ..exceptions.custom_exceptions import InvalidRoundNumber
+            raise InvalidRoundNumber
