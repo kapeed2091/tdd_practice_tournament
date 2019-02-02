@@ -1,4 +1,6 @@
 from django.db import models
+
+from tournament.constants.general import MatchStatus
 from tournament.models import User, KoTournament
 
 
@@ -14,4 +16,16 @@ class Match(models.Model):
 
     @classmethod
     def play_match(cls, user_id, match_id):
-        pass
+        from tournament.models import User
+
+        user = User.get_user(user_id)
+        match = cls._get_match(user=user, match_id=match_id)
+        match.update_status(status=MatchStatus.IN_PROGRESS.value)
+
+    @classmethod
+    def _get_match(cls, user, match_id):
+        return cls.objects.get(user=user, match_id=match_id)
+
+    def update_status(self, status):
+        self.status = status
+        self.save()
