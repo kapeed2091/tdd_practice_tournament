@@ -4,6 +4,7 @@ from django.db import models
 class TMPlayer(models.Model):
     player = models.ForeignKey('ib_tournament.Player')
     tournament_match = models.ForeignKey('ib_tournament.TournamentMatch')
+    status = models.CharField(max_length=50)
 
     @classmethod
     def add_players_to_matches(cls, tournament_id):
@@ -16,6 +17,10 @@ class TMPlayer(models.Model):
         cls._add_grouped_players_to_match(
             grouped_player_ids, tournament_match_ids)
         return
+
+    @classmethod
+    def play_match(cls, player_id, tournament_match_id):
+        pass
 
     @staticmethod
     def _group_players_as_group_of_two(player_ids):
