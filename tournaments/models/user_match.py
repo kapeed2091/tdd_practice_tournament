@@ -1,4 +1,5 @@
 from django.db import models
+from tournaments.constants.general import DEFAULT_SCORE
 
 
 class UserMatch(models.Model):
@@ -7,7 +8,7 @@ class UserMatch(models.Model):
     score = models.IntegerField()
 
     @classmethod
-    def create_user_match(cls, user_id, match_id):
+    def create_user_match(cls, user_id, match_id, score=DEFAULT_SCORE):
         from .user import User
         User.validate_user_id(user_id=user_id)
 
@@ -23,7 +24,8 @@ class UserMatch(models.Model):
 
         cls.objects.create(
             user_id=user_id,
-            match_id=match_id
+            match_id=match_id,
+            score=score
         )
 
     def submit_score(self, score):
