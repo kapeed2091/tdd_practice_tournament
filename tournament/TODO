@@ -9,9 +9,9 @@ TO BE IMPLEMENTED:
           2. Invalid User id
           3. Invalid Match id
 
-   - There should be a Match for an user to play(Dependent Task)
-
 IN_PROGRESS:
+    - There should be a Match for an user to play(Dependent Task)
+          a. Don't know how to implement TDD to just add model. Have to discuss
 
 COMPLETED:
 
@@ -20,7 +20,7 @@ ASSUMPTIONS:
           a. match_id
           b. user
           c. tournament
-          d. score(default=0)
+          d. score(default=0) and Integer Field
           e. status
 DOUBTS:
    1. Can user play same match multiple times.
