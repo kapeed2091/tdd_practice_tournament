@@ -19,6 +19,10 @@ class Match(models.Model):
     status = models.CharField(max_length=STATUS_LENGTH)
 
     @classmethod
+    def submit_score(cls, user_id, match_id, score):
+        pass
+
+    @classmethod
     def play_match(cls, user_id, match_id):
         user = cls._get_user(user_id)
         cls._validate_match(match_id)
