@@ -37,6 +37,18 @@ class TestCreateMatch(TestCase):
         with self.assertRaises(InvalidTournamentId):
             Match.create_match(tournament_id, round_number)
 
+    def test_negative_round_number(self):
+        from tournament.models import Match
+
+        user = self.create_user()
+        tournament = self.create_tournament(user_id=user.id)
+
+        round_number = -3
+
+        from tournament.exceptions.custom_exceptions import InvalidRoundNumber
+        with self.assertRaises(InvalidRoundNumber):
+            Match.create_match(tournament.id, round_number)
+
     @staticmethod
     def create_tournament(
             user_id, status=TournamentStatus.IN_PROGRESS.value):
