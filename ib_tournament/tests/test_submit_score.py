@@ -100,3 +100,16 @@ class TestSubmitScore(TestCase):
         TMPlayer.submit_score(player_id, tournament_match_id, score)
         tm_player = TMPlayer.objects.get(id=tm_player_id)
         self.assertEqual(tm_player.score, score)
+
+    def test_status_changes_to_completed(self):
+        from ib_tournament.models import TMPlayer
+        from ib_tournament.constants.general import TournamentStatus
+        tm_players = TMPlayer.objects.all()
+        tm_player_id = tm_players[0].id
+        player_id = tm_players[0].player_id
+        tournament_match_id = tm_players[0].tournament_match_id
+        score = 50
+
+        TMPlayer.submit_score(player_id, tournament_match_id, score)
+        tm_player = TMPlayer.objects.get(id=tm_player_id)
+        self.assertEqual(tm_player.status, TournamentStatus.COMPLETED.value)
