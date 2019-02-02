@@ -22,3 +22,7 @@ class TournamentMatch(models.Model):
             t_id=request_data['tournament_id'],
             player_one=request_data['player_one_user_id'],
             player_two=request_data['player_two_user_id'])
+
+    @classmethod
+    def assign_match_id(cls, request_data, match_id):
+        pass
