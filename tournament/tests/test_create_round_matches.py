@@ -11,6 +11,7 @@ class TestCreateRoundMatch(TestCase):
 
         self._create_tournament(status=TournamentStatus.IN_PROGRESS.value)
 
+        from tournament.models.round_match import RoundMatch
         RoundMatch.create_round_matches(self.tournament.id)
 
         round_matches_count = self.get_round_matches_count()
@@ -43,5 +44,6 @@ class TestCreateRoundMatch(TestCase):
         return round_matches_count
 
     def _get_round_matches_count(self, round_no):
+        from tournament.models.round_match import RoundMatch
         return RoundMatch.objects.filter(tournament_id=self.tournament.id,
                                   round_no=round_no).count()
