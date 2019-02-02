@@ -20,9 +20,7 @@ class Match(models.Model):
 
     @classmethod
     def submit_score(cls, user_id, match_id, score):
-        from tournament.models import User
-
-        user = User.get_user(user_id)
+        user = cls._get_user(user_id)
         match = cls._get_match_to_submit_score(user=user, match_id=match_id)
         match.update_score(score=score)
 
