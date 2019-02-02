@@ -22,12 +22,7 @@ class UserMatch(models.Model):
             user_id=user_id, tournament_id=tournament_id
         )
 
-        match_id_users_count = cls.objects.filter(match_id=match_id).count()
-
-        if match_id_users_count >= 2:
-            from tournaments.exceptions.custom_exceptions import \
-                MatchIdOverused
-            raise MatchIdOverused
+        cls._validate_match_users_count(match_id=match.id)
 
         cls.objects.create(
             user_id=user_id,
@@ -52,3 +47,13 @@ class UserMatch(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 ScoreCannotBeUpdated
             raise ScoreCannotBeUpdated
+
+    @classmethod
+    def _validate_match_users_count(cls, match_id):
+        match_id_users_count = cls.objects.filter(match_id=match_id).count()
+
+        from tournaments.constants.general import MAX_NUM_OF_PEOPLE_FOR_MATCH
+        if match_id_users_count >= MAX_NUM_OF_PEOPLE_FOR_MATCH:
+            from tournaments.exceptions.custom_exceptions import \
+                MatchIdOverused
+            raise MatchIdOverused

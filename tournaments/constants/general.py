@@ -11,3 +11,5 @@ class TournamentStatus(BaseEnumClass, Enum):
 
 
 DEFAULT_SCORE = -1
+
+MAX_NUM_OF_PEOPLE_FOR_MATCH = 2
