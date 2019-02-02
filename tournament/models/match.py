@@ -27,3 +27,7 @@ class Match(models.Model):
     def validate_play_match(self):
         if self.tournament.is_tournament_not_started():
             raise Exception("User can not play match until match is started")
+
+    @classmethod
+    def user_submit_match_score(cls, user_match_score):
+        pass
