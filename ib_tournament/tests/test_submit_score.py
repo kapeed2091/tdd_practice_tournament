@@ -157,3 +157,19 @@ class TestSubmitScore(TestCase):
         with self.assertRaisesMessage(
                 BadRequest, PLAYER_NOT_IN_MATCH[0]):
             TMPlayer.submit_score(player_id, tournament_match_id, score)
+
+    def test_winner_declaration(self):
+        from ib_tournament.models import TMPlayer, TournamentMatch
+        from ib_tournament.constants.general import TournamentStatus
+        all_tm_players = TMPlayer.objects.all()
+        tournament_match_id = all_tm_players[0].tournament_match_id
+        tm_players = TMPlayer.objects.filter(
+            tournament_match_id=tournament_match_id)
+        tm_players.update(status=TournamentStatus.IN_PROGRESS.value)
+
+        player_ids = [tm_player.player_id for tm_player in tm_players]
+        TMPlayer.submit_score(player_ids[0], tournament_match_id, 100)
+        TMPlayer.submit_score(player_ids[1], tournament_match_id, 90)
+
+        tournament_match = TournamentMatch.objects.get(id=tournament_match_id)
+        self.assertEqual(tournament_match.winner_id, player_ids[0])
