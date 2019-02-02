@@ -8,4 +8,5 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def create_match(cls, tournament_id, user_id_1, user_id_2):
-        pass
+        cls.objects.create(t_id=tournament_id, player_one=user_id_1,
+                           player_two=user_id_2)
