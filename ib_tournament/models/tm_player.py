@@ -41,6 +41,7 @@ class TMPlayer(models.Model):
         cls._validate_status_to_submit_score(tm_player.status)
         cls._update_score(tm_player, score)
         cls._update_status(tm_player, TMPlayerStatus.COMPLETED.value)
+        cls._update_completed_datetime(tm_player)
         cls._update_match_winner(tournament_match_id)
         return
 
@@ -93,6 +94,16 @@ class TMPlayer(models.Model):
         self.score = score
         self.save()
 
+    def _update_completed_datetime(self):
+        self.completed_datetime = self._get_now()
+        self.save()
+
+    @staticmethod
+    def _get_now():
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+        return get_current_local_date_time()
+
     @classmethod
     def _validate_status_to_submit_score(cls, status):
         from ib_tournament.constants.general import TMPlayerStatus
@@ -136,6 +147,18 @@ class TMPlayer(models.Model):
         tm_player_2 = tm_players[1]
 
         if tm_player_1.score > tm_player_2.score:
+            return tm_player_1.player_id
+        elif tm_player_2.score > tm_player_1.score:
+            return tm_player_2.player_id
+        else:
+            return cls._get_winner_by_completed_datetime(tm_players)
+
+    @classmethod
+    def _get_winner_by_completed_datetime(cls, tm_players):
+        tm_player_1 = tm_players[0]
+        tm_player_2 = tm_players[1]
+
+        if tm_player_1.completed_datetime < tm_player_2.completed_datetime:
             return tm_player_1.player_id
         else:
             return tm_player_2.player_id
