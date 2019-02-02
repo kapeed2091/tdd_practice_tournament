@@ -9,8 +9,7 @@ Yet to do:
         - User can play tournament only if tournament status is IN_PROGRESS
         - User should have a match to play in that round
    - Create matches once tournament starts
-        - *create match only if current time is greater than tournament start_datetime
-        - Tournament should exist
+        - *Tournament should exist
         - User should be registered with us
         - User should be subscribed to tournament
         - Only one match will be created for a tournament round for a user
@@ -41,6 +40,7 @@ Completed:
         - After user joins, if tournament capacity is full, should change state from CAN_JOIN to FULL_YET_TO_START
    - Create matches once tournament starts
         - create tournament match with two users
+        - create match only if current time is greater than tournament start_datetime
 
 Raise Appropriate custom exceptions wherever necessary
 
@@ -63,6 +63,7 @@ My Assumptions:
    - Currently match will be between 2 players not 2 teams
    - Creation of all matches of a round will happen at once and only once
    - Creation of tournament matches is done in a new model with RDS
+   - Added vernacular exception messages
 
 My Doubts:
    - User can play match only once in a round?

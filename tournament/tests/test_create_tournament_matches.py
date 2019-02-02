@@ -106,3 +106,20 @@ class TestCreateTournamentMatches(TestCase):
                 expected_message=
                 'Tournament Match cannot be created before start datetime'):
             TournamentMatch.create_match(request_data=create_match_request_2)
+
+    def testcase_tournament_should_exist_to_create_match(self):
+        from tournament.models import TournamentMatch
+
+        tournament_id = 'tournament_1'
+        player_one_user_id = 'user_1'
+        player_two_user_id = 'user_2'
+
+        create_match_request = {
+            'tournament_id': tournament_id,
+            'player_one_user_id': player_one_user_id,
+            'player_two_user_id': player_two_user_id
+        }
+
+        with self.assertRaisesMessage(
+                Exception, expected_message='Tournament doesnot exist'):
+            TournamentMatch.create_match(request_data=create_match_request)
