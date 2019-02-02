@@ -14,7 +14,7 @@ class TournamentMatch(models.Model):
             tournament_id=request_data['tournament_id'])
         UserProfile.validate_users(user_id_1=request_data['player_one_user_id'],
                                    user_id_2=request_data['player_two_user_id'])
-        TournamentUser.validate_user_subscription(
+        TournamentUser.validate_users_subscription(
             tournament_id=request_data['tournament_id'],
             user_id_1=request_data['player_one_user_id'],
             user_id_2=request_data['player_two_user_id'])
