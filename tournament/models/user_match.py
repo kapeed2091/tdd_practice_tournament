@@ -7,6 +7,9 @@ class UserMatch(models.Model):
 
     @classmethod
     def create_user_match(cls, user_id, match_id):
+        from .user import User
+        User.validate_user_id(user_id=user_id)
+
         from .match import Match
         Match.validate_match_id(match_id=match_id)
 
