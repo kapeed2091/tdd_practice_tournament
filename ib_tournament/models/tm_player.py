@@ -8,6 +8,8 @@ class TMPlayer(models.Model):
     status = models.CharField(max_length=50,
                               default=TMPlayerStatus.YET_TO_START.value)
     score = models.IntegerField(default=0)
+    completed_datetime = models.DateTimeField(
+        default=None, null=True, blank=True)
 
     class Meta:
         unique_together = ('player', 'tournament_match')
