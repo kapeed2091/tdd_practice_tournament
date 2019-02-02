@@ -22,7 +22,7 @@ class Match(models.Model):
     def submit_score(cls, user_id, match_id, score):
         user = cls._get_user(user_id)
         cls._validate_match(match_id)
-        match = cls._get_match_to_submit_score(user=user, match_id=match_id)
+        match = cls._get_match(user=user, match_id=match_id)
         match.update_score(score=score)
 
     @classmethod
@@ -40,10 +40,6 @@ class Match(models.Model):
     def update_score(self, score):
         self.score = score
         self.save()
-
-    @classmethod
-    def _get_match_to_submit_score(cls, user, match_id):
-        return cls.objects.get(user=user, match_id=match_id)
 
     @staticmethod
     def _get_user(user_id):
