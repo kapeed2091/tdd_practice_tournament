@@ -110,6 +110,7 @@ class TestPlayMatch(TestCase):
         player_id = tm_players[0].player_id
         tournament_match_id = tm_players[0].tournament_match_id
         tm_player.status = TMPlayerStatus.COMPLETED.value
+        tm_player.save()
 
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import \

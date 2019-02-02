@@ -27,6 +27,7 @@ class TMPlayer(models.Model):
     def play_match(cls, player_id, tournament_match_id):
         from ib_tournament.constants.general import TMPlayerStatus
         tournament_match = cls._get_tm_player(player_id, tournament_match_id)
+        cls._validate_status_to_play(tournament_match.status)
         cls._update_status(tournament_match, TMPlayerStatus.IN_PROGRESS.value)
         return
 
@@ -50,6 +51,15 @@ class TMPlayer(models.Model):
     def _initialise_tm_players(cls, player_ids, t_match_id):
         return [cls(player_id=player_id, tournament_match_id=t_match_id)
                 for player_id in player_ids]
+
+    @classmethod
+    def _validate_status_to_play(cls, status):
+        from ib_tournament.constants.general import TMPlayerStatus
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            TM_PLAYER_NOT_IN_YET_TO_START
+        if status != TMPlayerStatus.YET_TO_START.value:
+            raise BadRequest(*TM_PLAYER_NOT_IN_YET_TO_START)
 
     @classmethod
     def _get_tm_player(cls, player_id, tournament_match_id):

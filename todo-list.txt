@@ -29,6 +29,8 @@ Assumptions:
             - COMPLETED, once the player submits his score
 
 TODOs(To be Implemented list):
+    - play match
+        - player is not in given tournament match
     - player submits match score
     - User will progress to next round if he wins the match
     - get current round
