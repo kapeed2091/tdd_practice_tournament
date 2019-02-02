@@ -19,6 +19,7 @@ Assumptions:
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
    - list of all tournaments are ordered in descending order wrt start_datetime
    - when user comes to play match, user match status will change to IN_PROGRESS
+        status max length as 20
 
 ToDo List:
     User can play matches once the tournament is started
