@@ -19,9 +19,9 @@ Assumptions:
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
    - updating tournament status to IN_PROGRESS once the tournament is started
    - tournament status should be FULL_YET_TO_START before starting tournament
+   - assuming there will be two members per match
 
 TODOs(To be Implemented list):
-    - add players to matches
     - play match
     - end match
     - get current round
@@ -29,8 +29,8 @@ TODOs(To be Implemented list):
     - get winner profile of tournament
     
 In Progress List:
-    - create matches
-        - create matches for tournament
+    - add players to matches
+        - create match players
 
 Completed List:
     - create user
@@ -65,4 +65,6 @@ Completed List:
         - update status to IN_PROGRESS
         - starting tournament before start_datetime reaches
         - tournament status should be FULL_YET_TO_START before starting tournament
+    - create matches
+        - create matches for tournament
 
