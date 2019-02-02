@@ -66,7 +66,7 @@ class TestPlayMatch(TestCase):
         tm_players_to_create = list()
         for index, player_ids_list in enumerate(grouped_player_ids):
             tournament_match = tournament_matches[index]
-            for player_id in player_ids:
+            for player_id in player_ids_list:
                 tm_players_to_create.append(
                     TMPlayer(tournament_match=tournament_match,
                              player_id=player_id))
@@ -122,13 +122,16 @@ class TestPlayMatch(TestCase):
 
     def test_player_not_in_match(self):
         from ib_tournament.models import TMPlayer
-        import random
 
         tm_players = TMPlayer.objects.all()
         player_id = tm_players[0].player_id
         tournament_match_id = tm_players[0].tournament_match_id
-        rem_player_ids = [p_id for p_id in self.player_ids if p_id != player_id]
-        player_id = random.choice(rem_player_ids)
+
+        rem_tm_players = [
+            tm_player for tm_player in tm_players
+            if tm_player.player_id != player_id and
+               tm_player.tournament_match_id != tournament_match_id]
+        player_id = rem_tm_players[0].player_id
 
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import \

@@ -63,8 +63,14 @@ class TMPlayer(models.Model):
 
     @classmethod
     def _get_tm_player(cls, player_id, tournament_match_id):
-        return cls.objects.get(player_id=player_id,
-                               tournament_match_id=tournament_match_id)
+        try:
+            return cls.objects.get(player_id=player_id,
+                                   tournament_match_id=tournament_match_id)
+        except cls.DoesNotExist:
+            from django_swagger_utils.drf_server.exceptions import BadRequest
+            from ib_tournament.constants.exception_messages import \
+                PLAYER_NOT_IN_MATCH
+            raise BadRequest(*PLAYER_NOT_IN_MATCH)
 
     def _update_status(self, status):
         self.status = status
