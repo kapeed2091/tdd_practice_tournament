@@ -37,8 +37,9 @@ class TestCreateMatch(TestCase):
         with self.assertRaises(InvalidTournamentId):
             Match.create_match(tournament_id, round_number)
 
+    @staticmethod
     def create_tournament(
-            self, user_id, status=TournamentStatus.IN_PROGRESS.value):
+            user_id, status=TournamentStatus.IN_PROGRESS.value):
         from tournament.models import Tournament
 
         total_rounds = 4
@@ -56,7 +57,8 @@ class TestCreateMatch(TestCase):
 
         return tournament
 
-    def create_user(self):
+    @staticmethod
+    def create_user():
         from tournament.models import User
 
         user_name = "John"
