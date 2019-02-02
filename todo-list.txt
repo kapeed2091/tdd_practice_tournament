@@ -29,8 +29,6 @@ Assumptions:
             - COMPLETED, once the player submits his score
 
 TODOs(To be Implemented list):
-    - play match
-        - user can play match only if his status is at YET_TO_START
     - player submits match score
     - User will progress to next round if he wins the match
     - get current round
@@ -39,7 +37,7 @@ TODOs(To be Implemented list):
     
 In Progress List:
     - play match
-        - match player status changes to IN_PROGRESS
+        - user can play match only if his status is at YET_TO_START
 
 Completed List:
     - create user
@@ -78,4 +76,6 @@ Completed List:
         - create matches for tournament
     - add players to matches
         - create match players
+    - play match
+        - match player status changes to IN_PROGRESS
 
