@@ -2,8 +2,11 @@ from django.db import models
 
 
 class UserTournament(models.Model):
+    STATUS_MAX_LENGTH = 20
+
     user_id = models.PositiveIntegerField()
     tournament_id = models.PositiveIntegerField()
+    status = models.CharField(max_length=STATUS_MAX_LENGTH)
 
     @classmethod
     def subscribe_to_tournament(cls, user_id, tournament_id):

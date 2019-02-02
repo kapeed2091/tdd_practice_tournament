@@ -52,3 +52,7 @@ class ScoreCannotBeUpdated(Exception):
 
 class MatchIdOverused(Exception):
     pass
+
+
+class UserNotInTournamentAnymore(Exception):
+    pass
