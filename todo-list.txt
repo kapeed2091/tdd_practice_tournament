@@ -33,8 +33,6 @@ TODOs(To be Implemented list):
     - play match (low priority)
         - validate tournament_match_id, raise appropriate custom exception
         - validate player_id, raise appropriate custom exception
-    - player submits match score
-        - player can submit only if he is part of match
     - User will progress to next round if he wins the match
     - get current round
     - get opponent profile in round of a tournament
@@ -42,7 +40,7 @@ TODOs(To be Implemented list):
     
 In Progress List:
     - player submits match score
-        - player can submit only if his status is IN_PROGRESS
+        - player can submit only if he is part of match
 
 
 Completed List:
@@ -89,4 +87,5 @@ Completed List:
     - player submits match score
         - player submits score
         - status changes to COMPLETED
+        - player can submit only if his status is IN_PROGRESS
 

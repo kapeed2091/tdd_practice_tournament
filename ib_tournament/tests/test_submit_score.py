@@ -139,3 +139,21 @@ class TestSubmitScore(TestCase):
         with self.assertRaisesMessage(
                 BadRequest, SUBMIT_WHEN_STATUS_IS_IN_PROGRESS[0]):
             TMPlayer.submit_score(player_id, tournament_match_id, score)
+
+    def test_player_not_in_match(self):
+        from ib_tournament.models import TMPlayer
+        from ib_tournament.constants.general import TournamentStatus
+        tm_players = TMPlayer.objects.all()
+        tm_player = tm_players[0]
+        tournament_match_id = tm_players[0].tournament_match_id
+        score = 50
+        tm_player.status = TournamentStatus.IN_PROGRESS.value
+        tm_player.save()
+        player_id = self.create_player('user5')
+
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            PLAYER_NOT_IN_MATCH
+        with self.assertRaisesMessage(
+                BadRequest, PLAYER_NOT_IN_MATCH[0]):
+            TMPlayer.submit_score(player_id, tournament_match_id, score)
