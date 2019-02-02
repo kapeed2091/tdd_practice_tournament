@@ -58,3 +58,18 @@ class TestStartTournament(TestCase):
 
         tournament = Tournament.objects.get(id=tournament_id)
         self.assertEqual(tournament.status, TournamentStatus.IN_PROGRESS.value)
+
+    def test_start_datetime_not_reached(self):
+        from ib_tournament.models import Tournament
+
+        tournament_details = {
+            'total_rounds': 2,
+            'start_datetime': get_next_day_datetime_str(),
+            'name': 'Tournament 1'
+        }
+        tournament_id = self.create_tournament(tournament_details)
+
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import START_DATE_NOT_REACHED
+        with self.assertRaisesMessage(BadRequest, START_DATE_NOT_REACHED[1]):
+            Tournament.start_tournament(tournament_id)
