@@ -50,7 +50,7 @@ class TestAddPlayersToMatch(TestCase):
         tournament_matches_to_create = [
             TournamentMatch(tournament_id=tournament_id)
             for count in range(matches_count)]
-        TournamentMatch.objects.create(tournament_matches_to_create)
+        TournamentMatch.objects.bulk_create(tournament_matches_to_create)
         return TournamentMatch.objects.all()
 
     def test_create_match_players(self):
