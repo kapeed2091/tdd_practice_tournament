@@ -21,6 +21,7 @@ class Match(models.Model):
     @classmethod
     def submit_score(cls, user_id, match_id, score):
         user = cls._get_user(user_id)
+        cls._validate_match(match_id)
         match = cls._get_match_to_submit_score(user=user, match_id=match_id)
         match.update_score(score=score)
 
