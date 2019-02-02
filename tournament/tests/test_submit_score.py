@@ -54,6 +54,9 @@ class TestSubmitScore(TestCase):
         match_after = Match.objects.get(user=user, match_id=self.match_id)
         self.assertEqual(match_after.score, 10)
 
+    def setup_submit_score(self):
+        self.create_user_tournament_match()
+
     def test_submit_score_with_invalid_user(self):
         from tournament.models import Match
 
@@ -74,6 +77,9 @@ class TestSubmitScore(TestCase):
                 score=10
             )
 
+    def setup_submit_score_with_invalid_match(self):
+        self.create_user_tournament_match()
+
     def test_submit_score_user_does_not_belong_to_the_match(self):
         from tournament.models import Match
 
@@ -83,3 +89,33 @@ class TestSubmitScore(TestCase):
                 match_id=self.match_id,
                 score=10
             )
+
+    def setup_submit_score_user_does_not_belong_to_the_match(self):
+        self.create_user_tournament_match()
+
+        from tournament.models import User
+        User.objects.create(
+            user_id=self.user2_id
+        )
+
+    def create_user_tournament_match(self):
+        from tournament.models import User, KoTournament, Match
+
+        now = get_current_datetime()
+
+        user = User.objects.create(
+            user_id=self.user1_id
+        )
+        tournament = KoTournament.objects.create(
+            created_user_id=self.user_id,
+            name='Tournament',
+            no_of_rounds=2,
+            start_datetime=now - datetime.timedelta(days=1),
+            status=TournamentStatus.IN_PROGRESS.value
+        )
+        Match.objects.create(
+            match_id=self.match_id,
+            user=user,
+            tournament=tournament,
+            status=MatchStatus.IN_PROGRESS.value
+        )
