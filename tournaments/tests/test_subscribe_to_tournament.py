@@ -158,8 +158,10 @@ class TestSubscribeToTournament(TestCase):
 
     def create_user_tournament(self):
         from tournaments.models import UserTournament
+        from tournaments.constants.general import UserTournamentStatus
 
         UserTournament.objects.create(
             user_id=self.user.id,
-            tournament_id=self.tournament.id
+            tournament_id=self.tournament.id,
+            status=UserTournamentStatus.ALIVE.value
         )

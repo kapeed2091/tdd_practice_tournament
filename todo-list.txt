@@ -21,6 +21,7 @@ Assumptions:
    - User score will always be a non-negative integer
    - User cannot create UserMatch object with custom score ie DEFAULT_SCORE will be the score for new objects
    - A match_id cannot be used for more than MAX_NUM_OF_PEOPLE_FOR_MATCH(2) people
+   - UserTournament object has ALIVE as default status
 
 overall estimation time - (6 hr - 5 + 1)
    - User can create a knock-out tournament with configurable number of rounds and start datetime - (45 min)

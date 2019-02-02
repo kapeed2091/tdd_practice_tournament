@@ -31,9 +31,11 @@ class TestCanUserPlayInTournament(TestCase):
         )
         self.tournament = obj
 
+        from tournaments.constants.general import UserTournamentStatus
         UserTournament.objects.create(
             user_id=self.user.id,
-            tournament_id=self.tournament.id
+            tournament_id=self.tournament.id,
+            status=UserTournamentStatus.ALIVE.value
         )
 
         status = UserTournament.can_user_play_in_tournament(

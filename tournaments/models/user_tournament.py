@@ -30,9 +30,11 @@ class UserTournament(models.Model):
             tournament_id=tournament_id, total_rounds=tournament.total_rounds
         )
 
+        from tournaments.constants.general import UserTournamentStatus
         cls.objects.create(
             user_id=user_id,
-            tournament_id=tournament_id
+            tournament_id=tournament_id,
+            status=UserTournamentStatus
         )
 
         if is_last_person:

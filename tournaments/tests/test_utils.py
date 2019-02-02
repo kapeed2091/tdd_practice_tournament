@@ -45,10 +45,12 @@ class TestUtils(TestCase):
     @staticmethod
     def create_user_tournament(user_id, tournament_id):
         from tournaments.models import UserTournament
+        from tournaments.constants.general import UserTournamentStatus
 
         obj = UserTournament.objects.create(
             user_id=user_id,
-            tournament_id=tournament_id
+            tournament_id=tournament_id,
+            status=UserTournamentStatus.ALIVE.value
         )
         return obj
 
