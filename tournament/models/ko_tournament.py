@@ -109,11 +109,13 @@ class KOTournament(models.Model):
             raise Exception('Float type number of rounds given')
 
     @classmethod
-    def is_tournament_exists(cls, tournament_id):
+    def validate_tournament(cls, tournament_id):
         try:
             cls.objects.get(t_id=tournament_id)
         except:
-            raise Exception('Tournament doesnot exist')
+            from tournament.constants.exception_messages import \
+                TOURNAMENT_DOES_NOT_EXIST
+            raise Exception(*TOURNAMENT_DOES_NOT_EXIST)
 
     def is_tournament_started(self):
         from ib_common.date_time_utils.get_current_local_date_time import \
@@ -143,7 +145,7 @@ class KOTournament(models.Model):
 
     @classmethod
     def validate_subscribe_request(cls, tournament_id):
-        cls.is_tournament_exists(tournament_id=tournament_id)
+        cls.validate_tournament(tournament_id=tournament_id)
         tournament_obj = cls.get_tournament(tournament_id=tournament_id)
         tournament_obj.is_tournament_started()
         tournament_obj.is_valid_subscribe_status()
@@ -163,3 +165,8 @@ class KOTournament(models.Model):
             return True
         else:
             return False
+
+    @classmethod
+    def validate_tournament_for_create_match(cls, tournament_id):
+        cls.validate_tournament(tournament_id=tournament_id)
+        cls.validate_start_datetime(tournament_id=tournament_id)
