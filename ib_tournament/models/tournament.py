@@ -80,6 +80,7 @@ class Tournament(models.Model):
         tournament = cls.get_tournament(tournament_id)
         cls._validate_start_datetime_to_start_tournament(
             tournament.start_datetime)
+        cls._validate_tournament_status_to_start_tournament(tournament.status)
         cls._update_status(
             tournament, TournamentStatus.IN_PROGRESS.value)
         return
@@ -193,3 +194,14 @@ class Tournament(models.Model):
             get_current_local_date_time
         curr_datetime = get_current_local_date_time()
         return start_datetime > curr_datetime
+
+    @classmethod
+    def _validate_tournament_status_to_start_tournament(cls, status):
+        from ib_tournament.constants.general import TournamentStatus
+        from ib_tournament.constants.exception_messages import \
+            TOURNAMENT_STATUS_IS_NOT_FULL_YET_TO_START
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+
+        if status != TournamentStatus.FULL_YET_TO_START.value:
+            raise BadRequest(*TOURNAMENT_STATUS_IS_NOT_FULL_YET_TO_START)
+        return

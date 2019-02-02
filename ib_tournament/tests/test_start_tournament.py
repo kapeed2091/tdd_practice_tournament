@@ -66,6 +66,8 @@ class TestStartTournament(TestCase):
             'name': 'Tournament 1'
         }
         tournament_id = self.create_tournament(tournament_details)
+        self.update_tournament_status(
+            tournament_id, TournamentStatus.FULL_YET_TO_START.value)
         Tournament.start_tournament(tournament_id)
 
         tournament = Tournament.objects.get(id=tournament_id)
