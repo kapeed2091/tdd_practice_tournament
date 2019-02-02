@@ -150,10 +150,16 @@ class KOTournament(models.Model):
 
     @classmethod
     def validate_start_datetime(cls, tournament_id):
+        tournament_obj = cls.get_tournament(tournament_id=tournament_id)
+        if tournament_obj.is_start_datetime_in_future():
+            from tournament.constants.exception_messages import \
+                CANNOT_CREATE_MATCH_BEFORE_START_DATETIME
+            raise Exception(*CANNOT_CREATE_MATCH_BEFORE_START_DATETIME)
+
+    def is_start_datetime_in_future(self):
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time
-
-        tournament_obj = cls.get_tournament(tournament_id=tournament_id)
-        if tournament_obj.start_datetime > get_current_local_date_time():
-            raise Exception(
-                'Tournament Match cannot be created before start datetime')
+        if self.start_datetime > get_current_local_date_time():
+            return True
+        else:
+            return False
