@@ -20,7 +20,11 @@ class Match(models.Model):
 
     @classmethod
     def submit_score(cls, user_id, match_id, score):
-        pass
+        from tournament.models import User
+
+        user = User.get_user(user_id)
+        match = cls._get_match_to_submit_score(user=user, match_id=match_id)
+        match.update_score(score=score)
 
     @classmethod
     def play_match(cls, user_id, match_id):
@@ -32,6 +36,14 @@ class Match(models.Model):
 
     def update_status(self, status):
         self.status = status
+        self.save()
+
+    @classmethod
+    def _get_match_to_submit_score(cls, user, match_id):
+        return cls.objects.get(user=user, match_id=match_id)
+
+    def update_score(self, score):
+        self.score = score
         self.save()
 
     @staticmethod
