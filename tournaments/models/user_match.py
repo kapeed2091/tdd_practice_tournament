@@ -5,10 +5,10 @@ from tournaments.constants.general import DEFAULT_SCORE
 class UserMatch(models.Model):
     user_id = models.PositiveIntegerField()
     match_id = models.PositiveIntegerField()
-    score = models.IntegerField()
+    score = models.IntegerField(default=DEFAULT_SCORE)
 
     @classmethod
-    def create_user_match(cls, user_id, match_id, score=DEFAULT_SCORE):
+    def create_user_match(cls, user_id, match_id):
         from .user import User
         User.validate_user_id(user_id=user_id)
 
@@ -24,13 +24,15 @@ class UserMatch(models.Model):
 
         cls.objects.create(
             user_id=user_id,
-            match_id=match_id,
-            score=score
+            match_id=match_id
         )
 
     def submit_score(self, score):
         self.validate_score(score=score)
 
+        self._update_score(score=score)
+
+    def _update_score(self, score):
         self.score = score
         self.save()
 

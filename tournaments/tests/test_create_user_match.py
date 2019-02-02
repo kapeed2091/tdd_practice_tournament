@@ -66,7 +66,9 @@ class TestCreateUserMatch(TestUtils):
 
         from tournaments.exceptions.custom_exceptions import InvalidUserId
         with self.assertRaises(InvalidUserId):
-            UserMatch.create_user_match(user_id, match.id)
+            UserMatch.create_user_match(
+                user_id=user_id, match_id=match.id
+            )
 
     def test_user_not_in_tournament(self):
         from tournaments.models import UserMatch

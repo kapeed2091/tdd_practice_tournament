@@ -19,6 +19,7 @@ Assumptions:
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
    - User will have his default score as -1 when UserMatch object is created
    - User score will always be a non-negative integer
+   - User cannot create UserMatch object with custom score ie DEFAULT_SCORE will be the score for new objects
 
 overall estimation time - (6 hr - 5 + 1)
    - User can create a knock-out tournament with configurable number of rounds and start datetime - (45 min)
