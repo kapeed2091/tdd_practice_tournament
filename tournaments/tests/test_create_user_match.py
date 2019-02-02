@@ -117,3 +117,36 @@ class TestCreateUserMatch(TestUtils):
             UserMatch.create_user_match(
                 user_id=user_3.id, match_id=match.id
             )
+
+    def test_user_is_in_dead_state(self):
+        from tournaments.models import UserMatch
+
+        user = self.create_user()
+        tournament = self.create_tournament(user_id=user.id)
+
+        self.create_user_tournament_(
+            user_id=user.id, tournament_id=tournament.id
+        )
+        round_number = 2
+        match = self.create_match(
+            tournament_id=tournament.id, round_number=round_number
+        )
+
+        from tournaments.exceptions.custom_exceptions import \
+            UserNotInTournamentAnymore
+        with self.assertRaises(UserNotInTournamentAnymore):
+            UserMatch.create_user_match(
+                user_id=user.id, match_id=match.id
+            )
+
+    @staticmethod
+    def create_user_tournament_(user_id, tournament_id, status="DEAD"):
+        from tournaments.models import UserTournament
+
+        obj = UserTournament.objects.create(
+            user_id=user_id,
+            tournament_id=tournament_id,
+            status=status
+        )
+
+        return obj

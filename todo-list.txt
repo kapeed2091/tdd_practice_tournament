@@ -71,10 +71,8 @@ todo-list
         - user is last person to subscribe for a tournament
     - User can play matches once the tournament is started
         - UserMatch
-                - [match_id is being used to for more than MAX_NUM_OF_PEOPLE_FOR_MATCH people]
-                - user status is DEAD
+                - [user status is DEAD]
         - User will submit his score in the match - (30 min)
-            - [submitting score for already filled in score]
     - User will submit his score in the match - (30 min)
             - successful
             - user not part of tournament
@@ -90,6 +88,9 @@ Completed
         - invalid match id - does not exist
         - invalid user_id
         - user_id not in tournament
+        - match_id is being used to for more than MAX_NUM_OF_PEOPLE_FOR_MATCH people
+
     User will submit his score in the match
         - successful
         - invalid score
+        - submitting score for already filled in score
