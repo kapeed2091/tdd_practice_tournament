@@ -173,3 +173,24 @@ class TestSubmitScore(TestCase):
 
         tournament_match = TournamentMatch.objects.get(id=tournament_match_id)
         self.assertEqual(tournament_match.winner_id, player_ids[0])
+
+    def test_players_scores_are_same(self):
+        from ib_tournament.models import TMPlayer, TournamentMatch
+        from ib_tournament.constants.general import TournamentStatus
+        all_tm_players = TMPlayer.objects.all()
+        tournament_match_id = all_tm_players[0].tournament_match_id
+        tm_players = TMPlayer.objects.filter(
+            tournament_match_id=tournament_match_id)
+        tm_players.update(status=TournamentStatus.IN_PROGRESS.value)
+
+        player_ids = [tm_player.player_id for tm_player in tm_players]
+        TMPlayer.submit_score(player_ids[0], tournament_match_id, 100)
+        TMPlayer.submit_score(player_ids[1], tournament_match_id, 100)
+
+        tm_players = TMPlayer.objects.filter(
+            tournament_match_id=tournament_match_id)
+        self.assertEqual(tm_players[0].completed_datetime <
+                         tm_players[1].completed_datetime, True)
+
+        tournament_match = TournamentMatch.objects.get(id=tournament_match_id)
+        self.assertEqual(tournament_match.winner_id, player_ids[0])
