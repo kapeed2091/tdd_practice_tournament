@@ -70,7 +70,7 @@ class Tournament(models.Model):
     def update_status_to_full_yet_to_start(self):
         from ib_tournament.constants.general import TournamentStatus
         if self._get_max_participants_count_reached():
-            self._update_tournament_status(
+            self._update_status(
                 TournamentStatus.FULL_YET_TO_START.value)
         return
 
@@ -78,7 +78,7 @@ class Tournament(models.Model):
     def start_tournament(cls, tournament_id):
         from ib_tournament.constants.general import TournamentStatus
         tournament = cls.get_tournament(tournament_id)
-        cls._update_tournament_status(
+        cls._update_status(
             tournament, TournamentStatus.IN_PROGRESS.value)
         return
 
@@ -169,7 +169,7 @@ class Tournament(models.Model):
         return total_tournament_players == \
                self._get_maximum_players_in_tournament()
 
-    def _update_tournament_status(self, status):
+    def _update_status(self, status):
         self.status = status
         self.save()
 
