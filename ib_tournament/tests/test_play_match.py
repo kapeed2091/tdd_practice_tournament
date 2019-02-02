@@ -91,6 +91,7 @@ class TestPlayMatch(TestCase):
 
     def test_play_match(self):
         from ib_tournament.models import TMPlayer
+        from ib_tournament.constants.general import TMPlayerStatus
 
         tm_players = TMPlayer.objects.all()
         tm_player_id = tm_players[0].id
@@ -99,7 +100,7 @@ class TestPlayMatch(TestCase):
         TMPlayer.play_match(player_id, tournament_match_id)
 
         tm_player = TMPlayer.objects.get(id=tm_player_id)
-        self.assertEqual(tm_player.status, 'IN_PROGRESS')
+        self.assertEqual(tm_player.status, TMPlayerStatus.IN_PROGRESS.value)
 
     def test_match_is_in_yet_to_start_to_play(self):
         from ib_tournament.models import TMPlayer
