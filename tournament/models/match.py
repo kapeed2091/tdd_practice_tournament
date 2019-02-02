@@ -5,6 +5,7 @@ class Match(models.Model):
     user = models.ForeignKey('tournament.User')
     tournament = models.ForeignKey('tournament.Tournament', null=True)
     status = models.CharField(max_length=20, null=True)
+    score = models.IntegerField(default=-1)
 
     @classmethod
     def play_match(cls, match_id, user_id):
@@ -30,4 +31,13 @@ class Match(models.Model):
 
     @classmethod
     def user_submit_match_score(cls, user_match_score):
-        pass
+        from tdd_practice.constants.general import UserMatchStatus
+
+        score = user_match_score['score']
+        match_id = user_match_score['match_id']
+        user_id = user_match_score['user_id']
+
+        match = cls.objects.get(id=match_id, user_id=user_id)
+        match.score = score
+        match.status = UserMatchStatus.COMPLETED.value
+        match.save()
