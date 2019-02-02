@@ -27,17 +27,17 @@ class TMPlayer(models.Model):
     @classmethod
     def play_match(cls, player_id, tournament_match_id):
         from ib_tournament.constants.general import TMPlayerStatus
-        tournament_match = cls._get_tm_player(player_id, tournament_match_id)
-        cls._validate_status_to_play(tournament_match.status)
-        cls._update_status(tournament_match, TMPlayerStatus.IN_PROGRESS.value)
+        tm_player = cls._get_tm_player(player_id, tournament_match_id)
+        cls._validate_status_to_play(tm_player.status)
+        cls._update_status(tm_player, TMPlayerStatus.IN_PROGRESS.value)
         return
 
     @classmethod
     def submit_score(cls, player_id, tournament_match_id, score):
         from ib_tournament.constants.general import TournamentStatus
-        tournament_match = cls._get_tm_player(player_id, tournament_match_id)
-        cls._update_score(tournament_match, score)
-        cls._update_status(tournament_match, TournamentStatus.COMPLETED.value)
+        tm_player = cls._get_tm_player(player_id, tournament_match_id)
+        cls._update_score(tm_player, score)
+        cls._update_status(tm_player, TournamentStatus.COMPLETED.value)
         return
 
     @staticmethod
