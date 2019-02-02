@@ -20,6 +20,7 @@ Assumptions:
    - User will have his default score as -1 when UserMatch object is created
    - User score will always be a non-negative integer
    - User cannot create UserMatch object with custom score ie DEFAULT_SCORE will be the score for new objects
+   - A match_id cannot be used for more than MAX_NUM_OF_PEOPLE_FOR_MATCH(2) people
 
 overall estimation time - (6 hr - 5 + 1)
    - User can create a knock-out tournament with configurable number of rounds and start datetime - (45 min)
@@ -70,7 +71,7 @@ todo-list
         - user is last person to subscribe for a tournament
     - User can play matches once the tournament is started
         - UserMatch
-                - invalid match status ?? OPEN | COMPLETED
+                - [match_id is being used to for more than MAX_NUM_OF_PEOPLE_FOR_MATCH people]
                 - user status is DEAD
         - User will submit his score in the match - (30 min)
             - [submitting score for already filled in score]
