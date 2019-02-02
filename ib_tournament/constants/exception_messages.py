@@ -24,3 +24,7 @@ TM_PLAYER_NOT_IN_YET_TO_START = ('Player status should be YET_TO_START to play',
                                  'TM_PLAYER_NOT_IN_YET_TO_START')
 
 PLAYER_NOT_IN_MATCH = ('Player is not in Match', 'PLAYER_NOT_IN_MATCH')
+
+SUBMIT_WHEN_STATUS_IS_IN_PROGRESS = (
+    'Submit score only when match is in progress',
+    'SUBMIT_WHEN_STATUS_IS_IN_PROGRESS')
