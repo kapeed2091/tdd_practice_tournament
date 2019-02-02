@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django_swagger_utils.drf_server.exceptions import NotFound
 from ib_common.date_time_utils.get_current_datetime import get_current_datetime
 
 import datetime
@@ -10,6 +11,7 @@ class TestSubmitScore(TestCase):
 
     user_id = 'User'
     user1_id = 'User1'
+    invalid_user_id = 'InvalidUser'
     match_id = 'Match'
 
     def setUp(self):
@@ -45,3 +47,13 @@ class TestSubmitScore(TestCase):
             score=10)
         match_after = Match.objects.get(user=user, match_id=self.match_id)
         self.assertEqual(match_after.score, 10)
+
+    def test_submit_score_with_invalid_user(self):
+        from tournament.models import Match
+
+        with self.assertRaisesMessage(NotFound, 'User does not exist with the given user id'):
+            Match.submit_score(
+                user_id=self.invalid_user_id,
+                match_id=self.match_id,
+                score=10
+            )
