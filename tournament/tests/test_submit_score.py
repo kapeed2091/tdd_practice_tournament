@@ -62,7 +62,7 @@ class TestSubmitScore(TestCase):
     def test_submit_score_with_invalid_match(self):
         from tournament.models import Match
 
-        with self.assertRaisesMessage(NotFound, 'User does not exist with the given user id'):
+        with self.assertRaisesMessage(NotFound, 'Match does not exist with the given match id'):
             Match.submit_score(
                 user_id=self.user1_id,
                 match_id=self.invalid_match_id,
