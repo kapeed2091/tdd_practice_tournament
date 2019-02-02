@@ -76,7 +76,11 @@ class Tournament(models.Model):
 
     @classmethod
     def start_tournament(cls, tournament_id):
-        pass
+        from ib_tournament.constants.general import TournamentStatus
+        tournament = cls.get_tournament(tournament_id)
+        cls._update_tournament_status(
+            tournament, TournamentStatus.IN_PROGRESS.value)
+        return
 
     @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
