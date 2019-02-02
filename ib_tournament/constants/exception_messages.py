@@ -19,3 +19,6 @@ START_DATE_NOT_REACHED = ('Start date not reached yet.!',
 TOURNAMENT_STATUS_IS_NOT_FULL_YET_TO_START = (
     'Tournament status should be FULL_YET_TO_START before starting tournament',
     'TOURNAMENT_STATUS_IS_NOT_FULL_YET_TO_START')
+
+TM_PLAYER_NOT_IN_YET_TO_START = ('Player status should be YET_TO_START to play',
+                                 'TM_PLAYER_NOT_IN_YET_TO_START')
