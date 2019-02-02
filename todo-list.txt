@@ -21,13 +21,16 @@ Assumptions:
    - when user comes to play match, user match status will change to IN_PROGRESS
         status max length as 20
    - keeping default user match score as -1
-   -
+   - adding users to match, in tournament round 1
 
 ToDo List:
     User can play matches once the tournament is started
-       - [User will submit his score in the match]
        - user not in given match
        - user already played the match
+    User will progress to next round if he wins the match
+        - [create round wise matches for knock out tournament]
+        - add users to tournament round 1 matches
+        - user progress to next round if he wins the match
 
 Completed List
     User can create a knock-out tournament with configurable number of rounds and start datetime
@@ -48,5 +51,6 @@ Completed List
        - play match
        - link match to tournament
        - user can not play, when tournament is not started
+       - User will submit his score in the match
 Time Estimation: 10 Hours
 Updated Time Estimation: 12 Hours
