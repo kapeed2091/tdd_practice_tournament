@@ -44,3 +44,7 @@ class InvalidMatchId(Exception):
 
 class InvalidScore(Exception):
     pass
+
+
+class ScoreCannotBeUpdated(Exception):
+    pass
