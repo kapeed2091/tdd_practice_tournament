@@ -68,9 +68,8 @@ todo-list
     - User can play matches once the tournament is started
         - successful case - match has to be created and UserMatch has to created
             - UserMatch
-                - invalid match status ?? OPEN | COMPLETED
-                - invalid user_id
-                - user_id not in tournament
+                    - invalid match status ?? OPEN | COMPLETED
+                - [user_id not in tournament]
                 - user status is DEAD
         - match has not started
         - user is not part of the tournament
@@ -87,4 +86,5 @@ Completed
     UserMatch
         - successful creation
         - invalid match id - does not exist
+        - invalid user_id
 

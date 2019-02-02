@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from tournament.constants.general import TournamentStatus
-from tournament.models import UserTournament
+from tournaments.constants.general import TournamentStatus
+from tournaments.models import UserTournament
 from ib_common.date_time_utils.convert_string_to_local_date_time \
     import convert_string_to_local_date_time
 
@@ -19,7 +19,7 @@ class TestCanUserPlayInTournament(TestCase):
     )
 
     def test_case_successful_case(self):
-        from tournament.models import User, Tournament
+        from tournaments.models import User, Tournament
         user = User.objects.create(name=self.user_name)
         self.user = user
 
@@ -43,7 +43,7 @@ class TestCanUserPlayInTournament(TestCase):
         self.assertTrue(status)
 
     def test_case_user_not_in_tournament(self):
-        from tournament.models import User, Tournament
+        from tournaments.models import User, Tournament
         user = User.objects.create(name=self.user_name)
         self.user = user
 
@@ -55,7 +55,7 @@ class TestCanUserPlayInTournament(TestCase):
         )
         self.tournament = obj
 
-        from tournament.exceptions.custom_exceptions import UserNotInTournamnet
+        from tournaments.exceptions.custom_exceptions import UserNotInTournamnet
         with self.assertRaises(UserNotInTournamnet):
             UserTournament.can_user_play_in_tournament(
                 user_id=self.user.id, tournament_id=self.tournament.id
