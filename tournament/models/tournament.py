@@ -31,6 +31,12 @@ class Tournament(models.Model):
     def validate_tournament_id(cls, tournament_id):
         cls.get_tournament_by_id(tournament_id=tournament_id)
 
+    def is_tournament_not_started(self):
+        return self._is_tournament_started()
+
+    def _is_tournament_started(self):
+        return self.status == TournamentStatus.IN_PROGRESS.value
+
     @classmethod
     def update_tournament_status(cls, tournament_id, status):
         tournament = cls.get_tournament_by_id(tournament_id=tournament_id)
