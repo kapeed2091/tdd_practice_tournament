@@ -80,10 +80,12 @@ class TestSubmitScore(TestCase):
     @staticmethod
     def create_user_match(user_id, match_id):
         from tournaments.models import UserMatch
+        from tournaments.constants.general import DEFAULT_SCORE
 
         obj = UserMatch.objects.create(
             user_id=user_id,
-            match_id=match_id
+            match_id=match_id,
+            score=DEFAULT_SCORE
         )
 
         return obj

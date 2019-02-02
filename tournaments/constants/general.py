@@ -8,3 +8,6 @@ class TournamentStatus(BaseEnumClass, Enum):
     FULL_YET_TO_START = 'FULL_YET_TO_START'
     IN_PROGRESS = 'IN_PROGRESS'
     COMPLETED = 'COMPLETED'
+
+
+DEFAULT_SCORE = -1

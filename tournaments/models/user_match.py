@@ -4,6 +4,7 @@ from django.db import models
 class UserMatch(models.Model):
     user_id = models.PositiveIntegerField()
     match_id = models.PositiveIntegerField()
+    score = models.IntegerField()
 
     @classmethod
     def create_user_match(cls, user_id, match_id):
@@ -24,3 +25,6 @@ class UserMatch(models.Model):
             user_id=user_id,
             match_id=match_id
         )
+
+    def submit_score(self, score):
+        pass
