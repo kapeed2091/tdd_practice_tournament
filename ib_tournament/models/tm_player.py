@@ -8,6 +8,9 @@ class TMPlayer(models.Model):
     status = models.CharField(max_length=50,
                               default=TMPlayerStatus.YET_TO_START.value)
 
+    class Meta:
+        unique_together = ('player', 'tournament_match')
+
     @classmethod
     def add_players_to_matches(cls, tournament_id):
         from ib_tournament.models import TournamentPlayer, TournamentMatch
