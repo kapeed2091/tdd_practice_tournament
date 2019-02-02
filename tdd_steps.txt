@@ -1,0 +1,44 @@
+TDD Steps:
+- Quickly add a new test
+- Run all tests and see the new one fail
+- Make a little change
+- Run all tests and see them all succeed
+- Refactor to remove duplication
+
+Pre-writing of Test case/Any where during the whole TDD process:
+- Think of different scenarios possible for use case and add relevant ones in same use case, non-relevant ones as separate use cases (at any of the below steps)
+- If any doubts and assumptions are made, note them down and get it verified by RP/Business use case Team (at any of the steps in TDD)
+
+Quickly add a new test:
+- Mark the use case to in-progress state with (* or [])
+- Pick the use case that needs to be done independently and immediately(based on flow of use cases)
+- Write a test case to exactly match the use case(no more, no less)
+- Plan inputs and outputs of test case and functions being used in that and write test case(Note: Test cases cannot be refactored till Refactoring step)
+
+- Run all tests and see the new one fail:
+    Compile Errors:
+    - This state might appear before red state in few test cases
+    - "Errors" are thrown here when test case is run, not "failed" state.
+
+    Red State:
+    - Red state is "failed" state not "error" state
+    - Once compile errors pop, make minimal changes needed to bring to red state
+    - Red state will have only 1 failed test case(which is newly written)
+        - Don't change written test case in this step. If test case is written wrongly, scrap the work done till now in this testcase and start again
+
+Make a little change:
+- Don't change written test case in this step. If test case is written wrongly, scrap the work done till now in this testcase and start again
+- Approaches to write code - Fake implementation, obvious implementation
+    - Fake Implementation - If functionality is not obvious, fake it
+    - Obvious Implementation - If functionality is obvious, Make minimal changes(matching the test case exactly) in code, to take test case to green state
+- Don't write extra code that's not necessary to pass the test case, or don't think of other use cases and write code while writing.
+
+Run all tests and see them all succeed:
+- Don't change written test case in this step. If test case is written wrongly, scrap the work done till now in this testcase and start again
+- Green state - Written test case is passed.
+- Here sometimes the other test cases might fail, then make changes to old failing test case and pass each test case one by one (follow the previous steps one by one)
+
+Refactor to remove duplication:
+- Don't change functionality (or) handle extra use cases in this step
+- Make changes in code and test case according to the refactoring checklist.
+- Once refactoring is completed, move the use case to completed

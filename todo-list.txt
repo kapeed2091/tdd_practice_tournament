@@ -4,11 +4,19 @@ Yet to do:
    - User can subscribe to a tournament which is not yet started
         - How to handle concurrency during subscribing?
    - User can play matches once the tournament is started
-        - User will submit his score in the match
         - Tournament should exist
-        - User should registered with us and subscribed to tournament
-        - User can play match only once in a round
-        - User should be eligible to play that round
+        - User can play match once current time is greater than tournament start_datetime
+        - User can play tournament only if tournament status is IN_PROGRESS
+        - User should have a match to play in that round
+   - Create matches once tournament starts
+        - *create tournament match with two users
+        - create match only if current time is greater than tournament start_datetime
+        - Tournament should exist
+        - User should be registered with us
+        - User should be subscribed to tournament
+        - Only one match will be created for a tournament round for a user
+   - Tournament status should be in IN_PROGRESS, after match creation
+   - User will submit his score in the match
    - User will progress to next round if he wins the match
    - User can get his current round number for a tournament
    - User can get his opponent user profile in any round in a tournament
@@ -51,6 +59,13 @@ My Assumptions:
    - Immediately after creating tournament, we are updating status to CAN_JOIN (No specific time when the subscription begins)
    - User who creates tournament will not be directly subscribed to tournament
    - Upon last slot subscription, we change tournament status to FULL_YET_TO_START
+   - Currently match will be between 2 players not 2 teams
+   - Creation of all matches of a round will happen at once and only once
+   - Creation of tournament matches is done in a new model with RDS
+
+My Doubts:
+   - User can play match only once in a round?
+   -
 
 Time estimate:
    - Hrs - 2, 0.5, 1, 2, 2, 1, 0.5, 1, buffer 3
