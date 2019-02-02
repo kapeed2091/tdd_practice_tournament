@@ -30,6 +30,18 @@ class TestCreateUserMatch(TestCase):
         self.assertTrue(user_match_exists)
         self.assertEqual(objects_newly_created_count, 1)
 
+    def test_invalid_match_id(self):
+        from tournament.models import UserMatch
+
+        user = self.create_user()
+        self.create_tournament(user_id=user.id)
+
+        match_id = 1
+
+        from tournament.exceptions.custom_exceptions import InvalidMatchId
+        with self.assertRaises(InvalidMatchId):
+            UserMatch.create_user_match(user.id, match_id)
+
     @staticmethod
     def create_tournament(
             user_id, status=TournamentStatus.IN_PROGRESS.value):
