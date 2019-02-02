@@ -1,5 +1,5 @@
 from django.test import TestCase
-from tournament.constants.general import TournamentStatus
+from tournaments.constants.general import TournamentStatus
 
 
 class TestSubscribeToTournament(TestCase):
@@ -8,7 +8,7 @@ class TestSubscribeToTournament(TestCase):
     user_2 = None
 
     def test_case_subscribe_to_tournament(self):
-        from tournament.models import UserTournament
+        from tournaments.models import UserTournament
         self.create_user()
         self.create_tournament(user_id=self.user.id)
 
@@ -24,49 +24,49 @@ class TestSubscribeToTournament(TestCase):
         self.assertTrue(is_user_subscribed)
 
     def test_case_invalid_tournament_id(self):
-        from tournament.models import UserTournament
+        from tournaments.models import UserTournament
         self.create_user()
         tournament_id = 1
 
-        from tournament.exceptions.custom_exceptions import InvalidTournamentId
+        from tournaments.exceptions.custom_exceptions import InvalidTournamentId
         with self.assertRaises(InvalidTournamentId):
             UserTournament.subscribe_to_tournament(
                 user_id=self.user.id, tournament_id=tournament_id
             )
 
     def test_case_invalid_user_id(self):
-        from tournament.models import UserTournament
+        from tournaments.models import UserTournament
 
         user_id = 1
         self.create_tournament(user_id=user_id)
 
-        from tournament.exceptions.custom_exceptions import InvalidUserId
+        from tournaments.exceptions.custom_exceptions import InvalidUserId
         with self.assertRaises(InvalidUserId):
             UserTournament.subscribe_to_tournament(
                 user_id=user_id, tournament_id=self.tournament.id
             )
 
     def test_case_user_already_registered(self):
-        from tournament.models import UserTournament
+        from tournaments.models import UserTournament
         self.create_user()
         self.create_tournament(user_id=self.user.id)
         self.create_user_tournament()
 
-        from tournament.exceptions.custom_exceptions import UserAlreadyRegistered
+        from tournaments.exceptions.custom_exceptions import UserAlreadyRegistered
         with self.assertRaises(UserAlreadyRegistered):
             UserTournament.subscribe_to_tournament(
                 user_id=self.user.id, tournament_id=self.tournament.id
             )
 
     def test_case_user_registering_tournament_which_is_full(self):
-        from tournament.models import UserTournament
+        from tournaments.models import UserTournament
         self.create_user()
         self.create_tournament(
             user_id=self.user.id,
             status=TournamentStatus.FULL_YET_TO_START.value
         )
 
-        from tournament.exceptions.custom_exceptions import \
+        from tournaments.exceptions.custom_exceptions import \
             InvalidFullYetToStartRegister
         with self.assertRaises(InvalidFullYetToStartRegister):
             UserTournament.subscribe_to_tournament(
@@ -74,35 +74,35 @@ class TestSubscribeToTournament(TestCase):
             )
 
     def test_case_user_registering_tournament_which_is_in_progress(self):
-        from tournament.models import UserTournament
+        from tournaments.models import UserTournament
         self.create_user()
         self.create_tournament(
             user_id=self.user.id,
             status=TournamentStatus.IN_PROGRESS.value
         )
 
-        from tournament.exceptions.custom_exceptions import InvalidInProgresstRegister
+        from tournaments.exceptions.custom_exceptions import InvalidInProgresstRegister
         with self.assertRaises(InvalidInProgresstRegister):
             UserTournament.subscribe_to_tournament(
                 user_id=self.user.id, tournament_id=self.tournament.id
             )
 
     def test_case_user_registering_tournament_which_is_completed(self):
-        from tournament.models import UserTournament
+        from tournaments.models import UserTournament
         self.create_user()
         self.create_tournament(
             user_id=self.user.id,
             status=TournamentStatus.COMPLETED.value
         )
 
-        from tournament.exceptions.custom_exceptions import InvalidCompletedRegister
+        from tournaments.exceptions.custom_exceptions import InvalidCompletedRegister
         with self.assertRaises(InvalidCompletedRegister):
             UserTournament.subscribe_to_tournament(
                 user_id=self.user.id, tournament_id=self.tournament.id
             )
 
     def test_case_user_is_last_person_to_join_tournament(self):
-        from tournament.models import UserTournament, Tournament
+        from tournaments.models import UserTournament, Tournament
         self.create_user()
         self.create_second_user()
         self.create_tournament(user_id=self.user.id)
@@ -120,7 +120,7 @@ class TestSubscribeToTournament(TestCase):
 
     def create_tournament(
             self, user_id, status=TournamentStatus.CAN_JOIN.value):
-        from tournament.models import Tournament
+        from tournaments.models import Tournament
 
         total_rounds = 1
         start_datetime = "2019-12-12 13:00:00"
@@ -141,7 +141,7 @@ class TestSubscribeToTournament(TestCase):
         self.tournament = tournament
 
     def create_user(self):
-        from tournament.models import User
+        from tournaments.models import User
 
         user_name = "John"
 
@@ -149,7 +149,7 @@ class TestSubscribeToTournament(TestCase):
         self.user = user
 
     def create_second_user(self):
-        from tournament.models import User
+        from tournaments.models import User
 
         user_name = "John Abraham"
 
@@ -157,9 +157,11 @@ class TestSubscribeToTournament(TestCase):
         self.user_2 = user
 
     def create_user_tournament(self):
-        from tournament.models import UserTournament
+        from tournaments.models import UserTournament
+        from tournaments.constants.general import UserTournamentStatus
 
         UserTournament.objects.create(
             user_id=self.user.id,
-            tournament_id=self.tournament.id
+            tournament_id=self.tournament.id,
+            status=UserTournamentStatus.ALIVE.value
         )

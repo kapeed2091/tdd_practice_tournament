@@ -2,8 +2,11 @@ from django.db import models
 
 
 class UserTournament(models.Model):
+    STATUS_MAX_LENGTH = 20
+
     user_id = models.PositiveIntegerField()
     tournament_id = models.PositiveIntegerField()
+    status = models.CharField(max_length=STATUS_MAX_LENGTH)
 
     @classmethod
     def subscribe_to_tournament(cls, user_id, tournament_id):
@@ -27,9 +30,11 @@ class UserTournament(models.Model):
             tournament_id=tournament_id, total_rounds=tournament.total_rounds
         )
 
+        from tournaments.constants.general import UserTournamentStatus
         cls.objects.create(
             user_id=user_id,
-            tournament_id=tournament_id
+            tournament_id=tournament_id,
+            status=UserTournamentStatus
         )
 
         if is_last_person:
@@ -63,14 +68,14 @@ class UserTournament(models.Model):
     @classmethod
     def can_user_play_in_tournament(cls, user_id, tournament_id):
         from ..exceptions.custom_exceptions import UserAlreadyRegistered, \
-            UserNotInTournamnet
+            UserNotInTournament
 
         user_in_tournament = cls.objects.filter(
             user_id=user_id, tournament_id=tournament_id
         ).exists()
 
         if not user_in_tournament:
-            raise UserNotInTournamnet
+            raise UserNotInTournament
 
         from ..models.tournament import Tournament
         tournament = Tournament.get_tournament_by_id(
@@ -81,3 +86,15 @@ class UserTournament(models.Model):
         if tournament.status == TournamentStatus.IN_PROGRESS.value:
             return True
         return False
+
+    @classmethod
+    def validate_user_in_tournament(cls, user_id, tournament_id):
+        user_in_tournament = UserTournament.objects.filter(
+            user_id=user_id,
+            tournament_id=tournament_id
+        ).exists()
+
+        if not user_in_tournament:
+            from tournaments.exceptions.custom_exceptions import \
+                UserNotInTournament
+            raise UserNotInTournament

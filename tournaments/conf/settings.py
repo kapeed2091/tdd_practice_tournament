@@ -1,0 +1,1 @@
+# write your tournaments settings

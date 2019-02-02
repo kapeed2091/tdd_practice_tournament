@@ -30,5 +30,29 @@ class InvalidCompletedRegister(Exception):
     pass
 
 
-class UserNotInTournamnet(Exception):
+class UserNotInTournament(Exception):
+    pass
+
+
+class InvalidRoundNumber(Exception):
+    pass
+
+
+class InvalidMatchId(Exception):
+    pass
+
+
+class InvalidScore(Exception):
+    pass
+
+
+class ScoreCannotBeUpdated(Exception):
+    pass
+
+
+class MatchIdOverused(Exception):
+    pass
+
+
+class UserNotInTournamentAnymore(Exception):
     pass

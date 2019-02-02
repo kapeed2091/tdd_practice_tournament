@@ -18,7 +18,7 @@ class TestCreateTournament(TestCase):
     def test_case_create_tournament(self):
         self.create_user()
 
-        from tournament.models import Tournament
+        from tournaments.models import Tournament
         Tournament.create_tournament(
             user_id=self.user.id, total_rounds=self.total_rounds,
             start_datetime=self.start_datetime_obj
@@ -33,9 +33,9 @@ class TestCreateTournament(TestCase):
         self.assertEqual(Tournament.objects.all().count(), 1)
 
     def test_case_invalid_user_id(self):
-        from tournament.models import Tournament
+        from tournaments.models import Tournament
 
-        from tournament.exceptions.custom_exceptions import InvalidUserId
+        from tournaments.exceptions.custom_exceptions import InvalidUserId
         with self.assertRaises(InvalidUserId):
             Tournament.create_tournament(
                 user_id=self.user_id, total_rounds=self.total_rounds,
@@ -51,9 +51,9 @@ class TestCreateTournament(TestCase):
 
         self.create_user()
 
-        from tournament.models import Tournament
+        from tournaments.models import Tournament
 
-        from tournament.exceptions.custom_exceptions import InvalidStartDateTime
+        from tournaments.exceptions.custom_exceptions import InvalidStartDateTime
         with self.assertRaises(InvalidStartDateTime):
             Tournament.create_tournament(
                 user_id=self.user_id, total_rounds=self.total_rounds,
@@ -64,9 +64,9 @@ class TestCreateTournament(TestCase):
         self.create_user()
         self.total_rounds = -4
 
-        from tournament.models import Tournament
+        from tournaments.models import Tournament
 
-        from tournament.exceptions.custom_exceptions import InvalidTotalRounds
+        from tournaments.exceptions.custom_exceptions import InvalidTotalRounds
         with self.assertRaises(InvalidTotalRounds):
             Tournament.create_tournament(
                 user_id=self.user_id, total_rounds=self.total_rounds,
@@ -74,6 +74,6 @@ class TestCreateTournament(TestCase):
             )
 
     def create_user(self):
-        from tournament.models import User
+        from tournaments.models import User
         user = User.objects.create(name=self.user_name)
         self.user = user

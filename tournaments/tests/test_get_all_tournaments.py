@@ -1,5 +1,5 @@
 from django.test import TestCase
-from tournament.models import Tournament
+from tournaments.models import Tournament
 from ib_common.date_time_utils.convert_string_to_local_date_time \
     import convert_string_to_local_date_time
 

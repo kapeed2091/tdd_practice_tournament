@@ -10,7 +10,7 @@ class Fixture(object):
     @staticmethod
     def populate():
         """
-        Populates data for app tournament
+        Populates data for app tournaments
         :return:
         """
         pass

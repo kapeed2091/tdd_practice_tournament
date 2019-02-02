@@ -8,3 +8,13 @@ class TournamentStatus(BaseEnumClass, Enum):
     FULL_YET_TO_START = 'FULL_YET_TO_START'
     IN_PROGRESS = 'IN_PROGRESS'
     COMPLETED = 'COMPLETED'
+
+
+class UserTournamentStatus(BaseEnumClass, Enum):
+    ALIVE = "ALIVE"
+    DEAD = "DEAD"
+
+
+DEFAULT_SCORE = -1
+
+MAX_NUM_OF_PEOPLE_FOR_MATCH = 2
