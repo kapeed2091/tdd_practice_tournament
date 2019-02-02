@@ -41,6 +41,14 @@ class KoTournament(models.Model):
         tournaments = cls.objects.all()
         return [each.convert_to_dict2() for each in tournaments]
 
+    def is_not_started(self):
+        return not self._is_started()
+
+    def _is_started(self):
+        if self.status != TournamentStatus.YET_TO_START.value:
+            return True
+        return False
+
     @classmethod
     def _validate_request(cls, no_of_rounds, start_datetime, user_id):
         cls._validate_user_id(user_id)
