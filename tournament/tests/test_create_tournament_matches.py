@@ -160,3 +160,38 @@ class TestCreateTournamentMatches(TestCase):
         with self.assertRaisesMessage(
                 Exception, expected_message='User(s) not registered'):
             TournamentMatch.create_match(request_data=create_match_request)
+
+    def testcase_validate_user_subsciption_to_tournament_to_create_match(self):
+        from tournament.models import TournamentMatch, KOTournament, UserProfile
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+        from datetime import timedelta
+        from tournament.constants import TournamentStatus
+
+        tournament_id = 'tournament_1'
+        tournament_name = 'city_tournament_1'
+        number_of_rounds = 2
+        start_datetime = get_current_local_date_time() - timedelta(minutes=10)
+
+        player_one_user_id = 'user_1'
+        player_two_user_id = 'user_2'
+
+        create_match_request = {
+            'tournament_id': tournament_id,
+            'player_one_user_id': player_one_user_id,
+            'player_two_user_id': player_two_user_id
+        }
+
+        UserProfile.objects.create(user_id=player_one_user_id)
+        UserProfile.objects.create(user_id=player_two_user_id)
+
+        KOTournament.objects.create(
+            t_id=tournament_id, name=tournament_name,
+            number_of_rounds=number_of_rounds,
+            start_datetime=start_datetime,
+            status=TournamentStatus.FULL_YET_TO_START.value)
+
+        with self.assertRaisesMessage(
+                Exception,
+                expected_message='User(s) not subscribed to Tournament'):
+            TournamentMatch.create_match(request_data=create_match_request)
