@@ -7,6 +7,7 @@ class UserTournament(models.Model):
     user_id = models.PositiveIntegerField()
     tournament_id = models.PositiveIntegerField()
     status = models.CharField(max_length=STATUS_MAX_LENGTH)
+    round_number = models.IntegerField()
 
     @classmethod
     def subscribe_to_tournament(cls, user_id, tournament_id):
@@ -98,3 +99,7 @@ class UserTournament(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 UserNotInTournament
             raise UserNotInTournament
+
+    @classmethod
+    def level_up(cls, user_id, match_id):
+        pass
