@@ -119,3 +119,20 @@ class TestPlayMatch(TestCase):
         with self.assertRaisesMessage(
                 BadRequest, TM_PLAYER_NOT_IN_YET_TO_START[0]):
             TMPlayer.play_match(player_id, tournament_match_id)
+
+    def test_player_not_in_match(self):
+        from ib_tournament.models import TMPlayer
+        import random
+
+        tm_players = TMPlayer.objects.all()
+        player_id = tm_players[0].player_id
+        tournament_match_id = tm_players[0].tournament_match_id
+        rem_player_ids = [p_id for p_id in self.player_ids if p_id != player_id]
+        player_id = random.choice(rem_player_ids)
+
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            PLAYER_NOT_IN_MATCH
+        with self.assertRaisesMessage(
+                BadRequest, PLAYER_NOT_IN_MATCH[0]):
+            TMPlayer.play_match(player_id, tournament_match_id)
