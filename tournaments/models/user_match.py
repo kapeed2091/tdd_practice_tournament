@@ -22,6 +22,13 @@ class UserMatch(models.Model):
             user_id=user_id, tournament_id=tournament_id
         )
 
+        match_id_users_count = cls.objects.filter(match_id=match_id).count()
+
+        if match_id_users_count >= 2:
+            from tournaments.exceptions.custom_exceptions import \
+                MatchIdOverused
+            raise MatchIdOverused
+
         cls.objects.create(
             user_id=user_id,
             match_id=match_id
