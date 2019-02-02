@@ -1,5 +1,6 @@
 from django.test import TestCase
-from tournaments.constants.general import TournamentStatus
+from tournaments.constants.general import TournamentStatus, \
+    UserTournamentStatus
 from tournaments.constants.general import DEFAULT_SCORE
 
 
@@ -43,14 +44,14 @@ class TestUtils(TestCase):
         return match
 
     @staticmethod
-    def create_user_tournament(user_id, tournament_id):
+    def create_user_tournament(user_id, tournament_id,
+                               status=UserTournamentStatus.ALIVE.value):
         from tournaments.models import UserTournament
-        from tournaments.constants.general import UserTournamentStatus
 
         obj = UserTournament.objects.create(
             user_id=user_id,
             tournament_id=tournament_id,
-            status=UserTournamentStatus.ALIVE.value
+            status=status
         )
         return obj
 
