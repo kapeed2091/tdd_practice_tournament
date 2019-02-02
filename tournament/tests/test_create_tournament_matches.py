@@ -250,11 +250,13 @@ class TestCreateTournamentMatches(TestCase):
             start_datetime=start_datetime_past,
             status=TournamentStatus.FULL_YET_TO_START.value)
 
-        TournamentMatch.assign_match_id(request_data=create_match_request,
-                                        match_id=match_id)
+        TournamentMatch.create_match_and_assign_match_id(
+            create_match_request=create_match_request,
+            match_id=match_id)
 
         with self.assertRaisesMessage(
                 Exception,
                 expected_message='Match id already assigned to another match'):
-            TournamentMatch.assign_match_id(request_data=create_match_request,
-                                            match_id=match_id)
+            TournamentMatch.create_match_and_assign_match_id(
+                create_match_request=create_match_request,
+                match_id=match_id)

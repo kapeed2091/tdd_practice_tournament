@@ -19,18 +19,28 @@ class TournamentMatch(models.Model):
             tournament_id=request_data['tournament_id'],
             user_id_1=request_data['player_one_user_id'],
             user_id_2=request_data['player_two_user_id'])
-        cls.objects.create(
+        return cls.objects.create(
             t_id=request_data['tournament_id'],
             player_one=request_data['player_one_user_id'],
             player_two=request_data['player_two_user_id'])
 
     @classmethod
-    def assign_match_id(cls, request_data, match_id):
-        if cls.objects.filter(match_id=match_id).exists():
-            raise Exception('Match id already assigned to another match')
-        else:
-            cls.objects.create(
-                t_id=request_data['tournament_id'],
-                player_one=request_data['player_one_user_id'],
-                player_two=request_data['player_two_user_id'],
-                match_id=match_id)
+    def create_match_and_assign_match_id(cls, create_match_request, match_id):
+        cls.validate_match_id(match_id=match_id)
+        match_obj = cls.create_match(request_data=create_match_request)
+        match_obj.assign_match_id_to_match(match_id=match_id)
+
+    def assign_match_id_to_match(self, match_id):
+        self.match_id = match_id
+        self.save()
+
+    @classmethod
+    def is_match_id_used(cls, match_id):
+        return cls.objects.filter(match_id=match_id).exists()
+
+    @classmethod
+    def validate_match_id(cls, match_id):
+        if cls.is_match_id_used(match_id=match_id):
+            from tournament.constants.exception_messages import \
+                MATCH_ID_ALREADY_ASSIGNED_TO_ANOTHER_MATCH
+            raise Exception(*MATCH_ID_ALREADY_ASSIGNED_TO_ANOTHER_MATCH)
