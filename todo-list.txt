@@ -32,8 +32,6 @@ Assumptions:
        - assuming match winner is None by default
 
 TODOs(To be Implemented list):
-    - player submits match score
-        - In case of tie, Whoever submits the score first is winner
     - match winner progress to next round
     - User will progress to next round if he wins the match
     - get current round
@@ -47,7 +45,7 @@ TODOs(To be Implemented list):
     
 In Progress List:
     - player submits match score
-        - declare match winner when second player submits score
+        - In case of tie, Whoever submits the score first is winner
 
 Completed List:
     - create user
@@ -96,4 +94,4 @@ Completed List:
         - player can submit only if his status is IN_PROGRESS
         # TODO: Doubt: How to handle this
         - player can submit only if he is part of match --> ALREADY HANDLED
-
+        - declare match winner when second player submits score
