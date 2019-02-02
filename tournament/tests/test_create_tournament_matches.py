@@ -4,7 +4,7 @@ from django.test import TestCase
 class TestCreateTournamentMatches(TestCase):
 
     def testcase_create_tournament_match_for_two_users(self):
-        from tournament.models import TournamentMatch, KOTournament
+        from tournament.models import TournamentMatch, KOTournament, UserProfile
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time
         from datetime import timedelta
@@ -23,6 +23,9 @@ class TestCreateTournamentMatches(TestCase):
             'player_one_user_id': player_one_user_id,
             'player_two_user_id': player_two_user_id
         }
+
+        UserProfile.objects.create(user_id=player_one_user_id)
+        UserProfile.objects.create(user_id=player_two_user_id)
 
         KOTournament.objects.create(
             t_id=tournament_id, name=tournament_name,
@@ -46,7 +49,7 @@ class TestCreateTournamentMatches(TestCase):
         self.assertEquals(diff[0].player_two, player_two_user_id)
 
     def testcase_create_match_before_tournament_start_datetime(self):
-        from tournament.models import TournamentMatch, KOTournament
+        from tournament.models import TournamentMatch, KOTournament, UserProfile
         from datetime import timedelta
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time
@@ -75,6 +78,9 @@ class TestCreateTournamentMatches(TestCase):
             'player_one_user_id': player_one_user_id,
             'player_two_user_id': player_two_user_id
         }
+
+        UserProfile.objects.create(user_id=player_one_user_id)
+        UserProfile.objects.create(user_id=player_two_user_id)
 
         KOTournament.objects.create(
             t_id=tournament_id_1, name=tournament_name,

@@ -15,3 +15,11 @@ class UserProfile(models.Model):
             cls.get_user(user_id=user_id)
         except:
             raise Exception('User not registered')
+
+    @classmethod
+    def validate_users(cls, user_id_1, user_id_2):
+        try:
+            cls.get_user(user_id=user_id_1)
+            cls.get_user(user_id=user_id_2)
+        except:
+            raise Exception('User(s) not registered')
