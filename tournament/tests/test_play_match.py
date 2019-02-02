@@ -14,6 +14,7 @@ class TestPlayMatch(TestCase):
     invalid_user_id = 'InvalidUser'
     match1_id = 'Match1'
     match2_id = 'Match2'
+    invalid_match_id = 'InvalidMatch'
 
     def setUp(self):
         from tournament.models import User, KoTournament, Match
@@ -75,3 +76,9 @@ class TestPlayMatch(TestCase):
 
         with self.assertRaisesMessage(NotFound, 'User does not exist with the given user id'):
             Match.play_match(user_id=self.invalid_user_id, match_id=self.match2_id)
+
+    def test_play_match_with_invalid_match_id(self):
+        from tournament.models import Match
+
+        with self.assertRaisesMessage(NotFound, 'Match does not exist with the given match id'):
+            Match.play_match(user_id=self.user1_id, match_id=self.invalid_match_id)
