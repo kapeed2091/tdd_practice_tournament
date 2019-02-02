@@ -36,3 +36,7 @@ class UserNotInTournamnet(Exception):
 
 class InvalidRoundNumber(Exception):
     pass
+
+
+class InvalidMatchId(Exception):
+    pass
