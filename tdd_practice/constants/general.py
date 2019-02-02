@@ -24,3 +24,7 @@ class TournamentStatus(Enum):
     IN_PROGRESS = "IN_PROGRESS"
     COMPLETED = "COMPLETED"
 
+
+class UserMatchStatus(Enum):
+    IN_PROGRESS = "IN_PROGRESS"
+

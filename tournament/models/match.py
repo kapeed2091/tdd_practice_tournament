@@ -7,6 +7,11 @@ class Match(models.Model):
 
     @classmethod
     def play_match(cls, match_id, user_id):
+        from tdd_practice.constants.general import UserMatchStatus
+
         match = cls.objects.get(id=match_id, user_id=user_id)
-        match.status = "IN_PROGRESS"
-        match.save()
+        match.update_match_status(status=UserMatchStatus.IN_PROGRESS.value)
+
+    def update_match_status(self, status):
+        self.status = status
+        self.save()
