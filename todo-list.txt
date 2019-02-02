@@ -28,15 +28,21 @@ Assumptions:
             - IN_PROGRESS, once the player starts playing the match
             - COMPLETED, once the player submits his score
        - assuming that initial score is 0
+       - winner will be computed only when both the players submits their score
 
 TODOs(To be Implemented list):
-    - play match (low priority)
-        - validate tournament_match_id, raise appropriate custom exception
-        - validate player_id, raise appropriate custom exception
+    - player submits match score
+        - declare match winner when second player submits score
+    - match winner progress to next round
     - User will progress to next round if he wins the match
     - get current round
     - get opponent profile in round of a tournament
     - get winner profile of tournament
+
+    LOW PRIORITY:
+        - play match
+            - validate tournament_match_id, raise appropriate custom exception
+            - validate player_id, raise appropriate custom exception
     
 In Progress List:
 
