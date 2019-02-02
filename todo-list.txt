@@ -9,9 +9,9 @@ Yet to do:
         - User can play tournament only if tournament status is IN_PROGRESS
         - User should have a match to play in that round
    - Create matches once tournament starts
-        - *Both users should be subscribed to tournament
-        - Only one match will be created for a tournament round for a user
-   - Tournament status should be in IN_PROGRESS, after match creation
+        - *Each match when created should have a unique match_id
+        - Only one match will be created for a tournament round for a user?
+   - Tournament status will be in IN_PROGRESS after start datetime
    - User will submit his score in the match
    - User will progress to next round if he wins the match
    - User can get his current round number for a tournament
@@ -41,6 +41,7 @@ Completed:
         - create match only if current time is greater than tournament start_datetime
         - Tournament should exist
         - Both users should be registered with us
+        - Both users should be subscribed to tournament
 
 Raise Appropriate custom exceptions wherever necessary
 
@@ -64,6 +65,7 @@ My Assumptions:
    - Creation of all matches of a round will happen at once and only once
    - Creation of tournament matches is done in a new model with RDS
    - Added vernacular exception messages
+   - Tournament status will be in IN_PROGRESS after start datetime
 
 My Doubts:
    - User can play match only once in a round?
