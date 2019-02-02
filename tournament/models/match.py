@@ -44,7 +44,10 @@ class Match(models.Model):
 
     @classmethod
     def _get_match(cls, user, match_id):
-        return cls.objects.get(user=user, match_id=match_id)
+        try:
+            return cls.objects.get(user=user, match_id=match_id)
+        except cls.DoesNotExist:
+            raise Forbidden('User does not belong to the match')
 
     @classmethod
     def _validate_match(cls, match_id):
