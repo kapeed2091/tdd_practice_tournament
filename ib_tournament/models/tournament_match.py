@@ -3,6 +3,7 @@ from django.db import models
 
 class TournamentMatch(models.Model):
     tournament = models.ForeignKey('ib_tournament.Tournament')
+    winner_id = models.IntegerField(default=-1)
 
     @classmethod
     def create_matches(cls, tournament_id):

@@ -29,6 +29,7 @@ Assumptions:
             - COMPLETED, once the player submits his score
        - assuming that initial score is 0
        - winner will be computed only when both the players submits their score
+       - assuming match winner is None by default
 
 TODOs(To be Implemented list):
     - match winner progress to next round
