@@ -17,6 +17,11 @@ class Match(models.Model):
             round_number=round_number
         )
 
+    @classmethod
+    def get_match_by_id(cls, match_id):
+        obj = cls.objects.get(id=match_id)
+        return obj
+
     @staticmethod
     def _validate_round_number(round_number):
         if round_number < 0:
@@ -24,9 +29,10 @@ class Match(models.Model):
             raise InvalidRoundNumber
 
     @classmethod
-    def validate_match_id(cls, match_id):
-        match_exists = cls.objects.filter(id=match_id).exists()
-
-        if not match_exists:
+    def validate_and_get_match_by_id(cls, match_id):
+        try:
+            obj = cls.get_match_by_id(match_id=match_id)
+            return obj
+        except cls.DoesNotExist:
             from ..exceptions.custom_exceptions import InvalidMatchId
             raise InvalidMatchId

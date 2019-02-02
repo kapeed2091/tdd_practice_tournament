@@ -63,14 +63,14 @@ class UserTournament(models.Model):
     @classmethod
     def can_user_play_in_tournament(cls, user_id, tournament_id):
         from ..exceptions.custom_exceptions import UserAlreadyRegistered, \
-            UserNotInTournamnet
+            UserNotInTournament
 
         user_in_tournament = cls.objects.filter(
             user_id=user_id, tournament_id=tournament_id
         ).exists()
 
         if not user_in_tournament:
-            raise UserNotInTournamnet
+            raise UserNotInTournament
 
         from ..models.tournament import Tournament
         tournament = Tournament.get_tournament_by_id(
@@ -81,3 +81,15 @@ class UserTournament(models.Model):
         if tournament.status == TournamentStatus.IN_PROGRESS.value:
             return True
         return False
+
+    @classmethod
+    def validate_user_in_tournament(cls, user_id, tournament_id):
+        user_in_tournament = UserTournament.objects.filter(
+            user_id=user_id,
+            tournament_id=tournament_id
+        ).exists()
+
+        if not user_in_tournament:
+            from tournaments.exceptions.custom_exceptions import \
+                UserNotInTournament
+            raise UserNotInTournament

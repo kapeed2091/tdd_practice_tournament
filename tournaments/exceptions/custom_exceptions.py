@@ -30,7 +30,7 @@ class InvalidCompletedRegister(Exception):
     pass
 
 
-class UserNotInTournamnet(Exception):
+class UserNotInTournament(Exception):
     pass
 
 

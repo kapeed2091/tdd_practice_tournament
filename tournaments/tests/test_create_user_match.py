@@ -79,8 +79,8 @@ class TestCreateUserMatch(TestCase):
         )
 
         from tournaments.exceptions.custom_exceptions import \
-            UserNotInTournamnet
-        with self.assertRaises(UserNotInTournamnet):
+            UserNotInTournament
+        with self.assertRaises(UserNotInTournament):
             UserMatch.create_user_match(user_2.id, match.id)
 
     @staticmethod

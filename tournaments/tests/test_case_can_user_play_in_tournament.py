@@ -55,8 +55,8 @@ class TestCanUserPlayInTournament(TestCase):
         )
         self.tournament = obj
 
-        from tournaments.exceptions.custom_exceptions import UserNotInTournamnet
-        with self.assertRaises(UserNotInTournamnet):
+        from tournaments.exceptions.custom_exceptions import UserNotInTournament
+        with self.assertRaises(UserNotInTournament):
             UserTournament.can_user_play_in_tournament(
                 user_id=self.user.id, tournament_id=self.tournament.id
             )
