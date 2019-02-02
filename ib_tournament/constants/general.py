@@ -8,3 +8,9 @@ class TournamentStatus(Enum):
     FULL_YET_TO_START = 'FULL_YET_TO_START'
     IN_PROGRESS = 'IN_PROGRESS'
     COMPLETED = 'COMPLETED'
+
+
+class TMPlayerStatus(Enum):
+    YET_TO_START = 'YET_TO_START'
+    IN_PROGRESS = 'IN_PROGRESS'
+    COMPLETED = 'COMPLETED'
