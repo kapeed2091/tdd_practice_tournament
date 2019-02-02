@@ -48,3 +48,7 @@ class InvalidScore(Exception):
 
 class ScoreCannotBeUpdated(Exception):
     pass
+
+
+class MatchIdOverused(Exception):
+    pass
