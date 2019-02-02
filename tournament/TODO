@@ -10,6 +10,8 @@ TO BE IMPLEMENTED:
           3. Invalid Match id
 
 IN_PROGRESS:
+   - User can play matches once the tournament is started
+          1. User can play match
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -22,6 +24,8 @@ ASSUMPTIONS:
           c. tournament
           d. score(default=0) and Integer Field
           e. status
+
+   2. Assuming after play_match is called by user, match status will change to 'IN_PROGRESS'
 DOUBTS:
    1. Can user play same match multiple times.
    2. Will there be any time constraints to play a match
