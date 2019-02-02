@@ -32,3 +32,7 @@ class InvalidCompletedRegister(Exception):
 
 class UserNotInTournamnet(Exception):
     pass
+
+
+class InvalidRoundNumber(Exception):
+    pass
