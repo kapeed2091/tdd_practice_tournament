@@ -31,16 +31,15 @@ class UserMatch(models.Model):
     def submit_score(self, score):
         self.validate_score(score=score)
 
+        self.score = score
+        self.save()
+
+    def validate_score(self, score):
+        if score < 0:
+            from tournaments.exceptions.custom_exceptions import InvalidScore
+            raise InvalidScore
+
         if self.score != DEFAULT_SCORE:
             from tournaments.exceptions.custom_exceptions import \
                 ScoreCannotBeUpdated
             raise ScoreCannotBeUpdated
-
-        self.score = score
-        self.save()
-
-    @staticmethod
-    def validate_score(score):
-        if score < 0:
-            from tournaments.exceptions.custom_exceptions import InvalidScore
-            raise InvalidScore
