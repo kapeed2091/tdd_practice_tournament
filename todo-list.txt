@@ -17,40 +17,51 @@ Assumptions:
    - In case of tie, Whoever submits the score first is winner
    - User profile has Name, Age, Gender
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
+   - updating tournament status to IN_PROGRESS once the tournament is started
 
-TODOs:
-    - create user
-        - create user with username -- DONE
-        - no two users can have same username -- DONE
-    - user can create tournament with configurable number of rounds and start datetime
-        - create tournament -- DONE
-        - create tournament with invalid datetime(yesterday's date) -- DONE
-        - create tournament with rounds non positive -- DONE
-        - create tournament by user -- DONE
-        - invalid user_id while create tournament -- DONE
-        - refactor testcases --> don't use internal functions -- DONE
-        - remove create_tournament (incorrect implementation) -- DONE
-    - user can get all tournaments
-        - get tournaments having tournaments in all states -- DONE
-        - get tournaments with ordering according to status order:[
-        FULL_YET_TO_START, CAN_JOIN, IN_PROGRESS, COMPLETED] and start_datetime -- DONE
-        - get tournaments with offset and limit -- NOT LISTED IN USECASE
-        - refactor testcases --> don't use internal functions -- DONE
-        - get all tournaments by user -- DONE
-        - invalid user_id in get all tournaments -- DONE
-        - remove get_all_tournaments(incorrect implementation) -- DONE
-    - user can subscribe to tournament
-        - user subscribing to tournament -- DONE
-        - user can only subscribe to CAN_JOIN tournaments -- DONE
-        - requested user should be valid user -- DONE
-        - subscribed player can't subscribe again -- DONE
-        - subscribing to invalid tournament_id
-        - tournament_status should change to FULL_YET_TO_START if max users subscribed -- DONE
-        - refactor testcases --> don't use internal functions -- DONE
+TODOs(To be Implemented list):
+    - start tournament
+        - starting tournament before start_datetime reaches
 
+    - create matches
+    - add players to matches
     - play match
-
     - end match
     - get current round
     - get opponent profile in round of a tournament
     - get winner profile of tournament
+    
+In Progress List:
+    - start tournament
+        - update status to IN_PROGRESS
+
+
+Completed List:
+    - create user
+        - create user with username 
+        - no two users can have same username 
+    - user can create tournament with configurable number of rounds and start datetime
+        - create tournament 
+        - create tournament with invalid datetime(yesterday's date) 
+        - create tournament with rounds non positive 
+        - create tournament by user 
+        - invalid user_id while create tournament 
+        - refactor testcases --> don't use internal functions 
+        - remove create_tournament (incorrect implementation) 
+    - user can get all tournaments
+        - get tournaments having tournaments in all states 
+        - get tournaments with ordering according to status order:[
+        FULL_YET_TO_START, CAN_JOIN, IN_PROGRESS, COMPLETED] and start_datetime 
+        - get tournaments with offset and limit -- NOT LISTED IN USECASE
+        - refactor testcases --> don't use internal functions 
+        - get all tournaments by user 
+        - invalid user_id in get all tournaments 
+        - remove get_all_tournaments(incorrect implementation) 
+    - user can subscribe to tournament
+        - user subscribing to tournament 
+        - user can only subscribe to CAN_JOIN tournaments 
+        - requested user should be valid user 
+        - subscribed player can't subscribe again 
+        - subscribing to invalid tournament_id
+        - tournament_status should change to FULL_YET_TO_START if max users subscribed 
+        - refactor testcases --> don't use internal functions 
