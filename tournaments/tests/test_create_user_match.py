@@ -10,6 +10,9 @@ class TestCreateUserMatch(TestCase):
         user = self.create_user()
         tournament = self.create_tournament(user_id=user.id)
 
+        self.create_user_tournament(
+            user_id=user.id, tournament_id=tournament.id
+        )
         round_number = 2
         match = self.create_match(
             tournament_id=tournament.id, round_number=round_number
@@ -34,7 +37,10 @@ class TestCreateUserMatch(TestCase):
         from tournaments.models import UserMatch
 
         user = self.create_user()
-        self.create_tournament(user_id=user.id)
+        tournament = self.create_tournament(user_id=user.id)
+        self.create_user_tournament(
+            user_id=user.id, tournament_id=tournament.id
+        )
 
         match_id = 1
 
@@ -46,7 +52,9 @@ class TestCreateUserMatch(TestCase):
         from tournaments.models import UserMatch
         user = self.create_user()
         tournament = self.create_tournament(user_id=user.id)
-
+        self.create_user_tournament(
+            user_id=user.id, tournament_id=tournament.id
+        )
         round_number = 2
         match = self.create_match(
             tournament_id=tournament.id, round_number=round_number
@@ -123,3 +131,13 @@ class TestCreateUserMatch(TestCase):
 
         user = User.objects.create(name=user_name)
         return user
+
+    @staticmethod
+    def create_user_tournament(user_id, tournament_id):
+        from tournaments.models import UserTournament
+
+        obj = UserTournament.objects.create(
+            user_id=user_id,
+            tournament_id=tournament_id
+        )
+        return obj
