@@ -23,8 +23,9 @@ Assumptions:
 
 ToDo List:
     User can play matches once the tournament is started
-       - User will submit his score in the match
+       - [User will submit his score in the match]
        - user not in given match
+       - user already played the match
 
 Completed List
     User can create a knock-out tournament with configurable number of rounds and start datetime
