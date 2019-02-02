@@ -27,4 +27,5 @@ class UserMatch(models.Model):
         )
 
     def submit_score(self, score):
-        pass
+        self.score = score
+        self.save()
