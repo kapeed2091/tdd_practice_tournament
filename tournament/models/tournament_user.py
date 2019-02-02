@@ -60,3 +60,11 @@ class TournamentUser(models.Model):
             return True
         else:
             return False
+
+    @classmethod
+    def validate_user_subscription(cls, tournament_id, user_id_1, user_id_2):
+        try:
+            cls.objects.get(t_id=tournament_id, user_id=user_id_1)
+            cls.objects.get(t_id=tournament_id, user_id=user_id_2)
+        except:
+            raise Exception('User(s) not subscribed to Tournament')

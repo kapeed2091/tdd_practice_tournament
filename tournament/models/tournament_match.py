@@ -9,11 +9,15 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def create_match(cls, request_data):
-        from tournament.models import KOTournament, UserProfile
+        from tournament.models import KOTournament, UserProfile, TournamentUser
         KOTournament.validate_tournament_for_create_match(
             tournament_id=request_data['tournament_id'])
         UserProfile.validate_users(user_id_1=request_data['player_one_user_id'],
                                    user_id_2=request_data['player_two_user_id'])
+        TournamentUser.validate_user_subscription(
+            tournament_id=request_data['tournament_id'],
+            user_id_1=request_data['player_one_user_id'],
+            user_id_2=request_data['player_two_user_id'])
         cls.objects.create(
             t_id=request_data['tournament_id'],
             player_one=request_data['player_one_user_id'],
