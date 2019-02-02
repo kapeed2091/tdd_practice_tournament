@@ -72,9 +72,9 @@ todo-list
                 - invalid match status ?? OPEN | COMPLETED
                 - user status is DEAD
         - User will submit his score in the match - (30 min)
-            - [successful]
-            - user not part of tournament
-            - invalid score
+            - successful
+            - [invalid score]
+            - submitting score for already filled in score
     - User will submit his score in the match - (30 min)
             - successful
             - user not part of tournament
