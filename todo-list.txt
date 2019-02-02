@@ -58,6 +58,11 @@ overall estimation time - (6 hr - 5 + 1)
 
 Updated time line - (11 hr(13 - 2))
 todo-list
+    - User will progress to next round if he wins the match (25 min)
+        - successful
+
+
+Completed
     - create_tournament successful case
         - invalid user_id
         - invalid start date
@@ -70,16 +75,6 @@ todo-list
         - user cannot subscribe as tournament is in progress
         - user cannot subscribe as tournament is completed
         - user is last person to subscribe for a tournament
-    - User can play matches once the tournament is started
-        - UserMatch
-                - [user status is DEAD]
-        - User will submit his score in the match - (30 min)
-    - User will submit his score in the match - (30 min)
-            - successful
-            - user not part of tournament
-            - invalid score
-
-Completed
     Create Match
         - successful case
         - invalid tournament_id
@@ -90,6 +85,7 @@ Completed
         - invalid user_id
         - user_id not in tournament
         - match_id is being used to for more than MAX_NUM_OF_PEOPLE_FOR_MATCH people
+        - user status is DEAD
 
     User will submit his score in the match
         - successful
