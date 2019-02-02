@@ -10,6 +10,8 @@ class TournamentMatch(models.Model):
     @classmethod
     def create_match(cls, request_data):
         from tournament.models import KOTournament
+        KOTournament.is_tournament_exists(
+            tournament_id=request_data['tournament_id'])
         KOTournament.validate_start_datetime(
             tournament_id=request_data['tournament_id'])
         cls.objects.create(
