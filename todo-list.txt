@@ -18,12 +18,13 @@ Assumptions:
    - User profile has Name, Age, Gender
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
    - list of all tournaments are ordered in descending order wrt start_datetime
-   - when tournament start datetime is reached, tournament status changed to IN_PROGRESS and matches are created
+   - when user comes to play match, user match status will change to IN_PROGRESS
 
 ToDo List:
     User can play matches once the tournament is started
+       - [play match]
+       - user can not play, when tournament is not started
        - start tournament when start datetime is reached
-       - play match
        - User will submit his score in the match
 
 Completed List
