@@ -8,6 +8,7 @@ class TestUserPlayMatch(TestCase):
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time
         from datetime import timedelta
+        from tournament.constants import TournamentStatus
 
         user_id_1 = 'user_1'
         user_id_2 = 'user_2'
@@ -19,7 +20,8 @@ class TestUserPlayMatch(TestCase):
 
         KOTournament.objects.create(
             t_id=tournament_id, name=tournament_name,
-            number_of_rounds=number_of_rounds, start_datetime=start_datetime)
+            number_of_rounds=number_of_rounds, start_datetime=start_datetime,
+            status=TournamentStatus.IN_PROGRESS.value)
 
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,

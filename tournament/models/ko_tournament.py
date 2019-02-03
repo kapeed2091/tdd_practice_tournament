@@ -175,6 +175,14 @@ class KOTournament(models.Model):
             return False
 
     @classmethod
+    def validate_tournament_status_to_play(cls, tournament_id):
+        tournament_obj = cls.get_tournament(tournament_id=tournament_id)
+        if tournament_obj.status != TournamentStatus.IN_PROGRESS.value:
+            from tournament.constants.exception_messages import \
+                TOURNAMENT_STATUS_NOT_IN_PROGRESS
+            raise Exception(*TOURNAMENT_STATUS_NOT_IN_PROGRESS)
+
+    @classmethod
     def validate_tournament_for_create_match(cls, tournament_id):
         cls.validate_tournament(tournament_id=tournament_id)
         cls.validate_start_datetime(tournament_id=tournament_id)
@@ -183,3 +191,4 @@ class KOTournament(models.Model):
     def validate_tournament_for_play_match(cls, tournament_id):
         cls.validate_tournament(tournament_id=tournament_id)
         cls.validate_start_datetime_for_play_match(tournament_id=tournament_id)
+        cls.validate_tournament_status_to_play(tournament_id=tournament_id)
