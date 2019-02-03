@@ -84,6 +84,12 @@ class KOTournament(models.Model):
         cls.is_non_int_type(number_of_rounds=number_of_rounds)
         cls.is_non_positive(number_of_rounds=number_of_rounds)
 
+    @classmethod
+    def validate_tournament_for_play_match(cls, tournament_id):
+        cls.validate_tournament(tournament_id=tournament_id)
+        cls.validate_start_datetime_for_play_match(tournament_id=tournament_id)
+        cls.validate_tournament_status_to_play(tournament_id=tournament_id)
+
     @staticmethod
     def is_valid_start_datetime(start_datetime):
         from ib_common.date_time_utils.get_current_local_date_time import \
@@ -186,9 +192,3 @@ class KOTournament(models.Model):
     def validate_tournament_for_create_match(cls, tournament_id):
         cls.validate_tournament(tournament_id=tournament_id)
         cls.validate_start_datetime(tournament_id=tournament_id)
-
-    @classmethod
-    def validate_tournament_for_play_match(cls, tournament_id):
-        cls.validate_tournament(tournament_id=tournament_id)
-        cls.validate_start_datetime_for_play_match(tournament_id=tournament_id)
-        cls.validate_tournament_status_to_play(tournament_id=tournament_id)

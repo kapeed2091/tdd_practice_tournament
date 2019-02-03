@@ -45,21 +45,6 @@ class TournamentMatch(models.Model):
         match_obj = cls.create_match(request_data=create_match_request)
         match_obj.assign_match_id_to_match(match_id=match_id)
 
-    def assign_match_id_to_match(self, match_id):
-        self.match_id = match_id
-        self.save()
-
-    @classmethod
-    def is_match_id_used(cls, match_id):
-        return cls.objects.filter(match_id=match_id).exists()
-
-    @classmethod
-    def validate_match_id(cls, match_id):
-        if cls.is_match_id_used(match_id=match_id):
-            from tournament.constants.exception_messages import \
-                MATCH_ID_ALREADY_ASSIGNED_TO_ANOTHER_MATCH
-            raise Exception(*MATCH_ID_ALREADY_ASSIGNED_TO_ANOTHER_MATCH)
-
     @classmethod
     def user_play_match(cls, user_id, tournament_id, match_id):
         from tournament.models import KOTournament
@@ -71,12 +56,28 @@ class TournamentMatch(models.Model):
 
         cls.update_status_for_user_play_match(tournament_obj=tournament_obj)
 
+
+    @classmethod
+    def validate_match_id(cls, match_id):
+        if cls.does_match_exist(match_id=match_id):
+            from tournament.constants.exception_messages import \
+                MATCH_ID_ALREADY_ASSIGNED_TO_ANOTHER_MATCH
+            raise Exception(*MATCH_ID_ALREADY_ASSIGNED_TO_ANOTHER_MATCH)
+
     @classmethod
     def validate_match_id_for_play_match(cls, match_id):
-        if not cls.is_match_id_used(match_id=match_id):
+        if not cls.does_match_exist(match_id=match_id):
             from tournament.constants.exception_messages import \
                 MATCH_DOES_NOT_EXIST
             raise Exception(*MATCH_DOES_NOT_EXIST)
+
+    @classmethod
+    def does_match_exist(cls, match_id):
+        return cls.objects.filter(match_id=match_id).exists()
+
+    def assign_match_id_to_match(self, match_id):
+        self.match_id = match_id
+        self.save()
 
     @classmethod
     def update_status_for_user_play_match(cls, tournament_obj):
