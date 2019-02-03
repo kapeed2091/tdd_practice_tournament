@@ -65,10 +65,18 @@ class TournamentMatch(models.Model):
         from tournament.models import KOTournament
         KOTournament.validate_tournament_for_play_match(
             tournament_id=tournament_id)
+        cls.validate_match_id_for_play_match(match_id=match_id)
         tournament_obj = cls.objects.get(
             player_one=user_id, t_id= tournament_id, match_id=match_id)
 
         cls.update_status_for_user_play_match(tournament_obj=tournament_obj)
+
+    @classmethod
+    def validate_match_id_for_play_match(cls, match_id):
+        if not cls.is_match_id_used(match_id=match_id):
+            from tournament.constants.exception_messages import \
+                MATCH_DOES_NOT_EXIST
+            raise Exception(*MATCH_DOES_NOT_EXIST)
 
     @classmethod
     def update_status_for_user_play_match(cls, tournament_obj):

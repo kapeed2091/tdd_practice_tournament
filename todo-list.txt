@@ -6,6 +6,8 @@ Yet to do:
    - User can play matches once the tournament is started
         - *Match id should exist
         - User should be one of the players in match
+        - User must be registered
+        - User must be subscribed to Tournament
    - Create matches once tournament starts
         - Only one match will be created for a tournament round for a user?
    - User will submit his score in the match
