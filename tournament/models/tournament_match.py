@@ -1,17 +1,27 @@
 from django.db import models
-from tournament.constants.general import T_ID_MAX_LENGTH, USER_ID_MAX_LENGTH
+from tournament.constants.general import T_ID_MAX_LENGTH, USER_ID_MAX_LENGTH,\
+    PlayerMatchStatus, MatchStatus
 
 
 class TournamentMatch(models.Model):
     MATCH_ID_MAX_LENGTH = 20
+    PLAYER_MATCH_STATUS_MAX_LENGTH = 20
+    MATCH_STATUS_MAX_LENGTH = 20
 
     t_id = models.CharField(max_length=T_ID_MAX_LENGTH)
     player_one = models.CharField(max_length=USER_ID_MAX_LENGTH)
-    player_one_match_status = models.CharField(max_length=20)
+    player_one_match_status = models.CharField(
+        max_length=PLAYER_MATCH_STATUS_MAX_LENGTH,
+        default=PlayerMatchStatus.YET_TO_START.value)
+
     player_two = models.CharField(max_length=USER_ID_MAX_LENGTH)
-    player_two_match_status = models.CharField(max_length=20)
-    match_id = models.CharField(max_length=20)
-    match_status = models.CharField(max_length=20)
+    player_two_match_status = models.CharField(
+        max_length=PLAYER_MATCH_STATUS_MAX_LENGTH,
+        default=PlayerMatchStatus.YET_TO_START.value)
+
+    match_id = models.CharField(max_length=MATCH_ID_MAX_LENGTH)
+    match_status = models.CharField(max_length=MATCH_STATUS_MAX_LENGTH,
+                                    default=MatchStatus.YET_TO_START.value)
 
     @classmethod
     def create_match(cls, request_data):
@@ -55,7 +65,11 @@ class TournamentMatch(models.Model):
         tournament_obj = cls.objects.get(
             player_one=user_id, t_id= tournament_id, match_id=match_id)
 
-        tournament_obj.player_one_match_status = 'IN_PROGRESS'
-        tournament_obj.player_two_match_status = 'YET_TO_START'
-        tournament_obj.match_status = 'IN_PROGRESS'
+        cls.update_status_for_user_play_match(tournament_obj=tournament_obj)
+
+    @classmethod
+    def update_status_for_user_play_match(cls, tournament_obj):
+        tournament_obj.player_one_match_status = \
+            PlayerMatchStatus.IN_PROGRESS.value
+        tournament_obj.match_status = MatchStatus.IN_PROGRESS.value
         tournament_obj.save()

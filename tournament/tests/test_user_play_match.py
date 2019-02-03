@@ -15,7 +15,8 @@ class TestUserPlayMatch(TestCase):
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
             match_id=match_id)
 
-        TournamentMatch.user_play_match(user_id_1, tournament_id, match_id)
+        TournamentMatch.user_play_match(
+            user_id=user_id_1, tournament_id=tournament_id, match_id=match_id)
 
         player_one_playing_state = TournamentMatch.objects.get(
             player_one=user_id_1, t_id=tournament_id, match_id=match_id)

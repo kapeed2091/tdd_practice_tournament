@@ -9,5 +9,17 @@ class TournamentStatus(BaseEnumClass, Enum):
     COMPLETED = 'COMPLETED'
 
 
+class PlayerMatchStatus(BaseEnumClass, Enum):
+    YET_TO_START = 'YET_TO_START'
+    IN_PROGRESS = 'IN_PROGRESS'
+    COMPLETED = 'COMPLETED'
+
+
+class MatchStatus(BaseEnumClass, Enum):
+    YET_TO_START = 'YET_TO_START'
+    IN_PROGRESS = 'IN_PROGRESS'
+    COMPLETED = 'COMPLETED'
+
+
 T_ID_MAX_LENGTH = 20
 USER_ID_MAX_LENGTH = 20
