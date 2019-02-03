@@ -167,6 +167,14 @@ class KOTournament(models.Model):
             return False
 
     @classmethod
+    def validate_start_datetime_for_play_match(cls, tournament_id):
+        tournament_obj = cls.get_tournament(tournament_id=tournament_id)
+        if tournament_obj.is_start_datetime_in_future():
+            from tournament.constants.exception_messages import \
+                CANNOT_PLAY_MATCH_BEFORE_START_DATETIME
+            raise Exception(*CANNOT_PLAY_MATCH_BEFORE_START_DATETIME)
+
+    @classmethod
     def validate_tournament_for_create_match(cls, tournament_id):
         cls.validate_tournament(tournament_id=tournament_id)
         cls.validate_start_datetime(tournament_id=tournament_id)
