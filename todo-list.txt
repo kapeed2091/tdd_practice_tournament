@@ -5,6 +5,7 @@ Yet to do:
         - How to handle concurrency during subscribing?
    - User can play matches once the tournament is started
         - *When user can play match, it should update player match status of appropriate user
+        - User cannot call play match when his player match status is in IN_PROGRESS
    - Create matches once tournament starts
         - Only one match will be created for a tournament round for a user?
    - User will submit his score in the match

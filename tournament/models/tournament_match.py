@@ -55,10 +55,8 @@ class TournamentMatch(models.Model):
         TournamentUser.validate_user_subscription(
             tournament_id=tournament_id, user_id=user_id)
         cls.validate_user_belong_to_match(user_id=user_id, match_id=match_id)
-        tournament_obj = cls.objects.get(
-            player_one=user_id, t_id= tournament_id, match_id=match_id)
-
-        cls.update_status_for_user_play_match(tournament_obj=tournament_obj)
+        cls.update_user_match_status_for_play_match(
+            user_id=user_id, match_id=match_id, tournament_id=tournament_id)
 
 
     @classmethod
@@ -103,3 +101,39 @@ class TournamentMatch(models.Model):
             match_id=match_id, player_one=user_id).exists() |\
                cls.objects.filter(
             match_id=match_id, player_two=user_id).exists()
+
+    @classmethod
+    def is_player_one(cls, user_id, match_id):
+        return cls.objects.filter(match_id=match_id,
+                                  player_one=user_id).exists()
+
+    @classmethod
+    def is_player_two(cls, user_id, match_id):
+        return cls.objects.filter(match_id=match_id,
+                                  player_two=user_id).exists()
+
+    @classmethod
+    def is_user_player_one_or_two(cls, user_id, match_id):
+        if cls.is_player_one(user_id=user_id, match_id=match_id):
+            return 'player_one'
+        if cls.is_player_two(user_id=user_id, match_id=match_id):
+            return 'player_two'
+
+    @classmethod
+    def update_user_match_status_for_play_match(cls,user_id, match_id, tournament_id):
+        if cls.is_user_player_one_or_two(user_id=user_id, match_id=match_id) == 'player_one':
+            tm_obj = cls.objects.get(
+                player_one=user_id, match_id=match_id,
+                t_id=tournament_id)
+            tm_obj.player_one_match_status = \
+                PlayerMatchStatus.IN_PROGRESS.value
+            tm_obj.match_status = MatchStatus.IN_PROGRESS.value
+            tm_obj.save()
+        if cls.is_user_player_one_or_two(user_id=user_id, match_id=match_id) == 'player_two':
+            tm_obj = cls.objects.get(
+                player_two=user_id, match_id=match_id,
+                t_id=tournament_id)
+            tm_obj.player_two_match_status = \
+                PlayerMatchStatus.IN_PROGRESS.value
+            tm_obj.match_status = MatchStatus.IN_PROGRESS.value
+            tm_obj.save()
