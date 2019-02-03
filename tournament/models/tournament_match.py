@@ -63,8 +63,7 @@ class TournamentMatch(models.Model):
     @classmethod
     def user_play_match(cls, user_id, tournament_id, match_id):
         from tournament.models import KOTournament
-        KOTournament.validate_tournament(tournament_id=tournament_id)
-        KOTournament.validate_start_datetime_for_play_match(
+        KOTournament.validate_tournament_for_play_match(
             tournament_id=tournament_id)
         tournament_obj = cls.objects.get(
             player_one=user_id, t_id= tournament_id, match_id=match_id)
