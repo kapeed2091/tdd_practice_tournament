@@ -4,7 +4,8 @@ from django.test import TestCase
 class TestUserPlayMatch(TestCase):
 
     def testcase_user_play_match(self):
-        from tournament.models import TournamentMatch, KOTournament, UserProfile
+        from tournament.models import TournamentMatch, KOTournament, \
+            UserProfile, TournamentUser
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time
         from datetime import timedelta
@@ -24,6 +25,8 @@ class TestUserPlayMatch(TestCase):
             t_id=tournament_id, name=tournament_name,
             number_of_rounds=number_of_rounds, start_datetime=start_datetime,
             status=TournamentStatus.IN_PROGRESS.value)
+
+        TournamentUser.objects.create(user_id=user_id_1, t_id=tournament_id)
 
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,

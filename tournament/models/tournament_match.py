@@ -47,11 +47,13 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def user_play_match(cls, user_id, tournament_id, match_id):
-        from tournament.models import KOTournament, UserProfile
+        from tournament.models import KOTournament, UserProfile, TournamentUser
         KOTournament.validate_tournament_for_play_match(
             tournament_id=tournament_id)
         cls.validate_match_id_for_play_match(match_id=match_id)
         UserProfile.is_registered_user(user_id=user_id)
+        TournamentUser.validate_user_subscription(
+            tournament_id=tournament_id, user_id=user_id)
         tournament_obj = cls.objects.get(
             player_one=user_id, t_id= tournament_id, match_id=match_id)
 

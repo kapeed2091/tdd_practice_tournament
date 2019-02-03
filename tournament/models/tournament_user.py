@@ -71,3 +71,13 @@ class TournamentUser(models.Model):
                 USERS_OR_ONE_OF_THE_USER_NOT_SUBSCRIBED_TO_TOURNAMENT
             raise Exception(
                 *USERS_OR_ONE_OF_THE_USER_NOT_SUBSCRIBED_TO_TOURNAMENT)
+
+    @classmethod
+    def validate_user_subscription(cls, tournament_id, user_id):
+        try:
+            cls.objects.get(t_id=tournament_id, user_id=user_id)
+        except:
+            from tournament.constants.exception_messages import \
+                USER_NOT_SUBSCRIBED_TO_TOURNAMENT
+            raise Exception(
+                *USER_NOT_SUBSCRIBED_TO_TOURNAMENT)

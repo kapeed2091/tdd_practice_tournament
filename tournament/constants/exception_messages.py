@@ -26,3 +26,7 @@ TOURNAMENT_STATUS_NOT_IN_PROGRESS = \
     (_('Tournament Status not in progress'),'TOURNAMENT_STATUS_NOT_IN_PROGRESS')
 
 MATCH_DOES_NOT_EXIST = (_('Match doesnot exist'),('MATCH_DOES_NOT_EXIST'))
+
+USER_NOT_SUBSCRIBED_TO_TOURNAMENT = \
+    (_('User not subscribed to tournament'),
+     ('USER_NOT_SUBSCRIBED_TO_TOURNAMENT'))
