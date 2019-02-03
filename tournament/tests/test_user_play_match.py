@@ -83,3 +83,34 @@ class TestUserPlayMatch(TestCase):
             TournamentMatch.user_play_match(
                 user_id=user_id_1, tournament_id=tournament_id,
                 match_id=match_id)
+
+    def testcase_user_play_match_when_tournament_in_progress(self):
+        from tournament.models import TournamentMatch, KOTournament
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+        from datetime import timedelta
+        from tournament.constants import TournamentStatus
+
+        user_id_1 = 'user_1'
+        user_id_2 = 'user_2'
+        match_id = 'match_1'
+        tournament_id = 'tournament_1'
+        tournament_name = 'city_tournament_1'
+        number_of_rounds = 2
+        start_datetime = get_current_local_date_time() - timedelta(minutes=10)
+
+        KOTournament.objects.create(
+            t_id=tournament_id, name=tournament_name,
+            number_of_rounds=number_of_rounds, start_datetime=start_datetime,
+            status=TournamentStatus.FULL_YET_TO_START.value)
+
+        TournamentMatch.objects.create(
+            t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
+            match_id=match_id)
+
+        with self.assertRaisesMessage(
+                Exception,
+                expected_message='Tournament Status not in progress'):
+            TournamentMatch.user_play_match(
+                user_id=user_id_1, tournament_id=tournament_id,
+                match_id=match_id)
