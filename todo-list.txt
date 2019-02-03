@@ -38,8 +38,6 @@ Doubts:
         refer: player can submit only if he is part of match)
 
 TODOs(To be Implemented list):
-    - match winner progress to next round
-    - User will progress to next round if he wins the match
     - get current round
     - get opponent profile in round of a tournament
     - get winner profile of tournament
@@ -50,7 +48,8 @@ TODOs(To be Implemented list):
             - validate player_id, raise appropriate custom exception
     
 In Progress List:
-
+    - match winner progress to next round
+        - progress match winner to next round
 
 Completed List:
     - create user
