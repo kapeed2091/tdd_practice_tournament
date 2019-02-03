@@ -246,3 +246,60 @@ class TestUserPlayMatch(TestCase):
             TournamentMatch.user_play_match(
                 user_id=user_id_3, tournament_id=tournament_id,
                 match_id=match_id)
+
+    def testcase_user_play_match_must_update_correct_player_details(self):
+        from tournament.models import TournamentMatch, KOTournament, \
+            UserProfile, TournamentUser
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+        from datetime import timedelta
+        from tournament.constants import TournamentStatus
+
+        user_id_1 = 'user_1'
+        user_id_2 = 'user_2'
+        match_id = 'match_1'
+        tournament_id = 'tournament_1'
+        tournament_name = 'city_tournament_1'
+        number_of_rounds = 2
+        start_datetime = get_current_local_date_time() - timedelta(minutes=10)
+
+        UserProfile.objects.create(user_id=user_id_1)
+        UserProfile.objects.create(user_id=user_id_2)
+
+        KOTournament.objects.create(
+            t_id=tournament_id, name=tournament_name,
+            number_of_rounds=number_of_rounds, start_datetime=start_datetime,
+            status=TournamentStatus.IN_PROGRESS.value)
+
+        TournamentUser.objects.create(user_id=user_id_1, t_id=tournament_id)
+        TournamentUser.objects.create(user_id=user_id_2, t_id=tournament_id)
+
+        TournamentMatch.objects.create(
+            t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
+            match_id=match_id)
+
+        TournamentMatch.user_play_match(
+            user_id=user_id_1, tournament_id=tournament_id, match_id=match_id)
+
+        player_one_old_state = TournamentMatch.objects.get(
+            player_one=user_id_1, t_id=tournament_id, match_id=match_id)
+
+        player_two_old_state = TournamentMatch.objects.get(
+            player_two=user_id_2, t_id=tournament_id, match_id=match_id)
+
+        TournamentMatch.user_play_match(
+            user_id=user_id_2, tournament_id=tournament_id, match_id=match_id)
+
+        player_one_new_state = TournamentMatch.objects.get(
+            player_one=user_id_1, t_id=tournament_id, match_id=match_id)
+
+        player_two_new_state = TournamentMatch.objects.get(
+            player_two=user_id_2, t_id=tournament_id, match_id=match_id)
+
+        self.assertEquals(
+            player_one_old_state.player_one_match_status,
+            player_one_new_state.player_one_match_status)
+        self.assertEquals(
+            player_two_old_state.player_two_match_status, 'YET_TO_START')
+        self.assertEquals(
+            player_two_new_state.player_two_match_status, 'IN_PROGRESS')

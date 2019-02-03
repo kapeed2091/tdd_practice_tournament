@@ -4,7 +4,7 @@ Yet to do:
    - User can subscribe to a tournament which is not yet started
         - How to handle concurrency during subscribing?
    - User can play matches once the tournament is started
-        - *User should be one of the players in match
+        - *When user can play match, it should update player match status of appropriate user
    - Create matches once tournament starts
         - Only one match will be created for a tournament round for a user?
    - User will submit his score in the match
@@ -46,6 +46,7 @@ Completed:
         - Match id should exist
         - User must be registered
         - User must be subscribed to Tournament
+        - User should be one of the players in match
 
 Raise Appropriate custom exceptions wherever necessary
 
@@ -76,6 +77,7 @@ My Assumptions:
 
 My Doubts:
    - User can play match only once in a round? Also will we create only one match if user is playing for multiple chances/times in a round?
+   - Is DoesNotExist compile error? - For not a matching query on DB
 
 Time estimate:
    - Hrs - 2, 0.5, 1, 2, 2, 1, 0.5, 1, buffer 3
