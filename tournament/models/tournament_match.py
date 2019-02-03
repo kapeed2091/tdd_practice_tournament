@@ -7,8 +7,11 @@ class TournamentMatch(models.Model):
 
     t_id = models.CharField(max_length=T_ID_MAX_LENGTH)
     player_one = models.CharField(max_length=USER_ID_MAX_LENGTH)
+    player_one_match_status = models.CharField(max_length=20)
     player_two = models.CharField(max_length=USER_ID_MAX_LENGTH)
+    player_two_match_status = models.CharField(max_length=20)
     match_id = models.CharField(max_length=20)
+    match_status = models.CharField(max_length=20)
 
     @classmethod
     def create_match(cls, request_data):
@@ -46,3 +49,7 @@ class TournamentMatch(models.Model):
             from tournament.constants.exception_messages import \
                 MATCH_ID_ALREADY_ASSIGNED_TO_ANOTHER_MATCH
             raise Exception(*MATCH_ID_ALREADY_ASSIGNED_TO_ANOTHER_MATCH)
+
+    @classmethod
+    def user_play_match(cls, user_id, tournament_id, match_id):
+        pass
