@@ -116,3 +116,29 @@ class TestUserPlayMatch(TestCase):
             TournamentMatch.user_play_match(
                 user_id=user_id_1, tournament_id=tournament_id,
                 match_id=match_id)
+
+    def testcase_user_can_play_match_if_valid_match_id(self):
+        from tournament.models import TournamentMatch, KOTournament
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+        from datetime import timedelta
+        from tournament.constants import TournamentStatus
+
+        user_id_1 = 'user_1'
+        user_id_2 = 'user_2'
+        match_id = 'match_1'
+        tournament_id = 'tournament_1'
+        tournament_name = 'city_tournament_1'
+        number_of_rounds = 2
+        start_datetime = get_current_local_date_time() - timedelta(minutes=10)
+
+        KOTournament.objects.create(
+            t_id=tournament_id, name=tournament_name,
+            number_of_rounds=number_of_rounds, start_datetime=start_datetime,
+            status=TournamentStatus.IN_PROGRESS.value)
+
+        with self.assertRaisesMessage(
+                Exception, expected_message='Match doesnot exist'):
+            TournamentMatch.user_play_match(
+                user_id=user_id_1, tournament_id=tournament_id,
+                match_id=match_id)
