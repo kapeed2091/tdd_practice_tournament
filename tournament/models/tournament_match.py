@@ -1,8 +1,10 @@
 from django.db import models
-from tournament.constants.general import T_ID_MAX_LENGTH,USER_ID_MAX_LENGTH
+from tournament.constants.general import T_ID_MAX_LENGTH, USER_ID_MAX_LENGTH
 
 
 class TournamentMatch(models.Model):
+    MATCH_ID_MAX_LENGTH = 20
+
     t_id = models.CharField(max_length=T_ID_MAX_LENGTH)
     player_one = models.CharField(max_length=USER_ID_MAX_LENGTH)
     player_two = models.CharField(max_length=USER_ID_MAX_LENGTH)

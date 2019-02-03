@@ -4,14 +4,13 @@ Yet to do:
    - User can subscribe to a tournament which is not yet started
         - How to handle concurrency during subscribing?
    - User can play matches once the tournament is started
+        - When user starts to play match then match status is set to IN_PROGRESS and player match status is set to IN_PROGRESS
         - Tournament should exist
         - User can play match once current time is greater than tournament start_datetime
         - User can play tournament only if tournament status is IN_PROGRESS
-        - User should have a match to play in that round
+        - User should have a valid match to play
    - Create matches once tournament starts
-        - *Each match when created should have a unique match_id
         - Only one match will be created for a tournament round for a user?
-   - Tournament status will be in IN_PROGRESS after start datetime
    - User will submit his score in the match
    - User will progress to next round if he wins the match
    - User can get his current round number for a tournament
@@ -42,6 +41,7 @@ Completed:
         - Tournament should exist
         - Both users should be registered with us
         - Both users should be subscribed to tournament
+        - Each match when created should have a unique match_id
 
 Raise Appropriate custom exceptions wherever necessary
 
@@ -66,10 +66,12 @@ My Assumptions:
    - Creation of tournament matches is done in a new model with RDS
    - Added vernacular exception messages
    - Tournament status will be in IN_PROGRESS after start datetime
+   - When user starts to play match then match status is set to IN_PROGRESS and player match status is set to IN_PROGRESS
+   - Match Status has three states - YET_TO_START, IN_PROGRESS, COMPLETED
+   - player match status has three states - YET_TO_START, IN_PROGRESS, COMPLETED
 
 My Doubts:
-   - User can play match only once in a round?
-   -
+   - User can play match only once in a round? Also will we create only one match if user is playing for multiple chances/times in a round?
 
 Time estimate:
    - Hrs - 2, 0.5, 1, 2, 2, 1, 0.5, 1, buffer 3
