@@ -4,8 +4,7 @@ Yet to do:
    - User can subscribe to a tournament which is not yet started
         - How to handle concurrency during subscribing?
    - User can play matches once the tournament is started
-        - When user starts to play match then match status is set to IN_PROGRESS and player match status is set to IN_PROGRESS
-        - Tournament should exist
+        - *Tournament should exist
         - User can play match once current time is greater than tournament start_datetime
         - User can play tournament only if tournament status is IN_PROGRESS
         - User should have a valid match to play
@@ -42,6 +41,8 @@ Completed:
         - Both users should be registered with us
         - Both users should be subscribed to tournament
         - Each match when created should have a unique match_id
+   - User can play matches once the tournament is started
+        - When user starts to play match then match status is set to IN_PROGRESS and player match status is set to IN_PROGRESS
 
 Raise Appropriate custom exceptions wherever necessary
 

@@ -26,3 +26,21 @@ class TestUserPlayMatch(TestCase):
         self.assertEquals(
             player_one_playing_state.player_two_match_status, 'YET_TO_START')
         self.assertEquals(player_one_playing_state.match_status, 'IN_PROGRESS')
+
+    def testcase_user_play_match_if_tournament_exists(self):
+        from tournament.models import TournamentMatch
+
+        user_id_1 = 'user_1'
+        user_id_2 = 'user_2'
+        match_id = 'match_1'
+        tournament_id = 'tournament_1'
+
+        TournamentMatch.objects.create(
+            t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
+            match_id=match_id)
+
+        with self.assertRaisesMessage(
+                Exception, expected_message='Tournament doesnot exist'):
+            TournamentMatch.user_play_match(
+                user_id=user_id_1, tournament_id=tournament_id,
+                match_id=match_id)
