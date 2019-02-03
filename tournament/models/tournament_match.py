@@ -52,4 +52,10 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def user_play_match(cls, user_id, tournament_id, match_id):
-        pass
+        tournament_obj = cls.objects.get(
+            player_one=user_id, t_id= tournament_id, match_id=match_id)
+
+        tournament_obj.player_one_match_status = 'IN_PROGRESS'
+        tournament_obj.player_two_match_status = 'YET_TO_START'
+        tournament_obj.match_status = 'IN_PROGRESS'
+        tournament_obj.save()
