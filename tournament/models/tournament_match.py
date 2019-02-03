@@ -54,6 +54,7 @@ class TournamentMatch(models.Model):
         UserProfile.is_registered_user(user_id=user_id)
         TournamentUser.validate_user_subscription(
             tournament_id=tournament_id, user_id=user_id)
+        cls.validate_user_belong_to_match(user_id=user_id, match_id=match_id)
         tournament_obj = cls.objects.get(
             player_one=user_id, t_id= tournament_id, match_id=match_id)
 
@@ -88,3 +89,17 @@ class TournamentMatch(models.Model):
             PlayerMatchStatus.IN_PROGRESS.value
         tournament_obj.match_status = MatchStatus.IN_PROGRESS.value
         tournament_obj.save()
+
+    @classmethod
+    def validate_user_belong_to_match(cls, user_id, match_id):
+        if not cls.does_user_belong_to_match(user_id=user_id, match_id=match_id):
+            from tournament.constants.exception_messages import \
+                USER_DOES_NOT_BELONG_TO_MATCH
+            raise Exception(*USER_DOES_NOT_BELONG_TO_MATCH)
+
+    @classmethod
+    def does_user_belong_to_match(cls, user_id, match_id):
+        return cls.objects.filter(
+            match_id=match_id, player_one=user_id).exists() |\
+               cls.objects.filter(
+            match_id=match_id, player_two=user_id).exists()

@@ -30,3 +30,6 @@ MATCH_DOES_NOT_EXIST = (_('Match doesnot exist'),('MATCH_DOES_NOT_EXIST'))
 USER_NOT_SUBSCRIBED_TO_TOURNAMENT = \
     (_('User not subscribed to tournament'),
      ('USER_NOT_SUBSCRIBED_TO_TOURNAMENT'))
+
+USER_DOES_NOT_BELONG_TO_MATCH = \
+    (_('User doesnot belong to this match'), 'USER_DOES_NOT_BELONG_TO_MATCH')
