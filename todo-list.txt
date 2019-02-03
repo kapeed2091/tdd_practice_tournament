@@ -5,7 +5,7 @@ Yet to do:
         - How to handle concurrency during subscribing?
    - User can play matches once the tournament is started
         - User should be one of the players in match
-        - User must be registered
+        - *User must be registered
         - User must be subscribed to Tournament
    - Create matches once tournament starts
         - Only one match will be created for a tournament round for a user?
