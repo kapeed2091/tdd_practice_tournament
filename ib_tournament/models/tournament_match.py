@@ -31,11 +31,9 @@ class TournamentMatch(models.Model):
         from ib_tournament.models import TournamentMatch, TMPlayer
         tournament_match = TournamentMatch._get_tournament_match(
             tournament_match_id)
-        tournament_id = tournament_match.tournament_id
-        curr_round_no = tournament_match.round_no
-        next_round_no = curr_round_no + 1
+        next_round_no = cls._get_next_round_no(tournament_match)
         t_match_id = cls._get_t_match_id_to_add_participant(
-            tournament_id, next_round_no)
+            tournament_match.tournament_id, next_round_no)
         TMPlayer.add_player_to_t_match(t_match_id, winner_id)
 
     @classmethod
@@ -88,6 +86,11 @@ class TournamentMatch(models.Model):
             cls(tournament_id=tournament_id, round_no=round_no)
             for count in range(round_matches_count)]
         return round_t_matches_to_create
+    
+    @classmethod
+    def _get_next_round_no(cls, tournament_match):
+        curr_round_no = tournament_match.round_no
+        return curr_round_no + 1
 
     @classmethod
     def _get_t_match_id_to_add_participant(cls, tournament_id, round_no):
