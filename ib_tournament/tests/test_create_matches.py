@@ -45,3 +45,25 @@ class TestCreateMatches(TestCase):
         post_tournament_matches_count = TournamentMatch.objects.count()
         self.assertEqual(
             post_tournament_matches_count - pre_tournament_matches_count, 3)
+
+    def test_create_round_wise_matches(self):
+        from ib_tournament.models import TournamentMatch
+
+        tournament_details = {
+            'total_rounds': 2,
+            'start_datetime': get_next_day_datetime_str(),
+            'name': 'Tournament 1'
+        }
+        tournament_id = self.create_tournament(tournament_details)
+
+        pre_round_1_matches = TournamentMatch.objects.filter(
+            round_no=1).count()
+        pre_round_2_matches = TournamentMatch.objects.filter(
+            round_no=2).count()
+        TournamentMatch.create_matches(tournament_id)
+        post_round_1_matches = TournamentMatch.objects.filter(
+            round_no=1).count()
+        post_round_2_matches = TournamentMatch.objects.filter(
+            round_no=2).count()
+        self.assertEqual(post_round_1_matches - pre_round_1_matches, 2)
+        self.assertEqual(post_round_2_matches - pre_round_2_matches, 1)
