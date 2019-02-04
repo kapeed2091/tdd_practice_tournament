@@ -5,6 +5,7 @@ class TournamentMatch(models.Model):
     tournament = models.ForeignKey('ib_tournament.Tournament')
     winner = models.ForeignKey('ib_tournament.Player', default=None,
                                null=True, blank=True)
+    round_no = models.IntegerField()
 
     @classmethod
     def create_matches(cls, tournament_id):
@@ -25,6 +26,10 @@ class TournamentMatch(models.Model):
         return
 
     @classmethod
+    def promote_winner_to_next_round(cls, tournament_match_id, winner_id):
+        pass
+
+    @classmethod
     def _create_tournament_matches_to_create(cls, tournament_id, matches_count):
         t_matches_to_create = cls._get_tournament_matches_to_create(
             tournament_id, matches_count)
@@ -38,7 +43,7 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def _get_tournament_matches_to_create(cls, tournament_id, matches_count):
-        return [cls(tournament_id=tournament_id)
+        return [cls(tournament_id=tournament_id, round_no=1)
                 for count in range(matches_count)]
 
     @classmethod

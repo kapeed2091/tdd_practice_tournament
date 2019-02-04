@@ -52,7 +52,7 @@ class TestSubmitScore(TestCase):
     def create_tournament_matches(tournament_id, matches_count):
         from ib_tournament.models import TournamentMatch
         tournament_matches_to_create = [
-            TournamentMatch(tournament_id=tournament_id)
+            TournamentMatch(tournament_id=tournament_id, round_no=1)
             for count in range(matches_count)]
         TournamentMatch.objects.bulk_create(tournament_matches_to_create)
         return TournamentMatch.objects.all()
