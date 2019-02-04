@@ -37,6 +37,12 @@ class TournamentMatch(models.Model):
         TMPlayer.add_player_to_t_match(t_match_id, winner_id)
 
     @classmethod
+    def get_tournament_match_ids_by_round_no(cls, tournament_id, round_no):
+        return list(cls.objects.filter(
+            tournament_id=tournament_id, round_no=round_no).values_list(
+            'id', flat=True))
+
+    @classmethod
     def _create_tournament_matches_to_create(cls, tournament_id, total_rounds):
         t_matches_to_create = cls._get_tournament_matches_to_create(
             tournament_id, total_rounds)
@@ -96,7 +102,7 @@ class TournamentMatch(models.Model):
     def _get_t_match_id_to_add_participant(cls, tournament_id, round_no):
         from ib_tournament.models import TMPlayer
 
-        round_t_match_ids = cls._get_tournament_match_ids_by_round_no(
+        round_t_match_ids = cls.get_tournament_match_ids_by_round_no(
             tournament_id, round_no)
         tm_players = TMPlayer.get_tm_players_by_tm_ids(round_t_match_ids)
 
@@ -105,12 +111,6 @@ class TournamentMatch(models.Model):
         t_match_id = cls._get_match_id_to_join(
             round_t_match_ids, match_id_wise_curr_players_count)
         return t_match_id
-
-    @classmethod
-    def _get_tournament_match_ids_by_round_no(cls, tournament_id, round_no):
-        return list(cls.objects.filter(
-            tournament_id=tournament_id, round_no=round_no).values_list(
-            'id', flat=True))
 
     @classmethod
     def _get_match_wise_curr_participants_count(cls, tm_players):

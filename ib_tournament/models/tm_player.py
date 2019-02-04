@@ -20,8 +20,8 @@ class TMPlayer(models.Model):
         player_ids = TournamentPlayer.get_player_ids_of_tournament(
             tournament_id)
         grouped_player_ids = cls._group_players_as_group_of_two(player_ids)
-        tournament_match_ids = TournamentMatch.\
-            get_tournament_match_ids_of_tournament(tournament_id)
+        tournament_match_ids = TournamentMatch. \
+            get_tournament_match_ids_by_round_no(tournament_id, round_no=1)
         cls._add_grouped_players_to_match(
             grouped_player_ids, tournament_match_ids)
         return
