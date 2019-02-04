@@ -56,3 +56,7 @@ class MatchIdOverused(Exception):
 
 class UserNotInTournamentAnymore(Exception):
     pass
+
+
+class UserAlreadyLeveledUp(Exception):
+    pass
