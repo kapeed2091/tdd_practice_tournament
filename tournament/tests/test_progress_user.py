@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django_swagger_utils.drf_server.exceptions import BadRequest
 from ib_common.date_time_utils.get_current_datetime import get_current_datetime
 
 import datetime
@@ -13,6 +14,7 @@ class TestProgressUser(TestCase):
     user2_id = 'User2'
     match1_id = 'Match1'
     match2_id = 'Match2'
+    match3_id = 'Match3'
 
     def setUp(self):
         from tournament.models import User, KoTournament, Match
@@ -56,6 +58,32 @@ class TestProgressUser(TestCase):
             status=MatchStatus.YET_TO_START.value,
         )
 
+        tournament2 = KoTournament.objects.create(
+            created_user_id=self.user_id,
+            name='Tournament2',
+            no_of_rounds=2,
+            start_datetime=now - datetime.timedelta(days=1),
+            status=TournamentStatus.IN_PROGRESS.value
+        )
+        Match.objects.create(
+            match_id=self.match3_id,
+            user=user1,
+            tournament=tournament2,
+            score=20,
+            round=2,
+            status=MatchStatus.COMPLETED.value,
+            user_status=MatchUserStatus.WIN.value
+        )
+        Match.objects.create(
+            match_id=self.match3_id,
+            user=user2,
+            tournament=tournament,
+            score=10,
+            round=2,
+            status=MatchStatus.COMPLETED.value,
+            user_status=MatchUserStatus.LOST.value
+        )
+
     def test_progress_winner_to_next_round(self):
         from tournament.models import Match, User
 
@@ -66,3 +94,9 @@ class TestProgressUser(TestCase):
         user1 = User.objects.get(user_id=self.user1_id)
         match2_after = Match.objects.get(match_id=self.match2_id)
         self.assertEqual(match2_after.user, user1)
+
+    def test_there_is_no_next_round_to_progress(self):
+        from tournament.models import Match
+
+        with self.assertRaisesMessage(BadRequest, 'There are no further rounds in this tournament'):
+            Match.progress_match_winner_to_next_round(match_id=self.match3_id)

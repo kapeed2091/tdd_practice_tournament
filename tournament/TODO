@@ -1,14 +1,14 @@
 TO BE IMPLEMENTED:
    - User will progress to next round if he wins the match
-         2. If there is no round to progress, raise an exception
-         3. If there are already users assigned to the match in the next round, raise an exception
+         1. Progress winner of the match to next round (Fake Implementation)
 
    - Select a Match in the next round to the winner of the current round
-         1. return match_id
+         1. return match
+         2. If there are no matches vacant int the round, raise an exception
 
 IN_PROGRESS:
    - User will progress to next round if he wins the match
-         1. Progress winner of the match to next round
+         2. If there is no round to progress, raise an exception
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
