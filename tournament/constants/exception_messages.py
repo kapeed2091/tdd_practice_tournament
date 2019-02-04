@@ -33,3 +33,5 @@ USER_NOT_SUBSCRIBED_TO_TOURNAMENT = \
 
 USER_DOES_NOT_BELONG_TO_MATCH = \
     (_('User doesnot belong to this match'), 'USER_DOES_NOT_BELONG_TO_MATCH')
+
+USER_NOT_REGISTERED = (_('User not registered'), 'USER_NOT_REGISTERED')

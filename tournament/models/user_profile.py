@@ -14,7 +14,9 @@ class UserProfile(models.Model):
         try:
             cls.get_user(user_id=user_id)
         except:
-            raise Exception('User not registered')
+            from tournament.constants.exception_messages import \
+                USER_NOT_REGISTERED
+            raise Exception(*USER_NOT_REGISTERED)
 
     @classmethod
     def validate_users(cls, user_id_1, user_id_2):
