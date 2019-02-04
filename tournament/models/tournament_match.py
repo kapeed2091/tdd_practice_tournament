@@ -63,8 +63,7 @@ class TournamentMatch(models.Model):
     def user_submit_score(cls, user_id, match_id, score):
         tournament_match_obj = cls.objects.get(
             player_one=user_id, match_id=match_id)
-        tournament_match_obj.player_one_score = score
-        tournament_match_obj.save()
+        tournament_match_obj.update_player_one_score(score=score)
 
     def assign_match_id_to_match(self, match_id):
         self.match_id = match_id
@@ -138,4 +137,8 @@ class TournamentMatch(models.Model):
 
     def update_match_status_for_play_match(self):
         self.match_status = MatchStatus.IN_PROGRESS.value
+        self.save()
+
+    def update_player_one_score(self, score):
+        self.player_one_score = score
         self.save()
