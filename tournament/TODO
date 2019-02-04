@@ -1,4 +1,6 @@
 TO BE IMPLEMENTED:
+   - User will progress to next round if he wins the match
+         1. Progress winner of the match to next round
 
 IN_PROGRESS:
 
@@ -25,14 +27,19 @@ ASSUMPTIONS:
           c. tournament
           d. score(default=0) and Integer Field
           e. status
+          f. round
+          g. user_status('WIN', 'LOST', 'NOT_DECIDED_YET')
 
    2. Assuming after play_match is called by user, match status will change to 'IN_PROGRESS'
    3. After the tournament reach start_datetime, status will change to 'IN_PROGRESS' else will be in 'YET_TO_START'
+   5. Assuming there will be required number of matches already created in each round of a tournament
 DOUBTS:
    1. Can user play same match multiple times.
    2. Will there be any time constraints to play a match
    3. Can the use submit scores multiple times for the same match
    4. If the User does not submit the score, will the default=0
+   5. Will we call progress_winner independently at a particular time for all users in tournament or
+      will we call it for each match after both the users submit there score..etc
 
 
 **DoesNotExist is being thrown as COMPILE ERROR.Should we consider it as COMPILE ERROR??**
