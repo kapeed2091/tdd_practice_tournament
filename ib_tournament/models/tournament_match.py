@@ -27,7 +27,15 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def promote_winner_to_next_round(cls, tournament_match_id, winner_id):
-        pass
+        from ib_tournament.models import TournamentMatch
+        tournament_match = TournamentMatch.objects.get(id=tournament_match_id)
+        tournament_matches = TournamentMatch.objects.filter(
+            tournament_id=tournament_match.tournament_id)
+        tournament_matches.update(round_no=2)
+        tournament_matches[0].winner_id = winner_id
+        tournament_matches[0].save()
+        return
+
 
     @classmethod
     def _create_tournament_matches_to_create(cls, tournament_id, matches_count):
