@@ -61,6 +61,7 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def user_submit_score(cls, user_id, match_id, score):
+        cls.validate_match_id_for_play_match(match_id=match_id)
         tournament_match_obj = cls.objects.get(
             player_one=user_id, match_id=match_id)
         tournament_match_obj.update_player_one_score(score=score)
