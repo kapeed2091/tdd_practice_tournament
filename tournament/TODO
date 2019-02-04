@@ -1,6 +1,6 @@
 TO BE IMPLEMENTED:
    - User will progress to next round if he wins the match
-         1. Progress winner of the match to next round (Fake Implementation)
+         1. Progress winner of the match to next round (Fake Implementation Done)
 
    - Select a Match in the next round to the winner of the current round
          1. return match

@@ -41,13 +41,28 @@ class KoTournament(models.Model):
         tournaments = cls.objects.all()
         return [each.convert_to_dict2() for each in tournaments]
 
-    def is_not_started(self):
-        return not self._is_started()
-
-    def _is_started(self):
-        if self.status != TournamentStatus.YET_TO_START.value:
+    def is_final_round(self, round_number):
+        if self.no_of_rounds == round_number:
             return True
         return False
+
+    def convert_to_dict(self):
+        return {
+            "created_user_id": self.created_user_id,
+            "name": self.name,
+            "no_of_rounds": self.no_of_rounds,
+            "start_datetime": self.start_datetime,
+            "status": self.status
+        }
+
+    def convert_to_dict2(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "no_of_rounds": self.no_of_rounds,
+            "start_datetime": self.start_datetime,
+            "status": self.status
+        }
 
     @classmethod
     def _validate_request(cls, no_of_rounds, start_datetime, user_id):
@@ -75,25 +90,10 @@ class KoTournament(models.Model):
         if start_datetime <= now:
             raise BadRequest('Invalid start_datetime')
 
-    def is_final_round(self, round_number):
-        if self.no_of_rounds == round_number:
+    def is_not_started(self):
+        return not self._is_started()
+
+    def _is_started(self):
+        if self.status != TournamentStatus.YET_TO_START.value:
             return True
         return False
-
-    def convert_to_dict(self):
-        return {
-            "created_user_id": self.created_user_id,
-            "name": self.name,
-            "no_of_rounds": self.no_of_rounds,
-            "start_datetime": self.start_datetime,
-            "status": self.status
-        }
-
-    def convert_to_dict2(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "no_of_rounds": self.no_of_rounds,
-            "start_datetime": self.start_datetime,
-            "status": self.status
-        }
