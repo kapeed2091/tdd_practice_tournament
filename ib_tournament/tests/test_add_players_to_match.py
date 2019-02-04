@@ -45,11 +45,16 @@ class TestAddPlayersToMatch(TestCase):
         return
 
     @staticmethod
-    def create_tournament_matches(tournament_id, matches_count):
+    def create_tournament_matches(tournament_id, total_rounds):
         from ib_tournament.models import TournamentMatch
-        tournament_matches_to_create = [
-            TournamentMatch(tournament_id=tournament_id, round_no=1)
-            for count in range(matches_count)]
+
+        tournament_matches_to_create = list()
+        for round_no in range(total_rounds, 0, -1):
+            round_matches_count = 2 ** (total_rounds - round_no)
+            for count in range(round_matches_count):
+                tournament_matches_to_create.append(
+                    TournamentMatch(tournament_id=tournament_id,
+                                    round_no=round_no))
         TournamentMatch.objects.bulk_create(tournament_matches_to_create)
         return TournamentMatch.objects.all()
 
@@ -65,7 +70,7 @@ class TestAddPlayersToMatch(TestCase):
         }
         tournament_id = self.create_tournament(tournament_details)
         self.create_tournament_players(tournament_id, player_ids)
-        tournament_matches = self.create_tournament_matches(tournament_id, 3)
+        tournament_matches = self.create_tournament_matches(tournament_id, 2)
 
         pre_tm_players = list(TMPlayer.objects.all())
         pre_tm_players_count = len(pre_tm_players)
@@ -88,3 +93,22 @@ class TestAddPlayersToMatch(TestCase):
                 tm_players_count_per_match = TMPlayer.objects.filter(
                     tournament_match_id=tournament_match.id).count()
                 self.assertEqual(tm_players_count_per_match, 2)
+
+    def test_add_players_to_first_round_matches(self):
+        from ib_tournament.models import TMPlayer
+        usernames = ['user1', 'user2', 'user3', 'user4']
+        player_ids = [self.create_player(username) for username in usernames]
+
+        tournament_details = {
+            'total_rounds': 2,
+            'start_datetime': get_curr_day_datetime_str(),
+            'name': 'Tournament 1'
+        }
+        tournament_id = self.create_tournament(tournament_details)
+        self.create_tournament_players(tournament_id, player_ids)
+        self.create_tournament_matches(tournament_id, 2)
+
+        TMPlayer.add_players_to_matches(tournament_id)
+        tm_players = TMPlayer.objects.all()
+        for tm_player in tm_players:
+            self.assertEqual(tm_player.tournament_match.round_no, 1)
