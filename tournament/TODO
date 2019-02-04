@@ -1,9 +1,10 @@
 TO BE IMPLEMENTED:
-
-
-IN_PROGRESS:
    - User will progress to next round if he wins the match
          1. Progress winner of the match to next round
+
+IN_PROGRESS:
+   - Match model should have fields round and user_status[Dependent]
+         a. Don't know how to do TDD for this case
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -20,8 +21,6 @@ COMPLETED:
           2. Invalid User id
           3. Invalid Match id
           4. User does not belong to the match
-
-      - Match model should have fields round and user_status[Dependent]
 
 ASSUMPTIONS:
    1. Assuming the Match model will have the following fields
