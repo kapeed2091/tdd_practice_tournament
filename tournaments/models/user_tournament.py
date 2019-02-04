@@ -48,6 +48,9 @@ class UserTournament(models.Model):
 
     @classmethod
     def level_up(cls, user_id, match_id):
+        from .user import User
+        User.validate_user_id(user_id=user_id)
+
         from .match import Match
         match = Match.validate_and_get_match_by_id(match_id=match_id)
 
