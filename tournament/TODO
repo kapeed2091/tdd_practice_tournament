@@ -1,10 +1,14 @@
 TO BE IMPLEMENTED:
    - User will progress to next round if he wins the match
-         1. Progress winner of the match to next round
+         2. If there is no round to progress, raise an exception
+         3. If there are already users assigned to the match in the next round, raise an exception
+
+   - Select a Match in the next round to the winner of the current round
+         1. return match_id
 
 IN_PROGRESS:
-   - Match model should have fields round and user_status[Dependent]
-         a. Don't know how to do TDD for this case
+   - User will progress to next round if he wins the match
+         1. Progress winner of the match to next round
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -21,6 +25,8 @@ COMPLETED:
           2. Invalid User id
           3. Invalid Match id
           4. User does not belong to the match
+   - Match model should have fields round and user_status[Dependent]
+         a. Don't know how to do TDD for this case
 
 ASSUMPTIONS:
    1. Assuming the Match model will have the following fields
@@ -35,6 +41,7 @@ ASSUMPTIONS:
    2. Assuming after play_match is called by user, match status will change to 'IN_PROGRESS'
    3. After the tournament reach start_datetime, status will change to 'IN_PROGRESS' else will be in 'YET_TO_START'
    5. Assuming there will be required number of matches already created in each round of a tournament
+   6. Assuming the default value of user_status field in Match model is 'NOT_DECIDED_YET'
 DOUBTS:
    1. Can user play same match multiple times.
    2. Will there be any time constraints to play a match
@@ -42,6 +49,7 @@ DOUBTS:
    4. If the User does not submit the score, will the default=0
    5. Will we call progress_winner independently at a particular time for all users in tournament or
       will we call it for each match after both the users submit there score..etc
+   6. How will we decide, which match in the next round should be assigned to the winner of current match
 
 
 **DoesNotExist is being thrown as COMPILE ERROR.Should we consider it as COMPILE ERROR??**
