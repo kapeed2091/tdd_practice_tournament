@@ -51,11 +51,16 @@ class TestWinnerProgressToNextRound(TestCase):
         return
 
     @staticmethod
-    def create_tournament_matches(tournament_id, matches_count):
+    def create_tournament_matches(tournament_id, total_rounds):
         from ib_tournament.models import TournamentMatch
-        tournament_matches_to_create = [
-            TournamentMatch(tournament_id=tournament_id, round_no=1)
-            for count in range(matches_count)]
+
+        tournament_matches_to_create = list()
+        for round_no in range(1, total_rounds + 1):
+            round_matches_count = 2 ** (total_rounds - round_no)
+            for count in range(round_matches_count):
+                tournament_matches_to_create.append(
+                    TournamentMatch(tournament_id=tournament_id,
+                                    round_no=round_no))
         TournamentMatch.objects.bulk_create(tournament_matches_to_create)
         return TournamentMatch.objects.all()
 
@@ -107,7 +112,8 @@ class TestWinnerProgressToNextRound(TestCase):
         self.tournament_id = self.create_tournament(tournament_details)
         self.create_tournament_players(self.tournament_id, self.player_ids)
         tournament_matches = self.create_tournament_matches(
-            self.tournament_id, 3)
+            self.tournament_id, total_rounds=2)
+        tournament_matches = tournament_matches.filter(round_no=1)
         self.add_players_to_matches(tournament_matches, self.player_ids)
         self.update_winner_in_tournament_match()
 

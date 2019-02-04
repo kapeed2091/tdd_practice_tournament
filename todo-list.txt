@@ -38,6 +38,10 @@ Doubts:
         refer: player can submit only if he is part of match)
 
 TODOs(To be Implemented list):
+    - add players to matches
+        - add players to round 1 only
+    - match winner progress to next round
+        - if next round is last round
     - get current round
     - get opponent profile in round of a tournament
     - get winner profile of tournament
