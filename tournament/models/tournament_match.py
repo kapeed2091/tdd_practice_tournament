@@ -64,6 +64,7 @@ class TournamentMatch(models.Model):
         from tournament.models import UserProfile
         UserProfile.is_registered_user(user_id=user_id)
         cls.validate_match_id(match_id=match_id)
+        cls.validate_user_belong_to_match(user_id=user_id, match_id=match_id)
         tournament_match_obj = cls.objects.get(
             player_one=user_id, match_id=match_id)
         tournament_match_obj.update_player_one_score(score=score)
