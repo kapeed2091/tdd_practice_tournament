@@ -58,11 +58,11 @@ overall estimation time - (6 hr - 5 + 1)
         - tournament is still on
 
 Updated time line - (11 hr(13 - 2))
+
 todo-list
-    - User will progress to next round if he wins the match (25 min)
-            - [user did not win]
-
-
+    - User can get his current round number for a tournament (30 min)
+        - successful
+        - user not part of tournament
 
 Completed
     - create_tournament successful case
@@ -99,3 +99,4 @@ Completed
         - user has already upgraded his level
         - user is using not his match_id
         - match_id does not exist
+        - user did not win
