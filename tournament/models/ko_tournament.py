@@ -75,6 +75,11 @@ class KoTournament(models.Model):
         if start_datetime <= now:
             raise BadRequest('Invalid start_datetime')
 
+    def is_final_round(self, round_number):
+        if self.no_of_rounds == round_number:
+            return True
+        return False
+
     def convert_to_dict(self):
         return {
             "created_user_id": self.created_user_id,

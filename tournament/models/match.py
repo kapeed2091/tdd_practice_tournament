@@ -1,9 +1,9 @@
 from django.db import models
-from django_swagger_utils.drf_server.exceptions import Forbidden, NotFound
+from django_swagger_utils.drf_server.exceptions import Forbidden, NotFound, BadRequest
 
 from tournament.constants.exception_messages import MATCH_CAN_BE_PLAYED_ONLY_AFTER_THE_TOURNAMENT_HAS_STARTED, \
     USER_DOES_NOT_EXIST_WITH_THE_GIVEN_USER_ID, USER_DOES_NOT_BELONG_TO_THE_MATCH, \
-    MATCH_DOES_NOT_EXIST_WITH_THE_GIVEN_MATCH_ID
+    MATCH_DOES_NOT_EXIST_WITH_THE_GIVEN_MATCH_ID, THERE_ARE_NO_FURTHER_ROUNDS_IN_THIS_TOURNAMENT
 from tournament.constants.general import MatchStatus, MatchUserStatus
 from tournament.models import User, KoTournament
 
@@ -24,8 +24,13 @@ class Match(models.Model):
     @classmethod
     def progress_match_winner_to_next_round(cls, match_id):
         winner_match = cls._get_winner_match(match_id)
+        current_round = winner_match.round
+        tournament = winner_match.tournament
+
+        cls._validate_round_to_progress(
+            tournament=tournament, current_round=current_round)
         match = cls._get_match_to_assign(
-            round=winner_match.round + 1,
+            round=current_round + 1,
             tournament=winner_match.tournament
         )
         match.assign_user_to_match(user=winner_match.user)
@@ -56,6 +61,11 @@ class Match(models.Model):
     def update_score(self, score):
         self.score = score
         self.save()
+
+    @staticmethod
+    def _validate_round_to_progress(tournament, current_round):
+        if tournament.is_final_round(round_number=current_round):
+            raise BadRequest(THERE_ARE_NO_FURTHER_ROUNDS_IN_THIS_TOURNAMENT)
 
     @classmethod
     def _get_winner_match(cls, match_id):
