@@ -62,6 +62,17 @@ class UserTournament(models.Model):
 
         cls._validate_if_user_in_match(user_id=user_id, match_id=match_id)
 
+        from .user_match import UserMatch
+        user_matches = UserMatch.objects.filter(match_id=match_id)
+        user_matches = sorted(user_matches, key=lambda x: x.score,
+                              reverse=True)
+        user_match_with_max_score = user_matches[0]
+
+        if user_match_with_max_score.user_id != user_id:
+            from tournaments.exceptions.custom_exceptions import \
+                UserDidNotWinMatch
+            raise UserDidNotWinMatch
+
         user_tournament.update_round_number(
             round_number=match.round_number + 1
         )
