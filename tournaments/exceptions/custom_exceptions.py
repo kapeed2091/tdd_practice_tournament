@@ -64,3 +64,7 @@ class UserAlreadyLeveledUp(Exception):
 
 class UserNotInMatch(Exception):
     pass
+
+
+class UserDidNotWinMatch(Exception):
+    pass
