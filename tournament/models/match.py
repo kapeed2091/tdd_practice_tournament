@@ -23,7 +23,16 @@ class Match(models.Model):
 
     @classmethod
     def progress_match_winner_to_next_round(cls, match_id):
-        pass
+        winner_match = cls._get_winner_match(match_id)
+        match = cls._get_match_to_assign_for_next_round(
+            round=winner_match.round,
+            tournament=winner_match.tournament
+        )
+        match.assign_user_to_match(user=winner_match.user)
+
+    def assign_user_to_match(self, user):
+        self.user = user
+        self.save()
 
     @classmethod
     def submit_score(cls, user_id, match_id, score):
@@ -47,6 +56,19 @@ class Match(models.Model):
     def update_score(self, score):
         self.score = score
         self.save()
+
+    @classmethod
+    def _get_winner_match(cls, match_id):
+        return cls.objects.get(
+            match_id=match_id,
+            user_status=MatchUserStatus.WIN.value
+        )
+
+    @classmethod
+    def _get_match_to_assign_for_next_round(cls, round, tournament):
+        # TODO: Fake Implementation
+        match_id = 'Match2'
+        return cls.objects.get(match_id=match_id)
 
     @staticmethod
     def _get_user(user_id):
