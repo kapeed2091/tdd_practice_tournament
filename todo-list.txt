@@ -38,8 +38,6 @@ Doubts:
         refer: player can submit only if he is part of match)
 
 TODOs(To be Implemented list):
-    - create matches
-        - create round wise matches
     - get current round
     - get opponent profile in round of a tournament
     - get winner profile of tournament
@@ -52,6 +50,8 @@ TODOs(To be Implemented list):
 In Progress List:
     - match winner progress to next round
         - progress match winner to next round
+    - create matches
+        - create round wise matches
 
 Completed List:
     - create user
