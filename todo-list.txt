@@ -8,9 +8,9 @@ Yet to do:
    - Create matches once tournament starts
         - Only one match will be created for a tournament round for a user?
    - User will submit his score in the match
-        - *User can submit score for a specific match
-        - Should be a valid match
+        - *Should have a valid match id
         - Should be a valid user
+        - Score should be of int type
         - User must belong to that match to submit score
         - Match should be in IN_PROGRESS state when user submits score
         - Player match status should be in IN_PROGRESS state when user submits score
@@ -56,6 +56,8 @@ Completed:
         - User must be subscribed to Tournament
         - User should be one of the players in match
         - When user can play match, it should update player match status of appropriate user
+   - User will submit his score in the match
+        - User can submit score for a specific match
 
 Raise Appropriate custom exceptions wherever necessary
 
@@ -84,6 +86,7 @@ My Assumptions:
    - Match Status has three states - YET_TO_START, IN_PROGRESS, COMPLETED
    - player match status has three states - YET_TO_START, IN_PROGRESS, COMPLETED
    - Assuming default initial score of a player in a match is 0
+   - Score can be either negative or positive
 
 My Doubts:
    - User can play match only once in a round? Also will we create only one match if user is playing for multiple chances/times in a round?

@@ -25,3 +25,14 @@ class TestUserSubmitScore(TestCase):
 
         self.assertEquals(
             new_state.player_one_score - old_state.player_one_score, score)
+
+    def testcase_user_submit_score_for_valid_match(self):
+        from tournament.models import TournamentMatch
+        user_id_1 = 'user_1'
+        match_id = 'match_1'
+        score = 10
+
+        with self.assertRaisesMessage(Exception,
+                                      expected_message='Match doesnot exist'):
+            TournamentMatch.user_submit_score(
+                user_id=user_id_1, match_id=match_id, score=score)
