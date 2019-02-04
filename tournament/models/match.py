@@ -14,12 +14,16 @@ class Match(models.Model):
     USER_STATUS_LENGTH = 20
 
     match_id = models.CharField(max_length=MATCH_ID_LENGTH)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, blank=True, null=True)
     tournament = models.ForeignKey(KoTournament)
     score = models.IntegerField(default=0)
     round = models.IntegerField(default=0)
     status = models.CharField(max_length=STATUS_LENGTH)
     user_status = models.CharField(max_length=USER_STATUS_LENGTH, default=MatchUserStatus.NOT_DECIDED_YET.value)
+
+    @classmethod
+    def progress_match_winner_to_next_round(cls, match_id):
+        pass
 
     @classmethod
     def submit_score(cls, user_id, match_id, score):

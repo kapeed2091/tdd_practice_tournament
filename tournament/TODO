@@ -50,6 +50,7 @@ DOUBTS:
    5. Will we call progress_winner independently at a particular time for all users in tournament or
       will we call it for each match after both the users submit there score..etc
    6. How will we decide, which match in the next round should be assigned to the winner of current match
+   7. If the Users didn't play the match by the time we run progress_winner_to_next_round, what should we do?
 
 
 **DoesNotExist is being thrown as COMPILE ERROR.Should we consider it as COMPILE ERROR??**
