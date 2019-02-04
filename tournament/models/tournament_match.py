@@ -13,6 +13,7 @@ class TournamentMatch(models.Model):
     player_one_match_status = models.CharField(
         max_length=PLAYER_MATCH_STATUS_MAX_LENGTH,
         default=PlayerMatchStatus.YET_TO_START.value)
+    player_one_score = models.IntegerField(default=0)
 
     player_two = models.CharField(max_length=USER_ID_MAX_LENGTH)
     player_two_match_status = models.CharField(
@@ -57,6 +58,10 @@ class TournamentMatch(models.Model):
         cls.validate_user_belong_to_match(user_id=user_id, match_id=match_id)
         cls.update_match_data_for_play_match(
             user_id=user_id, match_id=match_id, tournament_id=tournament_id)
+
+    @classmethod
+    def user_submit_score(cls, user_id, match_id, score):
+        pass
 
     def assign_match_id_to_match(self, match_id):
         self.match_id = match_id
