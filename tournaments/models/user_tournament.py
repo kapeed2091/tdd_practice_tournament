@@ -52,7 +52,6 @@ class UserTournament(models.Model):
         match = Match.validate_and_get_match_by_id(match_id=match_id)
 
         tournament_id = match.tournament_id
-
         user_tournament = cls.objects.get(
             user_id=user_id, tournament_id=tournament_id
         )
@@ -63,8 +62,9 @@ class UserTournament(models.Model):
 
         cls._validate_if_user_in_match(user_id=user_id, match_id=match_id)
 
-        user_tournament.round_number = match.round_number + 1
-        user_tournament.save()
+        user_tournament.update_round_number(
+            round_number=match.round_number + 1
+        )
 
     @classmethod
     def can_user_play_in_tournament(cls, user_id, tournament_id):
@@ -86,6 +86,10 @@ class UserTournament(models.Model):
         if tournament.status == TournamentStatus.IN_PROGRESS.value:
             return True
         return False
+
+    def update_round_number(self, round_number):
+        self.round_number = round_number
+        self.save()
 
     @classmethod
     def _validate_user_tournament_exists(cls, user_id, tournament_id):
