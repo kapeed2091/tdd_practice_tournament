@@ -60,3 +60,7 @@ class UserNotInTournamentAnymore(Exception):
 
 class UserAlreadyLeveledUp(Exception):
     pass
+
+
+class UserNotInMatch(Exception):
+    pass
