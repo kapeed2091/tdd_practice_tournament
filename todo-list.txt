@@ -28,7 +28,7 @@ ToDo List:
        - user not in given match
        - user already played the match
     User will progress to next round if he wins the match
-        - add users to tournament round 1 matches
+        - [add users to tournament round 1 matches]
         - user progress to next round if he wins the match
 
 Completed List
