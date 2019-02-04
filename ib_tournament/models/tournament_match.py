@@ -92,17 +92,34 @@ class TournamentMatch(models.Model):
     @classmethod
     def _get_t_match_id_to_add_participant(cls, tournament_id, round_no):
         from ib_tournament.models import TMPlayer
-        from collections import defaultdict
-        tournament_matches = cls.objects.filter(
-            tournament_id=tournament_id, round_no=round_no)
-        round_t_match_ids = list(
-            tournament_matches.values_list('id', flat=True))
+
+        round_t_match_ids = cls._get_tournament_match_ids_by_round_no(
+            tournament_id, round_no)
         tm_players = TMPlayer.get_tm_players_by_tm_ids(round_t_match_ids)
 
+        match_id_wise_curr_players_count = cls.\
+            _get_match_wise_curr_participants_count(tm_players)
+        t_match_id = cls._get_match_id_to_join(
+            round_t_match_ids, match_id_wise_curr_players_count)
+        return t_match_id
+
+    @classmethod
+    def _get_tournament_match_ids_by_round_no(cls, tournament_id, round_no):
+        return list(cls.objects.filter(
+            tournament_id=tournament_id, round_no=round_no).values_list(
+            'id', flat=True))
+
+    @classmethod
+    def _get_match_wise_curr_participants_count(cls, tm_players):
+        from collections import defaultdict
         match_id_wise_curr_players_count = defaultdict(int)
         for tm_player in tm_players:
             match_id_wise_curr_players_count[tm_player.tournament_match_id] += 1
+        return match_id_wise_curr_players_count
 
+    @classmethod
+    def _get_match_id_to_join(
+            cls, round_t_match_ids, match_id_wise_curr_players_count):
         for t_match_id in round_t_match_ids:
             players_count = match_id_wise_curr_players_count[t_match_id]
             if players_count < 2:
