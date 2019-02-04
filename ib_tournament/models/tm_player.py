@@ -15,7 +15,7 @@ class TMPlayer(models.Model):
         unique_together = ('player', 'tournament_match')
 
     @classmethod
-    def add_players_to_matches(cls, tournament_id):
+    def add_players_to_first_round_matches(cls, tournament_id):
         from ib_tournament.models import TournamentPlayer, TournamentMatch
         player_ids = TournamentPlayer.get_player_ids_of_tournament(
             tournament_id)

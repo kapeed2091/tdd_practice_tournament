@@ -16,11 +16,6 @@ class TournamentMatch(models.Model):
         return
 
     @classmethod
-    def get_tournament_match_ids_of_tournament(cls, tournament_id):
-        return list(cls.objects.filter(tournament_id=tournament_id).values_list(
-            'id', flat=True))
-
-    @classmethod
     def update_winner(cls, tournament_match_id, winner_id):
         tournament_match = cls._get_tournament_match(tournament_match_id)
         cls._update_winner_id(tournament_match, winner_id)

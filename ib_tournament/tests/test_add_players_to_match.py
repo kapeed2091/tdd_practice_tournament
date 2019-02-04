@@ -76,7 +76,7 @@ class TestAddPlayersToMatch(TestCase):
         pre_tm_players_count = len(pre_tm_players)
         pre_player_ids = [tm_player.player_id for tm_player in pre_tm_players]
 
-        TMPlayer.add_players_to_matches(tournament_id)
+        TMPlayer.add_players_to_first_round_matches(tournament_id)
         post_tm_players = list(TMPlayer.objects.all())
         post_tm_players_count = len(post_tm_players)
         post_player_ids = [tm_player.player_id for tm_player in post_tm_players]
@@ -108,7 +108,7 @@ class TestAddPlayersToMatch(TestCase):
         self.create_tournament_players(tournament_id, player_ids)
         self.create_tournament_matches(tournament_id, 2)
 
-        TMPlayer.add_players_to_matches(tournament_id)
+        TMPlayer.add_players_to_first_round_matches(tournament_id)
         tm_players = TMPlayer.objects.all()
         for tm_player in tm_players:
             self.assertEqual(tm_player.tournament_match.round_no, 1)
