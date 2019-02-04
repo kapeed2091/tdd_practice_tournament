@@ -50,8 +50,6 @@ TODOs(To be Implemented list):
 In Progress List:
     - match winner progress to next round
         - progress match winner to next round
-    - create matches
-        - create round wise matches
 
 Completed List:
     - create user
@@ -88,6 +86,7 @@ Completed List:
         - tournament status should be FULL_YET_TO_START before starting tournament
     - create matches
         - create matches for tournament
+        - create round wise matches
     - add players to matches
         - create match players
     - play match
