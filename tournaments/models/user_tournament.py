@@ -94,16 +94,6 @@ class UserTournament(models.Model):
         self.save()
 
     @classmethod
-    def _validate_user_tournament_exists(cls, user_id, tournament_id):
-        user_tournament_exists = cls.objects.filter(
-            user_id=user_id, tournament_id=tournament_id
-        )
-
-        if user_tournament_exists:
-            from ..exceptions.custom_exceptions import UserAlreadyRegistered
-            raise UserAlreadyRegistered
-
-    @classmethod
     def _is_last_person(cls, tournament_id, total_rounds):
         total_rounds = total_rounds
         max_num_of_participants = 2 ** total_rounds
@@ -114,6 +104,16 @@ class UserTournament(models.Model):
             max_num_of_participants - 1 == registered_tournament_members_count
 
         return is_last_person
+
+    @classmethod
+    def _validate_user_tournament_exists(cls, user_id, tournament_id):
+        user_tournament_exists = cls.objects.filter(
+            user_id=user_id, tournament_id=tournament_id
+        )
+
+        if user_tournament_exists:
+            from ..exceptions.custom_exceptions import UserAlreadyRegistered
+            raise UserAlreadyRegistered
 
     @classmethod
     def validate_user_in_tournament(cls, user_id, tournament_id):
