@@ -8,9 +8,8 @@ Yet to do:
    - Create matches once tournament starts
         - Only one match will be created for a tournament round for a user?
    - User will submit his score in the match
-        - *Should be a valid user
         - Score should be of int type
-        - User must belong to that match to submit score
+        - *User must belong to that match to submit score
         - Match should be in IN_PROGRESS state when user submits score
         - Player match status should be in IN_PROGRESS state when user submits score
         - Should update the score of appropriate user in the match
@@ -58,6 +57,7 @@ Completed:
    - User will submit his score in the match
         - User can submit score for a specific match
         - Should have a valid match id
+        - Should be a valid user
 
 Raise Appropriate custom exceptions wherever necessary
 

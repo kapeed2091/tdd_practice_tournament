@@ -56,3 +56,24 @@ class TestUserSubmitScore(TestCase):
                                       expected_message='User not registered'):
             TournamentMatch.user_submit_score(
                 user_id=user_id_1, match_id=match_id, score=score)
+
+    def testcase_user_should_belong_to_match_to_submit_score(self):
+        from tournament.models import TournamentMatch, UserProfile
+        user_id_1 = 'user_1'
+        user_id_2 = 'user_2'
+        user_id_3 = 'user_3'
+        match_id = 'match_1'
+        tournament_id = 'tournament_1'
+        score = 10
+
+        UserProfile.objects.create(user_id=user_id_3)
+
+        TournamentMatch.objects.create(
+            t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
+            match_id=match_id)
+
+        with self.assertRaisesMessage(
+                Exception,
+                expected_message='User doesnot belong to this match'):
+            TournamentMatch.user_submit_score(
+                user_id=user_id_3, match_id=match_id, score=score)
