@@ -47,6 +47,47 @@ class UserTournament(models.Model):
             )
 
     @classmethod
+    def level_up(cls, user_id, match_id):
+        from .match import Match
+        match = Match.get_match_by_id(match_id=match_id)
+
+        tournament_id = match.tournament_id
+
+        match_round_number = match.round_number
+
+        obj = cls.objects.get(
+            user_id=user_id, tournament_id=tournament_id
+        )
+
+        cls._validate_if_level_up_is_done_already(
+            user_tournament=obj, match=match
+        )
+
+        obj.round_number = match_round_number + 1
+        obj.save()
+
+    @classmethod
+    def can_user_play_in_tournament(cls, user_id, tournament_id):
+        from ..exceptions.custom_exceptions import UserNotInTournament
+
+        user_in_tournament = cls.objects.filter(
+            user_id=user_id, tournament_id=tournament_id
+        ).exists()
+
+        if not user_in_tournament:
+            raise UserNotInTournament
+
+        from ..models.tournament import Tournament
+        tournament = Tournament.get_tournament_by_id(
+            tournament_id=tournament_id
+        )
+
+        from ..constants.general import TournamentStatus
+        if tournament.status == TournamentStatus.IN_PROGRESS.value:
+            return True
+        return False
+
+    @classmethod
     def _validate_user_tournament_exists(cls, user_id, tournament_id):
         user_tournament_exists = cls.objects.filter(
             user_id=user_id, tournament_id=tournament_id
@@ -69,28 +110,6 @@ class UserTournament(models.Model):
         return is_last_person
 
     @classmethod
-    def can_user_play_in_tournament(cls, user_id, tournament_id):
-        from ..exceptions.custom_exceptions import UserAlreadyRegistered, \
-            UserNotInTournament
-
-        user_in_tournament = cls.objects.filter(
-            user_id=user_id, tournament_id=tournament_id
-        ).exists()
-
-        if not user_in_tournament:
-            raise UserNotInTournament
-
-        from ..models.tournament import Tournament
-        tournament = Tournament.get_tournament_by_id(
-            tournament_id=tournament_id
-        )
-
-        from ..constants.general import TournamentStatus
-        if tournament.status == TournamentStatus.IN_PROGRESS.value:
-            return True
-        return False
-
-    @classmethod
     def validate_user_in_tournament(cls, user_id, tournament_id):
         user_in_tournament = UserTournament.objects.filter(
             user_id=user_id,
@@ -103,20 +122,8 @@ class UserTournament(models.Model):
             raise UserNotInTournament
 
     @classmethod
-    def level_up(cls, user_id, match_id):
-        from .match import Match
-        match = Match.get_match_by_id(match_id=match_id)
-
-        tournament_id = match.tournament_id
-
-        match_round_number = match.round_number
-
-        obj = cls.objects.get(user_id=user_id, tournament_id=tournament_id)
-
-        if match.round_number <= obj.round_number - 1:
+    def _validate_if_level_up_is_done_already(cls, user_tournament, match):
+        if match.round_number <= user_tournament.round_number - 1:
             from tournaments.exceptions.custom_exceptions import \
                 UserAlreadyLeveledUp
             raise UserAlreadyLeveledUp
-
-        obj.round_number = match_round_number + 1
-        obj.save()
