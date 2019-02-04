@@ -42,7 +42,7 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def create_match_and_assign_match_id(cls, create_match_request, match_id):
-        cls.validate_match_id(match_id=match_id)
+        cls.validate_match_id_to_assign(match_id=match_id)
         match_obj = cls.create_match(request_data=create_match_request)
         match_obj.assign_match_id_to_match(match_id=match_id)
 
@@ -51,7 +51,7 @@ class TournamentMatch(models.Model):
         from tournament.models import KOTournament, UserProfile, TournamentUser
         KOTournament.validate_tournament_for_play_match(
             tournament_id=tournament_id)
-        cls.validate_match_id_for_play_match(match_id=match_id)
+        cls.validate_match_id(match_id=match_id)
         UserProfile.is_registered_user(user_id=user_id)
         TournamentUser.validate_user_subscription(
             tournament_id=tournament_id, user_id=user_id)
@@ -61,7 +61,7 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def user_submit_score(cls, user_id, match_id, score):
-        cls.validate_match_id_for_play_match(match_id=match_id)
+        cls.validate_match_id(match_id=match_id)
         tournament_match_obj = cls.objects.get(
             player_one=user_id, match_id=match_id)
         tournament_match_obj.update_player_one_score(score=score)
@@ -71,14 +71,14 @@ class TournamentMatch(models.Model):
         self.save()
 
     @classmethod
-    def validate_match_id(cls, match_id):
+    def validate_match_id_to_assign(cls, match_id):
         if cls.does_match_exist(match_id=match_id):
             from tournament.constants.exception_messages import \
                 MATCH_ID_ALREADY_ASSIGNED_TO_ANOTHER_MATCH
             raise Exception(*MATCH_ID_ALREADY_ASSIGNED_TO_ANOTHER_MATCH)
 
     @classmethod
-    def validate_match_id_for_play_match(cls, match_id):
+    def validate_match_id(cls, match_id):
         if not cls.does_match_exist(match_id=match_id):
             from tournament.constants.exception_messages import \
                 MATCH_DOES_NOT_EXIST
