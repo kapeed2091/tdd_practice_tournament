@@ -28,7 +28,15 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def promote_winner_to_next_round(cls, tournament_match_id, winner_id):
-        return
+        from ib_tournament.models import TournamentMatch, TMPlayer
+        tournament_match = TournamentMatch._get_tournament_match(
+            tournament_match_id)
+        tournament_id = tournament_match.tournament_id
+        curr_round_no = tournament_match.round_no
+        next_round_no = curr_round_no + 1
+        t_match_id = cls._get_t_match_id_to_add_participant(
+            tournament_id, next_round_no)
+        TMPlayer.add_player_to_t_match(t_match_id, winner_id)
 
     @classmethod
     def _create_tournament_matches_to_create(cls, tournament_id, total_rounds):
@@ -80,3 +88,22 @@ class TournamentMatch(models.Model):
             cls(tournament_id=tournament_id, round_no=round_no)
             for count in range(round_matches_count)]
         return round_t_matches_to_create
+
+    @classmethod
+    def _get_t_match_id_to_add_participant(cls, tournament_id, round_no):
+        from ib_tournament.models import TMPlayer
+        from collections import defaultdict
+        tournament_matches = cls.objects.filter(
+            tournament_id=tournament_id, round_no=round_no)
+        round_t_match_ids = list(
+            tournament_matches.values_list('id', flat=True))
+        tm_players = TMPlayer.get_tm_players_by_tm_ids(round_t_match_ids)
+
+        match_id_wise_curr_players_count = defaultdict(int)
+        for tm_player in tm_players:
+            match_id_wise_curr_players_count[tm_player.tournament_match_id] += 1
+
+        for t_match_id in round_t_match_ids:
+            players_count = match_id_wise_curr_players_count[t_match_id]
+            if players_count < 2:
+                return t_match_id

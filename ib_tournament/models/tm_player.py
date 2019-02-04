@@ -45,6 +45,15 @@ class TMPlayer(models.Model):
         cls._update_match_winner(tournament_match_id)
         return
 
+    @classmethod
+    def get_tm_players_by_tm_ids(cls, tm_ids):
+        return cls.objects.filter(tournament_match_id__in=tm_ids)
+
+    @classmethod
+    def add_player_to_t_match(cls, tm_id, player_id):
+        cls.objects.create(tournament_match_id=tm_id, player_id=player_id)
+        return
+
     @staticmethod
     def _group_players_as_group_of_two(player_ids):
         return [player_ids[count: count + 2]
