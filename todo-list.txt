@@ -31,6 +31,8 @@ Assumptions:
        - winner will be computed only when both the players submits their score
        - assuming match winner is None by default
        - assuming completed_datetime is None by default
+       - assuming that winner of the last round of tournament is
+       the tournament winner
 
 Doubts:
     Technical Doubts:
@@ -38,8 +40,6 @@ Doubts:
         refer: player can submit only if he is part of match)
 
 TODOs(To be Implemented list):
-    - match winner progress to next round
-        - if next round is last round
     - get current round
     - get opponent profile in round of a tournament
     - get winner profile of tournament
@@ -50,8 +50,8 @@ TODOs(To be Implemented list):
             - validate player_id, raise appropriate custom exception
     
 In Progress List:
-    - add players to matches
-        - add players to round 1 only
+    - match winner progress to next round
+        - if next round is last round
 
 Completed List:
     - create user
@@ -105,3 +105,5 @@ Completed List:
         - In case of tie, Whoever submits the score first is winner
     - match winner progress to next round
         - progress match winner to next round
+    - add players to matches
+        - add players to round 1 only
