@@ -86,12 +86,6 @@ class Tournament(models.Model):
         return
 
     @classmethod
-    def get_no_of_matches(cls, tournament_id):
-        tournament = cls.get_tournament(tournament_id)
-        return cls._get_total_matches_count_from_total_rounds(
-            tournament.total_rounds)
-
-    @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
         from ib_common.date_time_utils.convert_string_to_local_date_time \
             import convert_string_to_local_date_time

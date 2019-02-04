@@ -45,11 +45,6 @@ class TournamentMatch(models.Model):
         return
 
     @classmethod
-    def _bulk_create(cls, t_matches_to_create):
-        cls.objects.bulk_create(t_matches_to_create)
-        return
-
-    @classmethod
     def _get_tournament_matches_to_create(cls, tournament_id, total_rounds):
         tournament_matches_to_create = list()
         for round_no in range(1, total_rounds + 1):
@@ -57,6 +52,11 @@ class TournamentMatch(models.Model):
                 cls._get_round_tournament_matches_to_create(
                     tournament_id, round_no, total_rounds))
         return tournament_matches_to_create
+
+    @classmethod
+    def _bulk_create(cls, t_matches_to_create):
+        cls.objects.bulk_create(t_matches_to_create)
+        return
 
     @classmethod
     def _get_tournament_match(cls, tournament_match_id):
@@ -72,13 +72,18 @@ class TournamentMatch(models.Model):
             cls, tournament_id, round_no, total_rounds):
         round_matches_count = cls._get_round_matches_count(
             round_no, total_rounds)
-        for count in range(round_matches_count):
-            pass
-        round_t_matches_to_create = [
-            cls(tournament_id=tournament_id, round_no=round_no)
-            for count in range(round_matches_count)]
+        round_t_matches_to_create = cls._initialise_round_tournament_matches(
+            tournament_id, round_no, round_matches_count)
         return round_t_matches_to_create
 
     @classmethod
     def _get_round_matches_count(cls, round_no, total_rounds):
         return 2 ** (total_rounds - round_no)
+
+    @classmethod
+    def _initialise_round_tournament_matches(cls, tournament_id, round_no,
+                                             round_matches_count):
+        round_t_matches_to_create = [
+            cls(tournament_id=tournament_id, round_no=round_no)
+            for count in range(round_matches_count)]
+        return round_t_matches_to_create
