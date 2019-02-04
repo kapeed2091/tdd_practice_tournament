@@ -56,8 +56,9 @@ class TMPlayer(models.Model):
 
     @staticmethod
     def _group_players_as_group_of_two(player_ids):
-        return [player_ids[count: count + 2]
-                for count in range(0, len(player_ids), 2)]
+        from ib_tournament.constants.general import PLAYERS_PER_MATCH
+        return [player_ids[count: count + PLAYERS_PER_MATCH]
+                for count in range(0, len(player_ids), PLAYERS_PER_MATCH)]
 
     @classmethod
     def _add_grouped_players_to_match(

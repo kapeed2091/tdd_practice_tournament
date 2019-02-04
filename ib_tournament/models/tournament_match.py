@@ -123,7 +123,8 @@ class TournamentMatch(models.Model):
     @classmethod
     def _get_match_id_to_join(
             cls, round_t_match_ids, match_id_wise_curr_players_count):
+        from ib_tournament.constants.general import PLAYERS_PER_MATCH
         for t_match_id in round_t_match_ids:
             players_count = match_id_wise_curr_players_count[t_match_id]
-            if players_count < 2:
+            if players_count < PLAYERS_PER_MATCH:
                 return t_match_id
