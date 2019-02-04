@@ -61,7 +61,10 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def user_submit_score(cls, user_id, match_id, score):
-        pass
+        tournament_match_obj = cls.objects.get(
+            player_one=user_id, match_id=match_id)
+        tournament_match_obj.player_one_score = score
+        tournament_match_obj.save()
 
     def assign_match_id_to_match(self, match_id):
         self.match_id = match_id
