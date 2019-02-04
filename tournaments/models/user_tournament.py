@@ -53,27 +53,18 @@ class UserTournament(models.Model):
 
         tournament_id = match.tournament_id
 
-        match_round_number = match.round_number
-
-        obj = cls.objects.get(
+        user_tournament = cls.objects.get(
             user_id=user_id, tournament_id=tournament_id
         )
 
         cls._validate_if_level_up_is_done_already(
-            user_tournament=obj, match=match
+            user_tournament=user_tournament, match=match
         )
 
-        from .user_match import UserMatch
-        user_match_exists = UserMatch.objects.filter(
-            user_id=user_id, match_id=match_id
-        ).exists()
+        cls._validate_if_user_in_match(user_id=user_id, match_id=match_id)
 
-        if not user_match_exists:
-            from tournaments.exceptions.custom_exceptions import UserNotInMatch
-            raise UserNotInMatch
-
-        obj.round_number = match_round_number + 1
-        obj.save()
+        user_tournament.round_number = match.round_number + 1
+        user_tournament.save()
 
     @classmethod
     def can_user_play_in_tournament(cls, user_id, tournament_id):
@@ -136,3 +127,14 @@ class UserTournament(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 UserAlreadyLeveledUp
             raise UserAlreadyLeveledUp
+
+    @staticmethod
+    def _validate_if_user_in_match(user_id, match_id):
+        from .user_match import UserMatch
+        user_match_exists = UserMatch.objects.filter(
+            user_id=user_id, match_id=match_id
+        ).exists()
+
+        if not user_match_exists:
+            from tournaments.exceptions.custom_exceptions import UserNotInMatch
+            raise UserNotInMatch
