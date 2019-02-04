@@ -63,6 +63,15 @@ class UserTournament(models.Model):
             user_tournament=obj, match=match
         )
 
+        from .user_match import UserMatch
+        user_match_exists = UserMatch.objects.filter(
+            user_id=user_id, match_id=match_id
+        ).exists()
+
+        if not user_match_exists:
+            from tournaments.exceptions.custom_exceptions import UserNotInMatch
+            raise UserNotInMatch
+
         obj.round_number = match_round_number + 1
         obj.save()
 
