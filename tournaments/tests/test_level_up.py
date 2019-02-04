@@ -39,3 +39,39 @@ class TestLevelUp(TestUtils):
         )
 
         self.assertEqual(player.round_number, round_number + 1)
+
+    def test_user_has_already_leveled_up(self):
+        user_1 = self.create_user()
+        user_2 = self.create_user(name="John-2")
+
+        tournament = self.create_tournament(user_id=user_1.id)
+
+        self.create_user_tournament(
+            user_id=user_1.id, tournament_id=tournament.id
+        )
+        self.create_user_tournament(
+            user_id=user_2.id, tournament_id=tournament.id,
+            round_number=3
+        )
+
+        round_number = 2
+        match = self.create_match(
+            tournament_id=tournament.id, round_number=round_number
+        )
+
+        self.create_user_match(
+            user_id=user_1.id, match_id=match.id, score=100
+        )
+
+        self.create_user_match(
+            user_id=user_2.id, match_id=match.id, score=200
+        )
+
+        from tournaments.models import UserTournament
+
+        from tournaments.exceptions.custom_exceptions import \
+            UserAlreadyLeveledUp
+        with self.assertRaises(UserAlreadyLeveledUp):
+            UserTournament.level_up(
+                user_id=user_2.id, match_id=match.id
+            )
