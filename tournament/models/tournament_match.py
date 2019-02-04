@@ -61,10 +61,7 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def user_submit_score(cls, user_id, match_id, score):
-        from tournament.models import UserProfile
-        UserProfile.is_registered_user(user_id=user_id)
-        cls.validate_match_id(match_id=match_id)
-        cls.validate_user_belong_to_match(user_id=user_id, match_id=match_id)
+        cls.validate_user_and_match(user_id=user_id, match_id=match_id)
         tournament_match_obj = cls.objects.get(
             player_one=user_id, match_id=match_id)
         tournament_match_obj.update_player_one_score(score=score)
@@ -79,6 +76,13 @@ class TournamentMatch(models.Model):
             from tournament.constants.exception_messages import \
                 MATCH_ID_ALREADY_ASSIGNED_TO_ANOTHER_MATCH
             raise Exception(*MATCH_ID_ALREADY_ASSIGNED_TO_ANOTHER_MATCH)
+
+    @classmethod
+    def validate_user_and_match(cls, user_id, match_id):
+        from tournament.models import UserProfile
+        UserProfile.is_registered_user(user_id=user_id)
+        cls.validate_match_id(match_id=match_id)
+        cls.validate_user_belong_to_match(user_id=user_id, match_id=match_id)
 
     @classmethod
     def validate_match_id(cls, match_id):
