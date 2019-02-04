@@ -24,8 +24,8 @@ class Match(models.Model):
     @classmethod
     def progress_match_winner_to_next_round(cls, match_id):
         winner_match = cls._get_winner_match(match_id)
-        match = cls._get_match_to_assign_for_next_round(
-            round=winner_match.round,
+        match = cls._get_match_to_assign(
+            round=winner_match.round + 1,
             tournament=winner_match.tournament
         )
         match.assign_user_to_match(user=winner_match.user)
@@ -65,7 +65,7 @@ class Match(models.Model):
         )
 
     @classmethod
-    def _get_match_to_assign_for_next_round(cls, round, tournament):
+    def _get_match_to_assign(cls, round, tournament):
         # TODO: Fake Implementation
         match_id = 'Match2'
         return cls.objects.get(match_id=match_id)
