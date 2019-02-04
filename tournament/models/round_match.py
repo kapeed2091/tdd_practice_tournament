@@ -49,3 +49,7 @@ class RoundMatch(models.Model):
     @classmethod
     def _calculate_no_of_matches_in_round(cls, no_participants_in_round):
         return no_participants_in_round / 2
+
+    @classmethod
+    def add_users_to_match(cls, tournament_id):
+        pass
