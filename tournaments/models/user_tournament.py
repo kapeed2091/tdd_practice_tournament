@@ -113,5 +113,10 @@ class UserTournament(models.Model):
 
         obj = cls.objects.get(user_id=user_id, tournament_id=tournament_id)
 
+        if match.round_number <= obj.round_number - 1:
+            from tournaments.exceptions.custom_exceptions import \
+                UserAlreadyLeveledUp
+            raise UserAlreadyLeveledUp
+
         obj.round_number = match_round_number + 1
         obj.save()
