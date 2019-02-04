@@ -4,13 +4,14 @@ from django.test import TestCase
 class TestUserSubmitScore(TestCase):
 
     def testcase_user_submit_score(self):
-        from tournament.models import TournamentMatch
+        from tournament.models import TournamentMatch, UserProfile
         user_id_1 = 'user_1'
         user_id_2 = 'user_2'
         match_id = 'match_1'
         tournament_id = 'tournament_1'
         score = 10
 
+        UserProfile.objects.create(user_id=user_id_1)
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
             match_id=match_id)
@@ -27,10 +28,12 @@ class TestUserSubmitScore(TestCase):
             new_state.player_one_score - old_state.player_one_score, score)
 
     def testcase_user_submit_score_for_valid_match(self):
-        from tournament.models import TournamentMatch
+        from tournament.models import TournamentMatch, UserProfile
         user_id_1 = 'user_1'
         match_id = 'match_1'
         score = 10
+
+        UserProfile.objects.create(user_id=user_id_1)
 
         with self.assertRaisesMessage(Exception,
                                       expected_message='Match doesnot exist'):
