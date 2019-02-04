@@ -2,8 +2,8 @@ TO BE IMPLEMENTED:
    - User will progress to next round if he wins the match
          1. Progress winner of the match to next round
 
-   - Match model should have fields round and user_status[Dependent]
 IN_PROGRESS:
+   - Match model should have fields round and user_status[Dependent]
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
