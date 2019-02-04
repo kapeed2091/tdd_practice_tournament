@@ -75,3 +75,42 @@ class TestLevelUp(TestUtils):
             UserTournament.level_up(
                 user_id=user_2.id, match_id=match.id
             )
+
+    def test_user_using_not_his_match_id(self):
+        user_1 = self.create_user()
+        user_2 = self.create_user(name="John-2")
+        user_3 = self.create_user(name="John-3")
+
+        tournament = self.create_tournament(user_id=user_1.id)
+
+        self.create_user_tournament(
+            user_id=user_1.id, tournament_id=tournament.id
+        )
+        self.create_user_tournament(
+            user_id=user_2.id, tournament_id=tournament.id
+        )
+        self.create_user_tournament(
+            user_id=user_3.id, tournament_id=tournament.id
+        )
+
+        round_number = 2
+        match = self.create_match(
+            tournament_id=tournament.id, round_number=round_number
+        )
+
+        self.create_user_match(
+            user_id=user_1.id, match_id=match.id, score=100
+        )
+
+        self.create_user_match(
+            user_id=user_2.id, match_id=match.id, score=200
+        )
+
+        from tournaments.models import UserTournament
+
+        from tournaments.exceptions.custom_exceptions import \
+            UserNotInMatch
+        with self.assertRaises(UserNotInMatch):
+            UserTournament.level_up(
+                user_id=user_3.id, match_id=match.id
+            )

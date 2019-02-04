@@ -61,8 +61,7 @@ Updated time line - (11 hr(13 - 2))
 todo-list
     - User will progress to next round if he wins the match (25 min)
             - user did not win
-        - [user has already upgraded his level]
-        - user is using not his match_id
+        - [user is using not his match_id]
         - match_id does not exist
 
 
@@ -98,4 +97,4 @@ Completed
 
     Upgrade to next round
         - successful
-
+        - user has already upgraded his level
