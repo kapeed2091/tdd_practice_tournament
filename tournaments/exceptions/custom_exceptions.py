@@ -76,3 +76,7 @@ class TournamentMatchesAlreadyExist(Exception):
 
 class InsufficientMembersInRound(Exception):
     pass
+
+
+class InadequateNumberOfMatches(Exception):
+    pass
