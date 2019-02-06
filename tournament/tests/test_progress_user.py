@@ -117,7 +117,11 @@ class TestProgressUser(TestCase):
         self.assertEqual(match.tournament, tournament1)
 
     def setup_get_match_to_progress(self):
-        from tournament.models import Match, KoTournament
+        from tournament.models import User, Match, KoTournament
+
+        user = User.objects.create(
+            user_id='User'
+        )
 
         now = get_current_datetime()
         tournament_name = 'Tournament'
@@ -131,9 +135,18 @@ class TestProgressUser(TestCase):
             )
 
             match_id = 'Match'
-            for j in range(1, 5):
+            for j in range(1, 4):
                 Match.objects.create(
                     match_id=match_id + str(i) + str(j),
+                    tournament=tournament,
+                    round=2,
+                    status=MatchStatus.YET_TO_START.value,
+                    user_status=MatchUserStatus.NOT_DECIDED_YET.value
+                )
+            for j in range(4, 5):
+                Match.objects.create(
+                    match_id=match_id + str(i) + str(j),
+                    user=user,
                     tournament=tournament,
                     round=2,
                     status=MatchStatus.YET_TO_START.value,
