@@ -34,3 +34,6 @@ PLAYER_NOT_IN_TOURNAMENT = ('Player is not in Tournament',
 
 PLAYER_NOT_IN_ROUND = ('Player is not in tournament round',
                        'PLAYER_NOT_IN_ROUND')
+
+WINNER_IS_NOT_DECLARED_YET = ('Winner is not declared for the tournament',
+                              'WINNER_IS_NOT_DECLARED_YET')
