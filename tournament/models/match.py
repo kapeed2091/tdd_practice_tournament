@@ -12,14 +12,14 @@ class Match(models.Model):
     def play_match(cls, match_id, user_id):
         from tdd_practice.constants.general import UserMatchStatus
 
-        match = cls.get_match(match_id=match_id, user_id=user_id)
+        match = cls.get_match(round_match_id=match_id, user_id=user_id)
         match.validate_play_match()
 
         match.update_match_status(status=UserMatchStatus.IN_PROGRESS.value)
 
     @classmethod
     def get_tournament_by_match_id(cls, match_id):
-        match = cls.objects.get(id=match_id)
+        match = cls.objects.get(round_match_id=match_id)
         return match.tournament
 
     def validate_play_match(self):
@@ -34,13 +34,13 @@ class Match(models.Model):
         match_id = user_match_score['match_id']
         user_id = user_match_score['user_id']
 
-        match = cls.get_match(match_id=match_id, user_id=user_id)
+        match = cls.get_match(round_match_id=match_id, user_id=user_id)
         match.update_match_score(score=score)
         match.update_match_status(status=UserMatchStatus.COMPLETED.value)
 
     @classmethod
-    def get_match(cls, match_id, user_id):
-        return cls.objects.get(id=match_id, user_id=user_id)
+    def get_match(cls, round_match_id, user_id):
+        return cls.objects.get(round_match_id=round_match_id, user_id=user_id)
 
     def update_match_status(self, status):
         self.status = status

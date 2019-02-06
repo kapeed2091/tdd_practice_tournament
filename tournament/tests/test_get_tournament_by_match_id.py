@@ -10,7 +10,7 @@ class TestGetTournamentByMatch(TestCase):
     def test_get_tournament_by_match_id(self):
         self._populate_user()
         self._create_tournament()
-        self._create_match()
+        self._create_user_match()
 
         from tournament.models import Match
         tournament = Match.get_tournament_by_match_id(match_id=self.match.id)
@@ -20,10 +20,15 @@ class TestGetTournamentByMatch(TestCase):
         from tournament.models.user import User
         self.user = User.objects.create(username=self.username)
 
-    def _create_match(self):
+    def _create_user_match(self):
+        from tournament.models import RoundMatch
+        self.match = RoundMatch.objects.create(
+            tournament_id=self.tournament.id, round_no=1)
+
         from tournament.models import Match
-        self.match = Match.objects.create(user_id=self.user.id,
-                                          tournament=self.tournament)
+        Match.objects.create(
+            user_id=self.user.id, tournament=self.tournament,
+            round_match_id=self.match.id)
 
     def _create_tournament(self):
         from ib_common.date_time_utils.get_current_local_date_time \
