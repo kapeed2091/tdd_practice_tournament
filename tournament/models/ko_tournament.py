@@ -88,9 +88,7 @@ class KoTournament(models.Model):
             tournament=tournament
         )
         cls._validate_opponent_user_of_match(opponent_user)
-        user_dict = opponent_user.convert_to_dict()
-        user_profile = cls._remove_unnecessary_fields_for_user_profile(user_dict)
-        return user_profile
+        return cls._get_user_profile(opponent_user)
 
     @classmethod
     def get_winner_profile(cls, tournament_id):
@@ -99,9 +97,7 @@ class KoTournament(models.Model):
         tournament = cls.get_tournament(tournament_id)
         winner_match = Match.get_tournament_winner_match(tournament)
         winner = winner_match.user
-        winner_dict = winner.convert_to_dict()
-        winner_profile = cls._remove_unnecessary_fields_for_user_profile(winner_dict)
-        return winner_profile
+        return cls._get_user_profile(winner)
 
     @classmethod
     def _get_tournament_v2(cls, tournament_id):
@@ -150,11 +146,18 @@ class KoTournament(models.Model):
             raise NotFound(USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT)
 
     @staticmethod
+    def _validate_opponent_user_of_match(user):
+        if user is None:
+            raise NotFound(OPPONENT_IS_NOT_YET_ASSIGNED)
+
+    @classmethod
+    def _get_user_profile(cls, user):
+        user_dict = user.convert_to_dict()
+        user_profile = cls._remove_unnecessary_fields_for_user_profile(user_dict)
+        return user_profile
+
+    @staticmethod
     def _remove_unnecessary_fields_for_user_profile(user_dict):
         user_dict.pop('user_id')
         return user_dict
 
-    @staticmethod
-    def _validate_opponent_user_of_match(user):
-        if user is None:
-            raise NotFound(OPPONENT_IS_NOT_YET_ASSIGNED)
