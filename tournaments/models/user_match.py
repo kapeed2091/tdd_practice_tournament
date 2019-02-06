@@ -128,6 +128,10 @@ class UserMatch(models.Model):
 
         return user_details
 
+    @classmethod
+    def get_winner_profile(cls, tournament_id):
+        pass
+
     def _update_score(self, score):
         self.score = score
         self.save()
