@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django_swagger_utils.drf_server.exceptions import NotFound
 from ib_common.date_time_utils.get_current_datetime import get_current_datetime
 import datetime
 
@@ -9,6 +10,7 @@ class TestGetUserCurrentRound(TestCase):
 
     user_id = 'User'
     user1_id = 'User1'
+    invalid_user_id = 'InvalidUser'
     match1_id = 'Match1'
     match2_id = 'Match2'
 
@@ -52,3 +54,10 @@ class TestGetUserCurrentRound(TestCase):
             user_id=self.user1_id, tournament_id=1)
 
         self.assertEqual(current_round, 2)
+
+    def test_get_user_current_round_invalid_user(self):
+        from tournament.models import KoTournament
+
+        with self.assertRaisesMessage(NotFound, 'Invalid user id'):
+            KoTournament.get_user_current_round(
+                user_id=self.invalid_user_id, tournament_id=1)

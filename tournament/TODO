@@ -7,7 +7,7 @@ TO BE IMPLEMENTED:
 
 IN_PROGRESS:
    - User can get his current round number for a tournament
-          1. User can get his current round number for a tournament
+          2. Invalid user_id
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -34,6 +34,9 @@ COMPLETED:
    - Select a Match in the next round to the winner of the current round (Dependent)
          1. return match where it should not have user assigned to it
          2. If there are no matches vacant int the round, raise an exception
+
+   - User can get his current round number for a tournament
+          1. User can get his current round number for a tournament
 
 ASSUMPTIONS:
    1. Assuming the Match model will have the following fields
