@@ -84,3 +84,7 @@ class InadequateNumberOfMatches(Exception):
 
 class ReAssignmentOfPlayers(Exception):
     pass
+
+
+class RoundNumberOutOfBounds(Exception):
+    pass
