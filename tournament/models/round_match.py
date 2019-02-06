@@ -31,16 +31,7 @@ class RoundMatch(models.Model):
     def get_match_winner(cls, match_id):
         from .match import Match
         user_matches = Match.objects.filter(round_match_id=match_id)
-
-        user_id1 = user_matches[0].user_id
-        user_id2 = user_matches[1].user_id
-        user_match1_score = user_matches[0].score
-        user_match2_score = user_matches[1].score
-
-        if user_match1_score > user_match2_score:
-            winner_id = user_id1
-        else:
-            winner_id = user_id2
+        winner_id = cls._calculate_match_winner(user_matches)
         return winner_id
 
     @classmethod
@@ -96,3 +87,16 @@ class RoundMatch(models.Model):
             selected_user_ids = user_ids[index*2: index*2+2]
             match_id_wise_user_ids[match_id] = selected_user_ids
         return match_id_wise_user_ids
+
+    @classmethod
+    def _calculate_match_winner(cls, user_matches):
+        user_id1 = user_matches[0].user_id
+        user_id2 = user_matches[1].user_id
+        user_match1_score = user_matches[0].score
+        user_match2_score = user_matches[1].score
+
+        if user_match1_score > user_match2_score:
+            winner_id = user_id1
+        else:
+            winner_id = user_id2
+        return winner_id
