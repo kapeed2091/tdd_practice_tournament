@@ -70,13 +70,7 @@ class UserMatch(models.Model):
         )
 
         match_ids = [each.id for each in matches]
-        user_matches_exist = cls.objects.filter(
-            match_id__in=match_ids
-        ).exists()
-        if user_matches_exist:
-            from tournaments.exceptions.custom_exceptions import \
-                ReAssignmentOfPlayers
-            raise ReAssignmentOfPlayers
+        cls.validate_user_matches(match_ids=match_ids)
 
         for index, match in enumerate(matches):
             player = players[index]
@@ -139,3 +133,13 @@ class UserMatch(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 InadequateNumberOfMatches
             raise InadequateNumberOfMatches
+
+    @classmethod
+    def validate_user_matches(cls, match_ids):
+        user_matches_exist = cls.objects.filter(
+            match_id__in=match_ids
+        ).exists()
+        if user_matches_exist:
+            from tournaments.exceptions.custom_exceptions import \
+                ReAssignmentOfPlayers
+            raise ReAssignmentOfPlayers
