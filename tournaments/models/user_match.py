@@ -162,4 +162,32 @@ class UserMatch(models.Model):
 
     @classmethod
     def get_opponent_player_details(cls, user_id, tournament_id):
-        pass
+        from .user_tournament import UserTournament
+
+        user_tournament = UserTournament.objects.get(
+            user_id=user_id,
+            tournament_id=tournament_id
+        )
+
+        round_number = user_tournament.round_number
+
+        from .match import Match
+
+        match = Match.objects.get(
+            tournament_id=tournament_id, round_number=round_number
+        )
+
+        opponent = cls.objects.filter(match_id=match.id).exclude(
+            user_id=user_id)[0]
+        opponent_user_id = opponent.user_id
+
+        from .user import User
+        user_obj = User.objects.get(id=opponent_user_id)
+
+        user_details = {
+            "name": user_obj.name,
+            "age": user_obj.age,
+            "gender": user_obj.gender
+        }
+
+        return user_details
