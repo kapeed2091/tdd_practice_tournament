@@ -12,9 +12,8 @@ Yet to do:
         - Match should be in IN_PROGRESS state when user submits score
         - Player match status should be in IN_PROGRESS state when user submits score
         - After submitting score should we move match status to COMPLETED? - Depends on how many times we allow him to play
-        - *Submit score should a time of submission also
    - User will progress to next round if he wins the match
-        - In case of tie, Whoever submits the score first is winner
+        - *In case of tie, Whoever submits the score first is winner
         - Player Match Status should be in completed mode to decide winner
         - User will progress to next round if he wins that round
    - User can get his current round number for a tournament
@@ -62,6 +61,7 @@ Completed:
         - Should be a valid user
         - User must belong to that match to submit score
         - Should update the score of appropriate user in the match
+        - Submit score should a time of submission also
    - User will progress to next round if he wins the match
         - User score should be greater than opponent score to win
 
