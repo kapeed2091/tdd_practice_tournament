@@ -109,6 +109,16 @@ class UserTournament(models.Model):
         return players
 
     @classmethod
+    def get_current_round_number(cls, user_id, tournament_id):
+        try:
+            obj = cls.objects.get(user_id=user_id, tournament_id=tournament_id)
+            return obj.round_number
+        except cls.DoesNotExist:
+            from tournaments.exceptions.custom_exceptions import \
+                UserNotInTournament
+            raise UserNotInTournament
+
+    @classmethod
     def _is_last_person(cls, tournament_id, total_rounds):
         total_rounds = total_rounds
         max_num_of_participants = 2 ** total_rounds
@@ -172,13 +182,3 @@ class UserTournament(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 UserDidNotWinMatch
             raise UserDidNotWinMatch
-
-    @classmethod
-    def get_current_round_number(cls, user_id, tournament_id):
-        try:
-            obj = cls.objects.get(user_id=user_id, tournament_id=tournament_id)
-            return obj.round_number
-        except cls.DoesNotExist:
-            from tournaments.exceptions.custom_exceptions import \
-                UserNotInTournament
-            raise UserNotInTournament

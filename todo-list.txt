@@ -67,9 +67,11 @@ todo-list
             - invalid tournament_id
             - invalid round_number (non positive)
             - invalid round number (not integer)
-    - User can get his current round number for a tournament (30 min)
+    - User can get his opponent user profile in any round in a tournament (60 min)
         - successful
-        - [user not part of tournament]
+        - user has lost
+        - user not part of tournament
+        - opponent has not been assigned yet
 
 Completed
     - create_tournament successful case
@@ -117,3 +119,6 @@ Completed
         - not adequate number of matches for the round
         - already assigned
         - round_number out of bounds
+    User can get his current round number for a tournament (30 min)
+        - successful
+        - user not part of tournament
