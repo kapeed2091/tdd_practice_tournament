@@ -171,3 +171,12 @@ class TestWinnerProgressToNextRound(TestCase):
             player_id=winner_id).count()
         self.assertEqual(
             post_winner_tm_players_count - pre_winner_tm_players_count, 0)
+
+    def test_player_curr_round_updation(self):
+        from ib_tournament.models import TournamentMatch, TournamentPlayer
+
+        TournamentMatch.promote_winner_to_next_round(
+            self.tournament_match_id, self.winner_id)
+        tournament_player = TournamentPlayer.objects.get(
+            tournament_id=self.tournament_id, player_id=self.winner_id)
+        self.assertEqual(tournament_player.curr_round_no, 2)
