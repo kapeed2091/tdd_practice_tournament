@@ -36,10 +36,16 @@ Assumptions:
 
 Doubts:
     Technical Doubts:
-        - what to with the test case which directly goes to GREEN state(
+        - what to do with the test case(use case is ALREADY implemented while
+        implementing other use case) which directly goes to GREEN state(
         refer: player can submit only if he is part of match)
 
+        - what to do with the test case(use case is NOT implemented but due to randomization/default ordering of django
+        use case covered) which directly goes to GREEN state(
+        refer: add players to first round tournament matches)
+
 TODOs(To be Implemented list):
+    - update tournament winner
     - get current round
     - get opponent profile in round of a tournament
     - get winner profile of tournament

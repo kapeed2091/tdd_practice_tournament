@@ -99,6 +99,34 @@ class TestWinnerProgressToNextRound(TestCase):
         tournament_match.save()
         return
 
+    def update_winner_in_final_round_tournament_match(self, final_round_no):
+        from ib_tournament.models import TMPlayer, TournamentMatch
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+        tm_players = TMPlayer.objects.all()
+        self.tournament_match_id = tm_players[0].tournament_match_id
+        tm_players = tm_players.filter(
+            tournament_match_id=self.tournament_match_id)
+
+        from ib_tournament.constants.general import TMPlayerStatus
+        tm_players.update(status=TMPlayerStatus.COMPLETED.value,
+                          completed_datetime=get_current_local_date_time())
+        tournament_match = TournamentMatch.objects.get(
+            id=self.tournament_match_id)
+        self.winner_id = tm_players[0].player_id
+        tournament_match.winner_id = self.winner_id
+        tournament_match.save()
+
+        final_round_t_match = TournamentMatch.objects.get(
+            tournament_id=self.tournament_id, round_no=final_round_no)
+        TMPlayer.objects.create(
+            tournament_match=final_round_t_match, player_id=self.player_ids[0])
+        TMPlayer.objects.create(
+            tournament_match=final_round_t_match, player_id=self.player_ids[1])
+        final_round_t_match.winner_id = self.player_ids[0]
+        final_round_t_match.save()
+        return final_round_t_match.id, final_round_t_match.winner_id
+
     def setUp(self):
         usernames = ['user1', 'user2', 'user3', 'user4']
         self.player_ids = [self.create_player(username)
@@ -128,3 +156,18 @@ class TestWinnerProgressToNextRound(TestCase):
             player_id=self.winner_id,
             tournament_match_id__in=round_2_tm_ids).exists()
         self.assertEqual(winner_promoted_to_round_2, True)
+
+    def test_when_last_round_winner_is_updated(self):
+        from ib_tournament.models import TournamentMatch, TMPlayer
+
+        final_round_t_match_id, winner_id = \
+            self.update_winner_in_final_round_tournament_match(
+                final_round_no=2)
+        pre_winner_tm_players_count = TMPlayer.objects.filter(
+            player_id=winner_id).count()
+        TournamentMatch.promote_winner_to_next_round(
+            final_round_t_match_id, winner_id)
+        post_winner_tm_players_count = TMPlayer.objects.filter(
+            player_id=winner_id).count()
+        self.assertEqual(
+            post_winner_tm_players_count - pre_winner_tm_players_count, 0)
