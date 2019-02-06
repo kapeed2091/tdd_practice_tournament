@@ -54,6 +54,16 @@ class UserMatch(models.Model):
         )
         total_players = len(players)
 
+        from .tournament import Tournament
+        tournament = Tournament.get_tournament_by_id(
+            tournament_id=tournament_id
+        )
+
+        if tournament.total_rounds < round_number:
+            from tournaments.exceptions.custom_exceptions import \
+                RoundNumberOutOfBounds
+            raise RoundNumberOutOfBounds
+
         cls.validate_players_count_in_round(
             total_players=total_players, tournament_id=tournament_id,
             round_number=round_number
