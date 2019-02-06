@@ -1,5 +1,5 @@
 from django.db import models
-from django_swagger_utils.drf_server.exceptions import BadRequest
+from django_swagger_utils.drf_server.exceptions import BadRequest, NotFound
 
 from tournament.constants.general import TournamentStatus
 from tournament.utils.date_time_utils import get_current_date_time
@@ -68,10 +68,17 @@ class KoTournament(models.Model):
     def get_user_current_round(cls, user_id, tournament_id):
         from tournament.models import Match
 
-        tournament = cls.get_tournament(tournament_id)
+        tournament = cls._get_tournament_v2(tournament_id)
         current_match = Match.get_user_current_match(
             user_id=user_id, tournament=tournament)
         return current_match.round
+
+    @classmethod
+    def _get_tournament_v2(cls, tournament_id):
+        try:
+            return cls.get_tournament(tournament_id)
+        except cls.DoesNotExist:
+            raise NotFound('Tournament does not exist with the given tournament id')
 
     @classmethod
     def _validate_request(cls, no_of_rounds, start_datetime, user_id):
