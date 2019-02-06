@@ -88,7 +88,9 @@ class Tournament(models.Model):
 
     @classmethod
     def update_tournament_winner(cls, tournament_id, winner_id):
-        pass
+        tournament = cls.get_tournament(tournament_id)
+        cls._update_winner(tournament, winner_id)
+        return
 
     @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
@@ -214,3 +216,7 @@ class Tournament(models.Model):
     @classmethod
     def _get_total_matches_count_from_total_rounds(cls, total_rounds):
         return (2 ** total_rounds) - 1
+
+    def _update_winner(self, winner_id):
+        self.winner_id = winner_id
+        self.save()
