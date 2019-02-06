@@ -39,4 +39,6 @@ class TournamentPlayer(models.Model):
 
     @classmethod
     def get_player_current_round(cls, tournament_id, player_id):
-        return
+        tournament_player = TournamentPlayer.get_tournament_player(
+            tournament_id, player_id)
+        return tournament_player.curr_round_no
