@@ -88,11 +88,15 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def _update_tournament_match_winner(cls, tournament_match, winner_id):
+        from ib_tournament.models import TournamentPlayer
         total_rounds = tournament_match.tournament.total_rounds
         next_round_no = cls._get_next_round_no(tournament_match)
         if cls._is_round_exists(next_round_no, total_rounds):
             cls._update_winner_to_next_match(
                 tournament_match, next_round_no, winner_id)
+            TournamentPlayer.update_player_current_round(
+                tournament_id=tournament_match.tournament_id,
+                player_id=winner_id, round_no=next_round_no)
         return
 
     @classmethod
