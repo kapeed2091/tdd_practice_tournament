@@ -90,7 +90,7 @@ My Assumptions:
 
 My Doubts:
    - User can play match only once in a round? Also will we create only one match if user is playing for multiple chances/times in a round?
-   - Is DoesNotExist compile error? - For not a matching query on DB
+   - Is DoesNotExist compile error? - For not a matching query on DB, What if DoesNotExist error raised before compile error(due to missing field)?
    - Can we alter DB Models on large level in refactoring?
 
 Time estimate:

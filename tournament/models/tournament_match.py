@@ -19,6 +19,7 @@ class TournamentMatch(models.Model):
     player_two_match_status = models.CharField(
         max_length=PLAYER_MATCH_STATUS_MAX_LENGTH,
         default=PlayerMatchStatus.YET_TO_START.value)
+    player_two_score = models.IntegerField(default=0)
 
     match_id = models.CharField(max_length=MATCH_ID_MAX_LENGTH)
     match_status = models.CharField(max_length=MATCH_STATUS_MAX_LENGTH,
@@ -62,9 +63,7 @@ class TournamentMatch(models.Model):
     @classmethod
     def user_submit_score(cls, user_id, match_id, score):
         cls.validate_user_and_match(user_id=user_id, match_id=match_id)
-        tournament_match_obj = cls.objects.get(
-            player_one=user_id, match_id=match_id)
-        tournament_match_obj.update_player_one_score(score=score)
+        cls.update_score(user_id=user_id, match_id=match_id, score=score)
 
     def assign_match_id_to_match(self, match_id):
         self.match_id = match_id
@@ -115,6 +114,17 @@ class TournamentMatch(models.Model):
             tournament_match_obj.update_match_status_for_play_match()
 
     @classmethod
+    def update_score(cls, user_id, match_id, score):
+        if cls.is_user_player_one(user_id=user_id, match_id=match_id):
+            tournament_match_obj = cls.objects.get(
+                player_one=user_id, match_id=match_id)
+            tournament_match_obj.update_player_one_score(score=score)
+        if cls.is_user_player_two(user_id=user_id, match_id=match_id):
+            tournament_match_obj = cls.objects.get(
+                player_two=user_id, match_id=match_id)
+            tournament_match_obj.update_player_two_score(score=score)
+
+    @classmethod
     def does_match_exist(cls, match_id):
         return cls.objects.filter(match_id=match_id).exists()
 
@@ -149,4 +159,8 @@ class TournamentMatch(models.Model):
 
     def update_player_one_score(self, score):
         self.player_one_score = score
+        self.save()
+
+    def update_player_two_score(self, score):
+        self.player_two_score = score
         self.save()
