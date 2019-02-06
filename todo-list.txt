@@ -30,7 +30,18 @@ Assumptions:
 ToDo List:
     User can play matches once the tournament is started
        -
+    - create round matches
+        - invalid tournament id
+        - tournament not started
+    - adding users to match, in tournament round
+        - invalid tournament id
+    - get match winner
+        - match users not completed the match
     User will progress to next round if he wins the match
+        - invalid current round no
+        - invalid tournament id
+    User can get his current round number for a tournament
+        - [get user current round no]
 
 
 Completed List
