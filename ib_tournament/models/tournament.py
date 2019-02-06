@@ -96,8 +96,12 @@ class Tournament(models.Model):
     def get_winner_profile(cls, tournament_id):
         from ib_tournament.models import Player
         tournament = cls.get_tournament(tournament_id)
-        winner_profile = Player.get_player_profile_by_id(tournament.winner_id)
-        return winner_profile
+        if tournament.winner_id:
+            winner_profile = Player.get_player_profile_by_id(
+                tournament.winner_id)
+            return winner_profile
+        else:
+            cls._raise_exception_when_winner_is_not_declared()
 
     @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
@@ -227,3 +231,11 @@ class Tournament(models.Model):
     def _update_winner(self, winner_id):
         self.winner_id = winner_id
         self.save()
+
+    @staticmethod
+    def _raise_exception_when_winner_is_not_declared():
+        from django_swagger_utils.drf_server.exceptions import \
+            BadRequest
+        from ib_tournament.constants.exception_messages import \
+            WINNER_IS_NOT_DECLARED_YET
+        raise BadRequest(*WINNER_IS_NOT_DECLARED_YET)

@@ -56,6 +56,7 @@ Doubts:
 
 TODOs(To be Implemented list):
     - update tournament status to completed
+    - refactor winner_id to FK in Tournament model
 
     LOW PRIORITY:
         - play match
