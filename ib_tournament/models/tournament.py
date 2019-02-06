@@ -94,7 +94,10 @@ class Tournament(models.Model):
 
     @classmethod
     def get_winner_profile(cls, tournament_id):
-        return
+        from ib_tournament.models import Player
+        tournament = cls.get_tournament(tournament_id)
+        winner_profile = Player.get_player_profile_by_id(tournament.winner_id)
+        return winner_profile
 
     @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
