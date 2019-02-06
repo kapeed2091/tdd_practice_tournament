@@ -61,6 +61,15 @@ class Tournament(models.Model):
             raise InvalidTournamentId
 
     @classmethod
+    def validate_and_get_tournament(cls, tournament_id):
+        try:
+            obj = cls.get_tournament_by_id(tournament_id=tournament_id)
+            return obj
+        except cls.DoesNotExist:
+            from ..exceptions.custom_exceptions import InvalidTournamentId
+            raise InvalidTournamentId
+
+    @classmethod
     def get_tournament_by_id(cls, tournament_id):
         obj = cls.objects.get(id=tournament_id)
         return obj
@@ -68,7 +77,8 @@ class Tournament(models.Model):
     @staticmethod
     def validate_tournament_status(status):
         from ..constants.general import TournamentStatus
-        from ..exceptions.custom_exceptions import InvalidFullYetToStartRegister, \
+        from ..exceptions.custom_exceptions import \
+            InvalidFullYetToStartRegister, \
             InvalidInProgresstRegister, InvalidCompletedRegister
 
         if status == TournamentStatus.FULL_YET_TO_START.value:
