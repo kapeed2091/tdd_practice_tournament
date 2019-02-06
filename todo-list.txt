@@ -26,6 +26,9 @@ Assumptions:
    - deciding match winner based on score, whoever makes more score in the
         match will be the winner
    - picking random match from next round and adding match winner to it
+   - keeping name, gender and age optional in DB
+   - max length for name as 50
+   - keeping default age value as -1
 
 ToDo List:
     User can play matches once the tournament is started
@@ -41,7 +44,13 @@ ToDo List:
         - invalid current round no
         - invalid tournament id
     User can get his current round number for a tournament
-        -
+        - invalid user
+        - invalid tournament id
+    User can get his opponent user profile in any round in a tournament
+        - get opponent user profile
+        - opponent not set
+        - invalid user_id
+        - invalid round  no
 
 
 Completed List
