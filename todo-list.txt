@@ -56,7 +56,6 @@ Doubts:
         - how to get to red state(get_opponent_profile_in_round --> when user not in tournament round) --> raises DoesNotExist exception
 
 TODOs(To be Implemented list):
-    - refactor winner_id to FK in Tournament model
 
     LOW PRIORITY:
         - play match
@@ -64,8 +63,7 @@ TODOs(To be Implemented list):
             - validate player_id, raise appropriate custom exception
     
 In Progress List:
-    - update tournament status to completed
-        - tournament status should be IN_PROGRESS before updation
+    - refactor winner_id to FK in Tournament model
 
 Completed List:
     - create user
@@ -140,3 +138,4 @@ Completed List:
         - winner is not updated yet
     - update tournament status to completed
         - update tournament status to completed
+        - tournament status should be IN_PROGRESS before updation
