@@ -67,8 +67,12 @@ todo-list
             - invalid tournament_id
             - invalid round_number (non positive)
             - invalid round number (not integer)
-    - User can get his opponent user profile in any round in a tournament (60 min)
-        - [opponent has not been assigned yet]
+    - User can get the winner user profile of any tournament (30 min)
+        - [successful]
+        - tournament is still on
+    - User status is updated to DEAD after the match is done
+    - level up
+        - after finals winner level should not be updated
 
 Completed
     - create_tournament successful case
@@ -122,3 +126,4 @@ Completed
     - User can get his opponent user profile in any round in a tournament (60 min)
         - successful
         - user not part of tournament
+        - opponent has not been assigned yet
