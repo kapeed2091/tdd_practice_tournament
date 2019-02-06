@@ -72,3 +72,7 @@ class UserDidNotWinMatch(Exception):
 
 class TournamentMatchesAlreadyExist(Exception):
     pass
+
+
+class InsufficientMembersInRound(Exception):
+    pass
