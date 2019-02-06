@@ -1,7 +1,5 @@
 TO BE IMPLEMENTED:
    - User can get his opponent user profile in any round in a tournament
-         1. User Can get his opponent user_profile in any round of tournament
-         2. There is no opponent yet assigned to that match
          3. User has no match in the given round
          4. Invalid user id
          5. Invalid tournament id
@@ -10,7 +8,7 @@ TO BE IMPLEMENTED:
 
 IN_PROGRESS:
    - User can get his opponent user profile in any round in a tournament
-         1. User Can get his opponent user_profile in any round of tournament
+         2. There is no opponent yet assigned to that match
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -48,6 +46,9 @@ COMPLETED:
          a. Name
          b. Age
          c.Gender
+
+   - User can get his opponent user profile in any round in a tournament
+         1. User Can get his opponent user_profile in any round of tournament
 
 ASSUMPTIONS:
    1. Assuming the Match model will have the following fields

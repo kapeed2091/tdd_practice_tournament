@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django_swagger_utils.drf_server.exceptions import NotFound
 from ib_common.date_time_utils.get_current_datetime import get_current_datetime
 import datetime
 
@@ -6,7 +7,6 @@ from tournament.constants.general import TournamentStatus, MatchStatus, MatchUse
 
 
 class TestGetOpponentUserProfile(TestCase):
-
     user_id = 'User'
     user1_id = 'User1'
     user2_id = 'User2'
@@ -24,10 +24,8 @@ class TestGetOpponentUserProfile(TestCase):
     }
     match_id = 'Match'
 
-    def setUp(self):
-        from tournament.models import User, Match, KoTournament
-        user = User.objects.create(**self.user_dict)
-        opponent_user = User.objects.create(**self.opponent_user_dict)
+    def setup_create_tournament(self):
+        from tournament.models import KoTournament
 
         now = get_current_datetime()
         tournament = KoTournament.objects.create(
@@ -37,18 +35,15 @@ class TestGetOpponentUserProfile(TestCase):
             start_datetime=now - datetime.timedelta(days=1),
             status=TournamentStatus.IN_PROGRESS.value
         )
+        return tournament
+
+    @staticmethod
+    def setup_assign_user_match(user, match_id, tournament):
+        from tournament.models import Match
 
         Match.objects.create(
-            match_id=self.match_id,
+            match_id=match_id,
             user=user,
-            tournament=tournament,
-            round=2,
-            status=MatchStatus.YET_TO_START.value,
-            user_status=MatchUserStatus.NOT_DECIDED_YET.value
-        )
-        Match.objects.create(
-            match_id=self.match_id,
-            user=opponent_user,
             tournament=tournament,
             round=2,
             status=MatchStatus.YET_TO_START.value,
@@ -58,8 +53,37 @@ class TestGetOpponentUserProfile(TestCase):
     def test_get_opponent_user_profile(self):
         from tournament.models import KoTournament
 
+        self.setup_get_opponent_user_profile()
         expected_opponent = self.opponent_user_dict
         expected_opponent.pop('user_id')
         opponent_user = KoTournament.get_opponent_user_profile(
             user_id=self.user1_id, tournament_round=2, tournament_id=1)
         self.assertEqual(expected_opponent, opponent_user)
+
+    def setup_get_opponent_user_profile(self):
+        from tournament.models import User
+
+        tournament = self.setup_create_tournament()
+        user = User.objects.create(**self.user_dict)
+        self.setup_assign_user_match(
+            user=user, match_id=self.match_id, tournament=tournament)
+
+        opponent_user = User.objects.create(**self.opponent_user_dict)
+        self.setup_assign_user_match(
+            user=opponent_user, match_id=self.match_id, tournament=tournament)
+
+    def test_get_opponent_user_profile_where_opponent_is_not_yet_assigned(self):
+        from tournament.models import KoTournament
+
+        self.setup_get_opponent_user_profile_where_opponent_is_not_yet_assigned()
+        with self.assertRaisesMessage(NotFound, 'Opponent is not yet assigned'):
+            KoTournament.get_opponent_user_profile(
+                user_id=self.user1_id, tournament_round=2, tournament_id=1)
+
+    def setup_get_opponent_user_profile_where_opponent_is_not_yet_assigned(self):
+        from tournament.models import User
+
+        tournament = self.setup_create_tournament()
+        user = User.objects.create(**self.user_dict)
+        self.setup_assign_user_match(
+            user=user, match_id=self.match_id, tournament=tournament)
