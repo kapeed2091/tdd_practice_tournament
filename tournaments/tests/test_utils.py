@@ -33,6 +33,21 @@ class TestUtils(TestCase):
         return user
 
     @staticmethod
+    def create_user_(**kwargs):
+        from tournaments.models import User
+
+        name = kwargs["name"]
+        age = kwargs["age"]
+        gender = kwargs["gender"]
+
+        user = User.objects.create(
+            name=name,
+            age=age,
+            gender=gender
+        )
+        return user
+
+    @staticmethod
     def create_match(tournament_id, round_number):
         from tournaments.models import Match
 
