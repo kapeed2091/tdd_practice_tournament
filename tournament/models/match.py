@@ -96,11 +96,14 @@ class Match(models.Model):
     @classmethod
     def get_tournament_winner_match(cls, tournament):
         final_round = tournament.no_of_rounds
-        return cls.objects.get(
-            round=final_round,
-            tournament=tournament,
-            user_status=MatchUserStatus.WIN.value
-        )
+        try:
+            return cls.objects.get(
+                round=final_round,
+                tournament=tournament,
+                user_status=MatchUserStatus.WIN.value
+            )
+        except cls.DoesNotExist:
+            raise NotFound('Winner is not declared yet')
 
     @staticmethod
     def _validate_round_to_progress(tournament, current_round):
