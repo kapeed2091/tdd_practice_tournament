@@ -172,3 +172,7 @@ class UserTournament(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 UserDidNotWinMatch
             raise UserDidNotWinMatch
+
+    @classmethod
+    def get_current_round_number(cls, user_id, tournament_id):
+        pass
