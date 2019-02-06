@@ -28,3 +28,6 @@ PLAYER_NOT_IN_MATCH = ('Player is not in Match', 'PLAYER_NOT_IN_MATCH')
 SUBMIT_WHEN_STATUS_IS_IN_PROGRESS = (
     'Submit score only when match is in progress',
     'SUBMIT_WHEN_STATUS_IS_IN_PROGRESS')
+
+PLAYER_NOT_IN_TOURNAMENT = ('Player is not in Tournament',
+                            'PLAYER_NOT_IN_TOURNAMENT')

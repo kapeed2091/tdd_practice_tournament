@@ -82,6 +82,7 @@ class TestGetCurrentRoundByUser(TestCase):
         from ib_tournament.constants.exception_messages import \
             PLAYER_NOT_IN_TOURNAMENT
         player_id = self.create_player('user5')
+        # TODO: DOUBT: How to get to red state here?
         with self.assertRaisesMessage(BadRequest, PLAYER_NOT_IN_TOURNAMENT[0]):
             TournamentPlayer.get_player_current_round(
                 tournament_id=self.tournament_id, player_id=player_id)

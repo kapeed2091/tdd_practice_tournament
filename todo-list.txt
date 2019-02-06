@@ -46,6 +46,10 @@ Doubts:
         use case covered) which directly goes to GREEN state(
         refer: add players to first round tournament matches)
 
+        - progress to next round if it is last round, check the commit and migrations done --> is that correct procedure?
+
+        - how to get to red state(get_current_round_by_user --> when user not in tournament)
+
 TODOs(To be Implemented list):
     - match winner progress to next round
         - update player current round
