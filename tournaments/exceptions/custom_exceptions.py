@@ -88,3 +88,7 @@ class ReAssignmentOfPlayers(Exception):
 
 class RoundNumberOutOfBounds(Exception):
     pass
+
+
+class OpponentNotYetAssigned(Exception):
+    pass
