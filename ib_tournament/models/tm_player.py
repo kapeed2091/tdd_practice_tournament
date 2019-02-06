@@ -145,10 +145,16 @@ class TMPlayer(models.Model):
 
     @classmethod
     def _get_tm_player_by_round_no(cls, tournament_id, player_id, round_no):
-        tm_player = cls.objects.get(
-            tournament_match__tournament_id=tournament_id, player_id=player_id,
-            tournament_match__round_no=round_no)
-        return tm_player
+        try:
+            tm_player = cls.objects.get(
+                tournament_match__tournament_id=tournament_id, player_id=player_id,
+                tournament_match__round_no=round_no)
+            return tm_player
+        except cls.DoesNotExist:
+            from django_swagger_utils.drf_server.exceptions import BadRequest
+            from ib_tournament.constants.exception_messages import \
+                PLAYER_NOT_IN_ROUND
+            raise BadRequest(*PLAYER_NOT_IN_ROUND)
 
     def _get_opponent_player_id(self):
         t_match_id = self.tournament_match_id
