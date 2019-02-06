@@ -24,6 +24,13 @@ class Match(models.Model):
             tournament_id=tournament_id
         )
 
+        matches_exist = cls.objects.filter(
+            tournament_id=tournament_id).exists()
+        if matches_exist:
+            from tournaments.exceptions.custom_exceptions import \
+                TournamentMatchesAlreadyExist
+            raise TournamentMatchesAlreadyExist
+
         total_rounds = tournament.total_rounds
 
         cls._create_objects_for_all_rounds(
