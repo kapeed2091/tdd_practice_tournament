@@ -260,3 +260,54 @@ class TestCreateTournamentMatches(TestCase):
             TournamentMatch.create_match_and_assign_match_id(
                 create_match_request=create_match_request,
                 match_id=match_id)
+
+    def testcase_create_match_with_tournament_round_number(self):
+        from tournament.models import TournamentMatch, KOTournament, \
+            UserProfile, TournamentUser
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+        from datetime import timedelta
+        from tournament.constants import TournamentStatus
+
+        tournament_id = 'tournament_1'
+        player_one_user_id = 'user_1'
+        player_two_user_id = 'user_2'
+        tournament_name = 'city_tournament_1'
+        number_of_rounds = 2
+        start_datetime_past = \
+            get_current_local_date_time() - timedelta(minutes=5)
+        t_round_number = 1
+
+        create_match_request = {
+            'tournament_id': tournament_id,
+            'player_one_user_id': player_one_user_id,
+            'player_two_user_id': player_two_user_id,
+            't_round_number': t_round_number
+        }
+
+        UserProfile.objects.create(user_id=player_one_user_id)
+        UserProfile.objects.create(user_id=player_two_user_id)
+
+        TournamentUser.objects.create(t_id=tournament_id,
+                                      user_id=player_one_user_id)
+        TournamentUser.objects.create(t_id=tournament_id,
+                                      user_id=player_two_user_id)
+
+        KOTournament.objects.create(
+            t_id=tournament_id, name=tournament_name,
+            number_of_rounds=number_of_rounds,
+            start_datetime=start_datetime_past,
+            status=TournamentStatus.FULL_YET_TO_START.value)
+
+        old_state = list(TournamentMatch.objects.filter(
+            t_id=tournament_id, player_one=player_one_user_id,
+            player_two=player_two_user_id, t_round_number=t_round_number))
+        TournamentMatch.create_match(request_data=create_match_request)
+        new_state = list(TournamentMatch.objects.filter(
+            t_id=tournament_id, player_one=player_one_user_id,
+            player_two=player_two_user_id, t_round_number=t_round_number))
+
+        diff = list(set(new_state).difference(set(old_state)))
+
+        self.assertEquals(len(new_state) - len(old_state), 1)
+        self.assertEquals(diff[0].t_round_number, t_round_number)

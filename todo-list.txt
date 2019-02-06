@@ -7,6 +7,7 @@ Yet to do:
         - User cannot call play match when his player match status is in IN_PROGRESS? - Depends on how many times we allow him to play
    - Create matches once tournament starts
         - Only one match will be created for a tournament round for a user?
+        - *While creating match, store which tournament round does this match belong to.
    - User will submit his score in the match
         - Score should be of int type
         - Match should be in IN_PROGRESS state when user submits score
@@ -16,14 +17,18 @@ Yet to do:
         - Player Match Status of both users should be in completed mode to decide winner
         - Match status should be changed to COMPLETED after winner is decided
         - User cannot be progressed to round beyond max. number of rounds of tournament
+   - After all matches are played(by both players) in a round and winners are decided, then tournament can progress to next round.
    - Matchmaking to create matches between two users?
         - While creating match in a round for between users, both should be in same round of tournament
+        - How should we match users in further rounds (Ex: based on scores or submit time or randomise)?
    - User can get his current round number for a tournament
-        - *User not subscribed to tournament - throw exception
         - Tournament must exist
         - User must be registered with us
         - After subscribing what should be the current round of user before tournament starts   ?
-   - User can get his opponent user profile in any round in a tournament
+   - User can get his opponent user profile in any round in tournament
+        - User should be subscribed to tournament
+        - User should get opponent user profile for current round
+        - User should get opponent user profile for older rounds
    - User can get the winner user profile of any tournament
 
 Completed:
@@ -74,6 +79,7 @@ Completed:
         - User will progress to next round if he wins that round
    - User can get his current round number for a tournament
         - Get current round number of a user for a tournament
+        - User not subscribed to tournament - throw exception
 
 Raise Appropriate custom exceptions wherever necessary
 
@@ -111,6 +117,7 @@ My Doubts:
    - Is DoesNotExist compile error? - For not a matching query on DB, What if DoesNotExist error raised before compile error(due to missing field)?
    - Can we alter DB Models on large level in refactoring?
    - How to write test case for submit score along adding with current time to DB and test it? - Mocking vs writing another function?
+   - How to add test case when adding a new parameter to method/function
 
 Time estimate:
    - Hrs - 2, 0.5, 1, 2, 2, 1, 0.5, 1, buffer 3
