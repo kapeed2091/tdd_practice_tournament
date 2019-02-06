@@ -26,7 +26,7 @@ class TournamentMatch(models.Model):
         from ib_tournament.models import TournamentMatch
         tournament_match = TournamentMatch._get_tournament_match(
             tournament_match_id)
-        cls._update_tournament_match_winner(tournament_match, winner_id)
+        cls._update_winner_tournament_related_data(tournament_match, winner_id)
         return
 
     @classmethod
@@ -86,23 +86,21 @@ class TournamentMatch(models.Model):
             for count in range(round_matches_count)]
         return round_t_matches_to_create
 
-    @classmethod
-    def _update_tournament_match_winner(cls, tournament_match, winner_id):
+    def _update_winner_tournament_related_data(self, winner_id):
         from ib_tournament.models import TournamentPlayer
-        total_rounds = tournament_match.tournament.total_rounds
-        next_round_no = cls._get_next_round_no(tournament_match)
-        if cls._is_round_exists(next_round_no, total_rounds):
-            cls._update_winner_to_next_match(
-                tournament_match, next_round_no, winner_id)
+
+        total_rounds = self.tournament.total_rounds
+        next_round_no = self._get_next_round_no()
+
+        if self._is_round_exists(next_round_no, total_rounds):
+            self._update_winner_to_next_match(next_round_no, winner_id)
             TournamentPlayer.update_player_current_round(
-                tournament_id=tournament_match.tournament_id,
+                tournament_id=self.tournament_id,
                 player_id=winner_id, round_no=next_round_no)
         return
 
-    @classmethod
-    def _get_next_round_no(cls, tournament_match):
-        curr_round_no = tournament_match.round_no
-        return curr_round_no + 1
+    def _get_next_round_no(self):
+        return self.round_no + 1
 
     @staticmethod
     def _is_round_exists(round_no, total_rounds):
