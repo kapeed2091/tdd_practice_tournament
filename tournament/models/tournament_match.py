@@ -130,6 +130,7 @@ class TournamentMatch(models.Model):
     def assign_winner(self):
         self.assign_winner_as_player_one()
         self.assign_winner_as_player_two()
+        self.decide_winner_during_tie()
 
     @classmethod
     def update_score(cls, user_id, match_id, score):
@@ -213,6 +214,11 @@ class TournamentMatch(models.Model):
             return True
         return False
 
+    def are_player_one_and_two_scores_equal(self):
+        if self.player_one_score == self.player_two_score:
+            return True
+        return False
+
     @classmethod
     def update_player_score_and_time(cls, user_id, match_id, score, submit_time):
         cls.update_player_one_score_and_time(
@@ -249,3 +255,17 @@ class TournamentMatch(models.Model):
         self.player_two_submit_time = submit_time
         self.player_two_score = score
         self.save()
+
+    def decide_winner_during_tie(self):
+        if self.are_player_one_and_two_scores_equal():
+            if self.did_player_one_submit_score_first():
+                self.winner_user_id = self.player_one
+                self.save()
+            else:
+                self.winner_user_id = self.player_two
+                self.save()
+
+    def did_player_one_submit_score_first(self):
+        if self.player_one_submit_time < self.player_two_submit_time:
+            return True
+        return False
