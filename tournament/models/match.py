@@ -26,6 +26,26 @@ class Match(models.Model):
         return max(round_nos)
 
     @classmethod
+    def get_opponent_user_profile(cls, user_id, tournament_id, round_no):
+        match_users = cls.objects.filter(
+            round_match__round_no=round_no, tournament_id=tournament_id)
+
+        opponent_user_id = None
+        for match_user in match_users:
+            if user_id != match_user.user_id:
+                opponent_user_id = match_user.user_id
+
+        from .user import User
+        user_obj = User.objects.get(id=opponent_user_id)
+        user_dict = {
+            "user_id": user_obj.id,
+            "name": user_obj.name,
+            "gender": user_obj.gender,
+            "age": user_obj.age
+        }
+        return user_dict
+
+    @classmethod
     def _validate_user_match(cls, match_id, user_id):
         if cls._is_user_match_not_available(match_id, user_id):
             raise Exception("Given user is not in the given match")
