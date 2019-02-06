@@ -80,3 +80,7 @@ class InsufficientMembersInRound(Exception):
 
 class InadequateNumberOfMatches(Exception):
     pass
+
+
+class ReAssignmentOfPlayers(Exception):
+    pass
