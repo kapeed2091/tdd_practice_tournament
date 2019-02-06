@@ -26,16 +26,10 @@ class TestCreateUser(TestCase):
             Player.create_player(self.user_details)
 
     def test_user_fields_updation(self):
-        user_details = {
-            'username': 'user1',
-            'name': 'User 1',
-            'age': 22,
-            'gender': 'MALE'
-        }
         from ib_tournament.models import Player
-        Player.create_player(user_details)
-        player = Player.objects.get(username=user_details['username'])
-        self.assertEqual(player.username, user_details['username'])
-        self.assertEqual(player.name, user_details['name'])
-        self.assertEqual(player.age, user_details['age'])
-        self.assertEqual(player.gender, user_details['gender'])
+        Player.create_player(self.user_details)
+        player = Player.objects.get(username=self.user_details['username'])
+        self.assertEqual(player.username, self.user_details['username'])
+        self.assertEqual(player.name, self.user_details['name'])
+        self.assertEqual(player.age, self.user_details['age'])
+        self.assertEqual(player.gender, self.user_details['gender'])
