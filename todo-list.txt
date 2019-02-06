@@ -53,8 +53,6 @@ Doubts:
         - update_tournament_winner --> Did I do it in correct order?
 
 TODOs(To be Implemented list):
-    - create user
-        - add name, age, gender fields to user
     - get opponent profile in round of a tournament
         - user is not the part of round
     - get winner profile of tournament
@@ -67,6 +65,8 @@ TODOs(To be Implemented list):
 In Progress List:
     - get opponent profile in round of a tournament
         - get opponent profile in round
+    - create user
+        - add name, age, gender fields to user
 
 Completed List:
     - create user
