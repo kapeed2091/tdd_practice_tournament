@@ -1,6 +1,5 @@
 TO BE IMPLEMENTED:
    - User can get the winner user profile of any tournament
-         2. If the winner is not yet decided for the tournament, raise an exception
          3. Invalid user_id
          4. Invalid tournament_id
 
@@ -13,7 +12,7 @@ TO BE IMPLEMENTED:
 
 IN_PROGRESS:
    - User can get the winner user profile of any tournament
-         1. User can get winner user profile of a tournament
+         2. If the winner is not yet decided for the tournament, raise an exception
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -55,6 +54,9 @@ COMPLETED:
    - User can get his opponent user profile in any round in a tournament
          1. User Can get his opponent user_profile in any round of tournament
          2. There is no opponent yet assigned to that match
+
+   - User can get the winner user profile of any tournament
+         1. User can get winner user profile of a tournament
 
 ASSUMPTIONS:
    1. Assuming the Match model will have the following fields

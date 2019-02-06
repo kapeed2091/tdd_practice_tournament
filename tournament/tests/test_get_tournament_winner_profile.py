@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django_swagger_utils.drf_server.exceptions import NotFound
 from ib_common.date_time_utils.get_current_datetime import get_current_datetime
 
 import datetime
@@ -40,7 +41,16 @@ class TestGetTournamentWinnerProfile(TestCase):
     match1_id = 'Match1'
     match2_id = 'Match2'
 
-    def setUp(self):
+    def test_get_tournament_winner_profile(self):
+        from tournament.models import KoTournament
+
+        self.setup_get_tournament_winner_profile()
+        winner = KoTournament.get_winner_profile(tournament_id=1)
+        expected_winner = self.user1_dict
+        expected_winner.pop('user_id')
+        self.assertEqual(expected_winner, winner)
+
+    def setup_get_tournament_winner_profile(self):
         from tournament.models import User, Match, KoTournament
         user1 = User.objects.create(**self.user1_dict)
         user2 = User.objects.create(**self.user2_dict)
@@ -96,10 +106,39 @@ class TestGetTournamentWinnerProfile(TestCase):
             user_status=MatchUserStatus.LOST.value
         )
 
-    def test_get_tournament_winner_profile(self):
+    def test_winner_is_not_declared_yet(self):
         from tournament.models import KoTournament
 
-        winner = KoTournament.get_winner_profile(tournament_id=1)
-        expected_winner = self.user1_dict
-        expected_winner.pop('user_id')
-        self.assertEqual(expected_winner, winner)
+        self.setup_winner_is_not_declared_yet()
+        with self.assertRaisesMessage(NotFound, 'Winner is not declared yet'):
+            KoTournament.get_winner_profile(tournament_id=1)
+
+    def setup_winner_is_not_declared_yet(self):
+        from tournament.models import User, Match, KoTournament
+
+        user1 = User.objects.create(**self.user1_dict)
+        user2 = User.objects.create(**self.user2_dict)
+        now = get_current_datetime()
+        tournament1 = KoTournament.objects.create(
+            created_user_id=self.user_id,
+            name='Tournament1',
+            no_of_rounds=3,
+            start_datetime=now - datetime.timedelta(days=1),
+            status=TournamentStatus.COMPLETED.value
+        )
+        Match.objects.create(
+            match_id=self.match1_id,
+            user=user1,
+            tournament=tournament1,
+            round=3,
+            status=MatchStatus.YET_TO_START.value,
+            user_status=MatchUserStatus.NOT_DECIDED_YET.value
+        )
+        Match.objects.create(
+            match_id=self.match1_id,
+            user=user2,
+            tournament=tournament1,
+            round=3,
+            status=MatchStatus.YET_TO_START.value,
+            user_status=MatchUserStatus.NOT_DECIDED_YET.value
+        )
