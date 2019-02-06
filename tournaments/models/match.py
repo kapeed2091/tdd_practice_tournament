@@ -36,3 +36,7 @@ class Match(models.Model):
         except cls.DoesNotExist:
             from ..exceptions.custom_exceptions import InvalidMatchId
             raise InvalidMatchId
+
+    @classmethod
+    def create_all_matches(cls, tournament_id):
+        pass
