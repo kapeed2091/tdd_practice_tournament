@@ -72,3 +72,12 @@ class TestGetWinnerProfileOfTournament(TestCase):
         winner_profile = Tournament.get_winner_profile(self.tournament_id)
         expected_profile = self.username_wise_user_data['user1']
         self.assertEqual(expected_profile, winner_profile)
+
+    def test_tournament_winner_has_no_winner(self):
+        from ib_tournament.models import Tournament
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            WINNER_IS_NOT_DECLARED_YET
+
+        with self.assertRaisesMessage(BadRequest, WINNER_IS_NOT_DECLARED_YET[0]):
+            Tournament.get_winner_profile(self.tournament_id)

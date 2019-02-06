@@ -55,8 +55,6 @@ Doubts:
         - how to get to red state(get_opponent_profile_in_round --> when user not in tournament round) --> raises DoesNotExist exception
 
 TODOs(To be Implemented list):
-    - get winner profile of tournament
-        - winner is not updated yet
     - update tournament status to completed
 
     LOW PRIORITY:
@@ -66,7 +64,8 @@ TODOs(To be Implemented list):
     
 In Progress List:
     - get winner profile of tournament
-        - winner profile of tournament
+        - winner is not updated yet
+
 
 Completed List:
     - create user
@@ -136,3 +135,5 @@ Completed List:
     - get opponent profile in round of a tournament
         - get opponent profile in round
         - user is not the part of round
+    - get winner profile of tournament
+        - winner profile of tournament
