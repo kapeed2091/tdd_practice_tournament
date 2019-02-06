@@ -65,6 +65,10 @@ class KoTournament(models.Model):
         }
 
     @classmethod
+    def get_user_current_round(cls, user_id, tournament_id):
+        pass
+
+    @classmethod
     def _validate_request(cls, no_of_rounds, start_datetime, user_id):
         cls._validate_user_id(user_id)
         cls._validate_no_of_rounds(no_of_rounds)
