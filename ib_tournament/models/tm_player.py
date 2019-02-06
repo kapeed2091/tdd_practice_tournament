@@ -4,8 +4,7 @@ from ib_tournament.constants.general import TMPlayerStatus
 
 class TMPlayer(models.Model):
     player = models.ForeignKey('ib_tournament.Player')
-    tournament_match = models.ForeignKey('ib_tournament.TournamentMatch',
-                                         null=True, blank=True)
+    tournament_match = models.ForeignKey('ib_tournament.TournamentMatch')
     status = models.CharField(max_length=50,
                               default=TMPlayerStatus.YET_TO_START.value)
     score = models.IntegerField(default=0)

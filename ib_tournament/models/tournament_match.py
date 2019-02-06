@@ -26,10 +26,13 @@ class TournamentMatch(models.Model):
         from ib_tournament.models import TournamentMatch, TMPlayer
         tournament_match = TournamentMatch._get_tournament_match(
             tournament_match_id)
+        total_rounds = tournament_match.tournament.total_rounds
         next_round_no = cls._get_next_round_no(tournament_match)
-        t_match_id = cls._get_t_match_id_to_add_participant(
-            tournament_match.tournament_id, next_round_no)
-        TMPlayer.add_player_to_t_match(t_match_id, winner_id)
+        if cls._is_round_exists(next_round_no, total_rounds):
+            t_match_id = cls._get_t_match_id_to_add_participant(
+                tournament_match.tournament_id, next_round_no)
+            TMPlayer.add_player_to_t_match(t_match_id, winner_id)
+        return
 
     @classmethod
     def get_tournament_match_ids_by_round_no(cls, tournament_id, round_no):
@@ -87,6 +90,10 @@ class TournamentMatch(models.Model):
             cls(tournament_id=tournament_id, round_no=round_no)
             for count in range(round_matches_count)]
         return round_t_matches_to_create
+
+    @staticmethod
+    def _is_round_exists(round_no, total_rounds):
+        return round_no <= total_rounds
     
     @classmethod
     def _get_next_round_no(cls, tournament_match):
