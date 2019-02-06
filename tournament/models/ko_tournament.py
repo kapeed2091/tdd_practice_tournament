@@ -71,6 +71,7 @@ class KoTournament(models.Model):
         tournament = cls._get_tournament_v2(tournament_id)
         current_match = Match.get_user_current_match(
             user_id=user_id, tournament=tournament)
+        cls._validate_user_current_tournament_match(current_match)
         return current_match.round
 
     @classmethod
@@ -113,3 +114,9 @@ class KoTournament(models.Model):
         if self.status != TournamentStatus.YET_TO_START.value:
             return True
         return False
+
+    @staticmethod
+    def _validate_user_current_tournament_match(match):
+        if match is None:
+            raise NotFound('User does not belong to the tournament')
+
