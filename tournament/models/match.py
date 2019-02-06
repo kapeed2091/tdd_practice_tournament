@@ -93,6 +93,15 @@ class Match(models.Model):
         ).exclude(user=user).first()
         return opponent_match.user
 
+    @classmethod
+    def get_tournament_winner_match(cls, tournament):
+        final_round = tournament.no_of_rounds
+        return cls.objects.get(
+            round=final_round,
+            tournament=tournament,
+            user_status=MatchUserStatus.WIN.value
+        )
+
     @staticmethod
     def _validate_round_to_progress(tournament, current_round):
         if tournament.is_final_round(round_number=current_round):

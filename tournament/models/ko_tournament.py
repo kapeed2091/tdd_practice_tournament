@@ -94,7 +94,14 @@ class KoTournament(models.Model):
 
     @classmethod
     def get_winner_profile(cls, tournament_id):
-        pass
+        from tournament.models import Match
+
+        tournament = cls.get_tournament(tournament_id)
+        winner_match = Match.get_tournament_winner_match(tournament)
+        winner = winner_match.user
+        winner_dict = winner.convert_to_dict()
+        winner_profile = cls._remove_unnecessary_fields_for_user_profile(winner_dict)
+        return winner_profile
 
     @classmethod
     def _get_tournament_v2(cls, tournament_id):
