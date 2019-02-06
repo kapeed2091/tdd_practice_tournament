@@ -175,4 +175,5 @@ class UserTournament(models.Model):
 
     @classmethod
     def get_current_round_number(cls, user_id, tournament_id):
-        pass
+        obj = cls.objects.get(user_id=user_id, tournament_id=tournament_id)
+        return obj.round_number
