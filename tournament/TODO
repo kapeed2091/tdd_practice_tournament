@@ -2,13 +2,12 @@ TO BE IMPLEMENTED:
    - User will progress to next round if he wins the match
          1. Progress winner of the match to next round (Fake Implementation Done)
 
-   - Select a Match in the next round to the winner of the current round
-         1. return match
+   - Select a Match in the next round to the winner of the current round (Dependent)
          2. If there are no matches vacant int the round, raise an exception
 
 IN_PROGRESS:
-   - User will progress to next round if he wins the match
-         2. If there is no round to progress, raise an exception
+   - Select a Match in the next round to the winner of the current round (Dependent)
+         1. return match where it should not have user assigned to it
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -28,6 +27,9 @@ COMPLETED:
    - Match model should have fields round and user_status[Dependent]
          a. Don't know how to do TDD for this case
 
+   - User will progress to next round if he wins the match
+         2. If there is no round to progress, raise an exception
+
 ASSUMPTIONS:
    1. Assuming the Match model will have the following fields
           a. match_id
@@ -42,6 +44,7 @@ ASSUMPTIONS:
    3. After the tournament reach start_datetime, status will change to 'IN_PROGRESS' else will be in 'YET_TO_START'
    5. Assuming there will be required number of matches already created in each round of a tournament
    6. Assuming the default value of user_status field in Match model is 'NOT_DECIDED_YET'
+   7. To progress user to next round we will give a random match
 DOUBTS:
    1. Can user play same match multiple times.
    2. Will there be any time constraints to play a match
