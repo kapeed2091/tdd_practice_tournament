@@ -159,3 +159,7 @@ class UserMatch(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 RoundNumberOutOfBounds
             raise RoundNumberOutOfBounds
+
+    @classmethod
+    def get_opponent_player_details(cls, user_id, tournament_id):
+        pass
