@@ -70,10 +70,7 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def user_submit_score_with_time(cls, user_id, match_id, score, submit_time):
-        cls.update_player_one_score_and_time(
-            user_id=user_id, match_id=match_id, score=score,
-            submit_time=submit_time)
-        cls.update_player_two_score_and_time(
+        cls.update_player_score_and_time(
             user_id=user_id, match_id=match_id, score=score,
             submit_time=submit_time)
 
@@ -217,14 +214,22 @@ class TournamentMatch(models.Model):
         return False
 
     @classmethod
+    def update_player_score_and_time(cls, user_id, match_id, score, submit_time):
+        cls.update_player_one_score_and_time(
+            user_id=user_id, match_id=match_id, score=score,
+            submit_time=submit_time)
+        cls.update_player_two_score_and_time(
+            user_id=user_id, match_id=match_id, score=score,
+            submit_time=submit_time)
+
+    @classmethod
     def update_player_one_score_and_time(cls, user_id, match_id, score,
                                          submit_time):
         if cls.is_user_player_one(user_id=user_id, match_id=match_id):
             tournament_match_obj = cls.objects.get(
                 player_one=user_id, match_id=match_id)
-            tournament_match_obj.change_player_one_score(score=score)
-            tournament_match_obj.player_one_submit_time = submit_time
-            tournament_match_obj.save()
+            tournament_match_obj.change_player_one_score_and_time(
+                score=score, submit_time=submit_time)
 
     @classmethod
     def update_player_two_score_and_time(cls, user_id, match_id, score,
@@ -232,6 +237,15 @@ class TournamentMatch(models.Model):
         if cls.is_user_player_two(user_id=user_id, match_id=match_id):
             tournament_match_obj = cls.objects.get(
                 player_two=user_id, match_id=match_id)
-            tournament_match_obj.change_player_two_score(score=score)
-            tournament_match_obj.player_two_submit_time = submit_time
-            tournament_match_obj.save()
+            tournament_match_obj.change_player_two_score_and_time(
+                score=score, submit_time=submit_time)
+
+    def change_player_one_score_and_time(self, score, submit_time):
+        self.player_one_submit_time = submit_time
+        self.player_one_score = score
+        self.save()
+
+    def change_player_two_score_and_time(self, score, submit_time):
+        self.player_two_submit_time = submit_time
+        self.player_two_score = score
+        self.save()
