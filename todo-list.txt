@@ -33,6 +33,7 @@ Assumptions:
        - assuming completed_datetime is None by default
        - assuming that winner of the last round of tournament is
        the tournament winner
+       - tournament winner is None by default
 
 Doubts:
     Technical Doubts:
@@ -45,7 +46,6 @@ Doubts:
         refer: add players to first round tournament matches)
 
 TODOs(To be Implemented list):
-    - update tournament winner
     - get current round
     - get opponent profile in round of a tournament
     - get winner profile of tournament
@@ -56,8 +56,10 @@ TODOs(To be Implemented list):
             - validate player_id, raise appropriate custom exception
     
 In Progress List:
-    - match winner progress to next round
-        - if next round is last round
+    - update tournament winner
+        - update tournament winner
+        - all the matches aren't completed
+
 
 Completed List:
     - create user
@@ -113,3 +115,5 @@ Completed List:
         - progress match winner to next round
     - add players to matches
         - add players to round 1 only
+    - match winner progress to next round
+        - if next round is last round
