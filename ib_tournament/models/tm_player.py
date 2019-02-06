@@ -151,10 +151,7 @@ class TMPlayer(models.Model):
                 tournament_match__round_no=round_no)
             return tm_player
         except cls.DoesNotExist:
-            from django_swagger_utils.drf_server.exceptions import BadRequest
-            from ib_tournament.constants.exception_messages import \
-                PLAYER_NOT_IN_ROUND
-            raise BadRequest(*PLAYER_NOT_IN_ROUND)
+            cls._raise_exception_when_player_not_found_in_round()
 
     def _get_opponent_player_id(self):
         t_match_id = self.tournament_match_id
@@ -184,6 +181,13 @@ class TMPlayer(models.Model):
         tm_player_1 = tm_players[0]
         tm_player_2 = tm_players[1]
         return cls._get_winner_by_score(tm_player_1, tm_player_2)
+
+    @staticmethod
+    def _raise_exception_when_player_not_found_in_round():
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            PLAYER_NOT_IN_ROUND
+        raise BadRequest(*PLAYER_NOT_IN_ROUND)
 
     @classmethod
     def _get_winner_by_score(cls, tm_player_1, tm_player_2):
