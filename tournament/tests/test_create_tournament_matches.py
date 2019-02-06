@@ -18,11 +18,13 @@ class TestCreateTournamentMatches(TestCase):
         number_of_rounds = 2
         start_datetime_past = \
             get_current_local_date_time() - timedelta(minutes=5)
+        t_round_number = 1
 
         create_match_request = {
             'tournament_id': tournament_id,
             'player_one_user_id': player_one_user_id,
-            'player_two_user_id': player_two_user_id
+            'player_two_user_id': player_two_user_id,
+            't_round_number': t_round_number
         }
 
         UserProfile.objects.create(user_id=player_one_user_id)
@@ -73,17 +75,20 @@ class TestCreateTournamentMatches(TestCase):
 
         player_one_user_id = 'user_1'
         player_two_user_id = 'user_2'
+        t_round_number = 1
 
         create_match_request_1 = {
             'tournament_id': tournament_id_1,
             'player_one_user_id': player_one_user_id,
-            'player_two_user_id': player_two_user_id
+            'player_two_user_id': player_two_user_id,
+            't_round_number': t_round_number
         }
 
         create_match_request_2 = {
             'tournament_id': tournament_id_2,
             'player_one_user_id': player_one_user_id,
-            'player_two_user_id': player_two_user_id
+            'player_two_user_id': player_two_user_id,
+            't_round_number': t_round_number
         }
 
         UserProfile.objects.create(user_id=player_one_user_id)
@@ -136,11 +141,13 @@ class TestCreateTournamentMatches(TestCase):
         tournament_id = 'tournament_1'
         player_one_user_id = 'user_1'
         player_two_user_id = 'user_2'
+        t_round_number = 1
 
         create_match_request = {
             'tournament_id': tournament_id,
             'player_one_user_id': player_one_user_id,
-            'player_two_user_id': player_two_user_id
+            'player_two_user_id': player_two_user_id,
+            't_round_number': t_round_number
         }
 
         with self.assertRaisesMessage(
@@ -161,11 +168,13 @@ class TestCreateTournamentMatches(TestCase):
 
         player_one_user_id = 'user_1'
         player_two_user_id = 'user_2'
+        t_round_number = 1
 
         create_match_request = {
             'tournament_id': tournament_id,
             'player_one_user_id': player_one_user_id,
-            'player_two_user_id': player_two_user_id
+            'player_two_user_id': player_two_user_id,
+            't_round_number': t_round_number
         }
 
         KOTournament.objects.create(
@@ -192,11 +201,13 @@ class TestCreateTournamentMatches(TestCase):
 
         player_one_user_id = 'user_1'
         player_two_user_id = 'user_2'
+        t_round_number = 1
 
         create_match_request = {
             'tournament_id': tournament_id,
             'player_one_user_id': player_one_user_id,
-            'player_two_user_id': player_two_user_id
+            'player_two_user_id': player_two_user_id,
+            't_round_number': t_round_number
         }
 
         UserProfile.objects.create(user_id=player_one_user_id)
@@ -229,11 +240,13 @@ class TestCreateTournamentMatches(TestCase):
         start_datetime_past = \
             get_current_local_date_time() - timedelta(minutes=5)
         match_id = '1234'
+        t_round_number = 1
 
         create_match_request = {
             'tournament_id': tournament_id,
             'player_one_user_id': player_one_user_id,
-            'player_two_user_id': player_two_user_id
+            'player_two_user_id': player_two_user_id,
+            't_round_number': t_round_number
         }
 
         UserProfile.objects.create(user_id=player_one_user_id)

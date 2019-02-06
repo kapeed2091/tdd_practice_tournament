@@ -12,13 +12,14 @@ class TestUserWinAndProgressToNextRound(TestCase):
         tournament_id = 'tournament_1'
         user_1_score = 10
         user_2_score = 20
+        t_round_number = 1
 
         UserProfile.objects.create(user_id=user_id_1)
         UserProfile.objects.create(user_id=user_id_2)
 
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
-            match_id=match_id)
+            match_id=match_id, t_round_number=t_round_number)
 
         TournamentMatch.user_submit_score(user_id=user_id_1, match_id=match_id,
                                           score=user_1_score)
@@ -45,6 +46,7 @@ class TestUserWinAndProgressToNextRound(TestCase):
         tournament_id = 'tournament_1'
         user_1_score = 20
         user_2_score = 20
+        t_round_number = 1
 
         user_1_time = get_current_local_date_time()
         user_2_time = get_current_local_date_time() + timedelta(minutes=5)
@@ -54,7 +56,7 @@ class TestUserWinAndProgressToNextRound(TestCase):
 
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
-            match_id=match_id)
+            match_id=match_id, t_round_number=t_round_number)
 
         TournamentMatch.user_submit_score_with_time(
             user_id=user_id_1, match_id=match_id, score=user_1_score,
@@ -88,6 +90,7 @@ class TestUserWinAndProgressToNextRound(TestCase):
         match_id = 'match_1'
         user_1_score = 20
         user_2_score = 10
+        t_round_number = 1
 
         user_1_time = get_current_local_date_time()
         user_2_time = get_current_local_date_time() + timedelta(minutes=5)
@@ -107,7 +110,7 @@ class TestUserWinAndProgressToNextRound(TestCase):
             player_two=user_id_2, player_two_match_status='COMPLETED',
             player_two_score=user_2_score, player_two_submit_time=user_2_time,
             match_id=match_id, match_status='COMPLETED',
-            winner_user_id=user_id_1)
+            winner_user_id=user_id_1, t_round_number=t_round_number)
 
         winner_old_state = TournamentUser.objects.get(
             t_id=t_id, user_id=user_id_1)

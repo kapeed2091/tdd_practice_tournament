@@ -18,6 +18,7 @@ class TestUserPlayMatch(TestCase):
         tournament_name = 'city_tournament_1'
         number_of_rounds = 2
         start_datetime = get_current_local_date_time() - timedelta(minutes=10)
+        t_round_number = 1
 
         UserProfile.objects.create(user_id=user_id_1)
 
@@ -30,7 +31,7 @@ class TestUserPlayMatch(TestCase):
 
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
-            match_id=match_id)
+            match_id=match_id, t_round_number=t_round_number)
 
         TournamentMatch.user_play_match(
             user_id=user_id_1, tournament_id=tournament_id, match_id=match_id)
@@ -51,10 +52,11 @@ class TestUserPlayMatch(TestCase):
         user_id_2 = 'user_2'
         match_id = 'match_1'
         tournament_id = 'tournament_1'
+        t_round_number = 1
 
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
-            match_id=match_id)
+            match_id=match_id, t_round_number=t_round_number)
 
         with self.assertRaisesMessage(
                 Exception, expected_message='Tournament doesnot exist'):
@@ -75,6 +77,7 @@ class TestUserPlayMatch(TestCase):
         tournament_name = 'city_tournament_1'
         number_of_rounds = 2
         start_datetime = get_current_local_date_time() + timedelta(minutes=10)
+        t_round_number = 1
 
         KOTournament.objects.create(
             t_id=tournament_id, name=tournament_name,
@@ -82,7 +85,7 @@ class TestUserPlayMatch(TestCase):
 
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
-            match_id=match_id)
+            match_id=match_id, t_round_number=t_round_number)
 
         with self.assertRaisesMessage(
                 Exception,
@@ -105,6 +108,7 @@ class TestUserPlayMatch(TestCase):
         tournament_name = 'city_tournament_1'
         number_of_rounds = 2
         start_datetime = get_current_local_date_time() - timedelta(minutes=10)
+        t_round_number = 1
 
         KOTournament.objects.create(
             t_id=tournament_id, name=tournament_name,
@@ -113,7 +117,7 @@ class TestUserPlayMatch(TestCase):
 
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
-            match_id=match_id)
+            match_id=match_id, t_round_number=t_round_number)
 
         with self.assertRaisesMessage(
                 Exception,
@@ -136,6 +140,7 @@ class TestUserPlayMatch(TestCase):
         tournament_name = 'city_tournament_1'
         number_of_rounds = 2
         start_datetime = get_current_local_date_time() - timedelta(minutes=10)
+        t_round_number = 1
 
         KOTournament.objects.create(
             t_id=tournament_id, name=tournament_name,
@@ -162,6 +167,7 @@ class TestUserPlayMatch(TestCase):
         tournament_name = 'city_tournament_1'
         number_of_rounds = 2
         start_datetime = get_current_local_date_time() - timedelta(minutes=10)
+        t_round_number = 1
 
         KOTournament.objects.create(
             t_id=tournament_id, name=tournament_name,
@@ -170,7 +176,7 @@ class TestUserPlayMatch(TestCase):
 
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
-            match_id=match_id)
+            match_id=match_id, t_round_number=t_round_number)
 
         with self.assertRaisesMessage(Exception,
                                       expected_message='User not registered'):
@@ -192,6 +198,7 @@ class TestUserPlayMatch(TestCase):
         tournament_name = 'city_tournament_1'
         number_of_rounds = 2
         start_datetime = get_current_local_date_time() - timedelta(minutes=10)
+        t_round_number = 1
 
         UserProfile.objects.create(user_id=user_id_1)
 
@@ -202,7 +209,7 @@ class TestUserPlayMatch(TestCase):
 
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
-            match_id=match_id)
+            match_id=match_id, t_round_number=t_round_number)
 
         with self.assertRaisesMessage(
                 Exception, expected_message='User not subscribed to tournament'):
@@ -226,6 +233,7 @@ class TestUserPlayMatch(TestCase):
         tournament_name = 'city_tournament_1'
         number_of_rounds = 2
         start_datetime = get_current_local_date_time() - timedelta(minutes=10)
+        t_round_number = 1
 
         UserProfile.objects.create(user_id=user_id_3)
 
@@ -238,7 +246,7 @@ class TestUserPlayMatch(TestCase):
 
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
-            match_id=match_id)
+            match_id=match_id, t_round_number=t_round_number)
 
         with self.assertRaisesMessage(
                 Exception,
@@ -262,6 +270,7 @@ class TestUserPlayMatch(TestCase):
         tournament_name = 'city_tournament_1'
         number_of_rounds = 2
         start_datetime = get_current_local_date_time() - timedelta(minutes=10)
+        t_round_number = 1
 
         UserProfile.objects.create(user_id=user_id_1)
         UserProfile.objects.create(user_id=user_id_2)
@@ -276,7 +285,7 @@ class TestUserPlayMatch(TestCase):
 
         TournamentMatch.objects.create(
             t_id=tournament_id, player_one=user_id_1, player_two=user_id_2,
-            match_id=match_id)
+            match_id=match_id, t_round_number=t_round_number)
 
         TournamentMatch.user_play_match(
             user_id=user_id_1, tournament_id=tournament_id, match_id=match_id)

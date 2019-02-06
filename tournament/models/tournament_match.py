@@ -9,6 +9,8 @@ class TournamentMatch(models.Model):
     MATCH_STATUS_MAX_LENGTH = 20
 
     t_id = models.CharField(max_length=T_ID_MAX_LENGTH)
+    t_round_number = models.IntegerField()
+
     player_one = models.CharField(max_length=USER_ID_MAX_LENGTH)
     player_one_match_status = models.CharField(
         max_length=PLAYER_MATCH_STATUS_MAX_LENGTH,
@@ -42,7 +44,8 @@ class TournamentMatch(models.Model):
         return cls.objects.create(
             t_id=request_data['tournament_id'],
             player_one=request_data['player_one_user_id'],
-            player_two=request_data['player_two_user_id'])
+            player_two=request_data['player_two_user_id'],
+            t_round_number=request_data['t_round_number'])
 
     @classmethod
     def create_match_and_assign_match_id(cls, create_match_request, match_id):

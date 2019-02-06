@@ -8,6 +8,7 @@ Yet to do:
    - Create matches once tournament starts
         - Only one match will be created for a tournament round for a user?
         - *While creating match, store which tournament round does this match belong to.
+        - Tournament round number should be less than or equal to number of rounds and greater than or equal to one.
    - User will submit his score in the match
         - Score should be of int type
         - Match should be in IN_PROGRESS state when user submits score
@@ -118,6 +119,7 @@ My Doubts:
    - Can we alter DB Models on large level in refactoring?
    - How to write test case for submit score along adding with current time to DB and test it? - Mocking vs writing another function?
    - How to add test case when adding a new parameter to method/function
+   - How to add a new field to a model - old test cases are throwing an error "IntegrityError: NOT NULL constraint failed"
 
 Time estimate:
    - Hrs - 2, 0.5, 1, 2, 2, 1, 0.5, 1, buffer 3
