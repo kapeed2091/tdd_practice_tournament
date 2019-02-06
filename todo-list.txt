@@ -31,7 +31,7 @@ ToDo List:
        - user not in given match
        - user already played the match
     User will progress to next round if he wins the match
-        - [get match winner]
+
         - match winner progress to next round
 
 Completed List
@@ -57,6 +57,7 @@ Completed List
     User will progress to next round if he wins the match
         - create round wise matches for knock out tournament
         - add users to tournament round 1 matches
+        - get match winner
 
 Time Estimation: 10 Hours
 Updated Time Estimation: 12 Hours
