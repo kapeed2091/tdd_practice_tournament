@@ -68,3 +68,7 @@ class UserNotInMatch(Exception):
 
 class UserDidNotWinMatch(Exception):
     pass
+
+
+class TournamentMatchesAlreadyExist(Exception):
+    pass
