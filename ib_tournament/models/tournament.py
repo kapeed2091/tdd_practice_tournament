@@ -104,7 +104,10 @@ class Tournament(models.Model):
 
     @classmethod
     def update_status_to_completed(cls, tournament_id):
-        pass
+        from ib_tournament.constants.general import TournamentStatus
+        tournament = cls.get_tournament(tournament_id)
+        cls._update_status(tournament, TournamentStatus.COMPLETED.value)
+        return
 
     @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
