@@ -14,12 +14,9 @@ class TournamentPlayer(models.Model):
         try:
             tournament_player = cls.objects.get(
                 tournament_id=tournament_id, player_id=player_id)
+            return tournament_player
         except cls.DoesNotExist:
-            from django_swagger_utils.drf_server.exceptions import BadRequest
-            from ib_tournament.constants.exception_messages import \
-                PLAYER_NOT_IN_TOURNAMENT
-            raise BadRequest(*PLAYER_NOT_IN_TOURNAMENT)
-        return tournament_player
+            cls._raise_exception_for_player_not_in_tournament()
 
     def get_tournament_player_dict(self):
         return {
@@ -50,3 +47,10 @@ class TournamentPlayer(models.Model):
         tournament_player = TournamentPlayer.get_tournament_player(
             tournament_id, player_id)
         return tournament_player.curr_round_no
+
+    @staticmethod
+    def _raise_exception_for_player_not_in_tournament():
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            PLAYER_NOT_IN_TOURNAMENT
+        raise BadRequest(*PLAYER_NOT_IN_TOURNAMENT)
