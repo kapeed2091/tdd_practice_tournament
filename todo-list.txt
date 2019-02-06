@@ -54,7 +54,7 @@ Doubts:
 
 TODOs(To be Implemented list):
     - get opponent profile in round of a tournament
-        - user is not the part of round
+
     - get winner profile of tournament
 
     LOW PRIORITY:
@@ -64,7 +64,7 @@ TODOs(To be Implemented list):
     
 In Progress List:
     - get opponent profile in round of a tournament
-        - get opponent profile in round
+        - user is not the part of round
 
 Completed List:
     - create user
@@ -131,3 +131,5 @@ Completed List:
     - user can get his current round
         - user can get his current round
         - user requests for tournament which he is not part of
+    - get opponent profile in round of a tournament
+        - get opponent profile in round

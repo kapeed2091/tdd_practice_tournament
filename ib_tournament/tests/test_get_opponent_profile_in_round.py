@@ -34,6 +34,11 @@ class TestGetOpponentProfileInRound(TestCase):
             'name': 'User 4',
             'age': 25,
             'gender': 'MALE'
+        },
+        'user5': {
+            'name': 'User 5',
+            'age': 25,
+            'gender': 'MALE'
         }
     }
 
@@ -106,7 +111,7 @@ class TestGetOpponentProfileInRound(TestCase):
         return
 
     def setUp(self):
-        usernames = self.username_wise_user_data.keys()
+        usernames = ['user1', 'user2', 'user3', 'user4']
         self.player_ids = [self.create_player(username)
                            for username in usernames]
 
@@ -141,3 +146,15 @@ class TestGetOpponentProfileInRound(TestCase):
             self.tournament_id, req_player_id, round_no=1)
 
         self.assertEqual(expected_profile, opponent_profile)
+
+    def test_user_not_in_round(self):
+        from ib_tournament.models import TMPlayer, Player
+        player_id = self.create_player('user5')
+
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            PLAYER_NOT_IN_ROUND
+
+        with self.assertRaisesMessage(BadRequest, PLAYER_NOT_IN_ROUND[0]):
+            TMPlayer.get_opponent_profile(
+                self.tournament_id, player_id, round_no=1)
