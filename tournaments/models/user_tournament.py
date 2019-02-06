@@ -175,5 +175,10 @@ class UserTournament(models.Model):
 
     @classmethod
     def get_current_round_number(cls, user_id, tournament_id):
-        obj = cls.objects.get(user_id=user_id, tournament_id=tournament_id)
-        return obj.round_number
+        try:
+            obj = cls.objects.get(user_id=user_id, tournament_id=tournament_id)
+            return obj.round_number
+        except cls.DoesNotExist:
+            from tournaments.exceptions.custom_exceptions import \
+                UserNotInTournament
+            raise UserNotInTournament
