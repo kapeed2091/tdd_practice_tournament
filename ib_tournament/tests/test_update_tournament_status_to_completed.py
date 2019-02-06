@@ -46,3 +46,12 @@ class TestUpdateTournamentStatusToCompleted(TestCase):
         Tournament.update_status_to_completed(self.tournament_id)
         tournament = Tournament.objects.get(id=self.tournament_id)
         self.assertEqual(tournament.status, TournamentStatus.COMPLETED.value)
+
+    def test_pre_tournament_status_is_not_progress(self):
+        from ib_tournament.models import Tournament
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            INVALID_TOURNAMENT_STATE
+
+        with self.assertRaisesMessage(BadRequest, INVALID_TOURNAMENT_STATE[0]):
+            Tournament.update_status_to_completed(self.tournament_id)
