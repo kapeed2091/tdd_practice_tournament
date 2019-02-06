@@ -98,6 +98,36 @@ class UserMatch(models.Model):
                 score=DEFAULT_SCORE
             )
 
+    @classmethod
+    def get_opponent_player_details(cls, user_id, tournament_id):
+        from .user_tournament import UserTournament
+
+        user_tournament = UserTournament.validate_and_get_user_tournament(
+            user_id=user_id, tournament_id=tournament_id
+        )
+
+        user_tournament.validate_if_user_is_alive()
+
+        round_number = user_tournament.round_number
+
+        from .match import Match
+        match = Match.objects.get(
+            tournament_id=tournament_id, round_number=round_number
+        )
+
+        opponents = cls._validate_if_opponent_is_assigned_and_get_opponents(
+            user_id=user_id, match_id=match.id
+        )
+
+        opponent = opponents[0]
+        opponent_user_id = opponent.user_id
+
+        from .user import User
+        user_obj = User.get_user_by_id(user_id=opponent_user_id)
+        user_details = user_obj.convert_to_dict()
+
+        return user_details
+
     def _update_score(self, score):
         self.score = score
         self.save()
@@ -161,34 +191,14 @@ class UserMatch(models.Model):
             raise RoundNumberOutOfBounds
 
     @classmethod
-    def get_opponent_player_details(cls, user_id, tournament_id):
-        from .user_tournament import UserTournament
-
-        user_tournament = UserTournament.validate_and_get_user_tournament(
-            user_id=user_id, tournament_id=tournament_id
-        )
-
-        user_tournament.validate_if_user_is_alive()
-
-        round_number = user_tournament.round_number
-
-        from .match import Match
-        match = Match.objects.get(
-            tournament_id=tournament_id, round_number=round_number
-        )
-
-        opponents = cls.objects.filter(match_id=match.id).exclude(
+    def _validate_if_opponent_is_assigned_and_get_opponents(
+            cls, match_id, user_id
+    ):
+        opponents = cls.objects.filter(match_id=match_id).exclude(
             user_id=user_id)
         if not opponents:
             from tournaments.exceptions.custom_exceptions import \
                 OpponentNotYetAssigned
             raise OpponentNotYetAssigned
 
-        opponent = opponents[0]
-        opponent_user_id = opponent.user_id
-
-        from .user import User
-        user_obj = User.get_user_by_id(user_id=opponent_user_id)
-        user_details = user_obj.convert_to_dict()
-
-        return user_details
+        return opponents
