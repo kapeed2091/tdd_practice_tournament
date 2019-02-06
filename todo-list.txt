@@ -29,7 +29,7 @@ Assumptions:
 
 ToDo List:
     User can play matches once the tournament is started
-       - user not in given match
+       - [user not in given match]
        - user already played the match
     User will progress to next round if he wins the match
 

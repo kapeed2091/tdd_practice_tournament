@@ -30,6 +30,19 @@ class TestPlayMatch(TestCase):
             from tournament.models.match import Match
             Match.play_match(match_id=self.match.id, user_id=self.user.id)
 
+    def test_invalid_match_user_play_match(self):
+        from tdd_practice.constants.general import TournamentStatus
+
+        self._populate_user()
+        self._create_tournament(status=TournamentStatus.IN_PROGRESS.value)
+        self._create_user_match()
+        invalid_user_id = 100
+
+        with self.assertRaisesMessage(
+                Exception, "Given user is not in the given match"):
+            from tournament.models.match import Match
+            Match.play_match(match_id=self.match.id, user_id=invalid_user_id)
+
     def _populate_user(self):
         from tournament.models.user import User
         self.user = User.objects.create(username=self.username)
