@@ -63,10 +63,15 @@ overall estimation time - (6 hr - 5 + 1)
 Updated time line - (11 hr(13 - 2))
 
 todo-list
-    - Create all matches for a tournament
-        - [matches have already been created]
-    - assign people to match
-        - successful
+    - assign players to match (tournament_id, round_number)
+        - [successful]
+        - invalid tournament_id
+        - invalid round_number (non positive)
+        - invalid round number (not integer)
+        - round_number out of bounds
+        - all members not in the round
+        - not adequate number of matches for the round
+        - already assigned
     - User can get his current round number for a tournament (30 min)
         - successful
         - user not part of tournament
@@ -110,3 +115,4 @@ Completed
     Create all matches for a tournament
         - successful
         - invalid tournament id
+        - matches have already been created
