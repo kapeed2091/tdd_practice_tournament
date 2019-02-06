@@ -40,13 +40,28 @@ class Match(models.Model):
     @classmethod
     def create_all_matches(cls, tournament_id):
         from .tournament import Tournament
-        tournament = Tournament.objects.get(id=tournament_id)
+        tournament = Tournament.get_tournament_by_id(
+            tournament_id=tournament_id
+        )
         total_rounds = tournament.total_rounds
 
-        for each_round in range(total_rounds, 0, -1):
-            matches_to_be_created = 2 ** (total_rounds - each_round)
-            for each in range(matches_to_be_created):
-                cls.objects.create(
-                    tournament_id=tournament_id,
-                    round_number=each_round
-                )
+        cls._create_objects_for_all_rounds(
+            tournament_id=tournament_id, total_rounds=total_rounds
+        )
+
+    @classmethod
+    def _create_multiple_objects(cls, tournament_id, round_number, count):
+        for each in range(count):
+            cls.objects.create(
+                tournament_id=tournament_id,
+                round_number=round_number
+            )
+
+    @classmethod
+    def _create_objects_for_all_rounds(cls, tournament_id, total_rounds):
+        for round_number in range(total_rounds, 0, -1):
+            matches_to_be_created = 2 ** (total_rounds - round_number)
+            cls._create_multiple_objects(
+                tournament_id=tournament_id, round_number=round_number,
+                count=matches_to_be_created
+            )
