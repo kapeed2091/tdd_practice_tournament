@@ -28,6 +28,10 @@ class RoundMatch(models.Model):
             cls.objects.create(round_no=round_no, tournament_id=tournament_id)
 
     @classmethod
+    def get_match_winner(cls, match_id):
+        return
+
+    @classmethod
     def _calculate_no_of_matches(cls, no_of_rounds, round_no):
         from .tournament import Tournament
 
