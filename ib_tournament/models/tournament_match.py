@@ -23,15 +23,10 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def promote_winner_to_next_round(cls, tournament_match_id, winner_id):
-        from ib_tournament.models import TournamentMatch, TMPlayer
+        from ib_tournament.models import TournamentMatch
         tournament_match = TournamentMatch._get_tournament_match(
             tournament_match_id)
-        total_rounds = tournament_match.tournament.total_rounds
-        next_round_no = cls._get_next_round_no(tournament_match)
-        if cls._is_round_exists(next_round_no, total_rounds):
-            t_match_id = cls._get_t_match_id_to_add_participant(
-                tournament_match.tournament_id, next_round_no)
-            TMPlayer.add_player_to_t_match(t_match_id, winner_id)
+        cls._update_tournament_match_winner(tournament_match, winner_id)
         return
 
     @classmethod
@@ -91,14 +86,29 @@ class TournamentMatch(models.Model):
             for count in range(round_matches_count)]
         return round_t_matches_to_create
 
-    @staticmethod
-    def _is_round_exists(round_no, total_rounds):
-        return round_no <= total_rounds
-    
+    @classmethod
+    def _update_tournament_match_winner(cls, tournament_match, winner_id):
+        total_rounds = tournament_match.tournament.total_rounds
+        next_round_no = cls._get_next_round_no(tournament_match)
+        if cls._is_round_exists(next_round_no, total_rounds):
+            cls._update_winner_to_next_match(
+                tournament_match, next_round_no, winner_id)
+        return
+
     @classmethod
     def _get_next_round_no(cls, tournament_match):
         curr_round_no = tournament_match.round_no
         return curr_round_no + 1
+
+    @staticmethod
+    def _is_round_exists(round_no, total_rounds):
+        return round_no <= total_rounds
+
+    def _update_winner_to_next_match(self, next_round_no, winner_id):
+        from ib_tournament.models import TMPlayer
+        t_match_id = self._get_t_match_id_to_add_participant(
+            self.tournament_id, next_round_no)
+        TMPlayer.add_player_to_t_match(t_match_id, winner_id)
 
     @classmethod
     def _get_t_match_id_to_add_participant(cls, tournament_id, round_no):
