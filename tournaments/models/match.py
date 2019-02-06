@@ -39,4 +39,14 @@ class Match(models.Model):
 
     @classmethod
     def create_all_matches(cls, tournament_id):
-        pass
+        from .tournament import Tournament
+        tournament = Tournament.objects.get(id=tournament_id)
+        total_rounds = tournament.total_rounds
+
+        for each_round in range(total_rounds, 0, -1):
+            matches_to_be_created = 2 ** (total_rounds - each_round)
+            for each in range(matches_to_be_created):
+                cls.objects.create(
+                    tournament_id=tournament_id,
+                    round_number=each_round
+                )
