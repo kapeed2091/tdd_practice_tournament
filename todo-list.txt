@@ -29,7 +29,6 @@ Assumptions:
 
 ToDo List:
     User can play matches once the tournament is started
-       - [user not in given match]
        - user already played the match
     User will progress to next round if he wins the match
 
@@ -54,6 +53,7 @@ Completed List
        - link match to tournament
        - user can not play, when tournament is not started
        - User will submit his score in the match
+       - user not in given match
     User will progress to next round if he wins the match
         - create round wise matches for knock out tournament
         - add users to tournament round 1 matches
