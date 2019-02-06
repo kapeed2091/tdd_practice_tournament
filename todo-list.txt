@@ -41,7 +41,7 @@ ToDo List:
         - invalid current round no
         - invalid tournament id
     User can get his current round number for a tournament
-        - [get user current round no]
+        -
 
 
 Completed List
@@ -72,6 +72,8 @@ Completed List
         - get match winner
         - In case of tie, Whoever submits the score first is winner
         - match winner progress to next round
+    User can get his current round number for a tournament
+        - get user current round no
 
 Time Estimation: 10 Hours
 Updated Time Estimation: 12 Hours
