@@ -35,6 +35,10 @@ class RoundMatch(models.Model):
         return winner_id
 
     @classmethod
+    def progress_match_winner_to_next_round(cls, winner_details):
+        pass
+
+    @classmethod
     def _calculate_no_of_matches(cls, no_of_rounds, round_no):
         from .tournament import Tournament
 
