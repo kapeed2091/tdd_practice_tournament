@@ -58,6 +58,8 @@ class TestGetOpponentUserProfile(TestCase):
     def test_get_opponent_user_profile(self):
         from tournament.models import KoTournament
 
+        expected_opponent = self.opponent_user_dict
+        expected_opponent.pop('user_id')
         opponent_user = KoTournament.get_opponent_user_profile(
             user_id=self.user1_id, tournament_round=2, tournament_id=1)
-        self.assertEqual(self.opponent_user_dict, opponent_user)
+        self.assertEqual(expected_opponent, opponent_user)
