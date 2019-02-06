@@ -15,3 +15,16 @@ class User(models.Model):
         if not user_exists:
             from ..exceptions.custom_exceptions import InvalidUserId
             raise InvalidUserId
+
+    @classmethod
+    def get_user_by_id(cls, user_id):
+        user = cls.objects.get(id=user_id)
+
+        return user
+
+    def convert_to_dict(self):
+        return {
+            "name": self.name,
+            "age": self.age,
+            "gender": self.gender
+        }
