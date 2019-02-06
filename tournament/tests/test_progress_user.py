@@ -14,9 +14,20 @@ class TestProgressUser(TestCase):
     user2_id = 'User2'
     match1_id = 'Match1'
     match2_id = 'Match2'
-    match3_id = 'Match3'
 
-    def setup_common(self):
+    def test_progress_winner_to_next_round(self):
+        from tournament.models import Match, User
+
+        self.setup_progress_winner_to_next_round()
+        match2_before = Match.objects.get(match_id=self.match2_id)
+        self.assertEqual(match2_before.user, None)
+        Match.progress_match_winner_to_next_round(match_id=self.match1_id)
+
+        user1 = User.objects.get(user_id=self.user1_id)
+        match2_after = Match.objects.get(match_id=self.match2_id)
+        self.assertEqual(match2_after.user, user1)
+
+    def setup_progress_winner_to_next_round(self):
         from tournament.models import User, KoTournament, Match
 
         now = get_current_datetime()
@@ -58,24 +69,44 @@ class TestProgressUser(TestCase):
             status=MatchStatus.YET_TO_START.value,
         )
 
-        tournament2 = KoTournament.objects.create(
+    def test_there_is_no_next_round_to_progress(self):
+        from tournament.models import Match
+
+        self.setup_there_is_no_next_round_to_progress()
+        with self.assertRaisesMessage(BadRequest, 'There are no further rounds in this tournament'):
+            Match.progress_match_winner_to_next_round(match_id=self.match1_id)
+
+    def setup_there_is_no_next_round_to_progress(self):
+        from tournament.models import User, KoTournament, Match
+
+        now = get_current_datetime()
+        user1 = User.objects.create(
+            user_id=self.user1_id
+        )
+        user2 = User.objects.create(
+            user_id=self.user2_id
+        )
+
+        tournament = KoTournament.objects.create(
             created_user_id=self.user_id,
-            name='Tournament2',
+            name='Tournament',
             no_of_rounds=2,
             start_datetime=now - datetime.timedelta(days=1),
             status=TournamentStatus.IN_PROGRESS.value
         )
+
+        match_id = 'Match'
         Match.objects.create(
-            match_id=self.match3_id,
+            match_id=self.match1_id,
             user=user1,
-            tournament=tournament2,
+            tournament=tournament,
             score=20,
             round=2,
             status=MatchStatus.COMPLETED.value,
             user_status=MatchUserStatus.WIN.value
         )
         Match.objects.create(
-            match_id=self.match3_id,
+            match_id=self.match1_id,
             user=user2,
             tournament=tournament,
             score=10,
@@ -83,25 +114,6 @@ class TestProgressUser(TestCase):
             status=MatchStatus.COMPLETED.value,
             user_status=MatchUserStatus.LOST.value
         )
-
-    def test_progress_winner_to_next_round(self):
-        from tournament.models import Match, User
-
-        self.setup_common()
-        match2_before = Match.objects.get(match_id=self.match2_id)
-        self.assertEqual(match2_before.user, None)
-        Match.progress_match_winner_to_next_round(match_id=self.match1_id)
-
-        user1 = User.objects.get(user_id=self.user1_id)
-        match2_after = Match.objects.get(match_id=self.match2_id)
-        self.assertEqual(match2_after.user, user1)
-
-    def test_there_is_no_next_round_to_progress(self):
-        from tournament.models import Match
-
-        self.setup_common()
-        with self.assertRaisesMessage(BadRequest, 'There are no further rounds in this tournament'):
-            Match.progress_match_winner_to_next_round(match_id=self.match3_id)
 
     def test_get_match_to_progress(self):
         from tournament.models import Match, KoTournament
