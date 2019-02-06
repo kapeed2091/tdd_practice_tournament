@@ -10,8 +10,9 @@ class Player(models.Model):
     @classmethod
     def create_player(cls, user_details):
         cls._validate_unique_username(user_details['username'])
-        cls.objects.create(username=user_details['username'], name='',
-                           age=-1, gender='')
+        cls.objects.create(
+            username=user_details['username'], name=user_details['name'],
+            age=user_details['age'], gender=user_details['gender'])
         return
 
     @classmethod
