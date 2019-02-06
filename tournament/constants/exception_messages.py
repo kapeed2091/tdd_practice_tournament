@@ -8,3 +8,11 @@ MATCH_DOES_NOT_EXIST_WITH_THE_GIVEN_MATCH_ID = \
 THERE_ARE_NO_FURTHER_ROUNDS_IN_THIS_TOURNAMENT = \
     'There are no further rounds in this tournament'
 THERE_ARE_NO_VACANT_MATCHES = 'There are no vacant matches'
+TOURNAMENT_DOES_NOT_EXIST_WITH_THE_GIVEN_TOURNAMENT_ID = \
+    'Tournament does not exist with the given tournament id'
+INVALID_USER_ID = 'Invalid user_id'
+INVALID_NUMBER_OF_ROUNDS = 'Invalid number of rounds'
+INVALID_START_DATETIME = 'Invalid start_datetime'
+USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT = 'User does not belong to the tournament'
+OPPONENT_IS_NOT_YET_ASSIGNED = 'Opponent is not yet assigned'
+

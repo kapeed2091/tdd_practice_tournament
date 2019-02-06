@@ -1,6 +1,9 @@
 from django.db import models
 from django_swagger_utils.drf_server.exceptions import BadRequest, NotFound
 
+from tournament.constants.exception_messages import TOURNAMENT_DOES_NOT_EXIST_WITH_THE_GIVEN_TOURNAMENT_ID, \
+    INVALID_USER_ID, INVALID_NUMBER_OF_ROUNDS, INVALID_START_DATETIME, USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT, \
+    OPPONENT_IS_NOT_YET_ASSIGNED
 from tournament.constants.general import TournamentStatus
 from tournament.utils.date_time_utils import get_current_date_time
 
@@ -94,7 +97,7 @@ class KoTournament(models.Model):
         try:
             return cls.get_tournament(tournament_id)
         except cls.DoesNotExist:
-            raise NotFound('Tournament does not exist with the given tournament id')
+            raise NotFound(TOURNAMENT_DOES_NOT_EXIST_WITH_THE_GIVEN_TOURNAMENT_ID)
 
     @classmethod
     def _validate_request(cls, no_of_rounds, start_datetime, user_id):
@@ -109,18 +112,18 @@ class KoTournament(models.Model):
         try:
             User.get_user(user_id=user_id)
         except User.DoesNotExist:
-            raise BadRequest('Invalid user_id')
+            raise BadRequest(INVALID_USER_ID)
 
     @staticmethod
     def _validate_no_of_rounds(no_of_rounds):
         if no_of_rounds <= 0:
-            raise BadRequest('Invalid number of rounds')
+            raise BadRequest(INVALID_NUMBER_OF_ROUNDS)
 
     @staticmethod
     def _validate_start_datetime(start_datetime):
         now = get_current_date_time()
         if start_datetime <= now:
-            raise BadRequest('Invalid start_datetime')
+            raise BadRequest(INVALID_START_DATETIME)
 
     def is_not_started(self):
         return not self._is_started()
@@ -133,7 +136,7 @@ class KoTournament(models.Model):
     @staticmethod
     def _validate_user_current_tournament_match(match):
         if match is None:
-            raise NotFound('User does not belong to the tournament')
+            raise NotFound(USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT)
 
     @staticmethod
     def _remove_unnecessary_fields_for_user_profile(user_dict):
@@ -143,4 +146,4 @@ class KoTournament(models.Model):
     @staticmethod
     def _validate_opponent_user_of_match(user):
         if user is None:
-            raise NotFound('Opponent is not yet assigned')
+            raise NotFound(OPPONENT_IS_NOT_YET_ASSIGNED)
