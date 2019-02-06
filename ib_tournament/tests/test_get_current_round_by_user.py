@@ -75,3 +75,13 @@ class TestGetCurrentRoundByUser(TestCase):
         current_round = TournamentPlayer.get_player_current_round(
             tournament_id=self.tournament_id, player_id=player_id)
         self.assertEqual(current_round, 2)
+
+    def test_when_user_is_not_in_tournament(self):
+        from ib_tournament.models import TournamentPlayer
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            PLAYER_NOT_IN_TOURNAMENT
+        player_id = self.create_player('user5')
+        with self.assertRaisesMessage(BadRequest, PLAYER_NOT_IN_TOURNAMENT[0]):
+            TournamentPlayer.get_player_current_round(
+                tournament_id=self.tournament_id, player_id=player_id)

@@ -49,8 +49,6 @@ Doubts:
 TODOs(To be Implemented list):
     - match winner progress to next round
         - update player current round
-    - user can get his current round
-        - user requests for tournament which he is not part of
     - get opponent profile in round of a tournament
     - get winner profile of tournament
 
@@ -61,7 +59,7 @@ TODOs(To be Implemented list):
     
 In Progress List:
     - user can get his current round
-        - user can get his current round
+        - user requests for tournament which he is not part of
 
 Completed List:
     - create user
@@ -125,3 +123,5 @@ Completed List:
         - update tournament winner
         - all the matches aren't completed -- # as mentioned in assumption that
         all players plays all their matches, no need to cover this use case
+    - user can get his current round
+        - user can get his current round
