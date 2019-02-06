@@ -103,6 +103,10 @@ class Tournament(models.Model):
             cls._raise_exception_when_winner_is_not_declared()
 
     @classmethod
+    def update_status_to_completed(cls, tournament_id):
+        pass
+
+    @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
         from ib_common.date_time_utils.convert_string_to_local_date_time \
             import convert_string_to_local_date_time
