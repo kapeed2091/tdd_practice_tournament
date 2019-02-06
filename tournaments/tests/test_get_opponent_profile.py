@@ -146,3 +146,52 @@ class TestGetOpponentProfile(TestUtils):
             UserMatch.get_opponent_player_details(
                 user_id=user_2.id, tournament_id=tournament.id
             )
+
+    def test_opponent_has_not_been_assigned_yet(self):
+        user_1_details = {
+            "name": "John-2",
+            "age": 14,
+            "gender": "MALE"
+        }
+
+        user_details = {
+            "name": "John-2",
+            "age": 14,
+            "gender": "MALE"
+        }
+
+        opponent_details = {
+            "name": "John-3",
+            "age": 12,
+            "gender": "MALE"
+        }
+
+        user = self.create_user_(**user_1_details)
+        user_2 = self.create_user_(**user_details)
+        user_3 = self.create_user_(**opponent_details)
+
+        tournament = self.create_tournament(user_id=user.id)
+        self.create_user_tournament(
+            user_id=user_2.id,
+            tournament_id=tournament.id,
+            round_number=3
+        )
+        self.create_user_tournament(
+            user_id=user_3.id,
+            tournament_id=tournament.id,
+            round_number=3
+        )
+
+        round_number = 3
+        self.create_match(
+            tournament_id=tournament.id, round_number=round_number
+        )
+
+        from tournaments.models import UserMatch
+
+        from tournaments.exceptions.custom_exceptions import \
+            OpponentNotYetAssigned
+        with self.assertRaises(OpponentNotYetAssigned):
+            UserMatch.get_opponent_player_details(
+                user_id=user_2.id, tournament_id=tournament.id
+            )
