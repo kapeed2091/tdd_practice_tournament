@@ -106,6 +106,7 @@ class Tournament(models.Model):
     def update_status_to_completed(cls, tournament_id):
         from ib_tournament.constants.general import TournamentStatus
         tournament = cls.get_tournament(tournament_id)
+        cls._validate_tournament_state_to_update_to_completed(tournament.status)
         cls._update_status(tournament, TournamentStatus.COMPLETED.value)
         return
 
@@ -195,6 +196,17 @@ class Tournament(models.Model):
             TournamentPlayer.get_tournament_players_count(self.id)
         return total_tournament_players == \
                self._get_maximum_players_in_tournament()
+
+    @staticmethod
+    def _validate_tournament_state_to_update_to_completed(status):
+        from ib_tournament.constants.general import TournamentStatus
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            INVALID_TOURNAMENT_STATE
+
+        if status != TournamentStatus.IN_PROGRESS.value:
+            raise BadRequest(*INVALID_TOURNAMENT_STATE)
+        return
 
     def _update_status(self, status):
         self.status = status

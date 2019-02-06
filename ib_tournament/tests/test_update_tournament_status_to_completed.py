@@ -32,6 +32,14 @@ class TestUpdateTournamentStatusToCompleted(TestCase):
             start_datetime=start_datetime, name=tournament_details['name'])
         return tournament.id
 
+    @staticmethod
+    def update_tournament_status(tournament_id, status):
+        from ib_tournament.models import Tournament
+        tournament = Tournament.objects.get(id=tournament_id)
+        tournament.status = status
+        tournament.save()
+        return
+
     def setUp(self):
         tournament_details = {
             'total_rounds': 2,
@@ -43,6 +51,8 @@ class TestUpdateTournamentStatusToCompleted(TestCase):
     def test_update_tournament_status_to_completed(self):
         from ib_tournament.models import Tournament
         from ib_tournament.constants.general import TournamentStatus
+        self.update_tournament_status(
+            self.tournament_id, TournamentStatus.IN_PROGRESS.value)
         Tournament.update_status_to_completed(self.tournament_id)
         tournament = Tournament.objects.get(id=self.tournament_id)
         self.assertEqual(tournament.status, TournamentStatus.COMPLETED.value)
