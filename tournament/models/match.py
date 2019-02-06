@@ -31,14 +31,14 @@ class Match(models.Model):
 
         cls._validate_round_to_progress(
             tournament=tournament, current_round=current_round)
-        match = cls.get_match_to_assign_v2(
+        match = cls.get_match_to_assign(
             match_round=current_round + 1,
             tournament=winner_match.tournament
         )
         match.assign_user_to_match(user=winner_match.user)
 
     @classmethod
-    def get_match_to_assign_v2(cls, match_round, tournament):
+    def get_match_to_assign(cls, match_round, tournament):
         matches = cls.objects.filter(
             round=match_round,
             tournament=tournament,
