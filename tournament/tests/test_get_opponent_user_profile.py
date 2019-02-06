@@ -8,14 +8,16 @@ from tournament.constants.general import TournamentStatus, MatchStatus, MatchUse
 class TestGetOpponentUserProfile(TestCase):
 
     user_id = 'User'
+    user1_id = 'User1'
+    user2_id = 'User2'
     user_dict = {
-        'user_id': 'User1',
+        'user_id': user1_id,
         'name': 'Name1',
         'age': 10,
         'gender': 'Female'
     }
     opponent_user_dict = {
-        'user_id': 'User2',
+        'user_id': user2_id,
         'name': 'Name2',
         'age': 20,
         'gender': 'Male'
@@ -57,5 +59,5 @@ class TestGetOpponentUserProfile(TestCase):
         from tournament.models import KoTournament
 
         opponent_user = KoTournament.get_opponent_user_profile(
-            tournament_round=2, tournament_id=1)
+            user_id=self.user1_id, tournament_round=2, tournament_id=1)
         self.assertEqual(self.opponent_user_dict, opponent_user)
