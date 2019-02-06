@@ -111,7 +111,7 @@ class TestProgressUser(TestCase):
         tournament1 = KoTournament.objects.get(
             name='Tournament1'
         )
-        match = Match.get_match_to_assign_v2(round=2, tournament=tournament1)
+        match = Match.get_match_to_assign_v2(match_round=2, tournament=tournament1)
         self.assertEqual(match.user, None)
         self.assertEqual(match.round, 2)
         self.assertEqual(match.tournament, tournament1)
