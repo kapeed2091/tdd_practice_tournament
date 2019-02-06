@@ -24,6 +24,20 @@ class Match(models.Model):
     user_status = models.CharField(max_length=USER_STATUS_LENGTH, default=MatchUserStatus.NOT_DECIDED_YET.value)
 
     @classmethod
+    def progress_match_winner_to_next_round(cls, match_id):
+        winner_match = cls._get_winner_match(match_id)
+        current_round = winner_match.round
+        tournament = winner_match.tournament
+
+        cls._validate_round_to_progress(
+            tournament=tournament, current_round=current_round)
+        match = cls.get_match_to_assign_v2(
+            match_round=current_round + 1,
+            tournament=winner_match.tournament
+        )
+        match.assign_user_to_match(user=winner_match.user)
+
+    @classmethod
     def get_match_to_assign_v2(cls, match_round, tournament):
         matches = cls.objects.filter(
             round=match_round,
@@ -35,20 +49,6 @@ class Match(models.Model):
             raise NotFound(THERE_ARE_NO_VACANT_MATCHES)
 
         return random.choice(matches)
-
-    @classmethod
-    def progress_match_winner_to_next_round(cls, match_id):
-        winner_match = cls._get_winner_match(match_id)
-        current_round = winner_match.round
-        tournament = winner_match.tournament
-
-        cls._validate_round_to_progress(
-            tournament=tournament, current_round=current_round)
-        match = cls._get_match_to_assign(
-            round=current_round + 1,
-            tournament=winner_match.tournament
-        )
-        match.assign_user_to_match(user=winner_match.user)
 
     def assign_user_to_match(self, user):
         self.user = user
@@ -88,12 +88,6 @@ class Match(models.Model):
             match_id=match_id,
             user_status=MatchUserStatus.WIN.value
         )
-
-    @classmethod
-    def _get_match_to_assign(cls, round, tournament):
-        # TODO: Fake Implementation
-        match_id = 'Match2'
-        return cls.objects.get(match_id=match_id)
 
     @staticmethod
     def _get_user(user_id):
