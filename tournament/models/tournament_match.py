@@ -69,11 +69,7 @@ class TournamentMatch(models.Model):
     @classmethod
     def decide_winner(cls, match_id):
         tournament_match_obj = cls.objects.get(match_id=match_id)
-        if tournament_match_obj.player_one_score > tournament_match_obj.player_two_score:
-            tournament_match_obj.winner_user_id = tournament_match_obj.player_one
-        if tournament_match_obj.player_two_score > tournament_match_obj.player_one_score:
-            tournament_match_obj.winner_user_id = tournament_match_obj.player_two
-        tournament_match_obj.save()
+        tournament_match_obj.assign_winner()
 
     def assign_match_id_to_match(self, match_id):
         self.match_id = match_id
@@ -122,6 +118,10 @@ class TournamentMatch(models.Model):
                 t_id=tournament_id)
             tournament_match_obj.update_player_two_match_status_for_play_match()
             tournament_match_obj.update_match_status_for_play_match()
+
+    def assign_winner(self):
+        self.assign_winner_as_player_one()
+        self.assign_winner_as_player_two()
 
     @classmethod
     def update_score(cls, user_id, match_id, score):
@@ -184,3 +184,23 @@ class TournamentMatch(models.Model):
     def change_player_two_score(self, score):
         self.player_two_score = score
         self.save()
+
+    def assign_winner_as_player_one(self):
+        if self.is_player_one_score_higher_than_player_two():
+            self.winner_user_id = self.player_one
+            self.save()
+
+    def assign_winner_as_player_two(self):
+        if self.is_player_two_score_higher_than_player_one():
+            self.winner_user_id = self.player_two
+            self.save()
+
+    def is_player_one_score_higher_than_player_two(self):
+        if self.player_one_score > self.player_two_score:
+            return True
+        return False
+
+    def is_player_two_score_higher_than_player_one(self):
+        if self.player_two_score > self.player_one_score:
+            return True
+        return False
