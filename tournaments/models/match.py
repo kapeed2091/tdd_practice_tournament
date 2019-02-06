@@ -40,6 +40,8 @@ class Match(models.Model):
     @classmethod
     def create_all_matches(cls, tournament_id):
         from .tournament import Tournament
+        Tournament.validate_tournament_id(tournament_id=tournament_id)
+
         tournament = Tournament.get_tournament_by_id(
             tournament_id=tournament_id
         )
