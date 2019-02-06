@@ -22,6 +22,10 @@ class Match(models.Model):
     user_status = models.CharField(max_length=USER_STATUS_LENGTH, default=MatchUserStatus.NOT_DECIDED_YET.value)
 
     @classmethod
+    def get_match_to_assign_v2(cls, match_round, tournament):
+        return cls()
+
+    @classmethod
     def progress_match_winner_to_next_round(cls, match_id):
         winner_match = cls._get_winner_match(match_id)
         current_round = winner_match.round
