@@ -69,3 +69,7 @@ class UserMatch(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 MatchIdOverused
             raise MatchIdOverused
+
+    @classmethod
+    def assign_players(cls, tournament_id, round_number):
+        pass
