@@ -44,6 +44,10 @@ class Match(models.Model):
         if self.tournament.is_tournament_not_started():
             raise Exception("User can not play match until match is started")
 
+        from tdd_practice.constants.general import UserMatchStatus
+        if self.status == UserMatchStatus.COMPLETED.value:
+            raise Exception("user already played the match")
+
     @classmethod
     def user_submit_match_score(cls, user_match_score):
         from tdd_practice.constants.general import UserMatchStatus
