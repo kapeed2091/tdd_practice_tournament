@@ -75,6 +75,10 @@ class KoTournament(models.Model):
         return current_match.round
 
     @classmethod
+    def get_opponent_user_profile(cls, tournament_round, tournament_id):
+        pass
+
+    @classmethod
     def _get_tournament_v2(cls, tournament_id):
         try:
             return cls.get_tournament(tournament_id)
