@@ -19,6 +19,10 @@ class Match(models.Model):
         match.update_match_status(status=UserMatchStatus.IN_PROGRESS.value)
 
     @classmethod
+    def get_user_current_round_no(cls, tournament_id, user_id):
+        return
+
+    @classmethod
     def _validate_user_match(cls, match_id, user_id):
         if cls._is_user_match_not_available(match_id, user_id):
             raise Exception("Given user is not in the given match")
