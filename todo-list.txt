@@ -68,8 +68,8 @@ todo-list
             - invalid round_number (non positive)
             - invalid round number (not integer)
     - User can get his current round number for a tournament (30 min)
-        - [successful]
-        - user not part of tournament
+        - successful
+        - [user not part of tournament]
 
 Completed
     - create_tournament successful case
