@@ -115,14 +115,24 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def update_score(cls, user_id, match_id, score):
+        cls.update_player_one_score(
+            user_id=user_id, match_id=match_id, score=score)
+        cls.update_player_two_score(
+            user_id=user_id, match_id=match_id, score=score)
+
+    @classmethod
+    def update_player_one_score(cls, user_id, match_id, score):
         if cls.is_user_player_one(user_id=user_id, match_id=match_id):
             tournament_match_obj = cls.objects.get(
                 player_one=user_id, match_id=match_id)
-            tournament_match_obj.update_player_one_score(score=score)
+            tournament_match_obj.change_player_one_score(score=score)
+
+    @classmethod
+    def update_player_two_score(cls, user_id, match_id, score):
         if cls.is_user_player_two(user_id=user_id, match_id=match_id):
             tournament_match_obj = cls.objects.get(
                 player_two=user_id, match_id=match_id)
-            tournament_match_obj.update_player_two_score(score=score)
+            tournament_match_obj.change_player_two_score(score=score)
 
     @classmethod
     def does_match_exist(cls, match_id):
@@ -157,10 +167,10 @@ class TournamentMatch(models.Model):
         self.match_status = MatchStatus.IN_PROGRESS.value
         self.save()
 
-    def update_player_one_score(self, score):
+    def change_player_one_score(self, score):
         self.player_one_score = score
         self.save()
 
-    def update_player_two_score(self, score):
+    def change_player_two_score(self, score):
         self.player_two_score = score
         self.save()
