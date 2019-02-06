@@ -2,23 +2,28 @@ from django.test import TestCase
 
 
 class TestCreateUser(TestCase):
+    user_details = {
+        'username': 'user1',
+        'name': 'User 1',
+        'age': 22,
+        'gender': 'MALE'
+    }
 
     def test_create_user(self):
-        username = 'user1'
         from ib_tournament.models import Player
-        Player.create_player(username)
-        player = Player.get_player(username)
+        Player.create_player(self.user_details)
+        # TODO: Don't user get_player function
+        player = Player.get_player(self.user_details['username'])
         player_details = player.get_player_dict()
-        self.assertEqual(player_details['username'], username)
+        self.assertEqual(player_details['username'],
+                         self.user_details['username'])
 
     def test_unique_username(self):
-        username_1 = 'user1'
-        username_2 = 'user1'
         from ib_tournament.models import Player
-        Player.create_player(username_1)
+        Player.create_player(self.user_details)
         from django_swagger_utils.drf_server.exceptions import BadRequest
         with self.assertRaisesMessage(BadRequest, "Username already Exists"):
-            Player.create_player(username_2)
+            Player.create_player(self.user_details)
 
     def test_user_fields_updation(self):
         user_details = {

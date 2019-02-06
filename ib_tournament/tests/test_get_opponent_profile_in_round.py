@@ -44,10 +44,12 @@ class TestGetOpponentProfileInRound(TestCase):
         self.match_player_ids = []
         super(TestGetOpponentProfileInRound, self).__init__(*args, **kwargs)
 
-    @staticmethod
-    def create_player(username):
+    def create_player(self, username):
         from ib_tournament.models import Player
-        player = Player.objects.create(username=username)
+        user_dict = self.username_wise_user_data[username]
+        player = Player.objects.create(
+            username=username, name=user_dict['name'], age=user_dict['age'],
+            gender=user_dict['gender'])
         return player.id
 
     @staticmethod

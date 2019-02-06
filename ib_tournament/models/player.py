@@ -3,11 +3,15 @@ from django.db import models
 
 class Player(models.Model):
     username = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
+    age = models.IntegerField()
+    gender = models.CharField(max_length=20)
 
     @classmethod
-    def create_player(cls, username):
-        cls._validate_unique_username(username)
-        cls.objects.create(username=username)
+    def create_player(cls, user_details):
+        cls._validate_unique_username(user_details['username'])
+        cls.objects.create(username=user_details['username'], name='',
+                           age=-1, gender='')
         return
 
     @classmethod

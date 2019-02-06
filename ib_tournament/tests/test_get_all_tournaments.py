@@ -176,11 +176,16 @@ def get_ordered_tournaments():
 
 class TestGetAllTournaments(TestCase):
     username = 'user1'
+    user_name = 'User 1'
+    age = 22
+    gender = 'MALE'
+    name = 'Tournament 1'
 
-    @staticmethod
-    def create_player(username):
+    def create_player(self, username):
         from ib_tournament.models import Player
-        player = Player.objects.create(username=username)
+        player = Player.objects.create(
+            username=username, name=self.user_name, age=self.age,
+            gender=self.gender)
         return player.id
 
     @staticmethod

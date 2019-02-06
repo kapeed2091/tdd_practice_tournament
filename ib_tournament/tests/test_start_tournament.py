@@ -30,12 +30,6 @@ class TestStartTournament(TestCase):
     username = 'user1'
 
     @staticmethod
-    def create_player(username):
-        from ib_tournament.models import Player
-        player = Player.objects.create(username=username)
-        return player.id
-
-    @staticmethod
     def create_tournament(tournament_details):
         from ib_tournament.models import Tournament
         from ib_common.date_time_utils.convert_string_to_local_date_time \

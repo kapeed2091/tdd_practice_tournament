@@ -5,6 +5,9 @@ class TestCreateTournament(TestCase):
     from ib_tournament.constants.general import TournamentStatus
 
     username = 'user1'
+    user_name = 'User 1'
+    age = 22
+    gender = 'MALE'
     name = 'Tournament 1'
     status = TournamentStatus.CAN_JOIN.value
 
@@ -21,16 +24,16 @@ class TestCreateTournament(TestCase):
         return convert_datetime_to_local_string(
             next_day_datetime, DEFAULT_DATE_TIME_FORMAT)
 
-    @staticmethod
-    def create_player(username):
+    def create_player(self, username):
         from ib_tournament.models import Player
-        player = Player.objects.create(username=username)
+        player = Player.objects.create(
+            username=username, name=self.user_name, age=self.age,
+            gender=self.gender)
         return player.id
 
     def test_create_tournament_by_user(self):
         from ib_tournament.models import Tournament
 
-        username = 'user1'
         total_rounds = 3
         start_datetime_str = self.get_next_day_datetime()
         initial_tournaments_count = Tournament.objects.count()

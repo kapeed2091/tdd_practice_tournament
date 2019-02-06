@@ -14,16 +14,41 @@ def get_curr_day_datetime_str():
 
 
 class TestTournamentWinnerUpdation(TestCase):
+    username_wise_user_data = {
+        'user1': {
+            'name': 'User 1',
+            'age': 22,
+            'gender': 'MALE'
+        },
+        'user2': {
+            'name': 'User 2',
+            'age': 23,
+            'gender': 'MALE'
+        },
+        'user3': {
+            'name': 'User 3',
+            'age': 24,
+            'gender': 'FEMALE'
+        },
+        'user4': {
+            'name': 'User 4',
+            'age': 25,
+            'gender': 'MALE'
+        }
+    }
+
     def __init__(self, *args, **kwargs):
         self.player_ids = list()
         self.tournament_id = None
         self.tournament_winner_id = None
         super(TestTournamentWinnerUpdation, self).__init__(*args, **kwargs)
 
-    @staticmethod
-    def create_player(username):
+    def create_player(self, username):
         from ib_tournament.models import Player
-        player = Player.objects.create(username=username)
+        user_dict = self.username_wise_user_data[username]
+        player = Player.objects.create(
+            username=username, name=user_dict['name'], age=user_dict['age'],
+            gender=user_dict['gender'])
         return player.id
 
     @staticmethod
