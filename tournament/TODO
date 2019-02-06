@@ -9,10 +9,8 @@ TO BE IMPLEMENTED:
          7. User does not belong to that tournament
 
 IN_PROGRESS:
-   - User model should have following fields(Dependent)
-         a. Name
-         b. Age
-         c.Gender
+   - User can get his opponent user profile in any round in a tournament
+         1. User Can get his opponent user_profile in any round of tournament
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -45,6 +43,11 @@ COMPLETED:
           2. Invalid user_id
           3. Invalid tournament_id
           4. User does not belong to the tournament
+
+   - User model should have following fields(Dependent)
+         a. Name
+         b. Age
+         c.Gender
 
 ASSUMPTIONS:
    1. Assuming the Match model will have the following fields
