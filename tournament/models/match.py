@@ -1,3 +1,4 @@
+import random
 from django.db import models
 from django_swagger_utils.drf_server.exceptions import Forbidden, NotFound, BadRequest
 
@@ -23,7 +24,12 @@ class Match(models.Model):
 
     @classmethod
     def get_match_to_assign_v2(cls, match_round, tournament):
-        return cls()
+        matches = cls.objects.filter(
+            round=match_round,
+            tournament=tournament,
+            user__isnull=True
+        )
+        return random.choice(matches)
 
     @classmethod
     def progress_match_winner_to_next_round(cls, match_id):
