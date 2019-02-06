@@ -20,7 +20,10 @@ class Match(models.Model):
 
     @classmethod
     def get_user_current_round_no(cls, tournament_id, user_id):
-        return
+        round_nos = list(Match.objects.filter(
+            tournament_id=tournament_id, user_id=user_id).\
+            values_list('round_match__round_no', flat=True))
+        return max(round_nos)
 
     @classmethod
     def _validate_user_match(cls, match_id, user_id):
