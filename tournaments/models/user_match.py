@@ -63,6 +63,13 @@ class UserMatch(models.Model):
         matches = Match.get_matches_by_tournament_and_round(
             tournament_id=tournament_id, round_number=round_number
         )
+        total_matches = len(matches)
+
+        from tournaments.constants.general import MAX_NUM_OF_PEOPLE_FOR_MATCH
+        if total_matches * MAX_NUM_OF_PEOPLE_FOR_MATCH != total_players:
+            from tournaments.exceptions.custom_exceptions import \
+                InadequateNumberOfMatches
+            raise InadequateNumberOfMatches
 
         for index, match in enumerate(matches):
             player = players[index]
