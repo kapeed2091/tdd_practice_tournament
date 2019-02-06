@@ -48,13 +48,7 @@ class TestPlayMatch(TestCase):
         self._populate_user()
         self._create_tournament(status=TournamentStatus.IN_PROGRESS.value)
         self._create_user_match()
-
-        from tournament.models import Match
-        user_match = Match.objects.get(
-            round_match_id=self.match.id, user_id=self.user.id)
-        from tdd_practice.constants.general import UserMatchStatus
-        user_match.status = UserMatchStatus.COMPLETED.value
-        user_match.save()
+        self._update_user_match_completed()
 
         with self.assertRaisesMessage(
                 Exception, "user already played the match"):
@@ -91,3 +85,11 @@ class TestPlayMatch(TestCase):
             no_of_rounds=3,
             start_datetime=curr_datetime + timedelta(days=1),
             status=status)
+
+    def _update_user_match_completed(self):
+        from tournament.models import Match
+        user_match = Match.objects.get(
+            round_match_id=self.match.id, user_id=self.user.id)
+        from tdd_practice.constants.general import UserMatchStatus
+        user_match.status = UserMatchStatus.COMPLETED.value
+        user_match.save()
