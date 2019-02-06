@@ -68,7 +68,12 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def decide_winner(cls, match_id):
-        pass
+        tournament_match_obj = cls.objects.get(match_id=match_id)
+        if tournament_match_obj.player_one_score > tournament_match_obj.player_two_score:
+            tournament_match_obj.winner_user_id = tournament_match_obj.player_one
+        if tournament_match_obj.player_two_score > tournament_match_obj.player_one_score:
+            tournament_match_obj.winner_user_id = tournament_match_obj.player_two
+        tournament_match_obj.save()
 
     def assign_match_id_to_match(self, match_id):
         self.match_id = match_id
