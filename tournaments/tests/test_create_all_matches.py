@@ -28,3 +28,18 @@ class TestCreateAllMatchesForTournament(TestUtils):
             InvalidTournamentId
         with self.assertRaises(InvalidTournamentId):
             Match.create_all_matches(tournament_id=tournament_id)
+
+    def test_re_creating_matches(self):
+        user = self.create_user()
+        tournament = self.create_tournament(user_id=user.id)
+
+        self.create_tournament_matches(
+            tournament_id=tournament.id, total_rounds=tournament.total_rounds
+        )
+
+        from tournaments.models import Match
+
+        from tournaments.exceptions.custom_exceptions import \
+            TournamentMatchesAlreadyExist
+        with self.assertRaises(TournamentMatchesAlreadyExist):
+            Match.create_all_matches(tournament_id=tournament.id)

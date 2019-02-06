@@ -69,3 +69,15 @@ class TestUtils(TestCase):
         )
 
         return obj
+
+    @staticmethod
+    def create_tournament_matches(tournament_id, total_rounds):
+        from tournaments.models import Match
+
+        for each_round in range(total_rounds, 0, -1):
+            matches_to_be_created = 2 ** (total_rounds - each_round)
+            for each in range(matches_to_be_created):
+                Match.objects.create(
+                    tournament_id=tournament_id,
+                    round_number=each_round
+                )

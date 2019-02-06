@@ -64,8 +64,7 @@ Updated time line - (11 hr(13 - 2))
 
 todo-list
     - Create all matches for a tournament
-        - [invalid tournament id]
-        - matches have already been created
+        - [matches have already been created]
     - assign people to match
         - successful
     - User can get his current round number for a tournament (30 min)
@@ -110,3 +109,4 @@ Completed
         - user did not win
     Create all matches for a tournament
         - successful
+        - invalid tournament id
