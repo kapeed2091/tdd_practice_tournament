@@ -167,6 +167,13 @@ class UserMatch(models.Model):
             user_id=user_id,
             tournament_id=tournament_id
         )
+
+        from tournaments.constants.general import UserTournamentStatus
+        if user_tournament.status == UserTournamentStatus.DEAD.value:
+            from tournaments.exceptions.custom_exceptions import \
+                UserNotInTournamentAnymore
+            raise UserNotInTournamentAnymore
+
         round_number = user_tournament.round_number
 
         from .match import Match
