@@ -43,6 +43,24 @@ class TestPlayMatch(TestCase):
             from tournament.models.match import Match
             Match.play_match(match_id=self.match.id, user_id=invalid_user_id)
 
+    def test_user_already_played(self):
+        from tdd_practice.constants.general import TournamentStatus
+        self._populate_user()
+        self._create_tournament(status=TournamentStatus.IN_PROGRESS.value)
+        self._create_user_match()
+
+        from tournament.models import Match
+        user_match = Match.objects.get(
+            round_match_id=self.match.id, user_id=self.user.id)
+        from tdd_practice.constants.general import UserMatchStatus
+        user_match.status = UserMatchStatus.COMPLETED.value
+        user_match.save()
+
+        with self.assertRaisesMessage(
+                Exception, "user already played the match"):
+            from tournament.models.match import Match
+            Match.play_match(match_id=self.match.id, user_id=self.user.id)
+
     def _populate_user(self):
         from tournament.models.user import User
         self.user = User.objects.create(username=self.username)
