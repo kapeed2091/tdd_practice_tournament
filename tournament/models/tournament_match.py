@@ -79,6 +79,10 @@ class TournamentMatch(models.Model):
         tournament_match_obj = cls.objects.get(match_id=match_id)
         tournament_match_obj.assign_winner()
 
+    @classmethod
+    def user_progress_to_next_round(cls, match_id):
+        pass
+
     def assign_match_id_to_match(self, match_id):
         self.match_id = match_id
         self.save()

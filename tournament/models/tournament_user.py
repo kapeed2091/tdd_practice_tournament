@@ -5,6 +5,7 @@ from tournament.constants.general import T_ID_MAX_LENGTH, USER_ID_MAX_LENGTH
 class TournamentUser(models.Model):
     user_id = models.CharField(max_length=T_ID_MAX_LENGTH)
     t_id = models.CharField(max_length=USER_ID_MAX_LENGTH)
+    current_round_number = models.IntegerField()
 
     @classmethod
     def subscribe_to_tournament(cls, user_id, tournament_id):
