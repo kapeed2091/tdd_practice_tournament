@@ -30,6 +30,7 @@ class TournamentUser(models.Model):
 
     @classmethod
     def get_user_current_round(cls, t_id, user_id):
+        cls.validate_user_subscription(tournament_id=t_id, user_id=user_id)
         tournament_user_obj = cls.objects.get(user_id=user_id, t_id=t_id)
         return tournament_user_obj.current_round_number
 
