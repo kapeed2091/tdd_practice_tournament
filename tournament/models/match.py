@@ -4,7 +4,8 @@ from django_swagger_utils.drf_server.exceptions import Forbidden, NotFound, BadR
 
 from tournament.constants.exception_messages import MATCH_CAN_BE_PLAYED_ONLY_AFTER_THE_TOURNAMENT_HAS_STARTED, \
     USER_DOES_NOT_EXIST_WITH_THE_GIVEN_USER_ID, USER_DOES_NOT_BELONG_TO_THE_MATCH, \
-    MATCH_DOES_NOT_EXIST_WITH_THE_GIVEN_MATCH_ID, THERE_ARE_NO_FURTHER_ROUNDS_IN_THIS_TOURNAMENT
+    MATCH_DOES_NOT_EXIST_WITH_THE_GIVEN_MATCH_ID, THERE_ARE_NO_FURTHER_ROUNDS_IN_THIS_TOURNAMENT, \
+    THERE_ARE_NO_VACANT_MATCHES
 from tournament.constants.general import MatchStatus, MatchUserStatus
 from tournament.models import User, KoTournament
 
@@ -29,6 +30,10 @@ class Match(models.Model):
             tournament=tournament,
             user__isnull=True
         )
+
+        if len(matches) == 0:
+            raise NotFound(THERE_ARE_NO_VACANT_MATCHES)
+
         return random.choice(matches)
 
     @classmethod
