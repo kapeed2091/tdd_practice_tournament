@@ -22,3 +22,17 @@ class User(models.Model):
             return cls.objects.get(username=username).id
         except cls.DoesNotExist:
             raise Exception("Invalid user")
+
+    @classmethod
+    def get_user_profile(cls, user_id):
+        user_obj = User.objects.get(id=user_id)
+
+        return user_obj.get_user_profile_dict()
+
+    def get_user_profile_dict(self):
+        return {
+            "user_id": self.id,
+            "name": self.name,
+            "gender": self.gender,
+            "age": self.age
+            }

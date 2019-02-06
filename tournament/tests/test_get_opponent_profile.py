@@ -5,11 +5,13 @@ class TestGetOpponentProfile(TestCase):
     users = []
     user = None
     tournament = None
+    round_wise_opponent_users = {}
 
     def test_get_opponent_profile(self):
         from tdd_practice.constants.general import TournamentStatus
         self._populate_users()
         self.user = self.users[0]
+        round_no = 2
 
         self._create_tournament(status=TournamentStatus.IN_PROGRESS.value)
         self._create_user_matches()
@@ -18,9 +20,9 @@ class TestGetOpponentProfile(TestCase):
         opponent_profile = Match.\
             get_opponent_user_profile(user_id=self.user.id,
                                       tournament_id=self.tournament.id,
-                                      round_no=2)
+                                      round_no=round_no)
 
-        opponent_user = self.users[2]
+        opponent_user = self.round_wise_opponent_users[round_no]
         exp_opponent_profile = {
             "user_id": opponent_user.id,
             "name": opponent_user.name,
@@ -56,12 +58,14 @@ class TestGetOpponentProfile(TestCase):
                 tournament_id=self.tournament.id, user_id=user.id)
 
     def _create_user_matches(self):
-        opponent_user_ids = [x.id for x in self.users if x.id != self.user.id]
+        opponent_users = [x for x in self.users if x.id != self.user.id]
 
-        user_ids = [self.user.id, opponent_user_ids[0]]
+        self.round_wise_opponent_users[1] = opponent_users[0]
+        user_ids = [self.user.id, opponent_users[0].id]
         self._create_user_round_matches(round_no=1, user_ids=user_ids)
 
-        user_ids = [self.user.id, opponent_user_ids[1]]
+        self.round_wise_opponent_users[2] = opponent_users[1]
+        user_ids = [self.user.id, opponent_users[1].id]
         self._create_user_round_matches(round_no=2, user_ids=user_ids)
 
     def _create_user_round_matches(self, round_no, user_ids):

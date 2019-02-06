@@ -30,20 +30,18 @@ class Match(models.Model):
         match_users = cls.objects.filter(
             round_match__round_no=round_no, tournament_id=tournament_id)
 
+        opponent_user_id = cls._get_opponent_user_id(match_users, user_id)
+        from .user import User
+        user_profile = User.get_user_profile(opponent_user_id)
+        return user_profile
+
+    @classmethod
+    def _get_opponent_user_id(cls, match_users, user_id):
         opponent_user_id = None
         for match_user in match_users:
             if user_id != match_user.user_id:
                 opponent_user_id = match_user.user_id
-
-        from .user import User
-        user_obj = User.objects.get(id=opponent_user_id)
-        user_dict = {
-            "user_id": user_obj.id,
-            "name": user_obj.name,
-            "gender": user_obj.gender,
-            "age": user_obj.age
-        }
-        return user_dict
+        return opponent_user_id
 
     @classmethod
     def _validate_user_match(cls, match_id, user_id):
