@@ -8,7 +8,8 @@ class Tournament(models.Model):
     name = models.CharField(max_length=50)
     status = models.CharField(
         max_length=50, default=TournamentStatus.CAN_JOIN.value)
-    winner_id = models.IntegerField(default=None, null=True, blank=True)
+    winner = models.ForeignKey('ib_tournament.Player',
+                               default=None, null=True, blank=True)
 
     @classmethod
     def create_tournament_by_player(cls, player_id, tournament_details):

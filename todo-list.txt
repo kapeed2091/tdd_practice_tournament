@@ -63,7 +63,7 @@ TODOs(To be Implemented list):
             - validate player_id, raise appropriate custom exception
     
 In Progress List:
-    - refactor winner_id to FK in Tournament model
+
 
 Completed List:
     - create user
@@ -127,6 +127,7 @@ Completed List:
         - update tournament winner
         - all the matches aren't completed -- # as mentioned in assumption that
         all players plays all their matches, no need to cover this use case
+        - refactor winner_id to FK in Tournament model
     - user can get his current round
         - user can get his current round
         - user requests for tournament which he is not part of
