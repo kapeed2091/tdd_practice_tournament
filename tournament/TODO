@@ -1,8 +1,6 @@
 TO BE IMPLEMENTED:
 
 IN_PROGRESS:
-   - User will progress to next round if he wins the match
-         1. Progress winner of the match to next round (Fake Implementation Done)
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -23,6 +21,7 @@ COMPLETED:
          a. Don't know how to do TDD for this case
 
    - User will progress to next round if he wins the match
+         1. Progress winner of the match to next round
          2. If there is no round to progress, raise an exception
 
    - Select a Match in the next round to the winner of the current round (Dependent)
