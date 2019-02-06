@@ -114,7 +114,7 @@ class TestAssignPlayersToMatch(TestUtils):
 
         tournament = self.create_tournament(user_id=user.id)
 
-        matches = self.create_tournament_matches_(
+        matches = self.create_tournament_matches(
             tournament_id=tournament.id, total_rounds=tournament.total_rounds
         )
 

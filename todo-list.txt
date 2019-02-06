@@ -67,8 +67,7 @@ todo-list
             - invalid tournament_id
             - invalid round_number (non positive)
             - invalid round number (not integer)
-            - round_number out of bounds
-        - [already assigned]
+            - [round_number out of bounds]
     - User can get his current round number for a tournament (30 min)
         - successful
         - user not part of tournament
@@ -117,3 +116,4 @@ Completed
         - successful
         - all members not in the round
         - not adequate number of matches for the round
+        - already assigned
