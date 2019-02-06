@@ -31,7 +31,7 @@ ToDo List:
        - user not in given match
        - user already played the match
     User will progress to next round if he wins the match
-
+        - [In case of tie, Whoever submits the score first is winner]
         - match winner progress to next round
 
 Completed List
