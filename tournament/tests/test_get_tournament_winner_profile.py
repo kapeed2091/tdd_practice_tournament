@@ -51,14 +51,27 @@ class TestGetTournamentWinnerProfile(TestCase):
         self.assertEqual(expected_winner, winner)
 
     def setup_get_tournament_winner_profile(self):
+        self.create_tournament_and_matches(
+            tournament_name='Tournament1',
+            win_user_dict=self.user1_dict,
+            lost_user_dict=self.user2_dict
+        )
+
+        self.create_tournament_and_matches(
+            tournament_name='Tournament2',
+            win_user_dict=self.user3_dict,
+            lost_user_dict=self.user4_dict
+        )
+
+    def create_tournament_and_matches(self, tournament_name, win_user_dict, lost_user_dict):
         from tournament.models import User, Match, KoTournament
-        user1 = User.objects.create(**self.user1_dict)
-        user2 = User.objects.create(**self.user2_dict)
+        user1 = User.objects.create(**win_user_dict)
+        user2 = User.objects.create(**lost_user_dict)
 
         now = get_current_datetime()
         tournament1 = KoTournament.objects.create(
             created_user_id=self.user_id,
-            name='Tournament1',
+            name=tournament_name,
             no_of_rounds=3,
             start_datetime=now - datetime.timedelta(days=1),
             status=TournamentStatus.COMPLETED.value
@@ -75,32 +88,6 @@ class TestGetTournamentWinnerProfile(TestCase):
             match_id=self.match1_id,
             user=user2,
             tournament=tournament1,
-            round=3,
-            status=MatchStatus.COMPLETED.value,
-            user_status=MatchUserStatus.LOST.value
-        )
-
-        user3 = User.objects.create(**self.user3_dict)
-        user4 = User.objects.create(**self.user4_dict)
-        tournament2 = KoTournament.objects.create(
-            created_user_id=self.user_id,
-            name='Tournament2',
-            no_of_rounds=3,
-            start_datetime=now - datetime.timedelta(days=1),
-            status=TournamentStatus.COMPLETED.value
-        )
-        Match.objects.create(
-            match_id=self.match2_id,
-            user=user3,
-            tournament=tournament2,
-            round=3,
-            status=MatchStatus.COMPLETED.value,
-            user_status=MatchUserStatus.WIN.value
-        )
-        Match.objects.create(
-            match_id=self.match2_id,
-            user=user4,
-            tournament=tournament2,
             round=3,
             status=MatchStatus.COMPLETED.value,
             user_status=MatchUserStatus.LOST.value
