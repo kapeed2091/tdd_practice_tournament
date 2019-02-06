@@ -34,6 +34,7 @@ Assumptions:
        - assuming that winner of the last round of tournament is
        the tournament winner
        - tournament winner is None by default
+       - all the players subscribing to tournament will be in Round: 1 by default
 
 Doubts:
     Technical Doubts:
@@ -46,6 +47,10 @@ Doubts:
         refer: add players to first round tournament matches)
 
 TODOs(To be Implemented list):
+    - match winner progress to next round
+        - update player current round
+    - user can get his current round
+        - user requests for tournament which he is not part of
     - get opponent profile in round of a tournament
     - get winner profile of tournament
 
@@ -55,7 +60,8 @@ TODOs(To be Implemented list):
             - validate player_id, raise appropriate custom exception
     
 In Progress List:
-    - get current round
+    - user can get his current round
+        - user can get his current round
 
 Completed List:
     - create user
@@ -117,5 +123,5 @@ Completed List:
         - Refactor promote_winner_to_next_round
     - update tournament winner
         - update tournament winner
-        - all the matches aren't completed -- as mentioned in assumption that
-        all players all their matches, no need to cover this use case
+        - all the matches aren't completed -- # as mentioned in assumption that
+        all players plays all their matches, no need to cover this use case
