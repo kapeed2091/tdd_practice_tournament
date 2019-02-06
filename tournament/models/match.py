@@ -77,6 +77,13 @@ class Match(models.Model):
         self.score = score
         self.save()
 
+    @classmethod
+    def get_user_current_match(cls, user_id, tournament):
+        from tournament.models import User
+
+        user = User.get_user(user_id)
+        return cls.objects.filter(user=user, tournament=tournament).order_by('-round').first()
+
     @staticmethod
     def _validate_round_to_progress(tournament, current_round):
         if tournament.is_final_round(round_number=current_round):
