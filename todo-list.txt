@@ -64,12 +64,11 @@ Updated time line - (11 hr(13 - 2))
 
 todo-list
     - assign players to match (tournament_id, round_number)
-        - [successful]
-        - invalid tournament_id
-        - invalid round_number (non positive)
-        - invalid round number (not integer)
-        - round_number out of bounds
-        - all members not in the round
+            - invalid tournament_id
+            - invalid round_number (non positive)
+            - invalid round number (not integer)
+            - round_number out of bounds
+        - [all members not in the round]
         - not adequate number of matches for the round
         - already assigned
     - User can get his current round number for a tournament (30 min)
@@ -116,3 +115,5 @@ Completed
         - successful
         - invalid tournament id
         - matches have already been created
+    Assign players to match (tournament_id, round_number)
+        - successful
