@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django_swagger_utils.drf_server.exceptions import BadRequest
+from django_swagger_utils.drf_server.exceptions import BadRequest, NotFound
 from ib_common.date_time_utils.get_current_datetime import get_current_datetime
 
 import datetime
@@ -14,6 +14,7 @@ class TestProgressUser(TestCase):
     user2_id = 'User2'
     match1_id = 'Match1'
     match2_id = 'Match2'
+    tournament_name = 'Tournament'
 
     def test_progress_winner_to_next_round(self):
         from tournament.models import Match, User
@@ -172,3 +173,52 @@ class TestProgressUser(TestCase):
                     status=MatchStatus.YET_TO_START.value,
                     user_status=MatchUserStatus.NOT_DECIDED_YET.value
                 )
+
+    def test_get_match_to_progress_there_are_no_vacant_matches(self):
+        from tournament.models import Match, KoTournament
+
+        self.setup_get_match_to_progress_there_are_no_vacant_matches()
+
+        tournament1 = KoTournament.objects.get(
+            name=self.tournament_name
+        )
+
+        with self.assertRaisesMessage(NotFound, 'There are no vacant matches'):
+            Match.get_match_to_assign_v2(match_round=3, tournament=tournament1)
+
+    def setup_get_match_to_progress_there_are_no_vacant_matches(self):
+        from tournament.models import User, Match, KoTournament
+
+        user1 = User.objects.create(
+            user_id=self.user1_id
+        )
+        user2 = User.objects.create(
+            user_id=self.user2_id
+        )
+
+        now = get_current_datetime()
+        tournament = KoTournament.objects.create(
+            created_user_id=self.user_id,
+            name=self.tournament_name,
+            no_of_rounds=3,
+            start_datetime=now - datetime.timedelta(days=1),
+            status=TournamentStatus.IN_PROGRESS.value
+        )
+
+        match_id = 'Match'
+        Match.objects.create(
+            match_id=match_id,
+            user=user1,
+            tournament=tournament,
+            round=3,
+            status=MatchStatus.YET_TO_START.value,
+            user_status=MatchUserStatus.NOT_DECIDED_YET.value
+        )
+        Match.objects.create(
+            match_id=match_id,
+            user=user2,
+            tournament=tournament,
+            round=3,
+            status=MatchStatus.YET_TO_START.value,
+            user_status=MatchUserStatus.NOT_DECIDED_YET.value
+        )

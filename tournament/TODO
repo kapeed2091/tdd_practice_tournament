@@ -2,12 +2,9 @@ TO BE IMPLEMENTED:
    - User will progress to next round if he wins the match
          1. Progress winner of the match to next round (Fake Implementation Done)
 
-   - Select a Match in the next round to the winner of the current round (Dependent)
-         2. If there are no matches vacant int the round, raise an exception
-
 IN_PROGRESS:
    - Select a Match in the next round to the winner of the current round (Dependent)
-         1. return match where it should not have user assigned to it
+         2. If there are no matches vacant int the round, raise an exception
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -29,6 +26,9 @@ COMPLETED:
 
    - User will progress to next round if he wins the match
          2. If there is no round to progress, raise an exception
+
+   - Select a Match in the next round to the winner of the current round (Dependent)
+         1. return match where it should not have user assigned to it
 
 ASSUMPTIONS:
    1. Assuming the Match model will have the following fields
@@ -57,3 +57,4 @@ DOUBTS:
 
 
 **DoesNotExist is being thrown as COMPILE ERROR.Should we consider it as COMPILE ERROR??**
+**IndexError is being thrown as COMPILE ERROR.Should we consider it as COMPILE ERROR??**
