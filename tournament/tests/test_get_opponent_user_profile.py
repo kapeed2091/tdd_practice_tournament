@@ -102,4 +102,10 @@ class TestGetOpponentUserProfile(TestCase):
                 user_id=self.user1_id, tournament_round=2, tournament_id=1)
 
     def setup_user_has_no_match_in_the_given_round(self):
-        self.setup_create_tournament()
+        from tournament.models import User
+
+        tournament = self.setup_create_tournament()
+        User.objects.create(**self.user_dict)
+        opponent_user = User.objects.create(**self.opponent_user_dict)
+        self.setup_assign_user_match(
+            user=opponent_user, match_id=self.match_id, tournament=tournament)
