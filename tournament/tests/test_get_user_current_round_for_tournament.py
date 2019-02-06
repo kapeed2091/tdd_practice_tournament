@@ -12,11 +12,12 @@ class TestGetUserCurrentRoundForTournament(TestCase):
         TournamentUser.objects.create(user_id=user_id_1, t_id=t_id,
                                       current_round_number=2)
         user_1_current_round = TournamentUser.get_user_current_round(
-            t_id=t_id, user_id=user_id_1)
+            tournament_id=t_id, user_id=user_id_1)
 
         self.assertEquals(user_1_current_round, 2)
 
-    def testcase_user_should_be_subscribed_to_tournament_to_get_current_round(self):
+    def testcase_user_should_be_subscribed_to_tournament_to_get_current_round(
+            self):
         from tournament.models import TournamentUser, KOTournament
         import datetime
         from ib_common.date_time_utils.get_current_local_date_time import \
@@ -37,4 +38,5 @@ class TestGetUserCurrentRoundForTournament(TestCase):
         with self.assertRaisesMessage(
                 Exception,
                 expected_message='User not subscribed to tournament'):
-            TournamentUser.get_user_current_round(t_id=t_id, user_id=user_id_1)
+            TournamentUser.get_user_current_round(tournament_id=t_id,
+                                                  user_id=user_id_1)
