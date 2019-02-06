@@ -93,6 +93,10 @@ class KoTournament(models.Model):
         return user_profile
 
     @classmethod
+    def get_winner_profile(cls, tournament_id):
+        pass
+
+    @classmethod
     def _get_tournament_v2(cls, tournament_id):
         try:
             return cls.get_tournament(tournament_id)
