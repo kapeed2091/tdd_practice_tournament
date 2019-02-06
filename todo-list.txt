@@ -51,7 +51,10 @@ Doubts:
         - how to get to red state(get_current_round_by_user --> when user not in tournament)
 
 TODOs(To be Implemented list):
+    - create user
+        - add name, age, gender fields to user
     - get opponent profile in round of a tournament
+        - user is not the part of round
     - get winner profile of tournament
 
     LOW PRIORITY:
@@ -60,8 +63,8 @@ TODOs(To be Implemented list):
             - validate player_id, raise appropriate custom exception
     
 In Progress List:
-    - match winner progress to next round
-        - update player current round
+    - get opponent profile in round of a tournament
+        - get opponent profile in round
 
 Completed List:
     - create user
@@ -101,6 +104,7 @@ Completed List:
         - create round wise matches
     - add players to matches
         - create match players
+        - add players to round 1 only
     - play match
         - match player status changes to IN_PROGRESS
         - user can play match only if his status is at YET_TO_START
@@ -114,13 +118,11 @@ Completed List:
         - declare match winner when second player submits score
         - In case of tie, Whoever submits the score first is winner
     - match winner progress to next round
-        - progress match winner to next round
-    - add players to matches
-        - add players to round 1 only
-    - match winner progress to next round
         - winner progress to next round
         - if next round is last round
         - Refactor promote_winner_to_next_round
+        - progress match winner to next round
+        - update player current round
     - update tournament winner
         - update tournament winner
         - all the matches aren't completed -- # as mentioned in assumption that
