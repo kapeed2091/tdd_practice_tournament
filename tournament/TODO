@@ -8,12 +8,11 @@ TO BE IMPLEMENTED:
          6. Invalid round number
          7. User does not belong to that tournament
 
+IN_PROGRESS:
    - User model should have following fields(Dependent)
          a. Name
          b. Age
          c.Gender
-
-IN_PROGRESS:
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -62,6 +61,7 @@ ASSUMPTIONS:
    5. Assuming there will be required number of matches already created in each round of a tournament
    6. Assuming the default value of user_status field in Match model is 'NOT_DECIDED_YET'
    7. To progress user to next round we will give a random match
+   8. Assuming default age of user is '0'(UN_KNOWN)
 DOUBTS:
    1. Can user play same match multiple times.
    2. Will there be any time constraints to play a match
