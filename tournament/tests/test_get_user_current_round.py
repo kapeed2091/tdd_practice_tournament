@@ -61,3 +61,10 @@ class TestGetUserCurrentRound(TestCase):
         with self.assertRaisesMessage(NotFound, 'User does not exist with the given user id'):
             KoTournament.get_user_current_round(
                 user_id=self.invalid_user_id, tournament_id=1)
+
+    def test_get_user_current_round_invalid_tournament(self):
+        from tournament.models import KoTournament
+
+        with self.assertRaisesMessage(NotFound, 'Tournament does not exist with the given tournament id'):
+            KoTournament.get_user_current_round(
+                user_id=self.user1_id, tournament_id=2)
