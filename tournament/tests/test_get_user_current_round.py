@@ -10,6 +10,7 @@ class TestGetUserCurrentRound(TestCase):
 
     user_id = 'User'
     user1_id = 'User1'
+    user2_id = 'User2'
     invalid_user_id = 'InvalidUser'
     match1_id = 'Match1'
     match2_id = 'Match2'
@@ -68,3 +69,18 @@ class TestGetUserCurrentRound(TestCase):
         with self.assertRaisesMessage(NotFound, 'Tournament does not exist with the given tournament id'):
             KoTournament.get_user_current_round(
                 user_id=self.user1_id, tournament_id=2)
+
+    def test_get_user_current_round_user_does_not_belong_to_tournament(self):
+        from tournament.models import KoTournament
+
+        self.setup_get_user_current_round_user_does_not_belong_to_tournament()
+        with self.assertRaisesMessage(NotFound, 'User does not belong to the tournament'):
+            KoTournament.get_user_current_round(
+                user_id=self.user2_id, tournament_id=1)
+
+    def setup_get_user_current_round_user_does_not_belong_to_tournament(self):
+        from tournament.models import User
+
+        User.objects.create(
+            user_id=self.user2_id
+        )
