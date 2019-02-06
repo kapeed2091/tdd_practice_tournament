@@ -27,9 +27,21 @@ class Player(models.Model):
         return
 
     @classmethod
+    def get_player_profile_by_id(cls, player_id):
+        player = cls.get_player_by_id(player_id)
+        return cls._get_player_profile(player)
+
+    @classmethod
     def _validate_unique_username(cls, username):
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import USERNAME_EXISTS
         if Player.objects.filter(username=username):
             raise BadRequest(USERNAME_EXISTS)
         return
+
+    def _get_player_profile(self):
+        return {
+            'name': self.name,
+            'age': self.age,
+            'gender': self.gender
+        }

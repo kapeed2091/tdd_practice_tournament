@@ -65,13 +65,12 @@ TODOs(To be Implemented list):
 In Progress List:
     - get opponent profile in round of a tournament
         - get opponent profile in round
-    - create user
-        - add name, age, gender fields to user
 
 Completed List:
     - create user
         - create user with username 
-        - no two users can have same username 
+        - no two users can have same username
+        - add name, age, gender fields to user
     - user can create tournament with configurable number of rounds and start datetime
         - create tournament 
         - create tournament with invalid datetime(yesterday's date) 
