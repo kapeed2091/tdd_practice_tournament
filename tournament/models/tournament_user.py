@@ -29,6 +29,10 @@ class TournamentUser(models.Model):
             max_users_count=max_users_count, tournament_id=tournament_id)
 
     @classmethod
+    def get_user_current_round(cls, t_id, user_id):
+        pass
+
+    @classmethod
     def create_tournamentuser(cls, user_id, tournament_id):
         cls.objects.create(user_id=user_id, t_id=tournament_id)
 
