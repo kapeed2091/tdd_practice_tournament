@@ -13,19 +13,19 @@ class TestProgressMatchWinner(TestCase):
         self._create_round_matches()
 
         winner_id = self.user.id
-        curr_round = 1
+        curr_round_no = 1
 
         from tournament.models import RoundMatch
         winner_details = {
             "tournament_id": self.tournament.id,
-            "curr_round": curr_round,
+            "curr_round_no": curr_round_no,
             "winner_id": winner_id
         }
         RoundMatch.progress_match_winner_to_next_round(
             winner_details=winner_details)
 
         from tournament.models import Match
-        match = Match.objects.get(round_match__round_no=curr_round+1)
+        match = Match.objects.get(round_match__round_no=curr_round_no+1)
         self.assertEqual(winner_id, match.user_id)
 
     def _populate_user(self):

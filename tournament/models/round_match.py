@@ -36,16 +36,12 @@ class RoundMatch(models.Model):
 
     @classmethod
     def progress_match_winner_to_next_round(cls, winner_details):
-        curr_round_no = winner_details['curr_round']
+        curr_round_no = winner_details['curr_round_no']
         winner_id = winner_details['winner_id']
         tournament_id = winner_details['tournament_id']
-        next_round_no = curr_round_no + 1
 
-        match_ids = cls.get_tournament_round_match_ids(
-            tournament_id=tournament_id, round_no=next_round_no)
-
-        import random
-        match_id = random.choice(match_ids)
+        match_id = cls._pick_match_from_next_round(tournament_id=tournament_id,
+                                                   curr_round_no=curr_round_no)
         match_id_wise_user_ids = {match_id: [winner_id]}
 
         from .match import Match
@@ -140,3 +136,17 @@ class RoundMatch(models.Model):
             winner_id = user_id2
 
         return winner_id
+
+    @classmethod
+    def _pick_match_from_next_round(cls, tournament_id, curr_round_no):
+        next_round_no = cls._get_next_round(curr_round_no=curr_round_no)
+        match_ids = cls.get_tournament_round_match_ids(
+            tournament_id=tournament_id, round_no=next_round_no)
+
+        import random
+        match_id = random.choice(match_ids)
+        return match_id
+
+    @classmethod
+    def _get_next_round(cls, curr_round_no):
+        return curr_round_no + 1
