@@ -53,16 +53,30 @@ class RoundMatch(models.Model):
     @classmethod
     def add_users_to_match(cls, tournament_id):
         from .tournament_user import TournamentUser
-        user_ids = list(TournamentUser.objects.filter(
-            tournament_id=tournament_id).values_list('user_id', flat=True))
-
-        match_ids = list(cls.objects.filter(tournament_id=tournament_id,
-                                            round_no=1).
-                         values_list('id', flat=True))
-
         from .match import Match
+
+        user_ids = TournamentUser.get_tournament_user_ids(
+            tournament_id=tournament_id)
+        match_ids = cls.get_tournament_round_match_ids(
+            tournament_id=tournament_id, round_no=1)
+
+        match_id_wise_user_ids = \
+            cls.match_making(match_ids=match_ids, user_ids=user_ids)
+
+        Match.create_user_match(match_id_wise_user_ids=match_id_wise_user_ids,
+                                tournament_id=tournament_id)
+
+    @classmethod
+    def get_tournament_round_match_ids(cls, tournament_id, round_no):
+        match_ids = list(cls.objects.filter(
+            tournament_id=tournament_id, round_no=round_no).
+                         values_list('id', flat=True))
+        return match_ids
+
+    @classmethod
+    def match_making(cls, match_ids, user_ids):
+        match_id_wise_user_ids = {}
         for index, match_id in enumerate(match_ids):
             selected_user_ids = user_ids[index*2: index*2+2]
-            for user_id in selected_user_ids:
-                Match.objects.create(user_id=user_id, round_match_id=match_id,
-                                     tournament_id=tournament_id)
+            match_id_wise_user_ids[match_id] = selected_user_ids
+        return match_id_wise_user_ids

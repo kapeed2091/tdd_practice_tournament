@@ -49,3 +49,10 @@ class TournamentUser(models.Model):
 
         return no_of_participants == subscribed_users_count
 
+    @classmethod
+    def get_tournament_user_ids(cls, tournament_id):
+        user_ids = list(TournamentUser.objects.filter(
+            tournament_id=tournament_id).values_list('user_id', flat=True))
+
+        return user_ids
+

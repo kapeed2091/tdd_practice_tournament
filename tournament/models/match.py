@@ -49,3 +49,14 @@ class Match(models.Model):
     def update_match_score(self, score):
         self.score = score
         self.save()
+
+    @classmethod
+    def create_user_match(cls, match_id_wise_user_ids, tournament_id):
+        for match_id, user_ids in match_id_wise_user_ids.items():
+            for user_id in user_ids:
+                Match.objects.create(user_id=user_id,
+                                     round_match_id=match_id,
+                                     tournament_id=tournament_id)
+
+
+
