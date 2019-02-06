@@ -46,6 +46,36 @@ class UserMatch(models.Model):
 
         self._update_score(score=score)
 
+    @classmethod
+    def assign_players(cls, tournament_id, round_number):
+        from .user_tournament import UserTournament
+        players = UserTournament.get_players_that_reached_round_alive(
+            tournament_id=tournament_id, round_number=round_number
+        )
+        total_players = len(players)
+
+        from .match import Match
+        matches = Match.get_matches_by_tournament_and_round(
+            tournament_id=tournament_id, round_number=round_number
+        )
+
+        for index, match in enumerate(matches):
+            player = players[index]
+            user_id_1 = player.user_id
+            cls.objects.create(
+                user_id=user_id_1,
+                match_id=match.id,
+                score=DEFAULT_SCORE
+            )
+
+            opponent_player = players[total_players - 1 - index]
+            user_id_2 = opponent_player.user_id
+            cls.objects.create(
+                user_id=user_id_2,
+                match_id=match.id,
+                score=DEFAULT_SCORE
+            )
+
     def _update_score(self, score):
         self.score = score
         self.save()
@@ -69,36 +99,3 @@ class UserMatch(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 MatchIdOverused
             raise MatchIdOverused
-
-    @classmethod
-    def assign_players(cls, tournament_id, round_number):
-        from .user_tournament import UserTournament
-        from tournaments.constants.general import UserTournamentStatus
-        players = UserTournament.objects.filter(
-            tournament_id=tournament_id,
-            status=UserTournamentStatus.ALIVE.value,
-            round_number=round_number
-        )
-        total_players = len(players)
-
-        from .match import Match
-        matches = Match.objects.filter(
-            tournament_id=tournament_id, round_number=round_number
-        )
-
-        for index, match in enumerate(matches):
-            player = players[index]
-            user_id_1 = player.user_id
-            cls.objects.create(
-                user_id=user_id_1,
-                match_id=match.id,
-                score=DEFAULT_SCORE
-            )
-
-            opponent_player = players[total_players - 1 - index]
-            user_id_2 = opponent_player.user_id
-            cls.objects.create(
-                user_id=user_id_2,
-                match_id=match.id,
-                score=DEFAULT_SCORE
-            )

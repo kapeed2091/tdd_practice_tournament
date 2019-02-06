@@ -97,6 +97,18 @@ class UserTournament(models.Model):
         self.save()
 
     @classmethod
+    def get_players_that_reached_round_alive(cls, tournament_id, round_number):
+        from tournaments.constants.general import UserTournamentStatus
+
+        players = cls.objects.filter(
+            tournament_id=tournament_id,
+            status=UserTournamentStatus.ALIVE.value,
+            round_number=round_number
+        )
+
+        return players
+
+    @classmethod
     def _is_last_person(cls, tournament_id, total_rounds):
         total_rounds = total_rounds
         max_num_of_participants = 2 ** total_rounds

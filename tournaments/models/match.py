@@ -37,6 +37,13 @@ class Match(models.Model):
         obj = cls.objects.get(id=match_id)
         return obj
 
+    @classmethod
+    def get_matches_by_tournament_and_round(cls, tournament_id, round_number):
+        matches = cls.objects.filter(
+            tournament_id=tournament_id, round_number=round_number
+        )
+        return matches
+
     @staticmethod
     def _validate_round_number(round_number):
         if round_number < 0:
