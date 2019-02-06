@@ -56,7 +56,39 @@ class TMPlayer(models.Model):
 
     @classmethod
     def get_opponent_profile(cls, tournament_id, player_id, round_no):
-        pass
+        from ib_tournament.models import Player
+        tm_player = cls.objects.get(
+            tournament_match__tournament_id=tournament_id, player_id=player_id,
+            tournament_match__round_no=round_no)
+        t_match_id = tm_player.tournament_match_id
+        opponent_tm_player = cls.objects.filter(
+            tournament_match_id=t_match_id).exclude(id=tm_player.id).first()
+        opponent_player_id = opponent_tm_player.player_id
+        player = Player.get_player_by_id(opponent_player_id)
+
+        username_wise_user_data = {
+            'user1': {
+                'name': 'User 1',
+                'age': 22,
+                'gender': 'MALE'
+            },
+            'user2': {
+                'name': 'User 2',
+                'age': 23,
+                'gender': 'MALE'
+            },
+            'user3': {
+                'name': 'User 3',
+                'age': 24,
+                'gender': 'FEMALE'
+            },
+            'user4': {
+                'name': 'User 4',
+                'age': 25,
+                'gender': 'MALE'
+            }
+        }
+        return username_wise_user_data[player.username]
 
     @staticmethod
     def _group_players_as_group_of_two(player_ids):
