@@ -36,7 +36,22 @@ class RoundMatch(models.Model):
 
     @classmethod
     def progress_match_winner_to_next_round(cls, winner_details):
-        pass
+        curr_round_no = winner_details['curr_round']
+        winner_id = winner_details['winner_id']
+        tournament_id = winner_details['tournament_id']
+        next_round_no = curr_round_no + 1
+
+        match_ids = cls.get_tournament_round_match_ids(
+            tournament_id=tournament_id, round_no=next_round_no)
+
+        import random
+        match_id = random.choice(match_ids)
+        match_id_wise_user_ids = {match_id: [winner_id]}
+
+        from .match import Match
+        Match.create_user_match(
+            match_id_wise_user_ids=match_id_wise_user_ids,
+            tournament_id=tournament_id)
 
     @classmethod
     def _calculate_no_of_matches(cls, no_of_rounds, round_no):
