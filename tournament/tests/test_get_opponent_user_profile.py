@@ -87,3 +87,8 @@ class TestGetOpponentUserProfile(TestCase):
         user = User.objects.create(**self.user_dict)
         self.setup_assign_user_match(
             user=user, match_id=self.match_id, tournament=tournament)
+
+        # There is no opponent yet assigned to the match
+        self.setup_assign_user_match(
+            user=None, match_id=self.match_id, tournament=tournament
+        )
