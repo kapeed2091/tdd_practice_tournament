@@ -24,12 +24,7 @@ class Match(models.Model):
             tournament_id=tournament_id
         )
 
-        matches_exist = cls.objects.filter(
-            tournament_id=tournament_id).exists()
-        if matches_exist:
-            from tournaments.exceptions.custom_exceptions import \
-                TournamentMatchesAlreadyExist
-            raise TournamentMatchesAlreadyExist
+        cls._validate_if_matches_exist(tournament_id=tournament_id)
 
         total_rounds = tournament.total_rounds
 
@@ -78,3 +73,12 @@ class Match(models.Model):
                 )
             )
         cls.objects.bulk_create(objs)
+
+    @classmethod
+    def _validate_if_matches_exist(cls, tournament_id):
+        matches_exist = cls.objects.filter(
+            tournament_id=tournament_id).exists()
+        if matches_exist:
+            from tournaments.exceptions.custom_exceptions import \
+                TournamentMatchesAlreadyExist
+            raise TournamentMatchesAlreadyExist
