@@ -29,7 +29,19 @@ class RoundMatch(models.Model):
 
     @classmethod
     def get_match_winner(cls, match_id):
-        return
+        from .match import Match
+        user_matches = Match.objects.filter(round_match_id=match_id)
+
+        user_id1 = user_matches[0].user_id
+        user_id2 = user_matches[1].user_id
+        user_match1_score = user_matches[0].score
+        user_match2_score = user_matches[1].score
+
+        if user_match1_score > user_match2_score:
+            winner_id = user_id1
+        else:
+            winner_id = user_id2
+        return winner_id
 
     @classmethod
     def _calculate_no_of_matches(cls, no_of_rounds, round_no):
