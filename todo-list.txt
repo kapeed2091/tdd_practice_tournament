@@ -48,9 +48,11 @@ Doubts:
 
         - progress to next round if it is last round, check the commit and migrations done --> is that correct procedure?
 
-        - how to get to red state(get_current_round_by_user --> when user not in tournament)
+        - how to get to red state(get_current_round_by_user --> when user not in tournament) --> raises DoesNotExist exception
 
         - update_tournament_winner --> Did I do it in correct order?
+
+        - how to get to red state(get_opponent_profile_in_round --> when user not in tournament round) --> raises DoesNotExist exception
 
 TODOs(To be Implemented list):
     - get opponent profile in round of a tournament

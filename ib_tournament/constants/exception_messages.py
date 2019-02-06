@@ -31,3 +31,6 @@ SUBMIT_WHEN_STATUS_IS_IN_PROGRESS = (
 
 PLAYER_NOT_IN_TOURNAMENT = ('Player is not in Tournament',
                             'PLAYER_NOT_IN_TOURNAMENT')
+
+PLAYER_NOT_IN_ROUND = ('Player is not in tournament round',
+                       'PLAYER_NOT_IN_ROUND')
