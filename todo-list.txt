@@ -64,8 +64,7 @@ Updated time line - (11 hr(13 - 2))
 
 todo-list
     - Create all matches for a tournament
-        - successful
-        - invalid tournament id
+        - [invalid tournament id]
         - matches have already been created
     - assign people to match
         - successful
@@ -109,3 +108,5 @@ Completed
         - user is using not his match_id
         - match_id does not exist
         - user did not win
+    Create all matches for a tournament
+        - successful

@@ -16,3 +16,15 @@ class TestCreateAllMatchesForTournament(TestUtils):
 
         self.assertEqual(0, initial_objects_count)
         self.assertEqual((2 ** total_rounds) - 1, final_objects_count)
+
+    def test_invalid_tournament_id(self):
+        self.create_user()
+
+        tournament_id = 1
+
+        from tournaments.models import Match
+
+        from tournaments.exceptions.custom_exceptions import \
+            InvalidTournamentId
+        with self.assertRaises(InvalidTournamentId):
+            Match.create_all_matches(tournament_id=tournament_id)
