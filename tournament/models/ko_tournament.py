@@ -84,6 +84,7 @@ class KoTournament(models.Model):
             tournament_round=tournament_round,
             tournament=tournament
         )
+        cls._validate_opponent_user_of_match(opponent_user)
         user_dict = opponent_user.convert_to_dict()
         user_profile = cls._remove_unnecessary_fields_for_user_profile(user_dict)
         return user_profile
@@ -138,3 +139,8 @@ class KoTournament(models.Model):
     def _remove_unnecessary_fields_for_user_profile(user_dict):
         user_dict.pop('user_id')
         return user_dict
+
+    @staticmethod
+    def _validate_opponent_user_of_match(user):
+        if user is None:
+            raise NotFound('Opponent is not yet assigned')
