@@ -12,8 +12,8 @@ Yet to do:
         - Match should be in IN_PROGRESS state when user submits score
         - Player match status should be in IN_PROGRESS state when user submits score
         - After submitting score should we move match status to COMPLETED? - Depends on how many times we allow him to play
+        - *Submit score should a time of submission also
    - User will progress to next round if he wins the match
-        - *User score should be greater than opponent score to win
         - In case of tie, Whoever submits the score first is winner
         - Player Match Status should be in completed mode to decide winner
         - User will progress to next round if he wins that round
@@ -62,6 +62,8 @@ Completed:
         - Should be a valid user
         - User must belong to that match to submit score
         - Should update the score of appropriate user in the match
+   - User will progress to next round if he wins the match
+        - User score should be greater than opponent score to win
 
 Raise Appropriate custom exceptions wherever necessary
 
@@ -96,6 +98,7 @@ My Doubts:
    - User can play match only once in a round? Also will we create only one match if user is playing for multiple chances/times in a round?
    - Is DoesNotExist compile error? - For not a matching query on DB, What if DoesNotExist error raised before compile error(due to missing field)?
    - Can we alter DB Models on large level in refactoring?
+   - How do I approach a problem where I have to consider current datetime - how to check it in test case?
 
 Time estimate:
    - Hrs - 2, 0.5, 1, 2, 2, 1, 0.5, 1, buffer 3
