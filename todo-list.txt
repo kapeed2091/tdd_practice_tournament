@@ -13,9 +13,10 @@ Yet to do:
         - Player match status should be in IN_PROGRESS state when user submits score
         - After submitting score should we move match status to COMPLETED? - Depends on how many times we allow him to play
    - User will progress to next round if he wins the match
-        - *In case of tie, Whoever submits the score first is winner
-        - Player Match Status should be in completed mode to decide winner
-        - User will progress to next round if he wins that round
+        - Player Match Status of both users should be in completed mode to decide winner
+        - Match status should be changed to COMPLETED after winner is decided
+        - *User will progress to next round if he wins that round
+   - Matchmaking to create matches between two users?
    - User can get his current round number for a tournament
    - User can get his opponent user profile in any round in a tournament
    - User can get the winner user profile of any tournament
@@ -64,6 +65,7 @@ Completed:
         - Submit score should a time of submission also
    - User will progress to next round if he wins the match
         - User score should be greater than opponent score to win
+        - In case of tie, Whoever submits the score first is winner
 
 Raise Appropriate custom exceptions wherever necessary
 
@@ -93,6 +95,7 @@ My Assumptions:
    - player match status has three states - YET_TO_START, IN_PROGRESS, COMPLETED
    - Assuming default initial score of a player in a match is 0
    - Score can be either negative or positive
+   - Rounds numbering start from 1 and increases incrementally by 1
 
 My Doubts:
    - User can play match only once in a round? Also will we create only one match if user is playing for multiple chances/times in a round?

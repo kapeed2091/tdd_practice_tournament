@@ -69,3 +69,59 @@ class TestUserWinAndProgressToNextRound(TestCase):
             TournamentMatch.objects.filter(match_id=match_id)[0]
 
         self.assertEquals(tournament_match_obj.winner_user_id, user_id_1)
+
+    def testcase_winner_progresses_to_next_round(self):
+        from tournament.models import KOTournament, TournamentMatch, \
+            TournamentUser
+        from datetime import datetime, timedelta
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+
+        t_id = '1'
+        tournament_name = 'tournament_1'
+        number_of_rounds = 2
+        start_datetime = get_current_local_date_time() + timedelta(hours=1)
+        status = 'IN_PROGRESS'
+
+        user_id_1 = 'user_1'
+        user_id_2 = 'user_2'
+        match_id = 'match_1'
+        user_1_score = 20
+        user_2_score = 10
+
+        user_1_time = get_current_local_date_time()
+        user_2_time = get_current_local_date_time() + timedelta(minutes=5)
+
+        KOTournament.objects.create(
+            t_id=t_id, name=tournament_name, number_of_rounds=number_of_rounds,
+            start_datetime=start_datetime, status=status)
+
+        TournamentUser.objects.create(user_id=user_id_1, t_id=t_id,
+                                      current_round_number=1)
+        TournamentUser.objects.create(user_id=user_id_2, t_id=t_id,
+                                      current_round_number=1)
+
+        TournamentMatch.objects.create(
+            t_id=t_id, player_one=user_id_1, player_one_match_status='COMPLETED',
+            player_one_score=user_1_score, player_one_submit_time=user_1_time,
+            player_two=user_id_2, player_two_match_status='COMPLETED',
+            player_two_score=user_2_score, player_two_submit_time=user_2_time,
+            match_id=match_id, match_status='COMPLETED',
+            winner_user_id=user_id_1)
+
+        winner_old_state = TournamentUser.objects.get(
+            t_id=t_id, user_id=user_id_1)
+        loser_old_state = TournamentUser.objects.get(
+            t_id=t_id, user_id=user_id_2)
+
+        TournamentMatch.user_progress_to_next_round(match_id)
+
+        winner_new_state = TournamentUser.objects.get(
+            t_id=t_id, user_id=user_id_1)
+        loser_new_state = TournamentUser.objects.get(
+            t_id=t_id, user_id=user_id_2)
+
+        self.assertEquals(loser_old_state.current_round_number,
+                          loser_new_state.current_round_number)
+        self.assertEquals(winner_new_state.current_round_number -
+                          winner_old_state.current_round_number, 1)
