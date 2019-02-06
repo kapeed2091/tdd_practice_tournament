@@ -80,16 +80,13 @@ class TournamentMatch(models.Model):
         tournament_match_obj.assign_winner()
 
     @classmethod
-    def user_progress_to_next_round(cls, match_id):
-        tournament_match_obj = cls.objects.get(match_id=match_id)
-        winner_id = tournament_match_obj.winner_user_id
-        t_id = tournament_match_obj.t_id
-
+    def winner_progress_to_next_round(cls, match_id):
         from tournament.models import TournamentUser
-        tournament_user_obj = TournamentUser.objects.get(
-            t_id=t_id, user_id=winner_id)
-        tournament_user_obj.current_round_number += 1
-        tournament_user_obj.save()
+
+        tournament_match_obj = cls.objects.get(match_id=match_id)
+        TournamentUser.progress_user_to_next_round(
+            user_id=tournament_match_obj.winner_user_id,
+            t_id=tournament_match_obj.t_id)
 
     def assign_match_id_to_match(self, match_id):
         self.match_id = match_id

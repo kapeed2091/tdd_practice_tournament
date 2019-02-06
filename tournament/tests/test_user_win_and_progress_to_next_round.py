@@ -114,7 +114,7 @@ class TestUserWinAndProgressToNextRound(TestCase):
         loser_old_state = TournamentUser.objects.get(
             t_id=t_id, user_id=user_id_2)
 
-        TournamentMatch.user_progress_to_next_round(match_id)
+        TournamentMatch.winner_progress_to_next_round(match_id)
 
         winner_new_state = TournamentUser.objects.get(
             t_id=t_id, user_id=user_id_1)

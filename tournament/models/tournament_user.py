@@ -82,3 +82,12 @@ class TournamentUser(models.Model):
                 USER_NOT_SUBSCRIBED_TO_TOURNAMENT
             raise Exception(
                 *USER_NOT_SUBSCRIBED_TO_TOURNAMENT)
+
+    @classmethod
+    def progress_user_to_next_round(cls, user_id, t_id):
+        tournament_user_obj = cls.objects.get(user_id=user_id, t_id=t_id)
+        tournament_user_obj.increment_current_round_number()
+
+    def increment_current_round_number(self):
+        self.current_round_number += 1
+        self.save()
