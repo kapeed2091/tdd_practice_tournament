@@ -163,6 +163,11 @@ class UserMatch(models.Model):
     @classmethod
     def get_opponent_player_details(cls, user_id, tournament_id):
         from .user_tournament import UserTournament
+
+        UserTournament.validate_user_in_tournament(
+            user_id=user_id, tournament_id=tournament_id
+        )
+
         user_tournament = UserTournament.objects.get(
             user_id=user_id,
             tournament_id=tournament_id
