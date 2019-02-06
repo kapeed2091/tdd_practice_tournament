@@ -76,7 +76,17 @@ class KoTournament(models.Model):
 
     @classmethod
     def get_opponent_user_profile(cls, user_id, tournament_round, tournament_id):
-        pass
+        from tournament.models import Match
+
+        tournament = cls.get_tournament(tournament_id)
+        opponent_user = Match.get_opponent_user_of_match(
+            user_id=user_id,
+            tournament_round=tournament_round,
+            tournament=tournament
+        )
+        user_dict = opponent_user.convert_to_dict()
+        user_profile = cls._remove_unnecessary_fields_for_user_profile(user_dict)
+        return user_profile
 
     @classmethod
     def _get_tournament_v2(cls, tournament_id):
@@ -124,3 +134,7 @@ class KoTournament(models.Model):
         if match is None:
             raise NotFound('User does not belong to the tournament')
 
+    @staticmethod
+    def _remove_unnecessary_fields_for_user_profile(user_dict):
+        user_dict.pop('user_id')
+        return user_dict

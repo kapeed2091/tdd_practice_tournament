@@ -14,3 +14,11 @@ class User(models.Model):
     @classmethod
     def get_user(cls, user_id):
         return cls.objects.get(user_id=user_id)
+
+    def convert_to_dict(self):
+        return {
+            'user_id': self.user_id,
+            'name': self.name,
+            'age': self.age,
+            'gender': self.gender
+        }

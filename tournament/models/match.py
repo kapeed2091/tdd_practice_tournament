@@ -82,6 +82,17 @@ class Match(models.Model):
         user = cls._get_user(user_id)
         return cls.objects.filter(user=user, tournament=tournament).order_by('-round').first()
 
+    @classmethod
+    def get_opponent_user_of_match(cls, user_id, tournament_round, tournament):
+        from tournament.models import User
+
+        user = User.get_user(user_id)
+        opponent_match = cls.objects.filter(
+            round=tournament_round,
+            tournament=tournament
+        ).exclude(user=user).first()
+        return opponent_match.user
+
     @staticmethod
     def _validate_round_to_progress(tournament, current_round):
         if tournament.is_final_round(round_number=current_round):
