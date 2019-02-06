@@ -130,7 +130,25 @@ class UserMatch(models.Model):
 
     @classmethod
     def get_winner_profile(cls, tournament_id):
-        pass
+        from .tournament import Tournament
+        tournament = Tournament.get_tournament_by_id(
+            tournament_id=tournament_id
+        )
+        total_rounds = tournament.total_rounds
+
+        from .user_tournament import UserTournament
+        from tournaments.constants.general import UserTournamentStatus
+        user_tournament = UserTournament.objects.get(
+            tournament_id=tournament_id, round_number=total_rounds,
+            status=UserTournamentStatus.ALIVE.value
+        )
+        user_id = user_tournament.user_id
+
+        from .user import User
+        user_obj = User.get_user_by_id(user_id=user_id)
+        user_details = user_obj.convert_to_dict()
+
+        return user_details
 
     def _update_score(self, score):
         self.score = score
