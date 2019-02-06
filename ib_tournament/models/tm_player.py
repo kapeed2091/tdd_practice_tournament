@@ -57,13 +57,9 @@ class TMPlayer(models.Model):
     @classmethod
     def get_opponent_profile(cls, tournament_id, player_id, round_no):
         from ib_tournament.models import Player
-        tm_player = cls.objects.get(
-            tournament_match__tournament_id=tournament_id, player_id=player_id,
-            tournament_match__round_no=round_no)
-        t_match_id = tm_player.tournament_match_id
-        opponent_tm_player = cls.objects.filter(
-            tournament_match_id=t_match_id).exclude(id=tm_player.id).first()
-        opponent_player_id = opponent_tm_player.player_id
+        tm_player = cls._get_tm_player_by_round_no(
+            tournament_id, player_id, round_no)
+        opponent_player_id = cls._get_opponent_player_id(tm_player)
         opponent_profile = Player.get_player_profile_by_id(opponent_player_id)
         return opponent_profile
 
@@ -146,6 +142,19 @@ class TMPlayer(models.Model):
             winner_id = cls._get_winner(tm_players)
             TournamentMatch.update_winner(tournament_match_id, winner_id)
         return
+
+    @classmethod
+    def _get_tm_player_by_round_no(cls, tournament_id, player_id, round_no):
+        tm_player = cls.objects.get(
+            tournament_match__tournament_id=tournament_id, player_id=player_id,
+            tournament_match__round_no=round_no)
+        return tm_player
+
+    def _get_opponent_player_id(self):
+        t_match_id = self.tournament_match_id
+        opponent_tm_player = TMPlayer.objects.filter(
+            tournament_match_id=t_match_id).exclude(id=self.id).first()
+        return opponent_tm_player.player_id
 
     @classmethod
     def _can_update_winner(cls, tm_players):
