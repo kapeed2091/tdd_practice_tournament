@@ -144,4 +144,4 @@ class TestTournamentWinnerUpdation(TestCase):
         Tournament.update_tournament_winner(
             self.tournament_id, self.tournament_winner_id)
         post_tournament = Tournament.objects.get(id=self.tournament_id)
-        self.assertEqual(post_tournament.winner_id, None)
+        self.assertEqual(post_tournament.winner_id, self.tournament_winner_id)

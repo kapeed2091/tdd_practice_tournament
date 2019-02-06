@@ -8,6 +8,7 @@ class Tournament(models.Model):
     name = models.CharField(max_length=50)
     status = models.CharField(
         max_length=50, default=TournamentStatus.CAN_JOIN.value)
+    winner_id = models.IntegerField(default=None, null=True, blank=True)
 
     @classmethod
     def create_tournament_by_player(cls, player_id, tournament_details):
@@ -84,6 +85,10 @@ class Tournament(models.Model):
         cls._update_status(
             tournament, TournamentStatus.IN_PROGRESS.value)
         return
+
+    @classmethod
+    def update_tournament_winner(cls, tournament_id, winner_id):
+        pass
 
     @classmethod
     def _get_start_datetime_object(cls, start_datetime_str):
