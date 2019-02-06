@@ -15,9 +15,15 @@ Yet to do:
    - User will progress to next round if he wins the match
         - Player Match Status of both users should be in completed mode to decide winner
         - Match status should be changed to COMPLETED after winner is decided
-        - *User will progress to next round if he wins that round
+        - User cannot be progressed to round beyond max. number of rounds of tournament
    - Matchmaking to create matches between two users?
+        - While creating match in a round for between users, both should be in same round of tournament
    - User can get his current round number for a tournament
+        - Get current round number of a user for a tournament
+        - User should belong to the tournament
+        - Tournament must exist
+        - User must be registered with us
+        - After subscribing what should be the current round of user?
    - User can get his opponent user profile in any round in a tournament
    - User can get the winner user profile of any tournament
 
@@ -66,6 +72,7 @@ Completed:
    - User will progress to next round if he wins the match
         - User score should be greater than opponent score to win
         - In case of tie, Whoever submits the score first is winner
+        - User will progress to next round if he wins that round
 
 Raise Appropriate custom exceptions wherever necessary
 
@@ -96,6 +103,7 @@ My Assumptions:
    - Assuming default initial score of a player in a match is 0
    - Score can be either negative or positive
    - Rounds numbering start from 1 and increases incrementally by 1
+   - For winner of a round, until winner_progress_to_next_round is called his round number will not increment
 
 My Doubts:
    - User can play match only once in a round? Also will we create only one match if user is playing for multiple chances/times in a round?
