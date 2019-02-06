@@ -23,6 +23,9 @@ Assumptions:
    - A match_id cannot be used for more than MAX_NUM_OF_PEOPLE_FOR_MATCH(2) people
    - UserTournament object has ALIVE as default status
    - default round number for UserTournament object is 0
+   - matches wont be deleted after tournament is completed
+   - only when all the required number of people for the given round have cleared the previous round we will assign them
+        to matches
 
 overall estimation time - (6 hr - 5 + 1)
    - User can create a knock-out tournament with configurable number of rounds and start datetime - (45 min)
@@ -60,8 +63,12 @@ overall estimation time - (6 hr - 5 + 1)
 Updated time line - (11 hr(13 - 2))
 
 todo-list
-    - Upgrade to next round
-        - [not a valid user]
+    - Create all matches for a tournament
+        - successful
+        - invalid tournament id
+        - matches have already been created
+    - assign people to match
+        - successful
     - User can get his current round number for a tournament (30 min)
         - successful
         - user not part of tournament
