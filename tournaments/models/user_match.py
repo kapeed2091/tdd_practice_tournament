@@ -69,6 +69,15 @@ class UserMatch(models.Model):
             total_matches=total_matches, total_players=total_players
         )
 
+        match_ids = [each.id for each in matches]
+        user_matches_exist = cls.objects.filter(
+            match_id__in=match_ids
+        ).exists()
+        if user_matches_exist:
+            from tournaments.exceptions.custom_exceptions import \
+                ReAssignmentOfPlayers
+            raise ReAssignmentOfPlayers
+
         for index, match in enumerate(matches):
             player = players[index]
             user_id_1 = player.user_id
