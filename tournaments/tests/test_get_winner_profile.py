@@ -50,9 +50,9 @@ class TestGetWinnerProfile(TestUtils):
             user_id=user_3.id, match_id=match.id, score=200
         )
 
-        from tournaments.models import UserMatch
+        from tournaments.models import User
 
-        response_details = UserMatch.get_winner_profile(
+        response_details = User.get_winner_profile(
             tournament_id=tournament.id
         )
 

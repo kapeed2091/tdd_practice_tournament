@@ -119,6 +119,23 @@ class UserTournament(models.Model):
             raise UserNotInTournament
 
     @classmethod
+    def get_winner(cls, tournament_id):
+        from .tournament import Tournament
+        tournament = Tournament.get_tournament_by_id(
+            tournament_id=tournament_id
+        )
+        total_rounds = tournament.total_rounds
+
+        from tournaments.constants.general import UserTournamentStatus
+
+        user_tournament = cls.objects.get(
+            tournament_id=tournament_id, round_number=total_rounds,
+            status=UserTournamentStatus.ALIVE.value
+        )
+
+        return user_tournament
+
+    @classmethod
     def _is_last_person(cls, tournament_id, total_rounds):
         total_rounds = total_rounds
         max_num_of_participants = 2 ** total_rounds
