@@ -14,12 +14,14 @@ class TournamentMatch(models.Model):
         max_length=PLAYER_MATCH_STATUS_MAX_LENGTH,
         default=PlayerMatchStatus.YET_TO_START.value)
     player_one_score = models.IntegerField(default=0)
+    player_one_submit_time = models.DateTimeField(null=True)
 
     player_two = models.CharField(max_length=USER_ID_MAX_LENGTH)
     player_two_match_status = models.CharField(
         max_length=PLAYER_MATCH_STATUS_MAX_LENGTH,
         default=PlayerMatchStatus.YET_TO_START.value)
     player_two_score = models.IntegerField(default=0)
+    player_two_submit_time = models.DateTimeField(null=True)
 
     match_id = models.CharField(max_length=MATCH_ID_MAX_LENGTH)
     match_status = models.CharField(max_length=MATCH_STATUS_MAX_LENGTH,
@@ -65,6 +67,10 @@ class TournamentMatch(models.Model):
     def user_submit_score(cls, user_id, match_id, score):
         cls.validate_user_and_match(user_id=user_id, match_id=match_id)
         cls.update_score(user_id=user_id, match_id=match_id, score=score)
+
+    @classmethod
+    def user_submit_score_with_time(cls, user_id, match_id, score, submit_time):
+        pass
 
     @classmethod
     def decide_winner(cls, match_id):
