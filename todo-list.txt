@@ -47,7 +47,6 @@ ToDo List:
         - invalid user
         - invalid tournament id
     User can get his opponent user profile in any round in a tournament
-        - get opponent user profile
         - opponent not set
         - invalid user_id
         - invalid round  no
@@ -83,6 +82,8 @@ Completed List
         - match winner progress to next round
     User can get his current round number for a tournament
         - get user current round no
+    User can get his opponent user profile in any round in a tournament
+        - get opponent user profile
 
 Time Estimation: 10 Hours
 Updated Time Estimation: 12 Hours
