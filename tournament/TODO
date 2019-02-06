@@ -1,6 +1,13 @@
 TO BE IMPLEMENTED:
+   - User can get his current round number for a tournament
+          1. User can get his current round number for a tournament
+          2. Invalid user_id
+          3. Invalid tournament_id
+          4. User does not belong to the tournament
 
 IN_PROGRESS:
+   - User can get his current round number for a tournament
+          1. User can get his current round number for a tournament
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
