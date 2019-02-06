@@ -182,3 +182,10 @@ class UserTournament(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 UserDidNotWinMatch
             raise UserDidNotWinMatch
+
+    def validate_if_user_is_alive(self):
+        from tournaments.constants.general import UserTournamentStatus
+        if self.status == UserTournamentStatus.DEAD.value:
+            from tournaments.exceptions.custom_exceptions import \
+                UserNotInTournamentAnymore
+            raise UserNotInTournamentAnymore
