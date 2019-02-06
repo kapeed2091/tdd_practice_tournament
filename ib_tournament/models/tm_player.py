@@ -54,6 +54,10 @@ class TMPlayer(models.Model):
         cls.objects.create(tournament_match_id=tm_id, player_id=player_id)
         return
 
+    @classmethod
+    def get_opponent_profile(cls, tournament_id, player_id, round_no):
+        pass
+
     @staticmethod
     def _group_players_as_group_of_two(player_ids):
         from ib_tournament.constants.general import PLAYERS_PER_MATCH

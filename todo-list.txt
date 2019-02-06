@@ -50,6 +50,8 @@ Doubts:
 
         - how to get to red state(get_current_round_by_user --> when user not in tournament)
 
+        - update_tournament_winner --> Did I do it in correct order?
+
 TODOs(To be Implemented list):
     - create user
         - add name, age, gender fields to user
@@ -75,7 +77,7 @@ Completed List:
         - create tournament with invalid datetime(yesterday's date) 
         - create tournament with rounds non positive 
         - create tournament by user 
-        - invalid user_id while create tournament 
+        - invalid user_id while create tournament
         - refactor testcases --> don't use internal functions 
         - remove create_tournament (incorrect implementation) 
     - user can get all tournaments
