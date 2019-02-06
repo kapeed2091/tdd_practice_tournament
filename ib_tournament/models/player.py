@@ -16,15 +16,6 @@ class Player(models.Model):
         return
 
     @classmethod
-    def get_player(cls, username):
-        return cls.objects.get(username=username)
-
-    def get_player_dict(self):
-        return {
-            'username': self.username
-        }
-
-    @classmethod
     def get_player_by_id(cls, player_id):
         try:
             player = cls.objects.get(id=player_id)

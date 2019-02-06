@@ -12,11 +12,8 @@ class TestCreateUser(TestCase):
     def test_create_user(self):
         from ib_tournament.models import Player
         Player.create_player(self.user_details)
-        # TODO: Don't user get_player function
-        player = Player.get_player(self.user_details['username'])
-        player_details = player.get_player_dict()
-        self.assertEqual(player_details['username'],
-                         self.user_details['username'])
+        player = Player.objects.get(username=self.user_details['username'])
+        self.assertEqual(player.username, self.user_details['username'])
 
     def test_unique_username(self):
         from ib_tournament.models import Player
