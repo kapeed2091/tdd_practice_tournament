@@ -90,19 +90,34 @@ class RoundMatch(models.Model):
 
     @classmethod
     def _calculate_match_winner(cls, user_matches):
-        user_id1 = user_matches[0].user_id
-        user_id2 = user_matches[1].user_id
-        user_match1_score = user_matches[0].score
-        user_match2_score = user_matches[1].score
+        user1_match = user_matches[0]
+        user2_match = user_matches[1]
+
+        user_id1 = user1_match.user_id
+        user_id2 = user2_match.user_id
+        user_match1_score = user1_match.score
+        user_match2_score = user2_match.score
 
         if user_match1_score > user_match2_score:
             winner_id = user_id1
         elif user_match1_score == user_match2_score:
-            if user_matches[0].score_submission_datetime < \
-                    user_matches[1].score_submission_datetime:
-                winner_id = user_id1
-            else:
-                winner_id = user_id2
+            winner_id = cls._calculate_match_winner_for_tie_match(user_matches)
         else:
             winner_id = user_id2
+        return winner_id
+
+    @classmethod
+    def _calculate_match_winner_for_tie_match(cls, user_matches):
+        user1_match = user_matches[0]
+        user2_match = user_matches[1]
+
+        user_id1 = user1_match.user_id
+        user_id2 = user2_match.user_id
+
+        if user1_match.score_submission_datetime < \
+                user2_match.score_submission_datetime:
+            winner_id = user_id1
+        else:
+            winner_id = user_id2
+
         return winner_id
