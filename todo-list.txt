@@ -22,6 +22,7 @@ Assumptions:
         status max length as 20
    - keeping default user match score as -1
    - adding users to match, in tournament round 1
+        - match making for round 1 is made randomly
 
 ToDo List:
     User can play matches once the tournament is started

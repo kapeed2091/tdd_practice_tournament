@@ -59,9 +59,9 @@ class TestAddUserToFirstRoundMatch(TestCase):
         total_no_of_participants = 2**no_of_rounds
 
         round_matches_count = {}
-        for round_no in range(1, no_of_rounds+1):
-            no_participants_in_round = total_no_of_participants/2**round_no
-            round_matches_count[round_no] = no_participants_in_round/2
+        for index in range(0, no_of_rounds):
+            no_participants_in_round = total_no_of_participants/2**index
+            round_matches_count[index+1] = no_participants_in_round/2
         return round_matches_count
 
     def _create_round_matches(self):
