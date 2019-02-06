@@ -92,3 +92,14 @@ class TestGetOpponentUserProfile(TestCase):
         self.setup_assign_user_match(
             user=None, match_id=self.match_id, tournament=tournament
         )
+
+    def test_user_has_no_match_in_the_given_round(self):
+        from tournament.models import KoTournament
+
+        self.setup_user_has_no_match_in_the_given_round()
+        with self.assertRaisesMessage(NotFound, 'User has no match in the given round'):
+            KoTournament.get_opponent_user_profile(
+                user_id=self.user1_id, tournament_round=2, tournament_id=1)
+
+    def setup_user_has_no_match_in_the_given_round(self):
+        self.setup_create_tournament()
