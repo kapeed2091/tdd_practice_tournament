@@ -153,6 +153,25 @@ class UserTournament(models.Model):
             raise UserNotInTournament
 
     @classmethod
+    def validate_and_get_user_tournament(cls, user_id, tournament_id):
+        try:
+            obj = cls.get_user_tournament_by_details(
+                user_id=user_id, tournament_id=tournament_id
+            )
+            return obj
+        except cls.DoesNotExist:
+            from tournaments.exceptions.custom_exceptions import \
+                UserNotInTournament
+            raise UserNotInTournament
+
+    @classmethod
+    def get_user_tournament_by_details(cls, user_id, tournament_id):
+        obj = cls.objects.get(
+            user_id=user_id, tournament_id=tournament_id
+        )
+        return obj
+
+    @classmethod
     def _validate_if_level_up_is_done_already(cls, user_tournament, match):
         if match.round_number <= user_tournament.round_number - 1:
             from tournaments.exceptions.custom_exceptions import \
