@@ -20,7 +20,11 @@ class TestCanUserPlayInTournament(TestCase):
 
     def test_case_successful_case(self):
         from tournaments.models import User, Tournament
-        user = User.objects.create(name=self.user_name)
+        user = User.objects.create(
+            name=self.user_name,
+            age=14,
+            gender="MALE"
+        )
         self.user = user
 
         obj = Tournament.objects.create(
@@ -47,7 +51,11 @@ class TestCanUserPlayInTournament(TestCase):
 
     def test_case_user_not_in_tournament(self):
         from tournaments.models import User, Tournament
-        user = User.objects.create(name=self.user_name)
+        user = User.objects.create(
+            name=self.user_name,
+            age=14,
+            gender="MALE"
+        )
         self.user = user
 
         obj = Tournament.objects.create(

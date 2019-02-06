@@ -26,10 +26,14 @@ class TestUtils(TestCase):
         return tournament
 
     @staticmethod
-    def create_user(name="John"):
+    def create_user(name="John", age=14, gender="MALE"):
         from tournaments.models import User
 
-        user = User.objects.create(name=name)
+        user = User.objects.create(
+            name=name,
+            age=age,
+            gender=gender
+        )
         return user
 
     @staticmethod

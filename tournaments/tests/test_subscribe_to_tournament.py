@@ -145,7 +145,11 @@ class TestSubscribeToTournament(TestCase):
 
         user_name = "John"
 
-        user = User.objects.create(name=user_name)
+        user = User.objects.create(
+            name=user_name,
+            age=14,
+            gender="MALE"
+        )
         self.user = user
 
     def create_second_user(self):
@@ -153,7 +157,11 @@ class TestSubscribeToTournament(TestCase):
 
         user_name = "John Abraham"
 
-        user = User.objects.create(name=user_name)
+        user = User.objects.create(
+            name=user_name,
+            age=14,
+            gender="MALE"
+        )
         self.user_2 = user
 
     def create_user_tournament(self):

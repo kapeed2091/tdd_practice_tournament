@@ -75,5 +75,9 @@ class TestCreateTournament(TestCase):
 
     def create_user(self):
         from tournaments.models import User
-        user = User.objects.create(name=self.user_name)
+        user = User.objects.create(
+            name=self.user_name,
+            age=14,
+            gender="MALE"
+        )
         self.user = user
