@@ -258,14 +258,25 @@ class TournamentMatch(models.Model):
 
     def decide_winner_during_tie(self):
         if self.are_player_one_and_two_scores_equal():
-            if self.did_player_one_submit_score_first():
-                self.winner_user_id = self.player_one
-                self.save()
-            else:
-                self.winner_user_id = self.player_two
-                self.save()
+            self.assign_player_one_as_winner_during_tie()
+            self.assign_player_two_as_winner_during_tie()
+
+    def assign_player_one_as_winner_during_tie(self):
+        if self.did_player_one_submit_score_first():
+            self.winner_user_id = self.player_one
+            self.save()
+
+    def assign_player_two_as_winner_during_tie(self):
+        if self.did_player_two_submit_score_first():
+            self.winner_user_id = self.player_two
+            self.save()
 
     def did_player_one_submit_score_first(self):
         if self.player_one_submit_time < self.player_two_submit_time:
+            return True
+        return False
+
+    def did_player_two_submit_score_first(self):
+        if self.player_two_submit_time < self.player_one_submit_time:
             return True
         return False
