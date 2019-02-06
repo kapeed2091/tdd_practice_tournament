@@ -177,8 +177,14 @@ class UserMatch(models.Model):
             tournament_id=tournament_id, round_number=round_number
         )
 
-        opponent = cls.objects.filter(match_id=match.id).exclude(
-            user_id=user_id)[0]
+        opponents = cls.objects.filter(match_id=match.id).exclude(
+            user_id=user_id)
+        if not opponents:
+            from tournaments.exceptions.custom_exceptions import \
+                OpponentNotYetAssigned
+            raise OpponentNotYetAssigned
+
+        opponent = opponents[0]
         opponent_user_id = opponent.user_id
 
         from .user import User
