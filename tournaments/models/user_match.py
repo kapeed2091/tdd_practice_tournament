@@ -59,10 +59,9 @@ class UserMatch(models.Model):
             tournament_id=tournament_id
         )
 
-        if tournament.total_rounds < round_number:
-            from tournaments.exceptions.custom_exceptions import \
-                RoundNumberOutOfBounds
-            raise RoundNumberOutOfBounds
+        cls.validate_round_number(
+            total_rounds=tournament.total_rounds, round_number=round_number
+        )
 
         cls.validate_players_count_in_round(
             total_players=total_players, tournament_id=tournament_id,
@@ -153,3 +152,10 @@ class UserMatch(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 ReAssignmentOfPlayers
             raise ReAssignmentOfPlayers
+
+    @staticmethod
+    def validate_round_number(total_rounds, round_number):
+        if total_rounds < round_number:
+            from tournaments.exceptions.custom_exceptions import \
+                RoundNumberOutOfBounds
+            raise RoundNumberOutOfBounds
