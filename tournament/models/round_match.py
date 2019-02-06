@@ -97,6 +97,12 @@ class RoundMatch(models.Model):
 
         if user_match1_score > user_match2_score:
             winner_id = user_id1
+        elif user_match1_score == user_match2_score:
+            if user_matches[0].score_submission_datetime < \
+                    user_matches[1].score_submission_datetime:
+                winner_id = user_id1
+            else:
+                winner_id = user_id2
         else:
             winner_id = user_id2
         return winner_id

@@ -6,6 +6,7 @@ class Match(models.Model):
     tournament = models.ForeignKey('tournament.Tournament', null=True)
     status = models.CharField(max_length=20, null=True)
     score = models.IntegerField(default=-1)
+    score_submission_datetime = models.DateTimeField(null=True)
     round_match = models.ForeignKey('tournament.RoundMatch')
 
     @classmethod
