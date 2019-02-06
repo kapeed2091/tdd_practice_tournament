@@ -12,11 +12,28 @@ class Match(models.Model):
     @classmethod
     def play_match(cls, match_id, user_id):
         from tdd_practice.constants.general import UserMatchStatus
-
+        cls._validate_user_match(match_id, user_id)
         match = cls.get_match(round_match_id=match_id, user_id=user_id)
         match.validate_play_match()
 
         match.update_match_status(status=UserMatchStatus.IN_PROGRESS.value)
+
+    @classmethod
+    def _validate_user_match(cls, match_id, user_id):
+        if cls._is_user_match_not_available(match_id, user_id):
+            raise Exception("Given user is not in the given match")
+
+    @classmethod
+    def _is_user_match_not_available(cls, match_id, user_id):
+        return not cls._is_user_match_available(match_id, user_id)
+
+    @classmethod
+    def _is_user_match_available(cls, match_id, user_id):
+        try:
+            cls.get_match(match_id, user_id)
+            return True
+        except cls.DoesNotExist:
+            return False
 
     @classmethod
     def get_tournament_by_match_id(cls, match_id):
