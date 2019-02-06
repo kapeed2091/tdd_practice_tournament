@@ -23,14 +23,16 @@ Assumptions:
    - keeping default user match score as -1
    - adding users to match, in tournament round 1
         - match making for round 1 is made randomly
+   - deciding match winner based on score, whoever makes more score in the
+        match will be the winner
 
 ToDo List:
     User can play matches once the tournament is started
        - user not in given match
        - user already played the match
     User will progress to next round if he wins the match
-        - user progress to next round if he wins the match
-        - [refactoring failing test cases]
+        - [get match winner]
+        - match winner progress to next round
 
 Completed List
     User can create a knock-out tournament with configurable number of rounds and start datetime
