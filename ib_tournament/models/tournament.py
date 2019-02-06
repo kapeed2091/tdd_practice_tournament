@@ -96,10 +96,9 @@ class Tournament(models.Model):
     def get_winner_profile(cls, tournament_id):
         from ib_tournament.models import Player
         tournament = cls.get_tournament(tournament_id)
-        if tournament.winner_id:
-            winner_profile = Player.get_player_profile_by_id(
+        if cls._is_tournament_winner_updated(tournament):
+            return Player.get_player_profile_by_id(
                 tournament.winner_id)
-            return winner_profile
         else:
             cls._raise_exception_when_winner_is_not_declared()
 
@@ -231,6 +230,9 @@ class Tournament(models.Model):
     def _update_winner(self, winner_id):
         self.winner_id = winner_id
         self.save()
+
+    def _is_tournament_winner_updated(self):
+        return self.winner_id is not None
 
     @staticmethod
     def _raise_exception_when_winner_is_not_declared():
