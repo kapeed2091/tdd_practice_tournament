@@ -19,11 +19,10 @@ Yet to do:
    - Matchmaking to create matches between two users?
         - While creating match in a round for between users, both should be in same round of tournament
    - User can get his current round number for a tournament
-        - Get current round number of a user for a tournament
-        - User should belong to the tournament
+        - *User not subscribed to tournament - throw exception
         - Tournament must exist
         - User must be registered with us
-        - After subscribing what should be the current round of user?
+        - After subscribing what should be the current round of user before tournament starts   ?
    - User can get his opponent user profile in any round in a tournament
    - User can get the winner user profile of any tournament
 
@@ -73,6 +72,8 @@ Completed:
         - User score should be greater than opponent score to win
         - In case of tie, Whoever submits the score first is winner
         - User will progress to next round if he wins that round
+   - User can get his current round number for a tournament
+        - Get current round number of a user for a tournament
 
 Raise Appropriate custom exceptions wherever necessary
 
