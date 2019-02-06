@@ -46,7 +46,6 @@ Doubts:
         refer: add players to first round tournament matches)
 
 TODOs(To be Implemented list):
-    - get current round
     - get opponent profile in round of a tournament
     - get winner profile of tournament
 
@@ -56,8 +55,7 @@ TODOs(To be Implemented list):
             - validate player_id, raise appropriate custom exception
     
 In Progress List:
-    - Refactor promote_winner_to_next_round
-
+    - get current round
 
 Completed List:
     - create user
@@ -114,7 +112,9 @@ Completed List:
     - add players to matches
         - add players to round 1 only
     - match winner progress to next round
+        - winner progress to next round
         - if next round is last round
+        - Refactor promote_winner_to_next_round
     - update tournament winner
         - update tournament winner
         - all the matches aren't completed -- as mentioned in assumption that
