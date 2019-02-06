@@ -1,8 +1,19 @@
 TO BE IMPLEMENTED:
+   - User can get his opponent user profile in any round in a tournament
+         1. User Can get his opponent user_profile in any round of tournament
+         2. There is no opponent yet assigned to that match
+         3. User has no match in the given round
+         4. Invalid user id
+         5. Invalid tournament id
+         6. Invalid round number
+         7. User does not belong to that tournament
+
+   - User model should have following fields(Dependent)
+         a. Name
+         b. Age
+         c.Gender
 
 IN_PROGRESS:
-   - User can get his current round number for a tournament
-          4. User does not belong to the tournament
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -34,6 +45,7 @@ COMPLETED:
           1. User can get his current round number for a tournament
           2. Invalid user_id
           3. Invalid tournament_id
+          4. User does not belong to the tournament
 
 ASSUMPTIONS:
    1. Assuming the Match model will have the following fields
