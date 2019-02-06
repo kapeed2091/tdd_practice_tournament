@@ -81,3 +81,42 @@ class TestUtils(TestCase):
                     tournament_id=tournament_id,
                     round_number=each_round
                 )
+
+    @staticmethod
+    def create_tournament_matches_(tournament_id, total_rounds):
+        from tournaments.models import Match
+
+        matches = []
+        for each_round in range(total_rounds, 0, -1):
+            matches_to_be_created = 2 ** (total_rounds - each_round)
+            for each in range(matches_to_be_created):
+                obj = Match.objects.create(
+                    tournament_id=tournament_id,
+                    round_number=each_round
+                )
+                matches.append(obj)
+
+        return matches
+
+    @staticmethod
+    def assign_players_to_matches(matches, players):
+        from tournaments.models import UserMatch
+        total_players = len(players)
+
+        for index, match in enumerate(matches):
+            print (index, players, "LKI"*10)
+            player = players[index]
+            user_id_1 = player.user_id
+            UserMatch.objects.create(
+                user_id=user_id_1,
+                match_id=match.id,
+                score=DEFAULT_SCORE
+            )
+
+            opponent_player = players[total_players - 1 - index]
+            user_id_2 = opponent_player.user_id
+            UserMatch.objects.create(
+                user_id=user_id_2,
+                match_id=match.id,
+                score=DEFAULT_SCORE
+            )
