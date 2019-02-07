@@ -4,8 +4,8 @@ TO BE IMPLEMENTED:
          4. Invalid tournament_id
 
 IN_PROGRESS:
-   - User can get his opponent user profile in any round in a tournament
-         7. User does not belong to that tournament
+   - User can get the winner user profile of any tournament
+         3. Invalid user_id
 
 COMPLETED:
    - There should be a Match for an user to play(Dependent Task)
@@ -51,6 +51,7 @@ COMPLETED:
          4. Invalid user id
          5. Invalid tournament id
          6. Invalid round number
+         7. User does not belong to that tournament
 
    - User can get the winner user profile of any tournament
          1. User can get winner user profile of a tournament

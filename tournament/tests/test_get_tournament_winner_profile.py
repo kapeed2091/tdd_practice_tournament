@@ -14,6 +14,7 @@ class TestGetTournamentWinnerProfile(TestCase):
     user2_id = 'User2'
     user3_id = 'User3'
     user4_id = 'User4'
+    invalid_user_id = 'InvalidUser'
     user1_dict = {
         'user_id': user1_id,
         'name': 'Name1',
@@ -128,4 +129,24 @@ class TestGetTournamentWinnerProfile(TestCase):
             round=3,
             status=MatchStatus.YET_TO_START.value,
             user_status=MatchUserStatus.NOT_DECIDED_YET.value
+        )
+
+    def test_invalid_user_id(self):
+        from tournament.models import KoTournament
+
+        self.setup_invalid_user_id()
+        with self.assertRaisesMessage(NotFound, 'Invalid user id'):
+            KoTournament.get_winner_profile(user_id=self.invalid_user_id, tournament_id=1)
+
+    def setup_invalid_user_id(self):
+        self.create_tournament_and_matches(
+            tournament_name='Tournament1',
+            win_user_dict=self.user1_dict,
+            lost_user_dict=self.user2_dict
+        )
+
+        self.create_tournament_and_matches(
+            tournament_name='Tournament2',
+            win_user_dict=self.user3_dict,
+            lost_user_dict=self.user4_dict
         )
