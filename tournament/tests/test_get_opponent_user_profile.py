@@ -39,6 +39,15 @@ class TestGetOpponentUserProfile(TestCase):
         return tournament
 
     @staticmethod
+    def setup_assign_user_to_tournament(user, tournament):
+        from tournament.models import TournamentUser
+
+        TournamentUser.objects.create(
+            user=user,
+            tournament=tournament
+        )
+
+    @staticmethod
     def setup_assign_user_match(user, match_id, tournament):
         from tournament.models import Match
 
@@ -66,6 +75,10 @@ class TestGetOpponentUserProfile(TestCase):
 
         tournament = self.setup_create_tournament()
         user = User.objects.create(**self.user_dict)
+        self.setup_assign_user_to_tournament(
+            user=user,
+            tournament=tournament
+        )
         self.setup_assign_user_match(
             user=user, match_id=self.match_id, tournament=tournament)
 
@@ -86,6 +99,11 @@ class TestGetOpponentUserProfile(TestCase):
 
         tournament = self.setup_create_tournament()
         user = User.objects.create(**self.user_dict)
+        self.setup_assign_user_to_tournament(
+            user=user,
+            tournament=tournament
+        )
+
         self.setup_assign_user_match(
             user=user, match_id=self.match_id, tournament=tournament)
 
@@ -106,7 +124,12 @@ class TestGetOpponentUserProfile(TestCase):
         from tournament.models import User
 
         tournament = self.setup_create_tournament()
-        User.objects.create(**self.user_dict)
+        user = User.objects.create(**self.user_dict)
+        self.setup_assign_user_to_tournament(
+            user=user,
+            tournament=tournament
+        )
+
         opponent_user = User.objects.create(**self.opponent_user_dict)
         self.setup_assign_user_match(
             user=opponent_user, match_id=self.match_id, tournament=tournament)
@@ -124,6 +147,11 @@ class TestGetOpponentUserProfile(TestCase):
 
         tournament = self.setup_create_tournament()
         user = User.objects.create(**self.user_dict)
+        self.setup_assign_user_to_tournament(
+            user=user,
+            tournament=tournament
+        )
+
         self.setup_assign_user_match(
             user=user, match_id=self.match_id, tournament=tournament)
 
@@ -142,8 +170,12 @@ class TestGetOpponentUserProfile(TestCase):
     def setup_invalid_tournament_id(self):
         from tournament.models import User
 
-        self.setup_create_tournament()
-        User.objects.create(**self.user_dict)
+        tournament = self.setup_create_tournament()
+        user = User.objects.create(**self.user_dict)
+        self.setup_assign_user_to_tournament(
+            user=user,
+            tournament=tournament
+        )
 
     def test_invalid_round_number(self):
         from tournament.models import KoTournament
@@ -156,8 +188,12 @@ class TestGetOpponentUserProfile(TestCase):
     def setup_invalid_round_number(self):
         from tournament.models import User
 
-        self.setup_create_tournament()
-        User.objects.create(**self.user_dict)
+        tournament = self.setup_create_tournament()
+        user = User.objects.create(**self.user_dict)
+        self.setup_assign_user_to_tournament(
+            user=user,
+            tournament=tournament
+        )
 
     def test_user_does_not_belong_to_the_tournament(self):
         from tournament.models import KoTournament
