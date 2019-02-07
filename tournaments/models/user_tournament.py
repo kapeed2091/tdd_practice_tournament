@@ -110,6 +110,13 @@ class UserTournament(models.Model):
             tournament_id=tournament_id
         )
 
+        from tournaments.constants.general import UserTournamentStatus
+
+        if user_tournament.status == UserTournamentStatus.DEAD.value:
+            from tournaments.exceptions.custom_exceptions import \
+                LoserStatusAlreadyUpdated
+            raise LoserStatusAlreadyUpdated
+
         user_tournament.update_player_status_to_dead()
 
     def update_round_number(self, round_number):
