@@ -243,10 +243,6 @@ class Tournament(models.Model):
             raise BadRequest(*TOURNAMENT_STATUS_IS_NOT_FULL_YET_TO_START)
         return
 
-    @staticmethod
-    def _get_total_matches_count_from_total_rounds(total_rounds):
-        return (2 ** total_rounds) - 1
-
     def _update_winner(self, winner_id):
         self.winner_id = winner_id
         self.save()
