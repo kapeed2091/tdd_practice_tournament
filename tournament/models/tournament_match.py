@@ -105,7 +105,22 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def get_tournament_winner_profile(cls, tournament_id):
-        pass
+        from tournament.models import UserProfile
+
+        winner_id = cls.get_tournament_winner_id(tournament_id=tournament_id)
+        winner_profile = UserProfile.get_user_profile(user_id=winner_id)
+
+        return winner_profile
+
+    @classmethod
+    def get_tournament_winner_id(cls, tournament_id):
+        from tournament.models import KOTournament
+
+        tournament = KOTournament.get_tournament(tournament_id=tournament_id)
+        final_tournament_match_obj = cls.objects.get(
+            t_id=tournament_id, t_round_number=tournament.number_of_rounds)
+
+        return final_tournament_match_obj.winner_user_id
 
     def assign_match_id_to_match(self, match_id):
         self.match_id = match_id
