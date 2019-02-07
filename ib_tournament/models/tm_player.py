@@ -157,10 +157,10 @@ class TMPlayer(models.Model):
         t_match_id = self.tournament_match_id
         opponent_tm_player = TMPlayer.objects.filter(
             tournament_match_id=t_match_id).exclude(id=self.id).first()
-        if opponent_tm_player:
+        if self._is_opponent_exists(opponent_tm_player):
             return opponent_tm_player.player_id
         else:
-            return 10
+            self._raise_exception_when_opponent_is_not_decided()
 
     @classmethod
     def _can_update_winner(cls, tm_players):
@@ -191,6 +191,19 @@ class TMPlayer(models.Model):
         from ib_tournament.constants.exception_messages import \
             PLAYER_NOT_IN_ROUND
         raise BadRequest(*PLAYER_NOT_IN_ROUND)
+
+    @classmethod
+    def _is_opponent_exists(cls, opponent_tm_player):
+        if opponent_tm_player:
+            return True
+        return False
+
+    @classmethod
+    def _raise_exception_when_opponent_is_not_decided(cls):
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            OPPONENT_IS_NOT_DECIDED_YET
+        raise BadRequest(*OPPONENT_IS_NOT_DECIDED_YET)
 
     @classmethod
     def _get_winner_by_score(cls, tm_player_1, tm_player_2):
