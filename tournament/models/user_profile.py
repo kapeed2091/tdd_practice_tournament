@@ -6,6 +6,10 @@ class UserProfile(models.Model):
     user_id = models.CharField(max_length=USER_ID_MAX_LENGTH)
 
     @classmethod
+    def create_user_profile(cls, user_id, name, age, gender):
+        pass
+
+    @classmethod
     def get_user(cls, user_id):
         return cls.objects.get(user_id=user_id)
 
