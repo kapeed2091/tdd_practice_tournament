@@ -67,9 +67,18 @@ class UserTournament(models.Model):
 
         cls._validate_if_user_is_winner(user_id=user_id, match_id=match_id)
 
-        user_tournament.update_round_number(
-            round_number=match.round_number + 1
+        from .tournament import Tournament
+        tournament = Tournament.get_tournament_by_id(
+            tournament_id=tournament_id
         )
+
+        if tournament.total_rounds == match.round_number:
+            from tournaments.constants.general import TournamentStatus
+            tournament.update_status(status=TournamentStatus.COMPLETED.value)
+        else:
+            user_tournament.update_round_number(
+                round_number=match.round_number + 1
+            )
 
     @classmethod
     def can_user_play_in_tournament(cls, user_id, tournament_id):
