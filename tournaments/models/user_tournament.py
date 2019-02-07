@@ -124,6 +124,13 @@ class UserTournament(models.Model):
         tournament = Tournament.get_tournament_by_id(
             tournament_id=tournament_id
         )
+
+        from tournaments.constants.general import TournamentStatus
+        if tournament.status == TournamentStatus.IN_PROGRESS.value:
+            from tournaments.exceptions.custom_exceptions import \
+                TournamentInProgress
+            raise TournamentInProgress
+
         total_rounds = tournament.total_rounds
 
         from tournaments.constants.general import UserTournamentStatus

@@ -73,7 +73,7 @@ todo-list
         - user has been defeated in the tournament somewhere
     - User status is updated to DEAD after the match is done
     - level up
-        - after finals winner level should not be updated
+        - after finals winner level should not be updated and tournament status is COMPLETED
     - Upgrade to next round
         - same score for both player and opponent
 
