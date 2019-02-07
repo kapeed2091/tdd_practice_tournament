@@ -2,8 +2,7 @@ from django.db import models
 from django_swagger_utils.drf_server.exceptions import BadRequest, NotFound
 
 from tournament.constants.exception_messages import TOURNAMENT_DOES_NOT_EXIST_WITH_THE_GIVEN_TOURNAMENT_ID, \
-    INVALID_USER_ID, INVALID_NUMBER_OF_ROUNDS, INVALID_START_DATETIME, USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT, \
-    OPPONENT_IS_NOT_YET_ASSIGNED
+    INVALID_USER_ID, INVALID_NUMBER_OF_ROUNDS, INVALID_START_DATETIME, USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT
 from tournament.constants.general import TournamentStatus
 from tournament.utils.date_time_utils import get_current_date_time
 
@@ -79,9 +78,9 @@ class KoTournament(models.Model):
 
     @classmethod
     def get_opponent_user_profile(cls, user_id, tournament_round, tournament_id):
-        from tournament.models import User, Match
+        from tournament.models import Match
 
-        user = User.get_user(user_id)
+        user = cls._get_user(user_id)
         tournament = cls.get_tournament(tournament_id)
         user_match = Match.get_user_match_in_a_tournament_round(
             user=user,
@@ -150,6 +149,14 @@ class KoTournament(models.Model):
     def _validate_user_current_tournament_match(match):
         if match is None:
             raise NotFound(USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT)
+
+    @staticmethod
+    def _get_user(user_id):
+        from tournament.models import User
+        try:
+            return User.get_user(user_id)
+        except User.DoesNotExist:
+            raise NotFound('Invalid user id')
 
     @classmethod
     def _get_user_profile(cls, user):
