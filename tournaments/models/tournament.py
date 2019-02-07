@@ -76,15 +76,6 @@ class Tournament(models.Model):
             from ..exceptions.custom_exceptions import InvalidTournamentId
             raise InvalidTournamentId
 
-    @classmethod
-    def validate_and_get_tournament(cls, tournament_id):
-        try:
-            obj = cls.get_tournament_by_id(tournament_id=tournament_id)
-            return obj
-        except cls.DoesNotExist:
-            from ..exceptions.custom_exceptions import InvalidTournamentId
-            raise InvalidTournamentId
-
     @staticmethod
     def validate_tournament_status(status):
         from ..constants.general import TournamentStatus
