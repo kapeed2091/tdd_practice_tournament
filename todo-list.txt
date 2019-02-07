@@ -40,7 +40,6 @@ ToDo List:
     - adding users to match, in tournament round
         - invalid tournament id
     - get match winner
-        - [match users not completed the match]
     User will progress to next round if he wins the match
         - invalid current round no
         - invalid tournament id
@@ -76,10 +75,11 @@ Completed List
        - User will submit his score in the match
        - user not in given match
        - user already played the match
+    Get match winner
+            - match users not completed the match
     User will progress to next round if he wins the match
         - create round wise matches for knock out tournament
         - add users to tournament round 1 matches
-        - get match winner
         - In case of tie, Whoever submits the score first is winner
         - match winner progress to next round
     User can get his current round number for a tournament
