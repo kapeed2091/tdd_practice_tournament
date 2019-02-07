@@ -29,6 +29,10 @@ class Tournament(models.Model):
             raise Exception("User can not join in the tournament")
 
     @classmethod
+    def get_tournament_winner_profile(cls, tournament_id):
+        return
+
+    @classmethod
     def validate_tournament_id(cls, tournament_id):
         cls.get_tournament_by_id(tournament_id=tournament_id)
 
