@@ -54,6 +54,7 @@ class TMPlayer(models.Model):
         cls.objects.create(tournament_match_id=tm_id, player_id=player_id)
         return
 
+    # TODO: REFACTOR: Is it necessary to reduce no. of arguments here?
     @classmethod
     def get_opponent_profile(cls, tournament_id, player_id, round_no):
         from ib_tournament.models import Player
@@ -85,8 +86,8 @@ class TMPlayer(models.Model):
         return [cls(player_id=player_id, tournament_match_id=t_match_id)
                 for player_id in player_ids]
 
-    @classmethod
-    def _validate_status_to_play(cls, status):
+    @staticmethod
+    def _validate_status_to_play(status):
         from ib_tournament.constants.general import TMPlayerStatus
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import \
@@ -123,8 +124,8 @@ class TMPlayer(models.Model):
             get_current_local_date_time
         return get_current_local_date_time()
 
-    @classmethod
-    def _validate_status_to_submit_score(cls, status):
+    @staticmethod
+    def _validate_status_to_submit_score(status):
         from ib_tournament.constants.general import TMPlayerStatus
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import \
@@ -143,6 +144,7 @@ class TMPlayer(models.Model):
             TournamentMatch.update_winner(tournament_match_id, winner_id)
         return
 
+    # TODO: REFACTOR: Is it necessary to reduce no. of arguments here?
     @classmethod
     def _get_tm_player_by_round_no(cls, tournament_id, player_id, round_no):
         try:
@@ -168,8 +170,8 @@ class TMPlayer(models.Model):
             return False
         return True
 
-    @classmethod
-    def _get_players_status_list(cls, tm_players):
+    @staticmethod
+    def _get_players_status_list(tm_players):
         return [tm_player.status for tm_player in tm_players]
 
     @staticmethod
@@ -197,14 +199,14 @@ class TMPlayer(models.Model):
             id=self.id).first()
         return opponent_tm_player
 
-    @classmethod
-    def _is_opponent_exists(cls, opponent_tm_player):
+    @staticmethod
+    def _is_opponent_exists(opponent_tm_player):
         if opponent_tm_player:
             return True
         return False
 
-    @classmethod
-    def _raise_exception_when_opponent_is_not_decided(cls):
+    @staticmethod
+    def _raise_exception_when_opponent_is_not_decided():
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import \
             OPPONENT_IS_NOT_DECIDED_YET

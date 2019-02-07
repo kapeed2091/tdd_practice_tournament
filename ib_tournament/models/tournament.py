@@ -111,16 +111,16 @@ class Tournament(models.Model):
         cls._update_status(tournament, TournamentStatus.COMPLETED.value)
         return
 
-    @classmethod
-    def _get_start_datetime_object(cls, start_datetime_str):
+    @staticmethod
+    def _get_start_datetime_object(start_datetime_str):
         from ib_common.date_time_utils.convert_string_to_local_date_time \
             import convert_string_to_local_date_time
         from ib_tournament.constants.general import DEFAULT_DATE_TIME_FORMAT
         return convert_string_to_local_date_time(
             start_datetime_str, DEFAULT_DATE_TIME_FORMAT)
 
-    @classmethod
-    def _validate_start_datetime(cls, start_datetime):
+    @staticmethod
+    def _validate_start_datetime(start_datetime):
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time
         from ib_tournament.constants.exception_messages import INVALID_DATETIME
@@ -131,8 +131,8 @@ class Tournament(models.Model):
             raise BadRequest(*INVALID_DATETIME)
         return
 
-    @classmethod
-    def _validate_total_rounds(cls, total_rounds):
+    @staticmethod
+    def _validate_total_rounds(total_rounds):
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import \
             INVALID_TOTAL_ROUNDS
@@ -151,8 +151,8 @@ class Tournament(models.Model):
     def _get_all_tournament_objects(cls):
         return cls.objects.all()
 
-    @classmethod
-    def _order_tournaments(cls, tournaments):
+    @staticmethod
+    def _order_tournaments(tournaments):
         tournaments = tournaments.order_by('status', 'start_datetime')
 
         from ib_tournament.constants.general import TournamentStatus
@@ -164,8 +164,8 @@ class Tournament(models.Model):
             tournaments, key=lambda x: ordered_status.index(x.status))
         return ordered_tournaments
 
-    @classmethod
-    def _get_tournament_details(cls, tournaments):
+    @staticmethod
+    def _get_tournament_details(tournaments):
         return [tournament.get_tournament_dict()
                 for tournament in tournaments]
 
@@ -180,8 +180,8 @@ class Tournament(models.Model):
             raise BadRequest(*INVALID_TOURNAMENT_STATE)
         return
 
-    @classmethod
-    def _validate_player_already_subscribed(cls, tournament_id, player_id):
+    @staticmethod
+    def _validate_player_already_subscribed(tournament_id, player_id):
         from ib_tournament.models import TournamentPlayer
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import \
@@ -225,15 +225,15 @@ class Tournament(models.Model):
         if cls._is_future_datetime(start_datetime):
             raise BadRequest(*START_DATE_NOT_REACHED)
 
-    @classmethod
-    def _is_future_datetime(cls, start_datetime):
+    @staticmethod
+    def _is_future_datetime(start_datetime):
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time
         curr_datetime = get_current_local_date_time()
         return start_datetime > curr_datetime
 
-    @classmethod
-    def _validate_tournament_status_to_start_tournament(cls, status):
+    @staticmethod
+    def _validate_tournament_status_to_start_tournament(status):
         from ib_tournament.constants.general import TournamentStatus
         from ib_tournament.constants.exception_messages import \
             TOURNAMENT_STATUS_IS_NOT_FULL_YET_TO_START
@@ -243,8 +243,8 @@ class Tournament(models.Model):
             raise BadRequest(*TOURNAMENT_STATUS_IS_NOT_FULL_YET_TO_START)
         return
 
-    @classmethod
-    def _get_total_matches_count_from_total_rounds(cls, total_rounds):
+    @staticmethod
+    def _get_total_matches_count_from_total_rounds(total_rounds):
         return (2 ** total_rounds) - 1
 
     def _update_winner(self, winner_id):

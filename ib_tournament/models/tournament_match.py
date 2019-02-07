@@ -74,8 +74,8 @@ class TournamentMatch(models.Model):
             tournament_id, round_no, round_matches_count)
         return round_t_matches_to_create
 
-    @classmethod
-    def _get_round_matches_count(cls, round_no, total_rounds):
+    @staticmethod
+    def _get_round_matches_count(round_no, total_rounds):
         return 2 ** (total_rounds - round_no)
 
     @classmethod
@@ -126,17 +126,17 @@ class TournamentMatch(models.Model):
             round_t_match_ids, match_id_wise_curr_players_count)
         return t_match_id
 
-    @classmethod
-    def _get_match_wise_curr_participants_count(cls, tm_players):
+    @staticmethod
+    def _get_match_wise_curr_participants_count(tm_players):
         from collections import defaultdict
         match_id_wise_curr_players_count = defaultdict(int)
         for tm_player in tm_players:
             match_id_wise_curr_players_count[tm_player.tournament_match_id] += 1
         return match_id_wise_curr_players_count
 
-    @classmethod
+    @staticmethod
     def _get_match_id_to_join(
-            cls, round_t_match_ids, match_id_wise_curr_players_count):
+            round_t_match_ids, match_id_wise_curr_players_count):
         from ib_tournament.constants.general import PLAYERS_PER_MATCH
         for t_match_id in round_t_match_ids:
             players_count = match_id_wise_curr_players_count[t_match_id]

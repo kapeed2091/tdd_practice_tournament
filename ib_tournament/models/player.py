@@ -35,7 +35,7 @@ class Player(models.Model):
     def _validate_unique_username(cls, username):
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import USERNAME_EXISTS
-        if Player.objects.filter(username=username):
+        if cls.objects.filter(username=username):
             raise BadRequest(USERNAME_EXISTS)
         return
 
