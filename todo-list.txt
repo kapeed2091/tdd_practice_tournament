@@ -27,9 +27,10 @@ Yet to do:
         - After subscribing what should be the current round of user before tournament starts?
    - User can get his opponent user profile in any round in tournament
         - User should be subscribed to tournament
-        - User should get opponent user profile for a round
+        - *User should get opponent user profile for a round
    - User can get the winner user profile of any tournament
-   - *User should have a profile with name, age, gender
+   - User should have a profile
+        - Gender should be one among MALE, FEMALE, OTHER
 
 Completed:
    - User can create a knock-out tournament with configurable number of rounds and start datetime
@@ -81,6 +82,7 @@ Completed:
    - User can get his current round number for a tournament
         - Get current round number of a user for a tournament
         - User not subscribed to tournament - throw exception
+   - User should have a profile with name, age, gender
 
 Raise Appropriate custom exceptions wherever necessary
 
@@ -113,6 +115,7 @@ My Assumptions:
    - Rounds numbering start from 1 and increases incrementally by 1
    - For winner of a round, until winner_progress_to_next_round is called his round number will not increment
    - Assuming default age in user profile is 0
+   - Max length name of user is 30, max gender length of user is 10
 
 My Doubts:
    - User can play match only once in a round? Also will we create only one match if user is playing for multiple chances/times in a round?
