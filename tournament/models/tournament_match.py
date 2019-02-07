@@ -97,6 +97,9 @@ class TournamentMatch(models.Model):
 
         TournamentUser.validate_user_subscription(
             tournament_id=tournament_id, user_id=user_id)
+        TournamentUser.validate_requested_round_number(
+            tournament_id=tournament_id, round_number=round_number,
+            user_id=user_id)
 
         opponent_user_id = cls.get_opponent_user_id(
             tournament_id=tournament_id, round_number=round_number,

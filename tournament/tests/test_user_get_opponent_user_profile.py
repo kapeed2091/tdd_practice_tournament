@@ -45,7 +45,7 @@ class TestUserGetOpponentProfile(TestCase):
             user_id=user_id_3, name=name_3, age=age_3, gender=gender_3)
 
         TournamentUser.objects.create(user_id=user_id_1, t_id=t_id,
-                                      current_round_number=1)
+                                      current_round_number=2)
 
         TournamentMatch.objects.create(
             t_id=t_id, t_round_number=t_round_number_1, player_one=user_id_1,

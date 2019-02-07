@@ -99,3 +99,11 @@ class TournamentUser(models.Model):
     def increment_current_round_number(self):
         self.current_round_number += 1
         self.save()
+
+    @classmethod
+    def validate_requested_round_number(cls, tournament_id, round_number,
+                                        user_id):
+        tournament_user_obj = cls.objects.get(user_id=user_id,
+                                              t_id=tournament_id)
+        if tournament_user_obj.current_round_number < round_number:
+            raise Exception('User did not reach to requested round')
