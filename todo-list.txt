@@ -26,6 +26,8 @@ Assumptions:
    - matches wont be deleted after tournament is completed
    - only when all the required number of people for the given round have cleared the previous round we will assign them
         to matches
+   - In upgrading to next round context if the match is finals winner's round number is not increased and tournament
+        status is updated to COMPLETED
 
 overall estimation time - (6 hr - 5 + 1)
    - User can create a knock-out tournament with configurable number of rounds and start datetime - (45 min)
@@ -69,10 +71,9 @@ todo-list
             - invalid round number (not integer)
     - User can get his current round number for a tournament
         - user has been defeated in the tournament somewhere
-    - User status is updated to DEAD after the match is done
-        - [invalid match_id]
     - level up
-        - after finals winner level should not be updated and tournament status is COMPLETED
+        - [after finals winner level should not be updated and tournament status is COMPLETED]
+        - match is still in progress
     - Upgrade to next round
         - same score for both player and opponent
 
@@ -136,3 +137,4 @@ Completed
     User status is updated to DEAD after the match is done
         - successful
         - already done
+        - invalid match_id
