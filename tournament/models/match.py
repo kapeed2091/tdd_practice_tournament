@@ -87,9 +87,15 @@ class Match(models.Model):
         from tournament.models import User
 
         user = User.get_user(user_id)
-        opponent_match = cls.objects.filter(
-            round=tournament_round,
+        user_match = cls._get_user_match(
+            user=user,
+            tournament_round=tournament_round,
             tournament=tournament
+        )
+        match_id = user_match.match_id
+
+        opponent_match = cls.objects.filter(
+            match_id=match_id
         ).exclude(user=user).first()
         return opponent_match.user
 
@@ -151,4 +157,13 @@ class Match(models.Model):
     def _does_match_exists(cls, match_id):
         return cls.objects.filter(match_id=match_id).exists()
 
-
+    @classmethod
+    def _get_user_match(cls, user, tournament_round, tournament):
+        try:
+            return cls.objects.get(
+                user=user,
+                round=tournament_round,
+                tournament=tournament
+            )
+        except cls.DoesNotExist:
+            raise NotFound('User has no match in the given round')
