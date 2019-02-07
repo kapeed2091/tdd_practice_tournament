@@ -4,7 +4,8 @@ from django.test import TestCase
 class TestUserGetOpponentProfile(TestCase):
 
     def testcase_user_get_opponent_profile_for_any_round_in_tournament(self):
-        from tournament.models import TournamentMatch, UserProfile
+        from tournament.models import TournamentMatch, UserProfile, \
+            TournamentUser
         user_id_1 = 'user_1'
         name_1 = 'John'
         age_1 = 24
@@ -42,6 +43,9 @@ class TestUserGetOpponentProfile(TestCase):
             user_id=user_id_2, name=name_2, age=age_2, gender=gender_2)
         UserProfile.objects.create(
             user_id=user_id_3, name=name_3, age=age_3, gender=gender_3)
+
+        TournamentUser.objects.create(user_id=user_id_1, t_id=t_id,
+                                      current_round_number=1)
 
         TournamentMatch.objects.create(
             t_id=t_id, t_round_number=t_round_number_1, player_one=user_id_1,

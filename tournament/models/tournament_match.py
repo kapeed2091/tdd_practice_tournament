@@ -93,7 +93,10 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def get_opponent_user_profile(cls, tournament_id, round_number, user_id):
-        from tournament.models import UserProfile
+        from tournament.models import UserProfile, TournamentUser
+
+        TournamentUser.validate_user_subscription(
+            tournament_id=tournament_id, user_id=user_id)
 
         opponent_user_id = cls.get_opponent_user_id(
             tournament_id=tournament_id, round_number=round_number,
