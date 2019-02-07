@@ -157,7 +157,10 @@ class TMPlayer(models.Model):
         t_match_id = self.tournament_match_id
         opponent_tm_player = TMPlayer.objects.filter(
             tournament_match_id=t_match_id).exclude(id=self.id).first()
-        return opponent_tm_player.player_id
+        if opponent_tm_player:
+            return opponent_tm_player.player_id
+        else:
+            return 10
 
     @classmethod
     def _can_update_winner(cls, tm_players):
