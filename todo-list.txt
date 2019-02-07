@@ -51,7 +51,7 @@ ToDo List:
         - invalid user_id
         - invalid round  no
     User can get the winner user profile of any tournament
-        - tournament winner is not declared
+        - [tournament winner is not declared]
 
 
 Completed List

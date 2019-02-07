@@ -19,6 +19,17 @@ class TestGetTournamentWinner(TestCase):
         exp_winner_profile = self._get_expected_winner_profile()
         self.assertEqual(exp_winner_profile, winner_profile)
 
+    def test_tournament_winner_not_declared(self):
+        from tdd_practice.constants.general import TournamentStatus
+        self._create_tournament(status=TournamentStatus.COMPLETED.value,
+                                winner=None)
+
+        from tournament.models import Tournament
+        with self.assertRaisesMessage(Exception,
+                                      "Tournament winner not yet declared"):
+            Tournament.get_tournament_winner_profile(
+                tournament_id=self.tournament.id)
+
     def _populate_user(self):
         from tournament.models.user import User
         self.user = User.objects.create(username=self.username)
