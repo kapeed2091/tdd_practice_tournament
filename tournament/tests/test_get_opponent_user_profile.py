@@ -135,7 +135,7 @@ class TestGetOpponentUserProfile(TestCase):
         from tournament.models import KoTournament
 
         self.setup_invalid_tournament_id()
-        with self.assertRaisesMessage(NotFound, 'Invalid tournament id'):
+        with self.assertRaisesMessage(NotFound, 'Tournament does not exist with the given tournament id'):
             KoTournament.get_opponent_user_profile(
                 user_id=self.user1_id, tournament_round=2, tournament_id=3)
 
