@@ -95,7 +95,8 @@ class UserTournament(models.Model):
     @classmethod
     def update_loser_status(cls, match_id):
         from .match import Match
-        match = Match.get_match_by_id(match_id=match_id)
+        match = Match.validate_and_get_match_by_id(match_id=match_id)
+
         tournament_id = match.tournament_id
 
         from .user_match import UserMatch
