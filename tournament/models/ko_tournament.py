@@ -1,5 +1,5 @@
 from django.db import models
-from django_swagger_utils.drf_server.exceptions import BadRequest, NotFound
+from django_swagger_utils.drf_server.exceptions import BadRequest, NotFound, Forbidden
 
 from tournament.constants.exception_messages import TOURNAMENT_DOES_NOT_EXIST_WITH_THE_GIVEN_TOURNAMENT_ID, \
     INVALID_USER_ID, INVALID_NUMBER_OF_ROUNDS, INVALID_START_DATETIME, USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT, \
@@ -83,6 +83,7 @@ class KoTournament(models.Model):
 
         user = cls._get_user(user_id)
         tournament = cls._get_tournament_v2(tournament_id)
+        cls._validate_tournament_user(user=user, tournament=tournament)
         tournament.validate_tournament_round(tournament_round)
         user_match = Match.get_user_match_in_a_tournament_round(
             user=user,
@@ -163,6 +164,16 @@ class KoTournament(models.Model):
             return User.get_user(user_id)
         except User.DoesNotExist:
             raise NotFound(INVALID_USER_ID)
+
+    @staticmethod
+    def _validate_tournament_user(user, tournament):
+        from tournament.models import TournamentUser
+
+        try:
+            TournamentUser.get_tournament_user(
+                tournament=tournament, user=user)
+        except TournamentUser.DoesNotExist:
+            raise Forbidden(USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT)
 
     @classmethod
     def _get_user_profile(cls, user):
