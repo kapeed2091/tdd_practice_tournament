@@ -292,3 +292,27 @@ class TournamentMatch(models.Model):
         if self.player_two_submit_time < self.player_one_submit_time:
             return True
         return False
+
+    @classmethod
+    def get_opponent_user_id(cls, tournament_id, round_number, user_id):
+        tournament_match_obj = cls.objects.get(
+            t_id=tournament_id, t_round_number=round_number)
+
+        return tournament_match_obj.get_opponent(user_id=user_id)
+
+    def get_opponent(self, user_id):
+        if self.is_player_one(user_id=user_id):
+            return self.player_two
+
+        if self.is_player_two(user_id=user_id):
+            return self.player_one
+
+    def is_player_one(self, user_id):
+        if self.player_one == user_id:
+            return True
+        return False
+
+    def is_player_two(self, user_id):
+        if self.player_two == user_id:
+            return True
+        return False

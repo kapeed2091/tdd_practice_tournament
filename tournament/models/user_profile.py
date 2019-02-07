@@ -18,7 +18,20 @@ class UserProfile(models.Model):
 
     @classmethod
     def get_opponent_user_profile(cls, tournament_id, round_number, user_id):
-        pass
+        from tournament.models import TournamentMatch
+
+        opponent_user_id = TournamentMatch.get_opponent_user_id(
+            tournament_id=tournament_id, round_number=round_number,
+            user_id=user_id)
+        opponent_user_profile = cls.get_user(user_id=opponent_user_id)
+        return opponent_user_profile.convert_profile_to_dict()
+
+    def convert_profile_to_dict(self):
+        return {
+            'name': self.name,
+            'age': self.age,
+            'gender': self.gender
+        }
 
     @classmethod
     def get_user(cls, user_id):
