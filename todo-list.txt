@@ -7,7 +7,6 @@ Yet to do:
         - User cannot call play match when his player match status is in IN_PROGRESS? - Depends on how many times we allow him to play
    - Create matches once tournament starts
         - Only one match will be created for a tournament round for a user?
-        - *While creating match, store which tournament round does this match belong to.
         - Tournament round number should be less than or equal to number of rounds and greater than or equal to one.
    - User will submit his score in the match
         - Score should be of int type
@@ -25,12 +24,12 @@ Yet to do:
    - User can get his current round number for a tournament
         - Tournament must exist
         - User must be registered with us
-        - After subscribing what should be the current round of user before tournament starts   ?
+        - After subscribing what should be the current round of user before tournament starts?
    - User can get his opponent user profile in any round in tournament
         - User should be subscribed to tournament
-        - User should get opponent user profile for current round
-        - User should get opponent user profile for older rounds
+        - User should get opponent user profile for a round
    - User can get the winner user profile of any tournament
+   - *User should have a profile with name, age, gender
 
 Completed:
    - User can create a knock-out tournament with configurable number of rounds and start datetime
@@ -57,6 +56,7 @@ Completed:
         - Both users should be registered with us
         - Both users should be subscribed to tournament
         - Each match when created should have a unique match_id
+        - While creating match, store which tournament round does this match belong to.
    - User can play matches once the tournament is started
         - When user starts to play match then match status is set to IN_PROGRESS and player match status is set to IN_PROGRESS
         - Tournament should exist
@@ -112,6 +112,7 @@ My Assumptions:
    - Score can be either negative or positive
    - Rounds numbering start from 1 and increases incrementally by 1
    - For winner of a round, until winner_progress_to_next_round is called his round number will not increment
+   - Assuming default age in user profile is 0
 
 My Doubts:
    - User can play match only once in a round? Also will we create only one match if user is playing for multiple chances/times in a round?
