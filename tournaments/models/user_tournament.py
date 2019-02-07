@@ -110,12 +110,7 @@ class UserTournament(models.Model):
             tournament_id=tournament_id
         )
 
-        from tournaments.constants.general import UserTournamentStatus
-
-        if user_tournament.status == UserTournamentStatus.DEAD.value:
-            from tournaments.exceptions.custom_exceptions import \
-                LoserStatusAlreadyUpdated
-            raise LoserStatusAlreadyUpdated
+        user_tournament.validate_if_user_status_has_been_updated()
 
         user_tournament.update_player_status_to_dead()
 
@@ -260,3 +255,11 @@ class UserTournament(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 UserNotInTournamentAnymore
             raise UserNotInTournamentAnymore
+
+    def validate_if_user_status_has_been_updated(self):
+        from tournaments.constants.general import UserTournamentStatus
+
+        if self.status == UserTournamentStatus.DEAD.value:
+            from tournaments.exceptions.custom_exceptions import \
+                LoserStatusAlreadyUpdated
+            raise LoserStatusAlreadyUpdated
