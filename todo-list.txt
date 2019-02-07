@@ -28,6 +28,10 @@ Yet to do:
    - User can get his opponent user profile in any round in tournament
         - User should be subscribed to tournament
    - User can get the winner user profile of any tournament
+        - *User should get the winner profile of match of final round for a tournament
+        - Only one final match should be there for each tournament
+        - Tournament should exist
+        - Tournament should be in completed state
    - User should have a profile
         - Gender should be one among MALE, FEMALE, OTHER
 
@@ -117,6 +121,7 @@ My Assumptions:
    - For winner of a round, until winner_progress_to_next_round is called his round number will not increment
    - Assuming default age in user profile is 0
    - Max length name of user is 30, max gender length of user is 10
+   - Assuming only one match will be played in final round
 
 My Doubts:
    - User can play match only once in a round? Also will we create only one match if user is playing for multiple chances/times in a round?
