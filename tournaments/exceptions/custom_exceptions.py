@@ -100,3 +100,7 @@ class TournamentInProgress(Exception):
 
 class TournamentNotYetStarted(Exception):
     pass
+
+
+class LoserStatusAlreadyUpdated(Exception):
+    pass
