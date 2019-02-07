@@ -57,8 +57,6 @@ Doubts:
 
 TODOs(To be Implemented list):
 
-    - get opponent profile in round of a tournament
-        - opponent is not decided yet
     LOW PRIORITY:
         - play match
             - validate tournament_match_id, raise appropriate custom exception
@@ -136,6 +134,7 @@ Completed List:
     - get opponent profile in round of a tournament
         - get opponent profile in round
         - user is not the part of round
+        - opponent is not decided yet
     - get winner profile of tournament
         - winner profile of tournament
         - winner is not updated yet
