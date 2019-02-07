@@ -158,3 +158,23 @@ class TestGetOpponentProfileInRound(TestCase):
         with self.assertRaisesMessage(BadRequest, PLAYER_NOT_IN_ROUND[0]):
             TMPlayer.get_opponent_profile(
                 self.tournament_id, player_id, round_no=1)
+
+    def test_opponent_is_not_decided_yet(self):
+        from ib_tournament.models import TMPlayer, TournamentMatch
+
+        second_round_t_matches = TournamentMatch.objects.filter(
+            tournament_id=self.tournament_id, round_no=2)
+        t_match_id = second_round_t_matches[0].id
+
+        req_player_id = self.player_ids[0]
+        TMPlayer.objects.create(player_id=req_player_id,
+                                tournament_match_id=t_match_id)
+
+        from django_swagger_utils.drf_server.exceptions import BadRequest
+        from ib_tournament.constants.exception_messages import \
+            OPPONENT_IS_NOT_DECIDED_YET
+
+        with self.assertRaisesMessage(
+                BadRequest, OPPONENT_IS_NOT_DECIDED_YET[0]):
+            TMPlayer.get_opponent_profile(
+                self.tournament_id, req_player_id, round_no=2)
