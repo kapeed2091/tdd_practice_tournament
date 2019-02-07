@@ -207,3 +207,15 @@ class UserMatch(models.Model):
             raise OpponentNotYetAssigned
 
         return opponents
+
+    @classmethod
+    def validate_if_match_in_progress(cls, match_id):
+        user_matches = cls.objects.filter(match_id=match_id)
+
+        for each_user_match in user_matches:
+            from tournaments.constants.general import DEFAULT_SCORE
+
+            if each_user_match.score == DEFAULT_SCORE:
+                from tournaments.exceptions.custom_exceptions import \
+                    MatchInProgress
+                raise MatchInProgress
