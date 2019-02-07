@@ -17,6 +17,10 @@ class User(models.Model):
         return not cls.objects.filter(username=username).exists()
 
     @classmethod
+    def is_user_id_null(cls, user_id):
+        return user_id is None
+
+    @classmethod
     def get_user_id(cls, username):
         try:
             return cls.objects.get(username=username).id

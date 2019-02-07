@@ -32,9 +32,6 @@ class Match(models.Model):
 
         opponent_user_id = cls._get_opponent_user_id(match_users, user_id)
 
-        if not opponent_user_id:
-            raise Exception("Opponent is not set for given round")
-
         from .user import User
         user_profile = User.get_user_profile(opponent_user_id)
         return user_profile
@@ -45,7 +42,15 @@ class Match(models.Model):
         for match_user in match_users:
             if user_id != match_user.user_id:
                 opponent_user_id = match_user.user_id
+
+        cls._validate_opponent_user_id(opponent_user_id)
         return opponent_user_id
+
+    @classmethod
+    def _validate_opponent_user_id(cls, user_id):
+        from .user import User
+        if User.is_user_id_null(user_id):
+            raise Exception("Opponent is not set for given round")
 
     @classmethod
     def _validate_user_match(cls, match_id, user_id):
