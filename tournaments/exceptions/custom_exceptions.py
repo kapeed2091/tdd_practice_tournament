@@ -92,3 +92,7 @@ class RoundNumberOutOfBounds(Exception):
 
 class OpponentNotYetAssigned(Exception):
     pass
+
+
+class TournamentInProgress(Exception):
+    pass
