@@ -47,6 +47,10 @@ class Match(models.Model):
         return opponent_user_id
 
     @classmethod
+    def is_user_match_not_completed(cls, user_match):
+        return not user_match.is_user_match_completed()
+
+    @classmethod
     def _validate_opponent_user_id(cls, user_id):
         from .user import User
         if User.is_user_id_null(user_id):
@@ -114,5 +118,9 @@ class Match(models.Model):
                                      tournament_id=tournament_id)
 
     def is_user_already_played(self):
+        from tdd_practice.constants.general import UserMatchStatus
+        return self.status == UserMatchStatus.COMPLETED.value
+
+    def is_user_match_completed(self):
         from tdd_practice.constants.general import UserMatchStatus
         return self.status == UserMatchStatus.COMPLETED.value

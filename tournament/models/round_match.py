@@ -32,11 +32,7 @@ class RoundMatch(models.Model):
         from .match import Match
         user_matches = Match.objects.filter(round_match_id=match_id)
 
-        for user_match in user_matches:
-            from tdd_practice.constants.general import UserMatchStatus
-            if user_match.status != UserMatchStatus.COMPLETED.value:
-                raise Exception("Given match is not completed")
-
+        cls._validate_match_winner(user_matches=user_matches)
         winner_id = cls._calculate_match_winner(user_matches)
         return winner_id
 
@@ -156,3 +152,10 @@ class RoundMatch(models.Model):
     @classmethod
     def _get_next_round(cls, curr_round_no):
         return curr_round_no + 1
+
+    @classmethod
+    def _validate_match_winner(cls, user_matches):
+        from .match import Match
+        for user_match in user_matches:
+            if Match.is_user_match_not_completed(user_match):
+                raise Exception("Given match is not completed")
