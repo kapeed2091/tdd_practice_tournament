@@ -87,9 +87,9 @@ class UserTournament(models.Model):
     def can_user_play_in_tournament(cls, user_id, tournament_id):
         from ..exceptions.custom_exceptions import UserNotInTournament
 
-        user_in_tournament = cls.objects.filter(
+        user_in_tournament = cls.is_user_in_tournament(
             user_id=user_id, tournament_id=tournament_id
-        ).exists()
+        )
 
         if not user_in_tournament:
             raise UserNotInTournament
@@ -191,8 +191,16 @@ class UserTournament(models.Model):
         return is_last_person
 
     @classmethod
-    def _validate_user_tournament_exists(cls, user_id, tournament_id):
+    def is_user_in_tournament(cls, user_id, tournament_id):
         user_tournament_exists = cls.objects.filter(
+            user_id=user_id, tournament_id=tournament_id
+        ).exists()
+
+        return user_tournament_exists
+
+    @classmethod
+    def _validate_user_tournament_exists(cls, user_id, tournament_id):
+        user_tournament_exists = cls.is_user_in_tournament(
             user_id=user_id, tournament_id=tournament_id
         )
 

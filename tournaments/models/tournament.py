@@ -13,7 +13,8 @@ class Tournament(models.Model):
 
     @classmethod
     def create_tournament(cls, user_id, total_rounds, start_datetime):
-        cls._validate_user_id(user_id=user_id)
+        from .user import User
+        User.validate_user_id(user_id=user_id)
 
         cls._validate_total_rounds(total_rounds=total_rounds)
 
@@ -102,8 +103,9 @@ class Tournament(models.Model):
 
     @staticmethod
     def _validate_start_datetime(start_datetime):
-        from datetime import datetime
-        now = datetime.now()
+        from ib_common.date_time_utils.get_current_local_date_time import \
+            get_current_local_date_time
+        now = get_current_local_date_time()
 
         from ib_common.date_time_utils.convert_datetime_to_local_string \
             import convert_datetime_to_local_string
@@ -124,14 +126,6 @@ class Tournament(models.Model):
         if total_rounds < 1:
             from ..exceptions.custom_exceptions import InvalidTotalRounds
             raise InvalidTotalRounds
-
-    @staticmethod
-    def _validate_user_id(user_id):
-        from .user import User
-        user_exists = User.objects.filter(id=user_id).exists()
-        if not user_exists:
-            from ..exceptions.custom_exceptions import InvalidUserId
-            raise InvalidUserId
 
     def validate_if_status_is_completed(self):
         from tournaments.constants.general import TournamentStatus

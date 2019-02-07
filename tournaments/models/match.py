@@ -20,13 +20,15 @@ class Match(models.Model):
     @classmethod
     def create_all_matches(cls, tournament_id):
         from .tournament import Tournament
-        tournament = Tournament.validate_and_get_tournament(
+        Tournament.validate_tournament_id(
             tournament_id=tournament_id
         )
 
         cls._validate_if_matches_exist(tournament_id=tournament_id)
 
-        total_rounds = tournament.total_rounds
+        total_rounds = Tournament.get_total_rounds_in_tournament(
+            tournament_id=tournament_id
+        )
 
         cls._create_objects_for_all_rounds(
             tournament_id=tournament_id, total_rounds=total_rounds
