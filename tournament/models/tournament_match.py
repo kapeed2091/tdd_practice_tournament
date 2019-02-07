@@ -107,13 +107,14 @@ class TournamentMatch(models.Model):
     def get_tournament_winner_profile(cls, tournament_id):
         from tournament.models import UserProfile
 
-        winner_id = cls.get_tournament_winner_id(tournament_id=tournament_id)
+        winner_id = cls.get_tournament_winner_user_id(
+            tournament_id=tournament_id)
         winner_profile = UserProfile.get_user_profile(user_id=winner_id)
 
         return winner_profile
 
     @classmethod
-    def get_tournament_winner_id(cls, tournament_id):
+    def get_tournament_winner_user_id(cls, tournament_id):
         from tournament.models import KOTournament
 
         tournament = KOTournament.get_tournament(tournament_id=tournament_id)
