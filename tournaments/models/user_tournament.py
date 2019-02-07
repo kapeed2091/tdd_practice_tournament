@@ -94,7 +94,27 @@ class UserTournament(models.Model):
 
     @classmethod
     def update_loser_status(cls, match_id):
-        pass
+        from .match import Match
+        match = Match.get_match_by_id(match_id=match_id)
+        tournament_id = match.tournament_id
+
+        from .user_match import UserMatch
+        user_matches = UserMatch.objects.filter(match_id=match_id)
+
+        user_matches_sorted = sorted(user_matches, key=lambda x: x.score)
+        user_match_with_lowest_score = user_matches_sorted[0]
+        user_id = user_match_with_lowest_score.user_id
+
+        user_tournament = cls.get_user_tournament_by_details(
+            user_id=user_id,
+            tournament_id=tournament_id
+        )
+
+        from tournaments.constants.general import UserTournamentStatus
+        user_tournament.status = UserTournamentStatus.DEAD.value
+        user_tournament.save()
+
+        return user_tournament
 
     def update_round_number(self, round_number):
         self.round_number = round_number
