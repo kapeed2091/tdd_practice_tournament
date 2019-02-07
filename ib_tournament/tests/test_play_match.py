@@ -127,7 +127,7 @@ class TestPlayMatch(TestCase):
         tm_player = TMPlayer.objects.get(id=tm_player_id)
         self.assertEqual(tm_player.status, TMPlayerStatus.IN_PROGRESS.value)
 
-    def test_match_should_be_in_yet_to_start_to_play(self):
+    def test_match_player_should_be_in_yet_to_start_to_play(self):
         from ib_tournament.models import TMPlayer
         from ib_tournament.constants.general import TMPlayerStatus
 

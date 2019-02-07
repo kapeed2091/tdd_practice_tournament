@@ -53,7 +53,7 @@ class Tournament(models.Model):
 
         Player.get_player_by_id(player_id)
         tournament = cls.get_tournament(tournament_id)
-        cls._validate_tournament_state_to_subscribe(tournament.status)
+        cls._validate_tournament_status_to_subscribe(tournament.status)
         cls._validate_player_already_subscribed(tournament_id, player_id)
         TournamentPlayer.create_tournament_player(tournament_id, player_id)
         tournament.update_status_to_full_yet_to_start()
@@ -107,7 +107,7 @@ class Tournament(models.Model):
     def update_status_to_completed(cls, tournament_id):
         from ib_tournament.constants.general import TournamentStatus
         tournament = cls.get_tournament(tournament_id)
-        cls._validate_tournament_state_to_update_to_completed(tournament.status)
+        cls._validate_tournament_status_to_update_to_completed(tournament.status)
         cls._update_status(tournament, TournamentStatus.COMPLETED.value)
         return
 
@@ -170,7 +170,7 @@ class Tournament(models.Model):
                 for tournament in tournaments]
 
     @staticmethod
-    def _validate_tournament_state_to_subscribe(status):
+    def _validate_tournament_status_to_subscribe(status):
         from ib_tournament.constants.general import TournamentStatus
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import \
@@ -199,7 +199,7 @@ class Tournament(models.Model):
                self._get_maximum_players_in_tournament()
 
     @staticmethod
-    def _validate_tournament_state_to_update_to_completed(status):
+    def _validate_tournament_status_to_update_to_completed(status):
         from ib_tournament.constants.general import TournamentStatus
         from django_swagger_utils.drf_server.exceptions import BadRequest
         from ib_tournament.constants.exception_messages import \

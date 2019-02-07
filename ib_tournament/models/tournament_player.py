@@ -18,12 +18,6 @@ class TournamentPlayer(models.Model):
         except cls.DoesNotExist:
             cls._raise_exception_for_player_not_in_tournament()
 
-    def get_tournament_player_dict(self):
-        return {
-            'tournament_id': self.tournament_id,
-            'player_id': self.player_id
-        }
-
     @classmethod
     def create_tournament_player(cls, tournament_id, player_id):
         cls.objects.create(tournament_id=tournament_id, player_id=player_id)
