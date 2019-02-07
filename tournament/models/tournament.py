@@ -30,7 +30,10 @@ class Tournament(models.Model):
 
     @classmethod
     def get_tournament_winner_profile(cls, tournament_id):
-        return
+        tournament = cls.get_tournament_by_id(tournament_id=tournament_id)
+
+        from .user import User
+        return User.get_user_profile(user_id=tournament.winner_id)
 
     @classmethod
     def validate_tournament_id(cls, tournament_id):
