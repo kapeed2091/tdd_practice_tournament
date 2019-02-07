@@ -262,3 +262,36 @@ class TestLevelUp(TestUtils):
         from tournaments.constants.general import TournamentStatus
         self.assertEqual(tournament.status, TournamentStatus.COMPLETED.value)
         self.assertEqual(player.round_number, round_number)
+
+    def test_match_is_still_in_progress(self):
+        user_1 = self.create_user()
+        user_2 = self.create_user(name="John-2")
+
+        tournament = self.create_tournament(user_id=user_1.id)
+
+        self.create_user_tournament(
+            user_id=user_1.id, tournament_id=tournament.id
+        )
+        self.create_user_tournament(
+            user_id=user_2.id, tournament_id=tournament.id
+        )
+
+        round_number = 2
+        match = self.create_match(
+            tournament_id=tournament.id, round_number=round_number
+        )
+
+        self.create_user_match(
+            user_id=user_1.id, match_id=match.id
+        )
+
+        self.create_user_match(
+            user_id=user_2.id, match_id=match.id
+        )
+        from tournaments.models import UserTournament
+
+        from tournaments.exceptions.custom_exceptions import MatchInProgress
+        with self.assertRaises(MatchInProgress):
+            UserTournament.level_up(
+                user_id=user_2.id, match_id=match.id
+            )
