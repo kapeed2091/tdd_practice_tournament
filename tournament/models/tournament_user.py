@@ -9,27 +9,27 @@ class TournamentUser(models.Model):
     def subscribe_user_to_tournament(cls, tournament_id, username):
         from .user import User
         from .tournament import Tournament
-
-        cls.validate_user_already_subscribed(
-            tournament_id=tournament_id, username=username)
-        Tournament.validate_tournament_id(tournament_id=tournament_id)
-        Tournament.\
-            validate_tournament_in_can_join_status(tournament_id=tournament_id)
+        from tdd_practice.constants.general import TournamentStatus
 
         user_id = User.get_user_id(username=username)
+        tournament = Tournament. \
+            get_tournament_by_id(tournament_id=tournament_id)
+
+        cls.validate_user_already_subscribed(
+            tournament_id=tournament_id, user_id=user_id)
+
+        tournament.validate_tournament_in_can_join_status()
 
         cls.objects.create(user_id=user_id, tournament_id=tournament_id)
 
         if cls.is_max_participants_subscribed(tournament_id=tournament_id):
-            from tdd_practice.constants.general import TournamentStatus
-            Tournament.update_tournament_status(
-                tournament_id=tournament_id,
+            tournament.update_status(
                 status=TournamentStatus.FULL_YET_TO_START.value)
 
     @classmethod
-    def validate_user_already_subscribed(cls, tournament_id, username):
+    def validate_user_already_subscribed(cls, tournament_id, user_id):
         try:
-            cls.objects.get(tournament_id=tournament_id, user__username=username)
+            cls.objects.get(tournament_id=tournament_id, user_id=user_id)
             raise Exception("User already subscribed to given tournament")
         except cls.DoesNotExist:
             pass

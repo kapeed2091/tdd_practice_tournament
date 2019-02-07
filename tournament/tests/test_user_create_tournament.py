@@ -15,10 +15,15 @@ class TestUserCreateTournament(TestCase):
         start_datetime = self.curr_datetime + timedelta(days=1)
         self._populate_user()
 
+        create_tournament_details = {
+            "no_of_rounds": no_of_rounds,
+            "start_datetime": start_datetime,
+            "username": self.username
+        }
+
         from tournament.models.tournament import Tournament
-        tournament_details = Tournament.create_tournament(
-            no_of_rounds=no_of_rounds, start_datetime=start_datetime,
-            username=self.username)
+        tournament_details = \
+            Tournament.create_tournament(create_tournament_details)
 
         self.assertEquals(start_datetime,
                           tournament_details['start_datetime'])
@@ -30,11 +35,16 @@ class TestUserCreateTournament(TestCase):
         no_of_rounds = 4
         start_datetime = self.curr_datetime - timedelta(days=1)
         self._populate_user()
+
+        create_tournament_details = {
+            "no_of_rounds": no_of_rounds,
+            "start_datetime": start_datetime,
+            "username": self.username
+        }
+
         with self.assertRaisesMessage(Exception, "Expected future date time"):
             from tournament.models.tournament import Tournament
-            Tournament.create_tournament(
-                no_of_rounds=no_of_rounds, start_datetime=start_datetime,
-                username=self.username)
+            Tournament.create_tournament(create_tournament_details)
 
     def test_user_create_tournament_with_non_positive_rounds(self):
         from datetime import timedelta
@@ -43,11 +53,15 @@ class TestUserCreateTournament(TestCase):
         start_datetime = self.curr_datetime + timedelta(days=1)
         self._populate_user()
 
+        create_tournament_details = {
+            "no_of_rounds": no_of_rounds,
+            "start_datetime": start_datetime,
+            "username": self.username
+        }
+
         with self.assertRaisesMessage(Exception, "Invalid no of rounds"):
             from tournament.models.tournament import Tournament
-            Tournament.create_tournament(
-                no_of_rounds=no_of_rounds, start_datetime=start_datetime,
-                username=self.username)
+            Tournament.create_tournament(create_tournament_details)
 
     def test_invalid_user_create_tournament(self):
         from datetime import timedelta
@@ -55,11 +69,15 @@ class TestUserCreateTournament(TestCase):
         no_of_rounds = 4
         start_datetime = self.curr_datetime + timedelta(days=1)
 
+        create_tournament_details = {
+            "no_of_rounds": no_of_rounds,
+            "start_datetime": start_datetime,
+            "username": "user"
+        }
+
         with self.assertRaisesMessage(Exception, "Invalid username"):
             from tournament.models.tournament import Tournament
-            Tournament.create_tournament(
-                no_of_rounds=no_of_rounds, start_datetime=start_datetime,
-                username="user")
+            Tournament.create_tournament(create_tournament_details)
 
     def _populate_user(self):
         from tournament.models.user import User

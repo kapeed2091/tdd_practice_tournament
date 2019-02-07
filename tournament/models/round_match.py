@@ -42,8 +42,11 @@ class RoundMatch(models.Model):
         winner_id = winner_details['winner_id']
         tournament_id = winner_details['tournament_id']
 
-        match_id = cls._pick_match_from_next_round(tournament_id=tournament_id,
-                                                   curr_round_no=curr_round_no)
+        next_round_no = cls._get_next_round(curr_round_no=curr_round_no)
+        match_ids = cls.get_tournament_round_match_ids(
+            tournament_id=tournament_id, round_no=next_round_no)
+
+        match_id = cls._pick_match_from_next_round(match_ids)
         match_id_wise_user_ids = {match_id: [winner_id]}
 
         from .match import Match
@@ -140,17 +143,14 @@ class RoundMatch(models.Model):
         return winner_id
 
     @classmethod
-    def _pick_match_from_next_round(cls, tournament_id, curr_round_no):
-        next_round_no = cls._get_next_round(curr_round_no=curr_round_no)
-        match_ids = cls.get_tournament_round_match_ids(
-            tournament_id=tournament_id, round_no=next_round_no)
-
+    def _pick_match_from_next_round(cls, match_ids):
         import random
         match_id = random.choice(match_ids)
         return match_id
 
     @classmethod
     def _get_next_round(cls, curr_round_no):
+        # TODO Incorrect Behavior at the Boundaries
         return curr_round_no + 1
 
     @classmethod

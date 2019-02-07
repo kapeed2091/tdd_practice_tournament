@@ -20,19 +20,15 @@ class Tournament(models.Model):
                 "status": str(self.status)
                 }
 
-    @classmethod
-    def validate_tournament_in_can_join_status(cls, tournament_id):
-        try:
-            cls.get_tournament(tournament_id=tournament_id,
-                               status=TournamentStatus.CAN_JOIN.value)
-        except Exception:
+    def validate_tournament_in_can_join_status(self):
+        if self._is_tournament_not_in_can_join_status():
             raise Exception("User can not join in the tournament")
 
     @classmethod
     def get_tournament_winner_profile(cls, tournament_id):
         tournament = cls.get_tournament_by_id(tournament_id=tournament_id)
 
-        cls._validate_tournament_winner(tournament.winner_id)
+        tournament.validate_tournament_winner()
 
         from .user import User
         return User.get_user_profile(user_id=tournament.winner_id)
@@ -41,24 +37,29 @@ class Tournament(models.Model):
     def validate_tournament_id(cls, tournament_id):
         cls.get_tournament_by_id(tournament_id=tournament_id)
 
+    def _is_tournament_not_in_can_join_status(self):
+        return not self._is_tournament_in_can_join_status()
+
+    def _is_tournament_in_can_join_status(self):
+        return self.status == TournamentStatus.CAN_JOIN.value
+
     def is_tournament_not_started(self):
         return not self._is_tournament_started()
 
     def _is_tournament_started(self):
         return self.status == TournamentStatus.IN_PROGRESS.value
 
-    @classmethod
-    def update_tournament_status(cls, tournament_id, status):
-        tournament = cls.get_tournament_by_id(tournament_id=tournament_id)
-        tournament.update_status(status=status)
-
     def update_status(self, status):
         self.status = status
         self.save()
 
     @classmethod
-    def create_tournament(cls, no_of_rounds, start_datetime, username):
+    def create_tournament(cls, create_tournament_details):
         from .user import User
+
+        no_of_rounds = create_tournament_details['no_of_rounds']
+        start_datetime = create_tournament_details['start_datetime']
+        username = create_tournament_details['username']
 
         cls.validate_start_datetime(start_datetime=start_datetime)
         cls.validate_no_of_rounds(no_of_rounds=no_of_rounds)
@@ -90,19 +91,10 @@ class Tournament(models.Model):
         tournament_objs = cls.objects.all().order_by('-start_datetime')
 
         tournaments = []
-
         for tournament_obj in tournament_objs:
             tournaments.append(tournament_obj.convert_tournament_to_dict())
 
         return tournaments
-
-    @classmethod
-    def get_tournament(cls, tournament_id, status):
-        try:
-            return cls.objects.get(id=tournament_id, status=status)
-        except cls.DoesNotExist:
-            raise Exception(
-                "No tournament exists with given tournament id and status")
 
     @classmethod
     def get_tournament_by_id(cls, tournament_id):
@@ -122,8 +114,7 @@ class Tournament(models.Model):
     def calculate_no_participants(cls, no_of_rounds):
         return 2**no_of_rounds
 
-    @classmethod
-    def _validate_tournament_winner(cls, user_id):
+    def validate_tournament_winner(self):
         from .user import User
-        if User.is_user_id_null(user_id):
+        if User.is_user_id_null(self.winner_id):
             raise Exception("Tournament winner not yet declared")
