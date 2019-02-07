@@ -139,3 +139,8 @@ class Tournament(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 TournamentInProgress
             raise TournamentInProgress
+
+        elif self.status != TournamentStatus.COMPLETED.value:
+            from tournaments.exceptions.custom_exceptions import \
+                TournamentNotYetStarted
+            raise TournamentNotYetStarted
