@@ -17,6 +17,10 @@ class UserProfile(models.Model):
         cls.objects.create(user_id=user_id, name=name, age=age, gender=gender)
 
     @classmethod
+    def get_opponent_user_profile(cls, tournament_id, round_number, user_id):
+        pass
+
+    @classmethod
     def get_user(cls, user_id):
         return cls.objects.get(user_id=user_id)
 
