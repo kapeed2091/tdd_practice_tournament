@@ -68,11 +68,14 @@ todo-list
             - invalid round_number (non positive)
             - invalid round number (not integer)
     - User can get the winner user profile of any tournament (30 min)
-        - [successful]
-        - tournament is still on
+        - [tournament is still on]
+    - User can get his current round number for a tournament
+        - user has been defeated in the tournament somewhere
     - User status is updated to DEAD after the match is done
     - level up
         - after finals winner level should not be updated
+    - Upgrade to next round
+        - same score for both player and opponent
 
 Completed
     - create_tournament successful case
@@ -127,3 +130,4 @@ Completed
         - successful
         - user not part of tournament
         - opponent has not been assigned yet
+        - successful
