@@ -59,6 +59,17 @@ class UserTournament(models.Model):
             user_id=user_id, tournament_id=tournament_id
         )
 
+        from .user_match import UserMatch
+        user_matches = UserMatch.objects.filter(match_id=match_id)
+
+        for each_user_match in user_matches:
+            from tournaments.constants.general import DEFAULT_SCORE
+
+            if each_user_match.score == DEFAULT_SCORE:
+                from tournaments.exceptions.custom_exceptions import \
+                    MatchInProgress
+                raise MatchInProgress
+
         cls._validate_if_level_up_is_done_already(
             user_tournament=user_tournament, match=match
         )
