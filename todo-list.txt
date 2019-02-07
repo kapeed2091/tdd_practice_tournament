@@ -70,9 +70,7 @@ todo-list
     - User can get his current round number for a tournament
         - user has been defeated in the tournament somewhere
     - User status is updated to DEAD after the match is done
-        - successful
-        - [already done]
-        - invalid match_id
+        - [invalid match_id]
     - level up
         - after finals winner level should not be updated and tournament status is COMPLETED
     - Upgrade to next round
@@ -135,3 +133,6 @@ Completed
     User can get the winner user profile of any tournament (30 min)
         - tournament is still on
         - tournament status is one of CAN_JOIN, FULL_YET_TO_START
+    User status is updated to DEAD after the match is done
+        - successful
+        - already done
