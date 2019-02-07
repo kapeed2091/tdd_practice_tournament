@@ -3,10 +3,14 @@ from tournament.constants.general import USER_ID_MAX_LENGTH
 
 
 class UserProfile(models.Model):
+    NAME_MAX_LENGTH = 30
+    DEFAULT_AGE = 0
+    GENDER_MAX_LENGTH = 10
+
     user_id = models.CharField(max_length=USER_ID_MAX_LENGTH)
-    name = models.CharField(max_length=30)
-    age = models.PositiveIntegerField(default=0)
-    gender = models.CharField(max_length=10)
+    name = models.CharField(max_length=NAME_MAX_LENGTH)
+    age = models.PositiveIntegerField(default=DEFAULT_AGE)
+    gender = models.CharField(max_length=GENDER_MAX_LENGTH)
 
     @classmethod
     def create_user_profile(cls, user_id, name, age, gender):
