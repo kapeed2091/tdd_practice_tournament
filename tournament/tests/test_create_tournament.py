@@ -100,5 +100,5 @@ class TestCreateTournament(TestCase):
             "start_datetime": start_datetime
         }
 
-        with self.assertRaisesMessage(BadRequest, 'Invalid user_id'):
+        with self.assertRaisesMessage(BadRequest, 'Invalid user id'):
             KoTournament.create_tournament(**tournament_request)

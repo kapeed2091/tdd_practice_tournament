@@ -156,7 +156,7 @@ class KoTournament(models.Model):
         try:
             return User.get_user(user_id)
         except User.DoesNotExist:
-            raise NotFound('Invalid user id')
+            raise NotFound(INVALID_USER_ID)
 
     @classmethod
     def _get_user_profile(cls, user):

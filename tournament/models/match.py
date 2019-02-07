@@ -5,7 +5,8 @@ from django_swagger_utils.drf_server.exceptions import Forbidden, NotFound, BadR
 from tournament.constants.exception_messages import MATCH_CAN_BE_PLAYED_ONLY_AFTER_THE_TOURNAMENT_HAS_STARTED, \
     USER_DOES_NOT_EXIST_WITH_THE_GIVEN_USER_ID, USER_DOES_NOT_BELONG_TO_THE_MATCH, \
     MATCH_DOES_NOT_EXIST_WITH_THE_GIVEN_MATCH_ID, THERE_ARE_NO_FURTHER_ROUNDS_IN_THIS_TOURNAMENT, \
-    THERE_ARE_NO_VACANT_MATCHES, OPPONENT_IS_NOT_YET_ASSIGNED
+    THERE_ARE_NO_VACANT_MATCHES, OPPONENT_IS_NOT_YET_ASSIGNED, USER_HAS_NO_MATCH_IN_THE_GIVEN_ROUND, \
+    WINNER_IS_NOT_DECLARED_YET
 from tournament.constants.general import MatchStatus, MatchUserStatus
 from tournament.models import User, KoTournament
 
@@ -102,7 +103,7 @@ class Match(models.Model):
                 user_status=MatchUserStatus.WIN.value
             )
         except cls.DoesNotExist:
-            raise NotFound('Winner is not declared yet')
+            raise NotFound(WINNER_IS_NOT_DECLARED_YET)
 
     @classmethod
     def get_user_match_in_a_tournament_round(cls, user, tournament_round, tournament):
@@ -113,7 +114,7 @@ class Match(models.Model):
                 tournament=tournament
             )
         except cls.DoesNotExist:
-            raise NotFound('User has no match in the given round')
+            raise NotFound(USER_HAS_NO_MATCH_IN_THE_GIVEN_ROUND)
 
     @staticmethod
     def _validate_round_to_progress(tournament, current_round):
