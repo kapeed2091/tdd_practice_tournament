@@ -81,7 +81,7 @@ class KoTournament(models.Model):
         from tournament.models import Match
 
         user = cls._get_user(user_id)
-        tournament = cls.get_tournament(tournament_id)
+        tournament = cls._get_tournament_v2(tournament_id)
         user_match = Match.get_user_match_in_a_tournament_round(
             user=user,
             tournament_round=tournament_round,
