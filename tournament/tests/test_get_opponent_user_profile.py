@@ -10,6 +10,7 @@ class TestGetOpponentUserProfile(TestCase):
     user_id = 'User'
     user1_id = 'User1'
     user2_id = 'User2'
+    invalid_user_id = 'InvalidUser'
     user_dict = {
         'user_id': user1_id,
         'name': 'Name1',
@@ -106,6 +107,26 @@ class TestGetOpponentUserProfile(TestCase):
 
         tournament = self.setup_create_tournament()
         User.objects.create(**self.user_dict)
+        opponent_user = User.objects.create(**self.opponent_user_dict)
+        self.setup_assign_user_match(
+            user=opponent_user, match_id=self.match_id, tournament=tournament)
+
+    def test_invalid_user_id(self):
+        from tournament.models import KoTournament
+
+        self.setup_invalid_user_id()
+        with self.assertRaisesMessage(NotFound, 'Invalid user id'):
+            KoTournament.get_opponent_user_profile(
+                user_id=self.invalid_user_id, tournament_round=2, tournament_id=1)
+
+    def setup_invalid_user_id(self):
+        from tournament.models import User
+
+        tournament = self.setup_create_tournament()
+        user = User.objects.create(**self.user_dict)
+        self.setup_assign_user_match(
+            user=user, match_id=self.match_id, tournament=tournament)
+
         opponent_user = User.objects.create(**self.opponent_user_dict)
         self.setup_assign_user_match(
             user=opponent_user, match_id=self.match_id, tournament=tournament)
