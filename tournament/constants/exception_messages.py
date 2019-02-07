@@ -17,4 +17,5 @@ USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT = 'User does not belong to the tournament
 OPPONENT_IS_NOT_YET_ASSIGNED = 'Opponent is not yet assigned'
 USER_HAS_NO_MATCH_IN_THE_GIVEN_ROUND = 'User has no match in the given round'
 WINNER_IS_NOT_DECLARED_YET = 'Winner is not declared yet'
+TOURNAMENT_HAS_NO_SUCH_ROUND = 'Tournament has no such round'
 

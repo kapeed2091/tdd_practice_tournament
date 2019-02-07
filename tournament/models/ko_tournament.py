@@ -2,7 +2,8 @@ from django.db import models
 from django_swagger_utils.drf_server.exceptions import BadRequest, NotFound
 
 from tournament.constants.exception_messages import TOURNAMENT_DOES_NOT_EXIST_WITH_THE_GIVEN_TOURNAMENT_ID, \
-    INVALID_USER_ID, INVALID_NUMBER_OF_ROUNDS, INVALID_START_DATETIME, USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT
+    INVALID_USER_ID, INVALID_NUMBER_OF_ROUNDS, INVALID_START_DATETIME, USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT, \
+    TOURNAMENT_HAS_NO_SUCH_ROUND
 from tournament.constants.general import TournamentStatus
 from tournament.utils.date_time_utils import get_current_date_time
 
@@ -82,6 +83,7 @@ class KoTournament(models.Model):
 
         user = cls._get_user(user_id)
         tournament = cls._get_tournament_v2(tournament_id)
+        tournament.validate_tournament_round(tournament_round)
         user_match = Match.get_user_match_in_a_tournament_round(
             user=user,
             tournament_round=tournament_round,
@@ -94,6 +96,10 @@ class KoTournament(models.Model):
             match_id=match_id
         )
         return cls._get_user_profile(opponent_user)
+
+    def validate_tournament_round(self, tournament_round):
+        if tournament_round > self.no_of_rounds:
+            raise BadRequest(TOURNAMENT_HAS_NO_SUCH_ROUND)
 
     @classmethod
     def get_winner_profile(cls, tournament_id):
