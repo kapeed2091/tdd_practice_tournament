@@ -128,6 +128,11 @@ class UserMatch(models.Model):
 
         return user_details
 
+    @classmethod
+    def get_user_matches(cls, match_id):
+        objs = cls.objects.filter(match_id=match_id)
+        return objs
+
     def _update_score(self, score):
         self.score = score
         self.save()

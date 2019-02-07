@@ -99,7 +99,7 @@ class UserTournament(models.Model):
         tournament_id = match.tournament_id
 
         from .user_match import UserMatch
-        user_matches = UserMatch.objects.filter(match_id=match_id)
+        user_matches = UserMatch.get_user_matches(match_id=match_id)
 
         user_matches_sorted = sorted(user_matches, key=lambda x: x.score)
         user_match_with_lowest_score = user_matches_sorted[0]
@@ -110,14 +110,16 @@ class UserTournament(models.Model):
             tournament_id=tournament_id
         )
 
-        from tournaments.constants.general import UserTournamentStatus
-        user_tournament.status = UserTournamentStatus.DEAD.value
-        user_tournament.save()
-
-        return user_tournament
+        user_tournament.update_player_status_to_dead()
 
     def update_round_number(self, round_number):
         self.round_number = round_number
+        self.save()
+
+    def update_player_status_to_dead(self):
+        from tournaments.constants.general import UserTournamentStatus
+
+        self.status = UserTournamentStatus.DEAD.value
         self.save()
 
     @classmethod
