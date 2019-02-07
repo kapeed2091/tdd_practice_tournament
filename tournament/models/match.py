@@ -31,6 +31,10 @@ class Match(models.Model):
             round_match__round_no=round_no, tournament_id=tournament_id)
 
         opponent_user_id = cls._get_opponent_user_id(match_users, user_id)
+
+        if not opponent_user_id:
+            raise Exception("Opponent is not set for given round")
+
         from .user import User
         user_profile = User.get_user_profile(opponent_user_id)
         return user_profile
