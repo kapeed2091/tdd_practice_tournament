@@ -92,6 +92,10 @@ class UserTournament(models.Model):
             return True
         return False
 
+    @classmethod
+    def update_loser_status(cls, match_id):
+        pass
+
     def update_round_number(self, round_number):
         self.round_number = round_number
         self.save()
