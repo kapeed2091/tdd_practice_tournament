@@ -40,7 +40,7 @@ ToDo List:
     - adding users to match, in tournament round
         - invalid tournament id
     - get match winner
-        - match users not completed the match
+        - [match users not completed the match]
     User will progress to next round if he wins the match
         - invalid current round no
         - invalid tournament id
@@ -51,7 +51,7 @@ ToDo List:
         - invalid user_id
         - invalid round  no
     User can get the winner user profile of any tournament
-        - [tournament winner is not declared]
+        - invalid tournament id
 
 
 Completed List
@@ -89,6 +89,7 @@ Completed List
         - opponent not set
     User can get the winner user profile of any tournament
         - get the winner user profile
+        - tournament winner is not declared
 
 
 Time Estimation: 10 Hours

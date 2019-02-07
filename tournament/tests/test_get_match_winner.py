@@ -44,6 +44,28 @@ class TestGetMatchWinner(TestCase):
 
         self.assertEqual(expected_winner_id, winner_id)
 
+    def test_get_match_winner_for_not_completed_match(self):
+        from tdd_practice.constants.general import TournamentStatus
+        self.users = self._populate_users()
+        self._create_tournament(status=TournamentStatus.IN_PROGRESS.value)
+
+        from tournament.models import RoundMatch
+        self.match = RoundMatch.objects.create(
+            tournament_id=self.tournament.id, round_no=1)
+
+        from tournament.models import Match
+        from tdd_practice.constants.general import UserMatchStatus
+
+        for user in self.users:
+            Match.objects.create(
+                user_id=user.id, tournament=self.tournament,
+                round_match_id=self.match.id,
+                status=UserMatchStatus.IN_PROGRESS.value)
+
+        with self.assertRaisesMessage(Exception,
+                                      "Given match is not completed"):
+            RoundMatch.get_match_winner(match_id=self.match.id)
+
     def _create_user_matches(self):
         from tournament.models import RoundMatch
         self.match = RoundMatch.objects.create(
