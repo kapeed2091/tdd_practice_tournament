@@ -147,20 +147,19 @@ class TMPlayer(models.Model):
     def _get_tm_player_by_round_no(cls, tournament_id, player_id, round_no):
         try:
             tm_player = cls.objects.get(
-                tournament_match__tournament_id=tournament_id, player_id=player_id,
-                tournament_match__round_no=round_no)
+                tournament_match__tournament_id=tournament_id,
+                player_id=player_id, tournament_match__round_no=round_no)
             return tm_player
         except cls.DoesNotExist:
             cls._raise_exception_when_player_not_found_in_round()
 
     def _get_opponent_player_id(self):
-        t_match_id = self.tournament_match_id
-        opponent_tm_player = TMPlayer.objects.filter(
-            tournament_match_id=t_match_id).exclude(id=self.id).first()
+        opponent_tm_player = self._get_opponent_tm_player()
         if self._is_opponent_exists(opponent_tm_player):
             return opponent_tm_player.player_id
         else:
             self._raise_exception_when_opponent_is_not_decided()
+        return
 
     @classmethod
     def _can_update_winner(cls, tm_players):
@@ -191,6 +190,12 @@ class TMPlayer(models.Model):
         from ib_tournament.constants.exception_messages import \
             PLAYER_NOT_IN_ROUND
         raise BadRequest(*PLAYER_NOT_IN_ROUND)
+
+    def _get_opponent_tm_player(self):
+        opponent_tm_player = TMPlayer.objects.filter(
+            tournament_match_id=self.tournament_match_id).exclude(
+            id=self.id).first()
+        return opponent_tm_player
 
     @classmethod
     def _is_opponent_exists(cls, opponent_tm_player):
