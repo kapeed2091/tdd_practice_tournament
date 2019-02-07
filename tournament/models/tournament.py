@@ -32,6 +32,8 @@ class Tournament(models.Model):
     def get_tournament_winner_profile(cls, tournament_id):
         tournament = cls.get_tournament_by_id(tournament_id=tournament_id)
 
+        cls._validate_tournament_winner(tournament.winner_id)
+
         from .user import User
         return User.get_user_profile(user_id=tournament.winner_id)
 
@@ -119,3 +121,9 @@ class Tournament(models.Model):
     @classmethod
     def calculate_no_participants(cls, no_of_rounds):
         return 2**no_of_rounds
+
+    @classmethod
+    def _validate_tournament_winner(cls, user_id):
+        from .user import User
+        if User.is_user_id_null(user_id):
+            raise Exception("Tournament winner not yet declared")
