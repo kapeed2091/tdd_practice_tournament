@@ -69,6 +69,7 @@ todo-list
             - invalid round number (not integer)
     - User can get the winner user profile of any tournament (30 min)
         - [tournament is still on]
+        - tournament status is one of CAN_JOIN, FULL_YET_TO_START
     - User can get his current round number for a tournament
         - user has been defeated in the tournament somewhere
     - User status is updated to DEAD after the match is done

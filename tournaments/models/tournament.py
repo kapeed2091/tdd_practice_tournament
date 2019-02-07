@@ -132,3 +132,10 @@ class Tournament(models.Model):
         if not user_exists:
             from ..exceptions.custom_exceptions import InvalidUserId
             raise InvalidUserId
+
+    def validate_if_status_is_completed(self):
+        from tournaments.constants.general import TournamentStatus
+        if self.status == TournamentStatus.IN_PROGRESS.value:
+            from tournaments.exceptions.custom_exceptions import \
+                TournamentInProgress
+            raise TournamentInProgress

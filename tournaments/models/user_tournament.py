@@ -125,16 +125,11 @@ class UserTournament(models.Model):
             tournament_id=tournament_id
         )
 
-        from tournaments.constants.general import TournamentStatus
-        if tournament.status == TournamentStatus.IN_PROGRESS.value:
-            from tournaments.exceptions.custom_exceptions import \
-                TournamentInProgress
-            raise TournamentInProgress
-
-        total_rounds = tournament.total_rounds
+        tournament.validate_if_status_is_completed()
 
         from tournaments.constants.general import UserTournamentStatus
 
+        total_rounds = tournament.total_rounds
         user_tournament = cls.objects.get(
             tournament_id=tournament_id, round_number=total_rounds,
             status=UserTournamentStatus.ALIVE.value

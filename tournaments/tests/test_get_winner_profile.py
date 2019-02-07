@@ -57,7 +57,7 @@ class TestGetWinnerProfile(TestUtils):
                 tournament_id=tournament.id
             )
 
-    def test_get_winner_profile_successful_(self):
+    def test_get_winner_profile_successful(self):
         user_1_details = {
             "name": "John-2",
             "age": 14,
