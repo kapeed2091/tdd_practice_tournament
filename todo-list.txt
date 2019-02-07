@@ -47,7 +47,7 @@ ToDo List:
         - invalid user
         - invalid tournament id
     User can get his opponent user profile in any round in a tournament
-        - opponent not set
+        - [opponent not set]
         - invalid user_id
         - invalid round  no
 

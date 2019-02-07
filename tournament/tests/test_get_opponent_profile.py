@@ -31,6 +31,30 @@ class TestGetOpponentProfile(TestCase):
         }
         self.assertEqual(exp_opponent_profile, opponent_profile)
 
+    def test_opponent_not_set(self):
+        from tdd_practice.constants.general import TournamentStatus
+        self._populate_users()
+        self.user = self.users[0]
+        round_no = 2
+
+        self._create_tournament(status=TournamentStatus.IN_PROGRESS.value)
+
+        from tournament.models import RoundMatch
+        self.match = RoundMatch.objects.create(
+            tournament_id=self.tournament.id, round_no=round_no)
+
+        from tournament.models import Match
+        Match.objects.create(
+            user_id=self.user.id, tournament=self.tournament,
+            round_match_id=self.match.id)
+
+        with self.assertRaisesMessage(Exception,
+                                      "Opponent is not set for given round"):
+            from tournament.models import Match
+            Match.get_opponent_user_profile(
+                user_id=self.user.id, tournament_id=self.tournament.id,
+                round_no=round_no)
+
     def _create_tournament(self, status):
         from ib_common.date_time_utils.get_current_local_date_time \
             import get_current_local_date_time
