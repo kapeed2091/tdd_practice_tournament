@@ -26,9 +26,9 @@ Yet to do:
         - User must be registered with us
         - After subscribing what should be the current round of user before tournament starts?
    - User can get his opponent user profile in any round in tournament
-        - User should be subscribed to tournament
+        - *User should be subscribed to tournament
+        - User current round should be greater than or equal to requested round
    - User can get the winner user profile of any tournament
-        - *User should get the winner profile of match of final round for a tournament
         - Only one final match should be there for each tournament
         - Tournament should exist
         - Tournament should be in completed state
@@ -88,6 +88,8 @@ Completed:
    - User should have a profile with name, age, gender
    - User can get his opponent user profile in any round in tournament
         - User should get opponent user profile for a round
+   - User can get the winner user profile of any tournament
+        - User should get the winner profile of match of final round for a tournament
 
 Raise Appropriate custom exceptions wherever necessary
 
