@@ -64,13 +64,19 @@ class Match(models.Model):
         for round_number in range(total_rounds, 0, -1):
             matches_to_be_created = 2 ** (total_rounds - round_number)
 
+            match_detail = {
+                "tournament_id": tournament_id,
+                "round_number": round_number
+            }
             cls._create_multiple_objects(
-                tournament_id=tournament_id, round_number=round_number,
-                count=matches_to_be_created
+                match_detail=match_detail, count=matches_to_be_created
             )
 
     @classmethod
-    def _create_multiple_objects(cls, tournament_id, round_number, count):
+    def _create_multiple_objects(cls, match_detail, count):
+        tournament_id = match_detail["tournament_id"]
+        round_number = match_detail["round_number"]
+
         objs = []
         for each in range(count):
             objs.append(

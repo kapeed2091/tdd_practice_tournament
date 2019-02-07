@@ -63,9 +63,12 @@ class UserMatch(models.Model):
             total_rounds=tournament.total_rounds, round_number=round_number
         )
 
+        players_count_in_a_round = Tournament.get_players_count_in_a_round(
+            tournament_id=tournament_id, round_number=round_number
+        )
         cls.validate_players_count_in_round(
-            total_players=total_players, tournament_id=tournament_id,
-            round_number=round_number
+            total_players=total_players,
+            players_count_in_a_round=players_count_in_a_round
         )
 
         from .match import Match
@@ -158,13 +161,8 @@ class UserMatch(models.Model):
             raise MatchIdOverused
 
     @staticmethod
-    def validate_players_count_in_round(total_players, tournament_id,
-                                        round_number):
-        from .tournament import Tournament
-        players_count_in_a_round = Tournament.get_players_count_in_a_round(
-            tournament_id=tournament_id, round_number=round_number
-        )
-
+    def validate_players_count_in_round(total_players,
+                                        players_count_in_a_round):
         if total_players != players_count_in_a_round:
             from tournaments.exceptions.custom_exceptions import \
                 InsufficientMembersInRound
