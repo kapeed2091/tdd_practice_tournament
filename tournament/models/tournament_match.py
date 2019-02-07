@@ -103,6 +103,10 @@ class TournamentMatch(models.Model):
 
         return opponent_user_profile
 
+    @classmethod
+    def get_tournament_winner_profile(cls, tournament_id):
+        pass
+
     def assign_match_id_to_match(self, match_id):
         self.match_id = match_id
         self.save()
