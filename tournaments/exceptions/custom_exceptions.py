@@ -96,3 +96,7 @@ class OpponentNotYetAssigned(Exception):
 
 class TournamentInProgress(Exception):
     pass
+
+
+class TournamentNotYetStarted(Exception):
+    pass
