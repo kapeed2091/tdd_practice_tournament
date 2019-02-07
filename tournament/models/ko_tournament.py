@@ -79,15 +79,21 @@ class KoTournament(models.Model):
 
     @classmethod
     def get_opponent_user_profile(cls, user_id, tournament_round, tournament_id):
-        from tournament.models import Match
+        from tournament.models import User, Match
 
+        user = User.get_user(user_id)
         tournament = cls.get_tournament(tournament_id)
-        opponent_user = Match.get_opponent_user_of_match(
-            user_id=user_id,
+        user_match = Match.get_user_match_in_a_tournament_round(
+            user=user,
             tournament_round=tournament_round,
             tournament=tournament
         )
-        cls._validate_opponent_user_of_match(opponent_user)
+        match_id = user_match.match_id
+
+        opponent_user = Match.get_opponent_user_of_match(
+            user=user,
+            match_id=match_id
+        )
         return cls._get_user_profile(opponent_user)
 
     @classmethod
@@ -144,11 +150,6 @@ class KoTournament(models.Model):
     def _validate_user_current_tournament_match(match):
         if match is None:
             raise NotFound(USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT)
-
-    @staticmethod
-    def _validate_opponent_user_of_match(user):
-        if user is None:
-            raise NotFound(OPPONENT_IS_NOT_YET_ASSIGNED)
 
     @classmethod
     def _get_user_profile(cls, user):

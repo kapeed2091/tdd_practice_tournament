@@ -5,7 +5,7 @@ from django_swagger_utils.drf_server.exceptions import Forbidden, NotFound, BadR
 from tournament.constants.exception_messages import MATCH_CAN_BE_PLAYED_ONLY_AFTER_THE_TOURNAMENT_HAS_STARTED, \
     USER_DOES_NOT_EXIST_WITH_THE_GIVEN_USER_ID, USER_DOES_NOT_BELONG_TO_THE_MATCH, \
     MATCH_DOES_NOT_EXIST_WITH_THE_GIVEN_MATCH_ID, THERE_ARE_NO_FURTHER_ROUNDS_IN_THIS_TOURNAMENT, \
-    THERE_ARE_NO_VACANT_MATCHES
+    THERE_ARE_NO_VACANT_MATCHES, OPPONENT_IS_NOT_YET_ASSIGNED
 from tournament.constants.general import MatchStatus, MatchUserStatus
 from tournament.models import User, KoTournament
 
@@ -83,21 +83,14 @@ class Match(models.Model):
         return cls.objects.filter(user=user, tournament=tournament).order_by('-round').first()
 
     @classmethod
-    def get_opponent_user_of_match(cls, user_id, tournament_round, tournament):
-        from tournament.models import User
-
-        user = User.get_user(user_id)
-        user_match = cls._get_user_match(
-            user=user,
-            tournament_round=tournament_round,
-            tournament=tournament
-        )
-        match_id = user_match.match_id
-
+    def get_opponent_user_of_match(cls, user, match_id):
         opponent_match = cls.objects.filter(
             match_id=match_id
         ).exclude(user=user).first()
-        return opponent_match.user
+
+        opponent_user = opponent_match.user
+        cls._validate_opponent_user(opponent_user)
+        return opponent_user
 
     @classmethod
     def get_tournament_winner_match(cls, tournament):
@@ -110,6 +103,17 @@ class Match(models.Model):
             )
         except cls.DoesNotExist:
             raise NotFound('Winner is not declared yet')
+
+    @classmethod
+    def get_user_match_in_a_tournament_round(cls, user, tournament_round, tournament):
+        try:
+            return cls.objects.get(
+                user=user,
+                round=tournament_round,
+                tournament=tournament
+            )
+        except cls.DoesNotExist:
+            raise NotFound('User has no match in the given round')
 
     @staticmethod
     def _validate_round_to_progress(tournament, current_round):
@@ -157,13 +161,8 @@ class Match(models.Model):
     def _does_match_exists(cls, match_id):
         return cls.objects.filter(match_id=match_id).exists()
 
-    @classmethod
-    def _get_user_match(cls, user, tournament_round, tournament):
-        try:
-            return cls.objects.get(
-                user=user,
-                round=tournament_round,
-                tournament=tournament
-            )
-        except cls.DoesNotExist:
-            raise NotFound('User has no match in the given round')
+    @staticmethod
+    def _validate_opponent_user(opponent_user):
+        if opponent_user is None:
+            raise NotFound(OPPONENT_IS_NOT_YET_ASSIGNED)
+
