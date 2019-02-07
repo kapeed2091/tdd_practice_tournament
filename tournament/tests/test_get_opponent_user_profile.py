@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django_swagger_utils.drf_server.exceptions import NotFound, BadRequest
+from django_swagger_utils.drf_server.exceptions import NotFound, BadRequest, Forbidden
 from ib_common.date_time_utils.get_current_datetime import get_current_datetime
 import datetime
 
@@ -154,6 +154,20 @@ class TestGetOpponentUserProfile(TestCase):
                 user_id=self.user1_id, tournament_round=5, tournament_id=1)
 
     def setup_invalid_round_number(self):
+        from tournament.models import User
+
+        self.setup_create_tournament()
+        User.objects.create(**self.user_dict)
+
+    def test_user_does_not_belong_to_the_tournament(self):
+        from tournament.models import KoTournament
+
+        self.setup_user_does_not_belong_to_the_tournament()
+        with self.assertRaisesMessage(Forbidden, 'User does not belong to the tournament'):
+            KoTournament.get_opponent_user_profile(
+                user_id=self.user1_id, tournament_round=2, tournament_id=1)
+
+    def setup_user_does_not_belong_to_the_tournament(self):
         from tournament.models import User
 
         self.setup_create_tournament()
