@@ -17,6 +17,8 @@ class KOTournament(models.Model):
     @classmethod
     def create_tournament(cls, user_id, name, number_of_rounds,
                           start_datetime, status):
+        # ToDo: Can I pass default status and remove status in
+        #  input and it's related testcase?
         cls.validate_create_request(
             user_id=user_id, number_of_rounds=number_of_rounds,
             start_datetime=start_datetime, status=status)
@@ -57,7 +59,7 @@ class KOTournament(models.Model):
         from tournament.models import UserProfile
 
         UserProfile.is_registered_user(user_id=user_id)
-        cls.is_valid_number_of_rounds(number_of_rounds=number_of_rounds)
+        cls.validate_number_of_rounds(number_of_rounds=number_of_rounds)
         cls.is_valid_start_datetime(start_datetime=start_datetime)
         cls.is_valid_creation_status(status=status)
 
@@ -80,7 +82,7 @@ class KOTournament(models.Model):
         return all_tournaments
 
     @classmethod
-    def is_valid_number_of_rounds(cls, number_of_rounds):
+    def validate_number_of_rounds(cls, number_of_rounds):
         cls.is_non_int_type(number_of_rounds=number_of_rounds)
         cls.is_non_positive(number_of_rounds=number_of_rounds)
 
