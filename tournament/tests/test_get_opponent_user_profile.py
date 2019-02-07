@@ -130,3 +130,17 @@ class TestGetOpponentUserProfile(TestCase):
         opponent_user = User.objects.create(**self.opponent_user_dict)
         self.setup_assign_user_match(
             user=opponent_user, match_id=self.match_id, tournament=tournament)
+
+    def test_invalid_tournament_id(self):
+        from tournament.models import KoTournament
+
+        self.setup_invalid_tournament_id()
+        with self.assertRaisesMessage(NotFound, 'Invalid tournament id'):
+            KoTournament.get_opponent_user_profile(
+                user_id=self.user1_id, tournament_round=2, tournament_id=3)
+
+    def setup_invalid_tournament_id(self):
+        from tournament.models import User
+
+        self.setup_create_tournament()
+        User.objects.create(**self.user_dict)
