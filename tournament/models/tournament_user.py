@@ -105,5 +105,13 @@ class TournamentUser(models.Model):
                                         user_id):
         tournament_user_obj = cls.objects.get(user_id=user_id,
                                               t_id=tournament_id)
-        if tournament_user_obj.current_round_number < round_number:
-            raise Exception('User did not reach to requested round')
+        if tournament_user_obj.is_current_round_less_than_requested(
+                round_number=round_number):
+            from tournament.constants.exception_messages import \
+                USER_DID_NOT_REACH_TO_REQUESTED_ROUND
+            raise Exception(*USER_DID_NOT_REACH_TO_REQUESTED_ROUND)
+
+    def is_current_round_less_than_requested(self, round_number):
+        if self.current_round_number < round_number:
+            return True
+        return False

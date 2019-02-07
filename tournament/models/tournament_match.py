@@ -93,14 +93,11 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def get_opponent_user_profile(cls, tournament_id, round_number, user_id):
-        from tournament.models import UserProfile, TournamentUser
+        from tournament.models import UserProfile
 
-        TournamentUser.validate_user_subscription(
-            tournament_id=tournament_id, user_id=user_id)
-        TournamentUser.validate_requested_round_number(
-            tournament_id=tournament_id, round_number=round_number,
-            user_id=user_id)
-
+        cls.validate_get_opponent_profile_request(
+            tournament_id=tournament_id,
+            round_number=round_number, user_id=user_id)
         opponent_user_id = cls.get_opponent_user_id(
             tournament_id=tournament_id, round_number=round_number,
             user_id=user_id)
@@ -354,3 +351,14 @@ class TournamentMatch(models.Model):
         if self.player_two == user_id:
             return True
         return False
+
+    @classmethod
+    def validate_get_opponent_profile_request(
+            cls, tournament_id, round_number, user_id):
+        from tournament.models import TournamentUser
+
+        TournamentUser.validate_user_subscription(
+            tournament_id=tournament_id, user_id=user_id)
+        TournamentUser.validate_requested_round_number(
+            tournament_id=tournament_id, round_number=round_number,
+            user_id=user_id)

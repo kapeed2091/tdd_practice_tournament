@@ -35,3 +35,7 @@ USER_DOES_NOT_BELONG_TO_MATCH = \
     (_('User doesnot belong to this match'), 'USER_DOES_NOT_BELONG_TO_MATCH')
 
 USER_NOT_REGISTERED = (_('User not registered'), 'USER_NOT_REGISTERED')
+
+USER_DID_NOT_REACH_TO_REQUESTED_ROUND = \
+    (_('User did not reach to requested round'),
+     'USER_DID_NOT_REACH_TO_REQUESTED_ROUND')
