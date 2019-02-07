@@ -47,7 +47,7 @@ class TestUpdateLoserStatus(TestUtils):
         tournament = self.create_tournament(user_id=user_1.id)
 
         from tournaments.constants.general import UserTournamentStatus
-        player_1 = self.create_user_tournament(
+        self.create_user_tournament(
             user_id=user_1.id, tournament_id=tournament.id,
             status=UserTournamentStatus.DEAD.value
         )
