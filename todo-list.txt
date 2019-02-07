@@ -51,7 +51,6 @@ ToDo List:
         - invalid user_id
         - invalid round  no
     User can get the winner user profile of any tournament
-        - [get the winner user profile]
         - tournament winner is not declared
 
 
@@ -88,6 +87,9 @@ Completed List
     User can get his opponent user profile in any round in a tournament
         - get opponent user profile
         - opponent not set
+    User can get the winner user profile of any tournament
+        - get the winner user profile
+
 
 Time Estimation: 10 Hours
 Updated Time Estimation: 12 Hours
