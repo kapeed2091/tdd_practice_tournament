@@ -104,3 +104,7 @@ class TournamentNotYetStarted(Exception):
 
 class LoserStatusAlreadyUpdated(Exception):
     pass
+
+
+class MatchInProgress(Exception):
+    pass
