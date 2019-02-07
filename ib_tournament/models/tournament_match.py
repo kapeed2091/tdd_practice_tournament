@@ -35,6 +35,7 @@ class TournamentMatch(models.Model):
             tournament_id=tournament_id, round_no=round_no).values_list(
             'id', flat=True))
 
+    # TODO: REFACTOR: modify function name, comes under: N6
     @classmethod
     def _create_tournament_matches_to_create(cls, tournament_id, total_rounds):
         t_matches_to_create = cls._get_tournament_matches_to_create(
