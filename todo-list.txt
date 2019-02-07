@@ -27,7 +27,6 @@ Yet to do:
         - After subscribing what should be the current round of user before tournament starts?
    - User can get his opponent user profile in any round in tournament
         - User should be subscribed to tournament
-        - *User should get opponent user profile for a round
    - User can get the winner user profile of any tournament
    - User should have a profile
         - Gender should be one among MALE, FEMALE, OTHER
@@ -83,6 +82,8 @@ Completed:
         - Get current round number of a user for a tournament
         - User not subscribed to tournament - throw exception
    - User should have a profile with name, age, gender
+   - User can get his opponent user profile in any round in tournament
+        - User should get opponent user profile for a round
 
 Raise Appropriate custom exceptions wherever necessary
 

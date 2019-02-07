@@ -51,11 +51,11 @@ class TestUserGetOpponentProfile(TestCase):
             t_id=t_id, t_round_number=t_round_number_2, player_one=user_id_1,
             player_two=user_id_3)
 
-        round_1_opponent_profile = UserProfile.get_opponent_user_profile(
+        round_1_opponent_profile = TournamentMatch.get_opponent_user_profile(
             tournament_id=t_id, round_number=t_round_number_1,
             user_id=user_id_1)
 
-        round_2_opponent_profile = UserProfile.get_opponent_user_profile(
+        round_2_opponent_profile = TournamentMatch.get_opponent_user_profile(
             tournament_id=t_id, round_number=t_round_number_2,
             user_id=user_id_1)
 

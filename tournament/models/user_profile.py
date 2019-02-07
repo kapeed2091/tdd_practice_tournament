@@ -17,14 +17,9 @@ class UserProfile(models.Model):
         cls.objects.create(user_id=user_id, name=name, age=age, gender=gender)
 
     @classmethod
-    def get_opponent_user_profile(cls, tournament_id, round_number, user_id):
-        from tournament.models import TournamentMatch
-
-        opponent_user_id = TournamentMatch.get_opponent_user_id(
-            tournament_id=tournament_id, round_number=round_number,
-            user_id=user_id)
-        opponent_user_profile = cls.get_user(user_id=opponent_user_id)
-        return opponent_user_profile.convert_profile_to_dict()
+    def get_user_profile(cls, user_id):
+        user_profile_obj = cls.get_user(user_id=user_id)
+        return user_profile_obj.convert_profile_to_dict()
 
     def convert_profile_to_dict(self):
         return {

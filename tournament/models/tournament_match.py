@@ -91,6 +91,18 @@ class TournamentMatch(models.Model):
             user_id=tournament_match_obj.winner_user_id,
             t_id=tournament_match_obj.t_id)
 
+    @classmethod
+    def get_opponent_user_profile(cls, tournament_id, round_number, user_id):
+        from tournament.models import UserProfile
+
+        opponent_user_id = cls.get_opponent_user_id(
+            tournament_id=tournament_id, round_number=round_number,
+            user_id=user_id)
+        opponent_user_profile = UserProfile.get_user_profile(
+            user_id=opponent_user_id)
+
+        return opponent_user_profile
+
     def assign_match_id_to_match(self, match_id):
         self.match_id = match_id
         self.save()
