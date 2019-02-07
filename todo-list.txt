@@ -29,6 +29,7 @@ Assumptions:
    - keeping name, gender and age optional in DB
    - max length for name as 50
    - keeping default age value as -1
+   - keeping default tournament winner as null
 
 ToDo List:
     User can play matches once the tournament is started
@@ -49,6 +50,9 @@ ToDo List:
     User can get his opponent user profile in any round in a tournament
         - invalid user_id
         - invalid round  no
+    User can get the winner user profile of any tournament
+        - [get the winner user profile]
+        - tournament winner is not declared
 
 
 Completed List

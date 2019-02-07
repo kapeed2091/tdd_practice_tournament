@@ -10,6 +10,7 @@ class Tournament(models.Model):
     username = models.CharField(max_length=50)
     status = models.CharField(max_length=20,
                               default=TournamentStatus.CAN_JOIN.value)
+    winner = models.ForeignKey('tournament.User', null=True)
 
     def convert_tournament_to_dict(self):
         return {"no_of_rounds": self.no_of_rounds,
