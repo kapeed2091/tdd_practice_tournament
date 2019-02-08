@@ -42,7 +42,7 @@ class TournamentUser(models.Model):
 
     @classmethod
     def is_tournament_user_exists(cls, user_id, tournament_id):
-        if len(cls.objects.filter(user_id=user_id, t_id=tournament_id)) > 0:
+        if cls.objects.filter(user_id=user_id, t_id=tournament_id).exists():
             raise Exception('Already Subscribed to Tournament')
 
     @classmethod
