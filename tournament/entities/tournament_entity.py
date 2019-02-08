@@ -1,6 +1,3 @@
-from __future__ import absolute_import
-
-
 class Tournament(object):
     def __init__(self, no_of_rounds, start_datetime):
         self.no_of_rounds = no_of_rounds
