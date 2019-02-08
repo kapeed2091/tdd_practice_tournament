@@ -50,7 +50,7 @@ class RoundMatch(models.Model):
         match_id_wise_user_ids = {match_id: [winner_id]}
 
         from .match import Match
-        Match.create_user_match(
+        Match.create_user_matches(
             match_id_wise_user_ids=match_id_wise_user_ids,
             tournament_id=tournament_id)
 
@@ -90,8 +90,9 @@ class RoundMatch(models.Model):
         match_id_wise_user_ids = \
             cls.match_making(match_ids=match_ids, user_ids=user_ids)
 
-        Match.create_user_match(match_id_wise_user_ids=match_id_wise_user_ids,
-                                tournament_id=tournament_id)
+        Match.create_user_matches(
+            match_id_wise_user_ids=match_id_wise_user_ids,
+            tournament_id=tournament_id)
 
     @classmethod
     def get_tournament_round_match_ids(cls, tournament_id, round_no):

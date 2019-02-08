@@ -16,7 +16,7 @@ class Match(models.Model):
         match = cls.get_match(round_match_id=match_id, user_id=user_id)
         match.validate_play_match()
 
-        match.update_match_status(status=UserMatchStatus.IN_PROGRESS.value)
+        match.update_status(status=UserMatchStatus.IN_PROGRESS.value)
 
     @classmethod
     def get_user_current_round_no(cls, tournament_id, user_id):
@@ -94,23 +94,23 @@ class Match(models.Model):
         user_id = user_match_score['user_id']
 
         match = cls.get_match(round_match_id=match_id, user_id=user_id)
-        match.update_match_score(score=score)
-        match.update_match_status(status=UserMatchStatus.COMPLETED.value)
+        match.update_score(score=score)
+        match.update_status(status=UserMatchStatus.COMPLETED.value)
 
     @classmethod
     def get_match(cls, round_match_id, user_id):
         return cls.objects.get(round_match_id=round_match_id, user_id=user_id)
 
-    def update_match_status(self, status):
+    def update_status(self, status):
         self.status = status
         self.save()
 
-    def update_match_score(self, score):
+    def update_score(self, score):
         self.score = score
         self.save()
 
     @classmethod
-    def create_user_match(cls, match_id_wise_user_ids, tournament_id):
+    def create_user_matches(cls, match_id_wise_user_ids, tournament_id):
         for match_id, user_ids in match_id_wise_user_ids.items():
             for user_id in user_ids:
                 Match.objects.create(user_id=user_id,
