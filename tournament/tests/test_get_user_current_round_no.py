@@ -15,7 +15,7 @@ class TestGetuserCurrentRound(TestCase):
         self._create_user_matches()
 
         from tournament.models import Match
-        curr_round_no = Match.get_user_current_round_no(
+        curr_round_no = Match.get_current_round_no(
             tournament_id=self.tournament.id, user_id=self.user.id)
 
         self.assertEqual(self.curr_round_no, curr_round_no)

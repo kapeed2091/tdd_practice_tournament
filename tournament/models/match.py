@@ -19,11 +19,9 @@ class Match(models.Model):
         match.update_status(status=UserMatchStatus.IN_PROGRESS.value)
 
     @classmethod
-    def get_user_current_round_no(cls, tournament_id, user_id):
-        round_nos = list(Match.objects.filter(
-            tournament_id=tournament_id, user_id=user_id).\
-            values_list('round_match__round_no', flat=True))
-        return max(round_nos)
+    def get_current_round_no(cls, tournament_id, user_id):
+        user_round_nos = cls._get_user_round_nos(tournament_id, user_id)
+        return cls._get_user_current_round_no(user_round_nos)
 
     @classmethod
     def get_opponent_user_profile(cls, user_id, tournament_id, round_no):
@@ -121,3 +119,14 @@ class Match(models.Model):
     def is_user_already_played(self):
         from tdd_practice.constants.general import UserMatchStatus
         return self.status == UserMatchStatus.COMPLETED.value
+
+    @classmethod
+    def _get_user_round_nos(cls, tournament_id, user_id):
+        user_round_nos = list(Match.objects.filter(
+            tournament_id=tournament_id, user_id=user_id). \
+                         values_list('round_match__round_no', flat=True))
+        return user_round_nos
+
+    @classmethod
+    def _get_user_current_round_no(cls, user_round_nos):
+        return max(user_round_nos)
