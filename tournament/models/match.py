@@ -111,6 +111,7 @@ class Match(models.Model):
 
     @classmethod
     def create_user_matches(cls, match_id_wise_user_ids, tournament_id):
+        # ToDo Wrong Level of Abstraction
         for match_id, user_ids in match_id_wise_user_ids.items():
             for user_id in user_ids:
                 Match.objects.create(user_id=user_id,
