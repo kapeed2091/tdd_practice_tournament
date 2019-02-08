@@ -17,7 +17,7 @@ class Tournament(object):
     def create_matches_for_first_round(self):
         from tournament.entities import Match
         for i in range(0, 2**(self.no_of_rounds-1)):
-            self.matches.append(Match())
+            self.matches.append(Match.create())
 
     def _validate_join(self, username):
         if self._is_username_already_joined(username):

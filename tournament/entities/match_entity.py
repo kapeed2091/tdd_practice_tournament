@@ -1,2 +1,5 @@
 class Match(object):
-    pass
+
+    @classmethod
+    def create(cls):
+        return cls()
