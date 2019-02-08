@@ -83,8 +83,10 @@ class TMPlayer(models.Model):
 
     @classmethod
     def _initialise_tm_players(cls, player_ids, t_match_id):
-        return [cls(player_id=player_id, tournament_match_id=t_match_id)
-                for player_id in player_ids]
+        tm_players_to_create = [
+            cls(player_id=player_id, tournament_match_id=t_match_id)
+            for player_id in player_ids]
+        return tm_players_to_create
 
     @classmethod
     def _get_tm_player(cls, player_id, tournament_match_id):
@@ -92,6 +94,7 @@ class TMPlayer(models.Model):
             return cls.objects.get(player_id=player_id,
                                    tournament_match_id=tournament_match_id)
         except cls.DoesNotExist:
+            # TODO: REFACTOR: there shouldn't be more than one line after except
             from django_swagger_utils.drf_server.exceptions import BadRequest
             from ib_tournament.constants.exception_messages import \
                 PLAYER_NOT_IN_MATCH

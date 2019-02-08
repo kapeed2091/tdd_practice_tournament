@@ -19,7 +19,7 @@ class Tournament(models.Model):
             tournament_details['start_datetime_str'])
 
         Player.get_player_by_id(player_id)
-        cls._validate_start_datetime(start_datetime)
+        cls._validate_start_datetime_to_create_tournament(start_datetime)
         cls._validate_total_rounds(total_rounds)
 
         tournament = cls._create_tournament_object(
@@ -120,12 +120,13 @@ class Tournament(models.Model):
             start_datetime_str, DEFAULT_DATE_TIME_FORMAT)
 
     @staticmethod
-    def _validate_start_datetime(start_datetime):
+    def _validate_start_datetime_to_create_tournament(start_datetime):
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time
         from ib_tournament.constants.exception_messages import INVALID_DATETIME
         from django_swagger_utils.drf_server.exceptions import BadRequest
 
+        # TODO: REFACTOR: Encapsulating conditionals
         curr_datetime = get_current_local_date_time()
         if start_datetime <= curr_datetime:
             raise BadRequest(*INVALID_DATETIME)
