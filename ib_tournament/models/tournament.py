@@ -26,6 +26,7 @@ class Tournament(models.Model):
             total_rounds, start_datetime, tournament_details['name'])
         return tournament.id
 
+    # ToDo: feedback: too many arguments
     @classmethod
     def get_all_tournaments_by_player(cls, player_id):
         from ib_tournament.models import Player
@@ -192,6 +193,7 @@ class Tournament(models.Model):
             raise BadRequest(CAN_NOT_SUBSCRIBE_AGAIN)
         return
 
+    # ToDo: feedback: G2 obvious behaviour is not implemented
     def _get_max_participants_count_reached(self):
         from ib_tournament.models import TournamentPlayer
         total_tournament_players = \

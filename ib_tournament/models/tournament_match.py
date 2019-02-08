@@ -51,6 +51,7 @@ class TournamentMatch(models.Model):
                     tournament_id, round_no, total_rounds))
         return tournament_matches_to_create
 
+    # ToDo: feedback: too many arguments
     @classmethod
     def _get_round_tournament_matches_to_create(
             cls, tournament_id, round_no, total_rounds):
@@ -60,6 +61,7 @@ class TournamentMatch(models.Model):
             tournament_id, round_no, round_matches_count)
         return round_t_matches_to_create
 
+    # ToDo: feedback: too many arguments
     @classmethod
     def _initialise_round_tournament_matches(cls, tournament_id, round_no,
                                              round_matches_count):

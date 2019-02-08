@@ -34,6 +34,7 @@ class TMPlayer(models.Model):
         cls._update_status(tm_player, TMPlayerStatus.IN_PROGRESS.value)
         return
 
+    # ToDo: feedback: too many arguments
     @classmethod
     def submit_score(cls, player_id, tournament_match_id, score):
         from ib_tournament.constants.general import TMPlayerStatus
@@ -55,6 +56,7 @@ class TMPlayer(models.Model):
         return
 
     # TODO: REFACTOR: Is it necessary to reduce no. of arguments here?
+    # ToDo: feedback: too many arguments
     @classmethod
     def get_opponent_profile(cls, tournament_id, player_id, round_no):
         from ib_tournament.models import Player
@@ -192,6 +194,7 @@ class TMPlayer(models.Model):
             return tm_player_2.player_id
 
     # TODO: REFACTOR: Is it necessary to reduce no. of arguments here?
+    # ToDo: feedback: too many arguments
     @classmethod
     def _get_tm_player_by_round_no(cls, tournament_id, player_id, round_no):
         try:

@@ -22,6 +22,7 @@ class TournamentPlayer(models.Model):
     def create_tournament_player(cls, tournament_id, player_id):
         cls.objects.create(tournament_id=tournament_id, player_id=player_id)
 
+    # ToDo: feedback: G2 obvious behaviour is unimplemented
     @classmethod
     def get_tournament_player_exists(cls, tournament_id, player_id):
         return cls.objects.filter(
@@ -47,6 +48,7 @@ class TournamentPlayer(models.Model):
             tournament_id, player_id)
         return tournament_player.curr_round_no
 
+    # ToDo: feedback: too many arguments
     @classmethod
     def update_player_current_round(cls, tournament_id, player_id, round_no):
         tournament_player = cls.get_tournament_player(
