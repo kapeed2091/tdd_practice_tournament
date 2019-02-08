@@ -140,3 +140,25 @@ class TestCreateUserMatch(TestUtils):
             UserMatch.create_user_match(
                 user_id=user.id, match_id=match.id
             )
+
+    def test_all_players_are_not_present_in_round(self):
+        from tournaments.models import UserMatch
+
+        user = self.create_user()
+        tournament = self.create_tournament(user_id=user.id)
+
+        self.create_user_tournament(
+            user_id=user.id, tournament_id=tournament.id,
+            round_number=2
+        )
+        round_number = 2
+        match = self.create_match(
+            tournament_id=tournament.id, round_number=round_number
+        )
+
+        from tournaments.exceptions.custom_exceptions import \
+            InsufficientMembersInRoundToPlayMatch
+        with self.assertRaises(InsufficientMembersInRoundToPlayMatch):
+            UserMatch.create_user_match(
+                user_id=user.id, match_id=match.id
+            )
