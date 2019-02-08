@@ -3,6 +3,7 @@ class Tournament(object):
         self.no_of_rounds = no_of_rounds
         self.start_datetime = start_datetime
         self.player_usernames = []
+        self.matches = []
 
     @staticmethod
     def create(no_of_rounds, start_datetime):
@@ -12,6 +13,9 @@ class Tournament(object):
     def join(self, username):
         self._validate_join(username=username)
         self._add_player(username)
+
+    def create_matches_for_first_round(self):
+        pass
 
     def _validate_join(self, username):
         if self._is_username_already_joined(username):
