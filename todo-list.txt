@@ -19,4 +19,8 @@ Assumptions:
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
 
 TodoList
-   - create knockout tournament
+    Critical Business Rules
+        [create tournament]
+        join a tournament
+        play matches in a tournament
+        progress in a tournament
