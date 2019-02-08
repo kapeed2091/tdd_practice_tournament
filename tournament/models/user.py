@@ -1,4 +1,7 @@
 from django.db import models
+from django_swagger_utils.drf_server.exceptions import NotFound
+
+from tournament.constants.exception_messages import USER_DOES_NOT_EXIST_WITH_THE_GIVEN_USER_ID
 
 
 class User(models.Model):
@@ -13,7 +16,10 @@ class User(models.Model):
 
     @classmethod
     def get_user(cls, user_id):
-        return cls.objects.get(user_id=user_id)
+        try:
+            return cls.objects.get(user_id=user_id)
+        except cls.DoesNotExist:
+            raise NotFound(USER_DOES_NOT_EXIST_WITH_THE_GIVEN_USER_ID)
 
     def convert_to_dict(self):
         return {

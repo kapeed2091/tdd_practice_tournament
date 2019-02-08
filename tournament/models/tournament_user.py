@@ -1,6 +1,9 @@
 from django.db import models
-from django_swagger_utils.drf_server.exceptions import Forbidden, BadRequest
+from django_swagger_utils.drf_server.exceptions import Forbidden, BadRequest, NotFound
 
+from tournament.constants.exception_messages import INVALID_USER_ID, INVALID_TOURNAMENT_ID, \
+    ALREADY_SUBSCRIBED_TO_THIS_TOURNAMENT, SUBSCRIPTION_CAN_ONLY_BE_DONE_BEFORE_STARTING_OF_THE_TOURNAMENT, \
+    THERE_IS_NO_PLACE_FOR_NEW_SUBSCRIPTION, USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT
 from tournament.models import User, KoTournament
 from tournament.utils.date_time_utils import get_current_date_time
 
@@ -19,23 +22,34 @@ class TournamentUser(models.Model):
         user = cls._get_user(user_id)
         tournament = cls._get_tournament(tournament_id)
         cls._validate_subscribe_request(tournament=tournament, user=user)
-        cls.objects.create(user=user, tournament=tournament)
+        cls._create_tournament_user(user=user, tournament=tournament)
+
+    @classmethod
+    def get_number_of_users(cls, tournament):
+        return cls.objects.filter(tournament=tournament).count()
+
+    @classmethod
+    def validate_tournament_user(cls, user, tournament):
+        try:
+            cls.get_tournament_user(user=user, tournament=tournament)
+        except cls.DoesNotExist:
+            raise Forbidden(USER_DOES_NOT_BELONG_TO_THE_TOURNAMENT)
 
     @staticmethod
     def _get_user(user_id):
         from tournament.models import User
         try:
             return User.get_user(user_id)
-        except User.DoesNotExist:
-            raise BadRequest('Invalid user id')
+        except NotFound:
+            raise BadRequest(INVALID_USER_ID)
 
     @staticmethod
     def _get_tournament(tournament_id):
         from tournament.models import KoTournament
         try:
             return KoTournament.get_tournament(tournament_id)
-        except KoTournament.DoesNotExist:
-            raise BadRequest('Invalid tournament id')
+        except NotFound:
+            raise BadRequest(INVALID_TOURNAMENT_ID)
 
     @classmethod
     def _validate_subscribe_request(cls, tournament, user=user):
@@ -44,10 +58,14 @@ class TournamentUser(models.Model):
         cls._validate_max_members(tournament)
 
     @classmethod
+    def _create_tournament_user(cls, user, tournament):
+        cls.objects.create(user=user, tournament=tournament)
+
+    @classmethod
     def _validate_weather_already_subscribed(cls, tournament, user):
         try:
             cls.get_tournament_user(tournament=tournament, user=user)
-            raise BadRequest('Already subscribed to this tournament')
+            raise BadRequest(ALREADY_SUBSCRIBED_TO_THIS_TOURNAMENT)
         except cls.DoesNotExist:
             pass
 
@@ -55,13 +73,10 @@ class TournamentUser(models.Model):
     def _validate_tournament_start_datetime(tournament):
         now = get_current_date_time()
         if tournament.start_datetime <= now:
-            raise Forbidden('Subscription can only be done before starting of the Tournament')
+            raise Forbidden(
+                SUBSCRIPTION_CAN_ONLY_BE_DONE_BEFORE_STARTING_OF_THE_TOURNAMENT)
 
     @classmethod
     def _validate_max_members(cls, tournament):
-        no_of_rounds = tournament.no_of_rounds
-        max_members_allowed = 2 ** no_of_rounds
-
-        no_of_users = cls.objects.filter(tournament=tournament).count()
-        if no_of_users == max_members_allowed:
-            raise Forbidden('There is no place for new subscriptions')
+        if tournament.has_max_members():
+            raise Forbidden(THERE_IS_NO_PLACE_FOR_NEW_SUBSCRIPTION)
