@@ -30,6 +30,11 @@ class UserTournament(models.Model):
         is_last_person = cls._is_last_person(
             tournament_id=tournament_id, total_rounds=tournament.total_rounds
         )
+        if is_last_person:
+            from ..constants.general import TournamentStatus
+            tournament.update_status(
+                status=TournamentStatus.FULL_YET_TO_START.value
+            )
 
         from tournaments.constants.general import UserTournamentStatus, \
             DEFAULT_USER_TOURNAMENT_ROUND_NUMBER
@@ -39,12 +44,6 @@ class UserTournament(models.Model):
             status=UserTournamentStatus.ALIVE.value,
             round_number=DEFAULT_USER_TOURNAMENT_ROUND_NUMBER
         )
-
-        if is_last_person:
-            from ..constants.general import TournamentStatus
-            tournament.update_status(
-                status=TournamentStatus.FULL_YET_TO_START.value
-            )
 
     @classmethod
     def level_up(cls, user_id, match_id):
@@ -109,14 +108,14 @@ class UserTournament(models.Model):
         from .match import Match
         match = Match.validate_and_get_match_by_id(match_id=match_id)
 
-        tournament_id = match.tournament_id
-
         from .user_match import UserMatch
         user_matches = UserMatch.get_user_matches(match_id=match_id)
 
         user_matches_sorted = sorted(user_matches, key=lambda x: x.score)
         user_match_with_lowest_score = user_matches_sorted[0]
+
         user_id = user_match_with_lowest_score.user_id
+        tournament_id = match.tournament_id
 
         user_tournament = cls.get_user_tournament_by_details(
             user_id=user_id,
@@ -179,18 +178,6 @@ class UserTournament(models.Model):
         return user_tournament
 
     @classmethod
-    def _is_last_person(cls, tournament_id, total_rounds):
-        total_rounds = total_rounds
-        max_num_of_participants = 2 ** total_rounds
-        registered_tournament_members_count = \
-            cls.objects.filter(tournament_id=tournament_id).count()
-
-        is_last_person = \
-            max_num_of_participants - 1 == registered_tournament_members_count
-
-        return is_last_person
-
-    @classmethod
     def is_user_in_tournament(cls, user_id, tournament_id):
         user_tournament_exists = cls.objects.filter(
             user_id=user_id, tournament_id=tournament_id
@@ -199,14 +186,11 @@ class UserTournament(models.Model):
         return user_tournament_exists
 
     @classmethod
-    def _validate_user_tournament_exists(cls, user_id, tournament_id):
-        user_tournament_exists = cls.is_user_in_tournament(
+    def get_user_tournament_by_details(cls, user_id, tournament_id):
+        obj = cls.objects.get(
             user_id=user_id, tournament_id=tournament_id
         )
-
-        if user_tournament_exists:
-            from ..exceptions.custom_exceptions import UserAlreadyRegistered
-            raise UserAlreadyRegistered
+        return obj
 
     @classmethod
     def validate_user_in_tournament(cls, user_id, tournament_id):
@@ -232,12 +216,42 @@ class UserTournament(models.Model):
                 UserNotInTournament
             raise UserNotInTournament
 
+    def validate_if_user_is_alive(self):
+        from tournaments.constants.general import UserTournamentStatus
+        if self.status == UserTournamentStatus.DEAD.value:
+            from tournaments.exceptions.custom_exceptions import \
+                UserNotInTournamentAnymore
+            raise UserNotInTournamentAnymore
+
+    def validate_if_user_status_has_been_updated(self):
+        from tournaments.constants.general import UserTournamentStatus
+
+        if self.status == UserTournamentStatus.DEAD.value:
+            from tournaments.exceptions.custom_exceptions import \
+                LoserStatusAlreadyUpdated
+            raise LoserStatusAlreadyUpdated
+
     @classmethod
-    def get_user_tournament_by_details(cls, user_id, tournament_id):
-        obj = cls.objects.get(
+    def _is_last_person(cls, tournament_id, total_rounds):
+        total_rounds = total_rounds
+        max_num_of_participants = 2 ** total_rounds
+        registered_tournament_members_count = \
+            cls.objects.filter(tournament_id=tournament_id).count()
+
+        is_last_person = \
+            max_num_of_participants - 1 == registered_tournament_members_count
+
+        return is_last_person
+
+    @classmethod
+    def _validate_user_tournament_exists(cls, user_id, tournament_id):
+        user_tournament_exists = cls.is_user_in_tournament(
             user_id=user_id, tournament_id=tournament_id
         )
-        return obj
+
+        if user_tournament_exists:
+            from ..exceptions.custom_exceptions import UserAlreadyRegistered
+            raise UserAlreadyRegistered
 
     @classmethod
     def _validate_if_level_up_is_done_already(cls, user_tournament, match):
@@ -269,18 +283,3 @@ class UserTournament(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 UserDidNotWinMatch
             raise UserDidNotWinMatch
-
-    def validate_if_user_is_alive(self):
-        from tournaments.constants.general import UserTournamentStatus
-        if self.status == UserTournamentStatus.DEAD.value:
-            from tournaments.exceptions.custom_exceptions import \
-                UserNotInTournamentAnymore
-            raise UserNotInTournamentAnymore
-
-    def validate_if_user_status_has_been_updated(self):
-        from tournaments.constants.general import UserTournamentStatus
-
-        if self.status == UserTournamentStatus.DEAD.value:
-            from tournaments.exceptions.custom_exceptions import \
-                LoserStatusAlreadyUpdated
-            raise LoserStatusAlreadyUpdated

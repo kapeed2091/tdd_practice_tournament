@@ -46,12 +46,6 @@ class Match(models.Model):
         )
         return matches
 
-    @staticmethod
-    def _validate_round_number(round_number):
-        if round_number < 0:
-            from ..exceptions.custom_exceptions import InvalidRoundNumber
-            raise InvalidRoundNumber
-
     @classmethod
     def validate_and_get_match_by_id(cls, match_id):
         try:
@@ -61,15 +55,30 @@ class Match(models.Model):
             from ..exceptions.custom_exceptions import InvalidMatchId
             raise InvalidMatchId
 
+    @staticmethod
+    def _validate_round_number(round_number):
+        if round_number < 0:
+            from ..exceptions.custom_exceptions import InvalidRoundNumber
+            raise InvalidRoundNumber
+
+    @classmethod
+    def _validate_if_matches_exist(cls, tournament_id):
+        matches_exist = cls.objects.filter(
+            tournament_id=tournament_id).exists()
+        if matches_exist:
+            from tournaments.exceptions.custom_exceptions import \
+                TournamentMatchesAlreadyExist
+            raise TournamentMatchesAlreadyExist
+
     @classmethod
     def _create_objects_for_all_rounds(cls, tournament_id, total_rounds):
         for round_number in range(total_rounds, 0, -1):
-            matches_to_be_created = 2 ** (total_rounds - round_number)
-
             match_detail = {
                 "tournament_id": tournament_id,
                 "round_number": round_number
             }
+
+            matches_to_be_created = 2 ** (total_rounds - round_number)
             cls._create_multiple_objects(
                 match_detail=match_detail, count=matches_to_be_created
             )
@@ -88,12 +97,3 @@ class Match(models.Model):
                 )
             )
         cls.objects.bulk_create(objs)
-
-    @classmethod
-    def _validate_if_matches_exist(cls, tournament_id):
-        matches_exist = cls.objects.filter(
-            tournament_id=tournament_id).exists()
-        if matches_exist:
-            from tournaments.exceptions.custom_exceptions import \
-                TournamentMatchesAlreadyExist
-            raise TournamentMatchesAlreadyExist

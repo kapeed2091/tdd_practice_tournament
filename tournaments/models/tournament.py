@@ -29,15 +29,6 @@ class Tournament(models.Model):
         )
 
     @classmethod
-    def get_tournament_by_id(cls, tournament_id):
-        obj = cls.objects.get(id=tournament_id)
-        return obj
-
-    def update_status(self, status):
-        self.status = status
-        self.save()
-
-    @classmethod
     def get_all_tournament_details(cls):
         details = []
         for each_obj in cls.objects.all():
@@ -55,11 +46,6 @@ class Tournament(models.Model):
         }
 
     @classmethod
-    def get_total_rounds_in_tournament(cls, tournament_id):
-        obj = cls.get_tournament_by_id(tournament_id=tournament_id)
-        return obj.total_rounds
-
-    @classmethod
     def get_players_count_in_a_round(cls, tournament_id, round_number):
         total_rounds = cls.get_total_rounds_in_tournament(
             tournament_id=tournament_id
@@ -67,6 +53,20 @@ class Tournament(models.Model):
         total_players = 2 ** (total_rounds + 1 - round_number)
 
         return total_players
+
+    @classmethod
+    def get_total_rounds_in_tournament(cls, tournament_id):
+        obj = cls.get_tournament_by_id(tournament_id=tournament_id)
+        return obj.total_rounds
+
+    @classmethod
+    def get_tournament_by_id(cls, tournament_id):
+        obj = cls.objects.get(id=tournament_id)
+        return obj
+
+    def update_status(self, status):
+        self.status = status
+        self.save()
 
     @classmethod
     def validate_tournament_id(cls, tournament_id):
@@ -92,6 +92,24 @@ class Tournament(models.Model):
         elif status == TournamentStatus.COMPLETED.value:
             raise InvalidCompletedRegister
 
+    def validate_if_status_is_completed(self):
+        from tournaments.constants.general import TournamentStatus
+        if self.status == TournamentStatus.IN_PROGRESS.value:
+            from tournaments.exceptions.custom_exceptions import \
+                TournamentInProgress
+            raise TournamentInProgress
+
+        elif self.status != TournamentStatus.COMPLETED.value:
+            from tournaments.exceptions.custom_exceptions import \
+                TournamentNotYetStarted
+            raise TournamentNotYetStarted
+
+    @staticmethod
+    def _validate_total_rounds(total_rounds):
+        if total_rounds < 1:
+            from ..exceptions.custom_exceptions import InvalidTotalRounds
+            raise InvalidTotalRounds
+
     @staticmethod
     def _validate_start_datetime(start_datetime):
         from ib_common.date_time_utils.get_current_local_date_time import \
@@ -111,21 +129,3 @@ class Tournament(models.Model):
         if start_datetime_string <= now_str:
             from ..exceptions.custom_exceptions import InvalidStartDateTime
             raise InvalidStartDateTime
-
-    @staticmethod
-    def _validate_total_rounds(total_rounds):
-        if total_rounds < 1:
-            from ..exceptions.custom_exceptions import InvalidTotalRounds
-            raise InvalidTotalRounds
-
-    def validate_if_status_is_completed(self):
-        from tournaments.constants.general import TournamentStatus
-        if self.status == TournamentStatus.IN_PROGRESS.value:
-            from tournaments.exceptions.custom_exceptions import \
-                TournamentInProgress
-            raise TournamentInProgress
-
-        elif self.status != TournamentStatus.COMPLETED.value:
-            from tournaments.exceptions.custom_exceptions import \
-                TournamentNotYetStarted
-            raise TournamentNotYetStarted

@@ -15,9 +15,8 @@ class UserMatch(models.Model):
         from .match import Match
         match = Match.validate_and_get_match_by_id(match_id=match_id)
 
-        tournament_id = match.tournament_id
-
         from .user_tournament import UserTournament
+        tournament_id = match.tournament_id
         UserTournament.validate_user_in_tournament(
             user_id=user_id, tournament_id=tournament_id
         )
@@ -48,12 +47,6 @@ class UserMatch(models.Model):
 
     @classmethod
     def assign_players(cls, tournament_id, round_number):
-        from .user_tournament import UserTournament
-        players = UserTournament.get_players_that_reached_round_alive(
-            tournament_id=tournament_id, round_number=round_number
-        )
-        total_players = len(players)
-
         from .tournament import Tournament
         tournament = Tournament.get_tournament_by_id(
             tournament_id=tournament_id
@@ -66,6 +59,14 @@ class UserMatch(models.Model):
         players_count_in_a_round = Tournament.get_players_count_in_a_round(
             tournament_id=tournament_id, round_number=round_number
         )
+
+        from .user_tournament import UserTournament
+
+        players = UserTournament.get_players_that_reached_round_alive(
+            tournament_id=tournament_id, round_number=round_number
+        )
+        total_players = len(players)
+
         cls.validate_players_count_in_round(
             total_players=total_players,
             players_count_in_a_round=players_count_in_a_round
@@ -111,9 +112,9 @@ class UserMatch(models.Model):
 
         user_tournament.validate_if_user_is_alive()
 
-        round_number = user_tournament.round_number
-
         from .match import Match
+
+        round_number = user_tournament.round_number
         match = Match.objects.get(
             tournament_id=tournament_id, round_number=round_number
         )
@@ -136,10 +137,6 @@ class UserMatch(models.Model):
         objs = cls.objects.filter(match_id=match_id)
         return objs
 
-    def _update_score(self, score):
-        self.score = score
-        self.save()
-
     def validate_score(self, score):
         if score < 0:
             from tournaments.exceptions.custom_exceptions import InvalidScore
@@ -149,16 +146,6 @@ class UserMatch(models.Model):
             from tournaments.exceptions.custom_exceptions import \
                 ScoreCannotBeUpdated
             raise ScoreCannotBeUpdated
-
-    @classmethod
-    def _validate_match_users_count(cls, match_id):
-        match_id_users_count = cls.objects.filter(match_id=match_id).count()
-
-        from tournaments.constants.general import MAX_NUM_OF_PEOPLE_FOR_MATCH
-        if match_id_users_count >= MAX_NUM_OF_PEOPLE_FOR_MATCH:
-            from tournaments.exceptions.custom_exceptions import \
-                MatchIdOverused
-            raise MatchIdOverused
 
     @staticmethod
     def validate_players_count_in_round(total_players,
@@ -194,6 +181,32 @@ class UserMatch(models.Model):
             raise RoundNumberOutOfBounds
 
     @classmethod
+    def validate_if_match_in_progress(cls, match_id):
+        user_matches = cls.objects.filter(match_id=match_id)
+
+        for each_user_match in user_matches:
+            from tournaments.constants.general import DEFAULT_SCORE
+
+            if each_user_match.score == DEFAULT_SCORE:
+                from tournaments.exceptions.custom_exceptions import \
+                    MatchInProgress
+                raise MatchInProgress
+
+    def _update_score(self, score):
+        self.score = score
+        self.save()
+
+    @classmethod
+    def _validate_match_users_count(cls, match_id):
+        match_id_users_count = cls.objects.filter(match_id=match_id).count()
+
+        from tournaments.constants.general import MAX_NUM_OF_PEOPLE_FOR_MATCH
+        if match_id_users_count >= MAX_NUM_OF_PEOPLE_FOR_MATCH:
+            from tournaments.exceptions.custom_exceptions import \
+                MatchIdOverused
+            raise MatchIdOverused
+
+    @classmethod
     def _validate_if_opponent_is_assigned_and_get_opponents(
             cls, match_id, user_id
     ):
@@ -205,15 +218,3 @@ class UserMatch(models.Model):
             raise OpponentNotYetAssigned
 
         return opponents
-
-    @classmethod
-    def validate_if_match_in_progress(cls, match_id):
-        user_matches = cls.objects.filter(match_id=match_id)
-
-        for each_user_match in user_matches:
-            from tournaments.constants.general import DEFAULT_SCORE
-
-            if each_user_match.score == DEFAULT_SCORE:
-                from tournaments.exceptions.custom_exceptions import \
-                    MatchInProgress
-                raise MatchInProgress

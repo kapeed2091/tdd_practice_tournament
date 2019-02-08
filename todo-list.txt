@@ -71,11 +71,12 @@ todo-list
             - invalid round number (not integer)
     - User can get his current round number for a tournament
         - user has been defeated in the tournament somewhere
-    - level up
-        - [after finals winner level should not be updated and tournament status is COMPLETED]
-        - match is still in progress
+        - invalid user_id
+        - invalid tournament_id
     - Upgrade to next round
         - same score for both player and opponent
+    - UserMatch
+        - all players for the round are not there
 
 Completed
     - create_tournament successful case
@@ -113,6 +114,8 @@ Completed
         - user is using not his match_id
         - match_id does not exist
         - user did not win
+        - after finals winner level should not be updated and tournament status is COMPLETED
+        - match is still in progress
     Create all matches for a tournament
         - successful
         - invalid tournament id
