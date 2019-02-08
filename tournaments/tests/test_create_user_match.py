@@ -3,37 +3,6 @@ from .test_utils import TestUtils
 
 
 class TestCreateUserMatch(TestUtils):
-    def test_create_user_match(self):
-        from tournaments.models import UserMatch
-
-        user = self.create_user()
-        tournament = self.create_tournament(user_id=user.id)
-
-        self.create_user_tournament(
-            user_id=user.id, tournament_id=tournament.id
-        )
-        round_number = 2
-        match = self.create_match(
-            tournament_id=tournament.id, round_number=round_number
-        )
-
-        initial_objects_count = UserMatch.objects.all().count()
-        UserMatch.create_user_match(
-            user_id=user.id, match_id=match.id
-        )
-        final_objects_count = UserMatch.objects.all().count()
-
-        objects_newly_created_count = \
-            final_objects_count - initial_objects_count
-
-        user_match_exists = UserMatch.objects.filter(
-            user_id=user.id,
-            match_id=match.id
-        ).exists()
-
-        self.assertTrue(user_match_exists)
-        self.assertEqual(objects_newly_created_count, 1)
-
     def test_invalid_match_id(self):
         from tournaments.models import UserMatch
 
