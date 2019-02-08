@@ -20,7 +20,9 @@ Assumptions:
 
 TodoList
     Critical Business Rules
-        [create tournament]
-        join a tournament
+        [join a tournament]
         play matches in a tournament
         progress in a tournament
+
+    Completed
+        create tournament
