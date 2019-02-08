@@ -14,4 +14,10 @@ class Tournament(object):
             from tournament.exceptions import JoinTournamentDuplicateUser
             raise JoinTournamentDuplicateUser(
                 'User cannot join a tournament multiple times')
+
+        if len(self.usernames) == 2**self.no_of_rounds:
+            from tournament.exceptions import \
+                JoinTournamentMaximumCountExceeded
+            raise JoinTournamentMaximumCountExceeded('Tournament is full')
+
         self.usernames.append(username)
