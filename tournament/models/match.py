@@ -71,6 +71,7 @@ class Match(models.Model):
 
     @classmethod
     def get_user_current_match(cls, user_id, tournament):
+        # TODO: Refactor add validation
         from tournament.models import User
 
         user = User.get_user(user_id)

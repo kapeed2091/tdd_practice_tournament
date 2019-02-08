@@ -33,6 +33,7 @@ class KoTournament(models.Model):
             start_datetime=start_datetime,
             status=status
         )
+        # TODO: Can be an instance method
         return cls._get_create_tournament_response(tournament)
 
     @classmethod
@@ -83,6 +84,7 @@ class KoTournament(models.Model):
         return cls._get_user_profile(opponent_user)
 
     def validate_tournament_round(self, tournament_round):
+        # TODO: Refactor method name
         if tournament_round > self.no_of_rounds:
             raise BadRequest(TOURNAMENT_HAS_NO_SUCH_ROUND)
 
@@ -177,6 +179,7 @@ class KoTournament(models.Model):
 
     @classmethod
     def _get_user_profile(cls, user):
+        # TODO: Can move this method to User as instance method
         user_dict = user.convert_to_dict()
         user_profile = cls._remove_unnecessary_fields_for_user_profile(user_dict)
         return user_profile
