@@ -20,8 +20,8 @@ Assumptions:
 
 TodoList
     Critical Business Rules
-        [create matches for first round]
-            2**(n-1) matches
+        create matches for first round
+            [2**(n-1) matches]
             two players in each match
             unique players
         play matches in a tournament
