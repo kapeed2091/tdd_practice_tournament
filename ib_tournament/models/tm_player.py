@@ -106,6 +106,8 @@ class TMPlayer(models.Model):
                 PLAYER_NOT_IN_MATCH
             raise BadRequest(*PLAYER_NOT_IN_MATCH)
 
+    # TODO: REFACTOR: can we group all save() calls to another function?
+    # so save() won't be called multiple times as well
     def _update_status(self, status):
         self.status = status
         self.save()
@@ -135,10 +137,9 @@ class TMPlayer(models.Model):
 
     @classmethod
     def _update_match_winner(cls, tournament_match_id):
-        from ib_tournament.models import TMPlayer, TournamentMatch
+        from ib_tournament.models import TournamentMatch
 
-        tm_players = TMPlayer.objects.filter(
-            tournament_match_id=tournament_match_id)
+        tm_players = cls.get_tm_players_by_tm_ids(tm_ids=[tournament_match_id])
         if cls._can_update_winner(tm_players):
             winner_id = cls._get_winner(tm_players)
             TournamentMatch.update_winner(tournament_match_id, winner_id)
@@ -214,9 +215,12 @@ class TMPlayer(models.Model):
 
     @classmethod
     def _get_winner_by_score(cls, tm_player_1, tm_player_2):
-        if tm_player_1.score > tm_player_2.score:
+        player_1_score = tm_player_1.score
+        player_2_score = tm_player_2.score
+
+        if player_1_score > player_2_score:
             return tm_player_1.player_id
-        elif tm_player_2.score > tm_player_1.score:
+        elif player_2_score > player_1_score:
             return tm_player_2.player_id
         else:
             return cls._get_winner_by_completed_datetime(

@@ -29,12 +29,17 @@ class TournamentPlayer(models.Model):
 
     @classmethod
     def get_tournament_players_count(cls, tournament_id):
-        return cls.objects.filter(tournament_id=tournament_id).count()
+        tournament_players = cls.get_tournament_players(tournament_id)
+        return tournament_players.count()
 
     @classmethod
     def get_player_ids_of_tournament(cls, tournament_id):
-        return list(cls.objects.filter(tournament_id=tournament_id).values_list(
-            'player_id', flat=True))
+        tournament_players = cls.get_tournament_players(tournament_id)
+        return list(tournament_players.values_list('player_id', flat=True))
+
+    @classmethod
+    def get_tournament_players(cls, tournament_id):
+        return cls.objects.filter(tournament_id=tournament_id)
 
     @classmethod
     def get_player_current_round(cls, tournament_id, player_id):

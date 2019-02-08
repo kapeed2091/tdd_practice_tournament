@@ -25,6 +25,7 @@ class Player(models.Model):
             from ib_tournament.constants.exception_messages import INVALID_USER
             raise BadRequest(*INVALID_USER)
         return
+        # TODO: REFACTOR: Clutter
 
     @classmethod
     def get_player_profile_by_id(cls, player_id):
