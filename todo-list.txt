@@ -21,8 +21,7 @@ Assumptions:
 TodoList
     Critical Business Rules
         create matches for first round
-            [2**(n-1) matches]
-            two players in each match
+            [two players in each match]
             unique players
         play matches in a tournament
 
@@ -35,3 +34,5 @@ TodoList
             duplicate username
             tournament users exceeding maximum count
         change name 'tournament' to avoid import issues
+        create matches for first round
+            2**(n-1) matches
