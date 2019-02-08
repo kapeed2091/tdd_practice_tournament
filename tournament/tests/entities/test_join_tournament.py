@@ -16,3 +16,9 @@ class TestJoinTournament(TestCase):
         self.tournament_obj.join_tournament(username=self.USERNAME)
         self.assertIn(self.USERNAME, self.tournament_obj.usernames,
                       'User did not subscribe')
+
+    def test_join_tournament_for_duplicate_username(self):
+        self.tournament_obj.usernames.append(self.USERNAME)
+        from tournament.exceptions import JoinTournamentDuplicateUser
+        with self.assertRaises(JoinTournamentDuplicateUser):
+            self.tournament_obj.join_tournament(username=self.USERNAME)

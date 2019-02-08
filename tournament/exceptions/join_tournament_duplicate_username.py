@@ -1,0 +1,2 @@
+class JoinTournamentDuplicateUser(Exception):
+    pass
