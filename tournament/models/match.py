@@ -100,6 +100,7 @@ class Match(models.Model):
 
     @classmethod
     def get_user_match_in_a_tournament(cls, user, tournament_round, tournament_id):
+        # TODO: Refactor
         from tournament.models import KoTournament, TournamentUser
 
         tournament = KoTournament.get_tournament(tournament_id)
