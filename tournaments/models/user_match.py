@@ -80,6 +80,7 @@ class UserMatch(models.Model):
 
         from .user_tournament import UserTournament
 
+        # ToDo FEEDBACK Code at Wrong Level of Abstraction
         players = UserTournament.get_players_that_reached_round_alive(
             tournament_id=tournament_id, round_number=round_number
         )

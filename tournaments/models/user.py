@@ -11,6 +11,7 @@ class User(models.Model):
 
     @classmethod
     def get_winner_profile(cls, tournament_id):
+        # ToDo FEEDBACK Code at Wrong Level of Abstraction
         from .user_tournament import UserTournament
         user_tournament = UserTournament.get_winner(
             tournament_id=tournament_id

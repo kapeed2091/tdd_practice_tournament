@@ -24,7 +24,7 @@ class UserTournament(models.Model):
         tournament = Tournament.get_tournament_by_id(
             tournament_id=tournament_id
         )
-
+        # ToDo FEEDBACK Too Many Arguments
         Tournament.validate_tournament_status(status=tournament.status)
 
         is_last_person = cls._is_last_person(
@@ -54,6 +54,7 @@ class UserTournament(models.Model):
         match = Match.validate_and_get_match_by_id(match_id=match_id)
 
         tournament_id = match.tournament_id
+        # ToDo FEEDBACK Duplication
         user_tournament = cls.objects.get(
             user_id=user_id, tournament_id=tournament_id
         )
@@ -85,7 +86,7 @@ class UserTournament(models.Model):
     @classmethod
     def can_user_play_in_tournament(cls, user_id, tournament_id):
         from ..exceptions.custom_exceptions import UserNotInTournament
-
+        # ToDo FEEDBACK Obvious Behavior Is Unimplemented
         user_in_tournament = cls.is_user_in_tournament(
             user_id=user_id, tournament_id=tournament_id
         )
@@ -150,6 +151,7 @@ class UserTournament(models.Model):
 
     @classmethod
     def get_current_round_number(cls, user_id, tournament_id):
+        # ToDo FEEDBACK Duplication
         try:
             obj = cls.objects.get(user_id=user_id, tournament_id=tournament_id)
             return obj.round_number
@@ -206,6 +208,7 @@ class UserTournament(models.Model):
 
     @classmethod
     def validate_user_in_tournament(cls, user_id, tournament_id):
+        # ToDo FEEDBACK Duplication
         user_in_tournament = UserTournament.objects.filter(
             user_id=user_id,
             tournament_id=tournament_id
