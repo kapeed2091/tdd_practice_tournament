@@ -91,7 +91,7 @@ class KOTournament(models.Model):
     def validate_tournament_for_play_match(cls, tournament_id):
         cls.validate_tournament(tournament_id=tournament_id)
         cls.validate_start_datetime_for_play_match(tournament_id=tournament_id)
-        cls.validate_tournament_status_to_play(tournament_id=tournament_id)
+        cls.validate_tournament_status_for_play_match(tournament_id=tournament_id)
 
     @classmethod
     def validate_start_datetime_to_create(cls, start_datetime):
@@ -166,7 +166,7 @@ class KOTournament(models.Model):
         tournament_obj.validate_status_to_subscribe()
 
     @classmethod
-    def validate_start_datetime(cls, tournament_id):
+    def validate_start_datetime_for_create_match(cls, tournament_id):
         tournament_obj = cls.get_tournament(tournament_id=tournament_id)
         if tournament_obj.is_start_datetime_in_future():
             from tournament.constants.exception_messages import \
@@ -190,7 +190,7 @@ class KOTournament(models.Model):
             return False
 
     @classmethod
-    def validate_tournament_status_to_play(cls, tournament_id):
+    def validate_tournament_status_for_play_match(cls, tournament_id):
         tournament_obj = cls.get_tournament(tournament_id=tournament_id)
         if tournament_obj.status != TournamentStatus.IN_PROGRESS.value:
             from tournament.constants.exception_messages import \
@@ -200,4 +200,4 @@ class KOTournament(models.Model):
     @classmethod
     def validate_tournament_for_create_match(cls, tournament_id):
         cls.validate_tournament(tournament_id=tournament_id)
-        cls.validate_start_datetime(tournament_id=tournament_id)
+        cls.validate_start_datetime_for_create_match(tournament_id=tournament_id)
