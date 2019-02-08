@@ -44,6 +44,7 @@ class KOTournament(models.Model):
     def generate_t_id():
         import uuid
         from tournament.constants.general import T_ID_MAX_LENGTH
+
         return str(uuid.uuid4())[0:T_ID_MAX_LENGTH]
 
     @classmethod
@@ -60,8 +61,8 @@ class KOTournament(models.Model):
 
         UserProfile.is_registered_user(user_id=user_id)
         cls.validate_number_of_rounds(number_of_rounds=number_of_rounds)
-        cls.is_valid_start_datetime(start_datetime=start_datetime)
-        cls.is_valid_creation_status(status=status)
+        cls.validate_start_datetime_to_create(start_datetime=start_datetime)
+        cls.validate_status_to_create(status=status)
 
     def convert_to_dict(self):
         return {'t_id': str(self.t_id), 'name': str(self.name),
@@ -92,16 +93,22 @@ class KOTournament(models.Model):
         cls.validate_start_datetime_for_play_match(tournament_id=tournament_id)
         cls.validate_tournament_status_to_play(tournament_id=tournament_id)
 
+    @classmethod
+    def validate_start_datetime_to_create(cls, start_datetime):
+        if cls.is_start_datetime_in_past(start_datetime=start_datetime):
+            raise Exception('Start datetime is less than current time')
+
     @staticmethod
-    def is_valid_start_datetime(start_datetime):
+    def is_start_datetime_in_past(start_datetime):
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time
 
         if start_datetime < get_current_local_date_time():
-            raise Exception('Start datetime is less than current time')
+            return True
+        return False
 
     @staticmethod
-    def is_valid_creation_status(status):
+    def validate_status_to_create(status):
         from tournament.constants import TournamentStatus
         if status != TournamentStatus.CAN_JOIN.value:
             raise Exception('Invalid Tournament Status at creation')
@@ -136,7 +143,7 @@ class KOTournament(models.Model):
     def get_tournament(cls, tournament_id):
         return cls.objects.get(t_id=tournament_id)
 
-    def is_valid_subscribe_status(self):
+    def validate_status_to_subscribe(self):
         if self.status != TournamentStatus.CAN_JOIN.value:
             raise Exception('Invalid Tournament Status to subscribe')
 
@@ -156,7 +163,7 @@ class KOTournament(models.Model):
         cls.validate_tournament(tournament_id=tournament_id)
         tournament_obj = cls.get_tournament(tournament_id=tournament_id)
         tournament_obj.is_tournament_started()
-        tournament_obj.is_valid_subscribe_status()
+        tournament_obj.validate_status_to_subscribe()
 
     @classmethod
     def validate_start_datetime(cls, tournament_id):
