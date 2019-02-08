@@ -162,6 +162,8 @@ class KOTournament(models.Model):
     def validate_subscribe_request(cls, tournament_id):
         cls.validate_tournament(tournament_id=tournament_id)
         tournament_obj = cls.get_tournament(tournament_id=tournament_id)
+        # ToDo: tournament is full covers is_tournament_started case also
+        #  according to our assumption. Can we delete testcase and code?
         tournament_obj.is_tournament_started()
         tournament_obj.validate_status_to_subscribe()
 

@@ -11,8 +11,8 @@ class TournamentUser(models.Model):
     def subscribe_to_tournament(cls, user_id, tournament_id):
         from tournament.models import UserProfile, KOTournament
 
-        cls.is_tournament_user_exists(user_id=user_id,
-                                      tournament_id=tournament_id)
+        cls.is_user_already_subscribed(user_id=user_id,
+                                       tournament_id=tournament_id)
         UserProfile.is_registered_user(user_id=user_id)
         KOTournament.validate_subscribe_request(tournament_id=tournament_id)
 
@@ -41,7 +41,7 @@ class TournamentUser(models.Model):
         cls.objects.create(user_id=user_id, t_id=tournament_id)
 
     @classmethod
-    def is_tournament_user_exists(cls, user_id, tournament_id):
+    def is_user_already_subscribed(cls, user_id, tournament_id):
         if cls.objects.filter(user_id=user_id, t_id=tournament_id).exists():
             raise Exception('Already Subscribed to Tournament')
 
