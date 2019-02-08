@@ -36,9 +36,9 @@ class KOTournament(models.Model):
         UserProfile.is_registered_user(user_id=user_id)
 
         tournaments = cls.all_tournaments()
-        all_tournaments = cls.all_tournaments_list(tournaments=tournaments)
+        tournament_list = cls.all_tournaments_list(tournaments=tournaments)
 
-        return all_tournaments
+        return tournament_list
 
     @staticmethod
     def generate_t_id():
