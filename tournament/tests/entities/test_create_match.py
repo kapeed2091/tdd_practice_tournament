@@ -15,3 +15,8 @@ class TestCreateMatch(TestCase):
     def test_create_matches_for_first_round(self):
         self.tournament_obj.create_matches_for_first_round()
         self.assertEquals(len(self.tournament_obj.matches), 2**(self.NO_OF_ROUNDS-1), 'First round matches count did not match')
+
+    def test_match_should_consist_two_players(self):
+        self.tournament_obj.create_matches_for_first_round()
+        for match in self.tournament_obj.matches:
+            self.assertEquals(len(match.player_usernames), 2, 'Match should consist of two players')
