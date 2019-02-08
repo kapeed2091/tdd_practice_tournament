@@ -20,7 +20,9 @@ Assumptions:
 
 TodoList
     Critical Business Rules
-        [join a tournament]
+        join a tournament
+            [duplicate username]
+            tournament users exceeding maximum count
         play matches in a tournament
         progress in a tournament
 
