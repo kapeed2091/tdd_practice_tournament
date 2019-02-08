@@ -107,10 +107,9 @@ class KOTournament(models.Model):
             return True
         return False
 
-    @staticmethod
-    def validate_status_to_create(status):
-        from tournament.constants import TournamentStatus
-        if status != TournamentStatus.CAN_JOIN.value:
+    @classmethod
+    def validate_status_to_create(cls, status):
+        if not cls.is_status_can_join(status=status):
             raise Exception('Invalid Tournament Status at creation')
 
     @staticmethod
@@ -144,8 +143,14 @@ class KOTournament(models.Model):
         return cls.objects.get(t_id=tournament_id)
 
     def validate_status_to_subscribe(self):
-        if self.status != TournamentStatus.CAN_JOIN.value:
+        if not self.is_status_can_join(self.status):
             raise Exception('Invalid Tournament Status to subscribe')
+
+    @staticmethod
+    def is_status_can_join(status):
+        if status == TournamentStatus.CAN_JOIN.value:
+            return True
+        return False
 
     @classmethod
     def get_max_users_count(cls, tournament_id):
