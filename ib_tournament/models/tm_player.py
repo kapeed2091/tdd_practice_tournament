@@ -22,7 +22,7 @@ class TMPlayer(models.Model):
         grouped_player_ids = cls._group_players_as_group_of_two(player_ids)
         tournament_match_ids = TournamentMatch. \
             get_tournament_match_ids_by_round_no(tournament_id, round_no=1)
-        cls._add_grouped_players_to_match(
+        cls._add_grouped_players_to_matches(
             grouped_player_ids, tournament_match_ids)
         return
 
@@ -71,7 +71,7 @@ class TMPlayer(models.Model):
                 for count in range(0, len(player_ids), PLAYERS_PER_MATCH)]
 
     @classmethod
-    def _add_grouped_players_to_match(
+    def _add_grouped_players_to_matches(
             cls, grouped_player_ids, tournament_match_ids):
         tm_players_to_create = list()
         for index, player_ids in enumerate(grouped_player_ids):
