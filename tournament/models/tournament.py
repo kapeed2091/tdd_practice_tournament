@@ -33,10 +33,6 @@ class Tournament(models.Model):
         from .user import User
         return User.get_user_profile(user_id=tournament.winner_id)
 
-    @classmethod
-    def validate_tournament_id(cls, tournament_id):
-        cls.get_tournament_by_id(tournament_id=tournament_id)
-
     def _is_tournament_not_in_can_join_status(self):
         return not self._is_tournament_in_can_join_status()
 
