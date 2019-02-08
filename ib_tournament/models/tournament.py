@@ -198,6 +198,14 @@ class Tournament(models.Model):
         return total_tournament_players == \
                self._get_maximum_players_in_tournament()
 
+    def _get_maximum_players_in_tournament(self):
+        total_rounds = self.total_rounds
+        return 2 ** total_rounds
+
+    def _update_status(self, status):
+        self.status = status
+        self.save()
+
     @staticmethod
     def _validate_tournament_status_to_update_to_completed(status):
         from ib_tournament.constants.general import TournamentStatus
@@ -208,14 +216,6 @@ class Tournament(models.Model):
         if status != TournamentStatus.IN_PROGRESS.value:
             raise BadRequest(*INVALID_TOURNAMENT_STATE)
         return
-
-    def _update_status(self, status):
-        self.status = status
-        self.save()
-
-    def _get_maximum_players_in_tournament(self):
-        total_rounds = self.total_rounds
-        return 2 ** total_rounds
 
     @classmethod
     def _validate_start_datetime_to_start_tournament(cls, start_datetime):

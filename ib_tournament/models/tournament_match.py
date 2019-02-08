@@ -23,8 +23,7 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def promote_winner_to_next_round(cls, tournament_match_id, winner_id):
-        from ib_tournament.models import TournamentMatch
-        tournament_match = TournamentMatch._get_tournament_match(
+        tournament_match = cls._get_tournament_match(
             tournament_match_id)
         cls._update_winner_tournament_related_data(tournament_match, winner_id)
         return
@@ -53,6 +52,27 @@ class TournamentMatch(models.Model):
         return tournament_matches_to_create
 
     @classmethod
+    def _get_round_tournament_matches_to_create(
+            cls, tournament_id, round_no, total_rounds):
+        round_matches_count = cls._get_round_matches_count(
+            round_no, total_rounds)
+        round_t_matches_to_create = cls._initialise_round_tournament_matches(
+            tournament_id, round_no, round_matches_count)
+        return round_t_matches_to_create
+
+    @classmethod
+    def _initialise_round_tournament_matches(cls, tournament_id, round_no,
+                                             round_matches_count):
+        round_t_matches_to_create = [
+            cls(tournament_id=tournament_id, round_no=round_no)
+            for count in range(round_matches_count)]
+        return round_t_matches_to_create
+
+    @staticmethod
+    def _get_round_matches_count(round_no, total_rounds):
+        return 2 ** (total_rounds - round_no)
+
+    @classmethod
     def _bulk_create(cls, t_matches_to_create):
         cls.objects.bulk_create(t_matches_to_create)
         return
@@ -65,27 +85,6 @@ class TournamentMatch(models.Model):
         self.winner_id = winner_id
         self.save()
         return
-
-    @classmethod
-    def _get_round_tournament_matches_to_create(
-            cls, tournament_id, round_no, total_rounds):
-        round_matches_count = cls._get_round_matches_count(
-            round_no, total_rounds)
-        round_t_matches_to_create = cls._initialise_round_tournament_matches(
-            tournament_id, round_no, round_matches_count)
-        return round_t_matches_to_create
-
-    @staticmethod
-    def _get_round_matches_count(round_no, total_rounds):
-        return 2 ** (total_rounds - round_no)
-
-    @classmethod
-    def _initialise_round_tournament_matches(cls, tournament_id, round_no,
-                                             round_matches_count):
-        round_t_matches_to_create = [
-            cls(tournament_id=tournament_id, round_no=round_no)
-            for count in range(round_matches_count)]
-        return round_t_matches_to_create
 
     def _update_winner_tournament_related_data(self, winner_id):
         from ib_tournament.models import TournamentPlayer

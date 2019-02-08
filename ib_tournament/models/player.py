@@ -10,6 +10,7 @@ class Player(models.Model):
     @classmethod
     def create_player(cls, user_details):
         cls._validate_unique_username(user_details['username'])
+        # TODO: REFACTOR: follow one level of abstraction
         cls.objects.create(
             username=user_details['username'], name=user_details['name'],
             age=user_details['age'], gender=user_details['gender'])
@@ -21,6 +22,7 @@ class Player(models.Model):
             player = cls.objects.get(id=player_id)
             return player
         except cls.DoesNotExist:
+            # TODO: REFACTOR: there shouldn't be more than one line after except
             from django_swagger_utils.drf_server.exceptions import BadRequest
             from ib_tournament.constants.exception_messages import INVALID_USER
             raise BadRequest(*INVALID_USER)
