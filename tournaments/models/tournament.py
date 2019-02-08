@@ -126,6 +126,7 @@ class Tournament(models.Model):
         now_str = convert_datetime_to_local_string(
             now, date_time_format
         )
+        # ToDo FEEDBACK Obvious Behavior Is Unimplemented
         if start_datetime_string <= now_str:
             from ..exceptions.custom_exceptions import InvalidStartDateTime
             raise InvalidStartDateTime

@@ -48,6 +48,7 @@ class Match(models.Model):
 
     @classmethod
     def validate_and_get_match_by_id(cls, match_id):
+        # ToDo FEEDBACK method name appearing as Query and Command
         try:
             obj = cls.get_match_by_id(match_id=match_id)
             return obj
@@ -63,6 +64,7 @@ class Match(models.Model):
 
     @classmethod
     def _validate_if_matches_exist(cls, tournament_id):
+        # Todo FEEDBACK function naming
         matches_exist = cls.objects.filter(
             tournament_id=tournament_id).exists()
         if matches_exist:
