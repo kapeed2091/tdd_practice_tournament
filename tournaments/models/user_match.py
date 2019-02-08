@@ -35,6 +35,24 @@ class UserMatch(models.Model):
 
         cls._validate_match_users_count(match_id=match.id)
 
+        round_number = match.round_number
+        from .tournament import Tournament
+        players_count = Tournament.get_players_count_in_a_round(
+            tournament_id=tournament_id, round_number=round_number
+        )
+
+        from .user_tournament import UserTournament
+        current_players_count = \
+            UserTournament.get_current_players_count_in_round(
+                tournament_id=tournament_id, round_number=round_number
+            )
+
+        print (players_count, current_players_count, "KI" * 10)
+        if current_players_count < players_count:
+            from tournaments.exceptions.custom_exceptions import \
+                InsufficientMembersInRoundToPlayMatch
+            raise InsufficientMembersInRoundToPlayMatch
+
         cls.objects.create(
             user_id=user_id,
             match_id=match_id

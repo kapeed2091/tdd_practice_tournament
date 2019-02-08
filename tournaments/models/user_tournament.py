@@ -193,6 +193,18 @@ class UserTournament(models.Model):
         return obj
 
     @classmethod
+    def get_current_players_count_in_round(cls, tournament_id, round_number):
+        from tournaments.constants.general import UserTournamentStatus
+
+        players_count = cls.objects.filter(
+            tournament_id=tournament_id,
+            round_number=round_number,
+            status=UserTournamentStatus.ALIVE.value
+        ).count()
+
+        return players_count
+
+    @classmethod
     def validate_user_in_tournament(cls, user_id, tournament_id):
         user_in_tournament = UserTournament.objects.filter(
             user_id=user_id,
