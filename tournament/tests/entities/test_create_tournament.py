@@ -8,7 +8,7 @@ class TestCreateTournament(TestCase):
 
     def test_create_tournament(self):
         from tournament.entities import Tournament
-        tournament_obj = Tournament.create_tournament(
+        tournament_obj = Tournament.create(
             no_of_rounds=self.NO_OF_ROUNDS, start_datetime=self.START_DATETIME)
 
         self.assertEquals(tournament_obj.no_of_rounds, self.NO_OF_ROUNDS,
