@@ -53,6 +53,7 @@ class Tournament(models.Model):
     def create_tournament(cls, create_tournament_details):
         from .user import User
 
+        # TODO: FEEDBACK: Function should descend only one level of abstraction
         no_of_rounds = create_tournament_details['no_of_rounds']
         start_datetime = create_tournament_details['start_datetime']
         username = create_tournament_details['username']

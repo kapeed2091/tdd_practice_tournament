@@ -25,6 +25,7 @@ class Match(models.Model):
 
     @classmethod
     def get_opponent_user_profile(cls, user_id, tournament_id, round_no):
+        # TODO: FEEDBACK: Function should descend only one level of abstraction
         match_users = cls.objects.filter(
             round_match__round_no=round_no, tournament_id=tournament_id)
 
@@ -36,6 +37,7 @@ class Match(models.Model):
 
     @classmethod
     def _get_opponent_user_id(cls, match_users, user_id):
+        # TODO: FEEDBACK: Function should descend only one level of abstraction
         opponent_user_id = None
         for match_user in match_users:
             if user_id != match_user.user_id:
@@ -86,7 +88,7 @@ class Match(models.Model):
     @classmethod
     def user_submit_match_score(cls, user_match_score):
         from tdd_practice.constants.general import UserMatchStatus
-
+        # TODO: FEEDBACK: Function should descend only one level of abstraction
         score = user_match_score['score']
         match_id = user_match_score['match_id']
         user_id = user_match_score['user_id']

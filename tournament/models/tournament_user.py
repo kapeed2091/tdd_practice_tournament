@@ -22,6 +22,7 @@ class TournamentUser(models.Model):
 
         cls.objects.create(user_id=user_id, tournament_id=tournament_id)
 
+        # TODO: FEEDBACK: Function should descend only one level of abstraction
         if cls.is_max_participants_subscribed(tournament_id=tournament_id):
             tournament.update_status(
                 status=TournamentStatus.FULL_YET_TO_START.value)
@@ -36,6 +37,7 @@ class TournamentUser(models.Model):
 
     @classmethod
     def get_subscribed_users_count(cls, tournament_id):
+        # TODO: FEEDBACK: Duplication, same query happening at get_tournament_user_ids
         return cls.objects.filter(tournament_id=tournament_id).count()
 
     @classmethod
@@ -60,4 +62,3 @@ class TournamentUser(models.Model):
             tournament_id=tournament_id).values_list('user_id', flat=True))
 
         return user_ids
-

@@ -8,7 +8,7 @@ class RoundMatch(models.Model):
     @classmethod
     def create_round_matches(cls, tournament_id):
         from .tournament import Tournament
-
+        # TODO: FEEDBACK: Function should descend only one level of abstraction
         tournament = \
             Tournament.get_tournament_by_id(tournament_id=tournament_id)
         no_of_rounds = tournament.no_of_rounds
@@ -156,6 +156,7 @@ class RoundMatch(models.Model):
 
     @classmethod
     def _validate_match_winner(cls, user_matches):
+        # TODO: FEEDBACK: Function should descend only one level of abstraction
         from .match import Match
         for user_match in user_matches:
             if Match.is_user_match_not_completed(user_match):
