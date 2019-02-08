@@ -21,13 +21,12 @@ Assumptions:
 TodoList
     Critical Business Rules
         join a tournament
-            tournament users exceeding maximum count
+            [tournament users exceeding maximum count]
         play matches in a tournament
         progress in a tournament
-
-        [change name 'tournament' to avoid import issues]
 
     Completed
         create tournament
         join a tournament
             duplicate username
+        change name 'tournament' to avoid import issues
