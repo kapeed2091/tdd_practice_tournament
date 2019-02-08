@@ -108,3 +108,7 @@ class LoserStatusAlreadyUpdated(Exception):
 
 class MatchInProgress(Exception):
     pass
+
+
+class InsufficientMembersInRoundToPlayMatch(Exception):
+    pass
