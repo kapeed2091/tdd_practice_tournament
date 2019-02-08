@@ -47,6 +47,11 @@ class TournamentUser(models.Model):
         subscribed_users_count = cls.get_subscribed_users_count(
             tournament_id=tournament_id)
 
+        return cls.\
+            _is_tournament_full(no_of_participants, subscribed_users_count)
+
+    @classmethod
+    def _is_tournament_full(cls, no_of_participants, subscribed_users_count):
         return no_of_participants == subscribed_users_count
 
     @classmethod
