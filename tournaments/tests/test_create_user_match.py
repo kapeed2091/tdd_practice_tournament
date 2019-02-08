@@ -162,3 +162,32 @@ class TestCreateUserMatch(TestUtils):
             UserMatch.create_user_match(
                 user_id=user.id, match_id=match.id
             )
+
+    def test_create_user_match_(self):
+        from tournaments.models import UserMatch
+
+        user_1 = self.create_user()
+        tournament = self.create_tournament(user_id=user_1.id)
+        self.create_user_tournament(
+            user_id=user_1.id, tournament_id=tournament.id,
+            round_number=4
+        )
+
+        user_2 = self.create_user("John-2")
+        self.create_user_tournament(
+            user_id=user_2.id, tournament_id=tournament.id,
+            round_number=4
+        )
+
+        match = self.create_match(tournament_id=tournament.id, round_number=4)
+
+        UserMatch.create_user_match(
+            user_id=user_1.id, match_id=match.id
+        )
+
+        user_match_exists = UserMatch.objects.filter(
+            user_id=user_1.id,
+            match_id=match.id
+        ).exists()
+
+        self.assertTrue(user_match_exists)
