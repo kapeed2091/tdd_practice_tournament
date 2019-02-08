@@ -10,4 +10,4 @@ class Tournament(object):
                           start_datetime=start_datetime)
 
     def join_tournament(self, username):
-        pass
+        self.usernames.append(username)
