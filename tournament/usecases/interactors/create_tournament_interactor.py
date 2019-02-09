@@ -8,7 +8,6 @@ class CreateTournamentInteractor(object):
     def setup(self, no_of_rounds, start_datetime):
         self.no_of_rounds = no_of_rounds
         self.start_datetime = start_datetime
-        pass
 
     def execute(self):
         tournament_id = self.storage.create_tournament(
