@@ -195,6 +195,7 @@ class UserTournament(models.Model):
         )
         return obj
 
+    # todo: feedback name should be changed ???
     @classmethod
     def get_current_players_count_in_round(cls, tournament_id, round_number):
         from tournaments.constants.general import UserTournamentStatus

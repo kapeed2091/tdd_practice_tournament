@@ -144,6 +144,7 @@ class UserMatch(models.Model):
         from .match import Match
 
         round_number = user_tournament.round_number
+        # todo feedback: bug - multiple
         match = Match.objects.get(
             tournament_id=tournament_id, round_number=round_number
         )
@@ -240,6 +241,7 @@ class UserMatch(models.Model):
                 MatchIdOverused
             raise MatchIdOverused
 
+    # todo feedback  function name
     @classmethod
     def _validate_if_opponent_is_assigned_and_get_opponents(
             cls, match_id, user_id
