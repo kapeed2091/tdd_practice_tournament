@@ -79,6 +79,7 @@ class UserTournament(models.Model):
         )
 
         # todo feedback: encapsulating conditionals
+        # todo: feedback function should descend only one level of abstraction
         if tournament.total_rounds == match.round_number:
             from tournaments.constants.general import TournamentStatus
             tournament.update_status(status=TournamentStatus.COMPLETED.value)
@@ -90,12 +91,14 @@ class UserTournament(models.Model):
     # todo feedback remove code
     @classmethod
     def can_user_play_in_tournament(cls, user_id, tournament_id):
+        # todo: feedback functions should do only one thing
         from ..exceptions.custom_exceptions import UserNotInTournament
         # ToDo FEEDBACK Obvious Behavior Is Unimplemented
         user_in_tournament = cls.is_user_in_tournament(
             user_id=user_id, tournament_id=tournament_id
         )
 
+        # todo: feedback negative conditionals
         if not user_in_tournament:
             raise UserNotInTournament
 
@@ -119,6 +122,7 @@ class UserTournament(models.Model):
         from .user_match import UserMatch
         user_matches = UserMatch.get_user_matches(match_id=match_id)
 
+        # todo: feedback make logical dependencies physical
         user_matches_sorted = sorted(user_matches, key=lambda x: x.score)
         user_match_with_lowest_score = user_matches_sorted[0]
 
@@ -144,6 +148,7 @@ class UserTournament(models.Model):
         self.status = UserTournamentStatus.DEAD.value
         self.save()
 
+    # todo: feedback obvious behavior is unimplemented
     @classmethod
     def get_players_that_reached_round_alive(cls, tournament_id, round_number):
         from tournaments.constants.general import UserTournamentStatus
@@ -167,6 +172,9 @@ class UserTournament(models.Model):
                 UserNotInTournament
             raise UserNotInTournament
 
+    # todo: feedback obvious behavior is unimplemented,
+    #  we expect user object in return for this function,
+    #  returning user_tournament object
     @classmethod
     def get_winner(cls, tournament_id):
         from .tournament import Tournament
@@ -239,6 +247,7 @@ class UserTournament(models.Model):
                 UserNotInTournament
             raise UserNotInTournament
 
+    # todo: feedback obvious behavior is unimplemented
     def validate_if_user_is_alive(self):
         from tournaments.constants.general import UserTournamentStatus
 
@@ -247,6 +256,7 @@ class UserTournament(models.Model):
                 UserNotInTournamentAnymore
             raise UserNotInTournamentAnymore
 
+    # todo: feedback obvious behavior is unimplemented, obscured intent
     def validate_if_user_status_has_been_updated(self):
         from tournaments.constants.general import UserTournamentStatus
 
@@ -259,6 +269,7 @@ class UserTournament(models.Model):
     @classmethod
     def _is_last_person(cls, tournament_id, total_rounds):
         total_rounds = total_rounds
+        # todo: feedback make logical dependencies physical
         max_num_of_participants = 2 ** total_rounds
         registered_tournament_members_count = \
             cls.objects.filter(tournament_id=tournament_id).count()
@@ -281,6 +292,7 @@ class UserTournament(models.Model):
 
     @classmethod
     def _validate_if_level_up_is_done_already(cls, user_tournament, match):
+        # todo: feedback encapsulating conditionals
         if match.round_number <= user_tournament.round_number - 1:
             from tournaments.exceptions.custom_exceptions import \
                 UserAlreadyLeveledUp
@@ -293,14 +305,17 @@ class UserTournament(models.Model):
             user_id=user_id, match_id=match_id
         ).exists()
 
+        # todo: feedback negative conditionals
         if not user_match_exists:
             from tournaments.exceptions.custom_exceptions import UserNotInMatch
             raise UserNotInMatch
 
+    # todo: feedback function should only one thing
     @staticmethod
     def _validate_if_user_is_winner(user_id, match_id):
         from .user_match import UserMatch
         user_matches = UserMatch.objects.filter(match_id=match_id)
+        # todo: feedback make logical dependencies physical
         user_matches = sorted(user_matches, key=lambda x: x.score,
                               reverse=True)
         user_match_with_max_score = user_matches[0]

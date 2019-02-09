@@ -9,7 +9,7 @@ class User(models.Model):
     age = models.PositiveIntegerField()
     gender = models.CharField(max_length=GENDER_MAX_LENGTH)
 
-    # todo : feedback artificial coupling
+    # todo : feedback artificial coupling, misplaced responsibility
     @classmethod
     def get_winner_profile(cls, tournament_id):
         # ToDo FEEDBACK Code at Wrong Level of Abstraction
@@ -42,6 +42,7 @@ class User(models.Model):
     def validate_user_id(cls, user_id):
         user_exists = User.objects.filter(id=user_id).exists()
 
+        # todo: feedback negative conditionals
         if not user_exists:
             from ..exceptions.custom_exceptions import InvalidUserId
             raise InvalidUserId
