@@ -31,6 +31,7 @@ class UserMatch(models.Model):
         #  misplaced responsibility
         # todo: feedback make logical dependencies physical --> assumed user
         #  no longer available tournament when status is DEAD
+        # todo: feedback encapsulating boundary condition
         is_user_dead = UserTournament.objects.filter(
             user_id=user_id, tournament_id=tournament_id,
             status=UserTournamentStatus.DEAD.value
@@ -56,6 +57,7 @@ class UserMatch(models.Model):
                 tournament_id=tournament_id, round_number=round_number
             )
 
+        # todo: feedback encapsulating boundary condition
         # todo: feedback encapsulating conditionals
         if current_players_count < players_count:
             from tournaments.exceptions.custom_exceptions import \
@@ -118,6 +120,7 @@ class UserMatch(models.Model):
         match_ids = [each.id for each in matches]
         cls.validate_user_matches(match_ids=match_ids)
 
+        # todo: feedback function should descend only one level of abstraction
         for index, match in enumerate(matches):
             # todo: feedback inconsistency in naming of players and user_ids
             # todo feedback coupling of match making and object creation
@@ -159,6 +162,7 @@ class UserMatch(models.Model):
             user_id=user_id, match_id=match.id
         )
 
+        # todo: feedback function should descend only one level of abstraction
         opponent = opponents[0]
         opponent_user_id = opponent.user_id
 
@@ -180,6 +184,8 @@ class UserMatch(models.Model):
             raise InvalidScore
 
         # todo feedback: misplaced responsibility
+
+        # todo: feedback encapsulating boundary condition
         # todo: feedback encapsulating conditionals to make it more readable
         if self.score != DEFAULT_SCORE:
             from tournaments.exceptions.custom_exceptions import \
@@ -217,6 +223,7 @@ class UserMatch(models.Model):
                 ReAssignmentOfPlayers
             raise ReAssignmentOfPlayers
 
+    # todo: feedback misplaced responsibility
     @staticmethod
     def validate_round_number(total_rounds, round_number):
         if total_rounds < round_number:
@@ -261,6 +268,7 @@ class UserMatch(models.Model):
         # todo: feedback function should only one thing
         opponents = cls.objects.filter(match_id=match_id).exclude(
             user_id=user_id)
+        # todo: negative conditionals
         if not opponents:
             from tournaments.exceptions.custom_exceptions import \
                 OpponentNotYetAssigned
