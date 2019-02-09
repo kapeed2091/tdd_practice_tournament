@@ -11,6 +11,7 @@ class UserTournament(models.Model):
 
     @classmethod
     def subscribe_to_tournament(cls, user_id, tournament_id):
+        # todo: feedback too much information
         from ..models import User, Tournament
 
         User.validate_user_id(user_id=user_id)
@@ -24,8 +25,7 @@ class UserTournament(models.Model):
         tournament = Tournament.get_tournament_by_id(
             tournament_id=tournament_id
         )
-        # ToDo FEEDBACK Too Many Arguments
-        Tournament.validate_tournament_status(status=tournament.status)
+        tournament.validate_tournament_status()
 
         is_last_person = cls._is_last_person(
             tournament_id=tournament_id, total_rounds=tournament.total_rounds
@@ -83,6 +83,7 @@ class UserTournament(models.Model):
                 round_number=match.round_number + 1
             )
 
+    # todo feedback remove code
     @classmethod
     def can_user_play_in_tournament(cls, user_id, tournament_id):
         from ..exceptions.custom_exceptions import UserNotInTournament
@@ -233,6 +234,7 @@ class UserTournament(models.Model):
 
     def validate_if_user_is_alive(self):
         from tournaments.constants.general import UserTournamentStatus
+
         if self.status == UserTournamentStatus.DEAD.value:
             from tournaments.exceptions.custom_exceptions import \
                 UserNotInTournamentAnymore
@@ -246,6 +248,7 @@ class UserTournament(models.Model):
                 LoserStatusAlreadyUpdated
             raise LoserStatusAlreadyUpdated
 
+    # todo: feedback vertical separation
     @classmethod
     def _is_last_person(cls, tournament_id, total_rounds):
         total_rounds = total_rounds

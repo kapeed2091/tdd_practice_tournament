@@ -24,6 +24,7 @@ class Match(models.Model):
             tournament_id=tournament_id
         )
 
+        # todo: feedback inconsistency in naming
         cls._validate_if_matches_exist(tournament_id=tournament_id)
 
         total_rounds = Tournament.get_total_rounds_in_tournament(
@@ -58,6 +59,7 @@ class Match(models.Model):
 
     @staticmethod
     def _validate_round_number(round_number):
+        # todo: feedback bug round number inconsistency
         if round_number < 0:
             from ..exceptions.custom_exceptions import InvalidRoundNumber
             raise InvalidRoundNumber
@@ -67,6 +69,7 @@ class Match(models.Model):
         # Todo FEEDBACK function naming
         matches_exist = cls.objects.filter(
             tournament_id=tournament_id).exists()
+
         if matches_exist:
             from tournaments.exceptions.custom_exceptions import \
                 TournamentMatchesAlreadyExist
@@ -80,6 +83,7 @@ class Match(models.Model):
                 "round_number": round_number
             }
 
+            # todo: feedback obscured intent
             matches_to_be_created = 2 ** (total_rounds - round_number)
             cls._create_multiple_objects(
                 match_detail=match_detail, count=matches_to_be_created

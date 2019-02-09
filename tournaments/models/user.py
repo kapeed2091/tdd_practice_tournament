@@ -9,6 +9,7 @@ class User(models.Model):
     age = models.PositiveIntegerField()
     gender = models.CharField(max_length=GENDER_MAX_LENGTH)
 
+    # todo : feedback artificial coupling
     @classmethod
     def get_winner_profile(cls, tournament_id):
         # ToDo FEEDBACK Code at Wrong Level of Abstraction
@@ -30,6 +31,7 @@ class User(models.Model):
         return user
 
     def convert_to_dict(self):
+        # todo: feedback inconsistency (no id in the dict)
         return {
             "name": self.name,
             "age": self.age,
@@ -39,6 +41,7 @@ class User(models.Model):
     @classmethod
     def validate_user_id(cls, user_id):
         user_exists = User.objects.filter(id=user_id).exists()
+
         if not user_exists:
             from ..exceptions.custom_exceptions import InvalidUserId
             raise InvalidUserId

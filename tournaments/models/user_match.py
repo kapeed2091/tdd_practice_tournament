@@ -7,8 +7,10 @@ class UserMatch(models.Model):
     match_id = models.PositiveIntegerField()
     score = models.IntegerField(default=DEFAULT_SCORE)
 
+    # todo: feedback too much information
     @classmethod
     def create_user_match(cls, user_id, match_id):
+        # todo feedback obscured intent
         from .user import User
         User.validate_user_id(user_id=user_id)
 
@@ -23,6 +25,7 @@ class UserMatch(models.Model):
 
         from tournaments.constants.general import UserTournamentStatus
         from .user_tournament import UserTournament
+        # todo: feedback artificial coupling and feature envy
         is_user_dead = UserTournament.objects.filter(
             user_id=user_id, tournament_id=tournament_id,
             status=UserTournamentStatus.DEAD.value
@@ -42,12 +45,12 @@ class UserMatch(models.Model):
         )
 
         from .user_tournament import UserTournament
+        # todo: feedback inconsistency
         current_players_count = \
             UserTournament.get_current_players_count_in_round(
                 tournament_id=tournament_id, round_number=round_number
             )
 
-        print (players_count, current_players_count, "KI" * 10)
         if current_players_count < players_count:
             from tournaments.exceptions.custom_exceptions import \
                 InsufficientMembersInRoundToPlayMatch
@@ -63,8 +66,10 @@ class UserMatch(models.Model):
 
         self._update_score(score=score)
 
+    # todo feedback artificial coupling ???
     @classmethod
     def assign_players(cls, tournament_id, round_number):
+        # todo: feedback inconsistency in (tournament object only for rounds)
         from .tournament import Tournament
         tournament = Tournament.get_tournament_by_id(
             tournament_id=tournament_id
@@ -105,6 +110,8 @@ class UserMatch(models.Model):
         cls.validate_user_matches(match_ids=match_ids)
 
         for index, match in enumerate(matches):
+            # todo: feedback inconsistency in naming of players and user_ids
+            # todo feedback coupling of match making and object creation
             player = players[index]
             user_id_1 = player.user_id
             cls.objects.create(
@@ -145,6 +152,7 @@ class UserMatch(models.Model):
         opponent = opponents[0]
         opponent_user_id = opponent.user_id
 
+        # todo feedback feature envy
         from .user import User
         user_obj = User.get_user_by_id(user_id=opponent_user_id)
         user_details = user_obj.convert_to_dict()
@@ -166,6 +174,7 @@ class UserMatch(models.Model):
                 ScoreCannotBeUpdated
             raise ScoreCannotBeUpdated
 
+    # todo feedback artificial coupling
     @staticmethod
     def validate_players_count_in_round(total_players,
                                         players_count_in_a_round):
@@ -174,9 +183,11 @@ class UserMatch(models.Model):
                 InsufficientMembersInRound
             raise InsufficientMembersInRound
 
+    # todo feedback artificial coupling
     @staticmethod
     def validate_number_of_matches(total_matches, total_players):
         from tournaments.constants.general import MAX_NUM_OF_PEOPLE_FOR_MATCH
+
         if total_matches * MAX_NUM_OF_PEOPLE_FOR_MATCH != total_players:
             from tournaments.exceptions.custom_exceptions import \
                 InadequateNumberOfMatches
@@ -187,6 +198,7 @@ class UserMatch(models.Model):
         user_matches_exist = cls.objects.filter(
             match_id__in=match_ids
         ).exists()
+
         if user_matches_exist:
             from tournaments.exceptions.custom_exceptions import \
                 ReAssignmentOfPlayers
@@ -201,16 +213,16 @@ class UserMatch(models.Model):
 
     @classmethod
     def validate_if_match_in_progress(cls, match_id):
+        # todo: feedback duplicate
         user_matches = cls.objects.filter(match_id=match_id)
 
         for each_user_match in user_matches:
-            from tournaments.constants.general import DEFAULT_SCORE
-
             if each_user_match.score == DEFAULT_SCORE:
                 from tournaments.exceptions.custom_exceptions import \
                     MatchInProgress
                 raise MatchInProgress
 
+    # todo: feedback vertical separation
     def _update_score(self, score):
         self.score = score
         self.save()
