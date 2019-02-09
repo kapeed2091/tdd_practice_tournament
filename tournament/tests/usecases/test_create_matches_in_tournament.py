@@ -13,7 +13,8 @@ class TestCreateMatchesInTournament(TestCase):
 
         storage.get_tournament_data.return_value = {
             'no_of_rounds': self.NO_OF_ROUNDS,
-            'start_datetime': self.START_DATETIME
+            'start_datetime': self.START_DATETIME,
+            'player_usernames': ['USERNAME_' + str(i + 1) for i in range(0, 2 ** (self.NO_OF_ROUNDS))]
         }
         presenter.present_create_tournament.return_value = {}
 

@@ -9,9 +9,10 @@ class CreateMatchesInTournamentInteractor(object):
 
     def _prepare_matches(self, tournament_data):
         no_of_rounds = tournament_data['no_of_rounds']
+        player_usernames = tournament_data['player_usernames']
         matches = []
         for i in range(0, 2**(no_of_rounds-1)):
-            matches.append({'player_usernames': []})
+            matches.append({'player_usernames': player_usernames[2*i:2*i+2]})
         return matches
 
     def execute(self):
