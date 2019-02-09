@@ -7,6 +7,7 @@ class Match(models.Model):
 
     @classmethod
     def create_match(cls, tournament_id, round_number):
+        # todo feedback: G30 functions should do one thing
         from .tournament import Tournament
         Tournament.validate_tournament_id(tournament_id=tournament_id)
 
@@ -19,6 +20,7 @@ class Match(models.Model):
 
     @classmethod
     def create_all_matches(cls, tournament_id):
+        # todo feedback: G30 functions should do one thing
         from .tournament import Tournament
         Tournament.validate_tournament_id(
             tournament_id=tournament_id
@@ -60,7 +62,7 @@ class Match(models.Model):
 
     @staticmethod
     def _validate_round_number(round_number):
-        # todo: feedback bug round number inconsistency and max limit of it
+        # todo: feedback be precise round number inconsistency, max limit of it
         if round_number < 0:
             from ..exceptions.custom_exceptions import InvalidRoundNumber
             raise InvalidRoundNumber

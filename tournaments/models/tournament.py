@@ -14,6 +14,7 @@ class Tournament(models.Model):
     @classmethod
     def create_tournament(cls, user_id, total_rounds, start_datetime):
         from .user import User
+        # todo feedback: G30 functions should do one thing
         User.validate_user_id(user_id=user_id)
 
         cls._validate_total_rounds(total_rounds=total_rounds)
@@ -121,6 +122,7 @@ class Tournament(models.Model):
             get_current_local_date_time
         now = get_current_local_date_time()
 
+        # todo feedback: G28 encapsulate consitionals
         if start_datetime <= now:
             from ..exceptions.custom_exceptions import InvalidStartDateTime
             raise InvalidStartDateTime

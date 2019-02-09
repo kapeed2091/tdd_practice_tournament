@@ -12,6 +12,7 @@ class UserMatch(models.Model):
     @classmethod
     def create_user_match(cls, user_id, match_id):
         # todo feedback obscured intent
+        # todo feedback: G30 functions should do one thing
         from .user import User
         User.validate_user_id(user_id=user_id)
 
@@ -71,6 +72,7 @@ class UserMatch(models.Model):
     @classmethod
     def assign_players(cls, tournament_id, round_number):
         # todo: feedback inconsistency in (tournament object only for rounds)
+        # todo feedback: G30 functions should do one thing
         from .tournament import Tournament
         tournament = Tournament.get_tournament_by_id(
             tournament_id=tournament_id
@@ -173,6 +175,7 @@ class UserMatch(models.Model):
             from tournaments.exceptions.custom_exceptions import InvalidScore
             raise InvalidScore
 
+        # todo feedback: misplaced responsibility
         if self.score != DEFAULT_SCORE:
             from tournaments.exceptions.custom_exceptions import \
                 ScoreCannotBeUpdated
@@ -215,6 +218,7 @@ class UserMatch(models.Model):
                 RoundNumberOutOfBounds
             raise RoundNumberOutOfBounds
 
+    # todo feedback be precise
     @classmethod
     def validate_if_match_in_progress(cls, match_id):
         # todo: feedback duplicate
@@ -241,7 +245,7 @@ class UserMatch(models.Model):
                 MatchIdOverused
             raise MatchIdOverused
 
-    # todo feedback  function name
+    # todo feedback be precise
     @classmethod
     def _validate_if_opponent_is_assigned_and_get_opponents(
             cls, match_id, user_id

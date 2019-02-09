@@ -12,12 +12,14 @@ class UserTournament(models.Model):
     @classmethod
     def subscribe_to_tournament(cls, user_id, tournament_id):
         # todo: feedback too much information
+        # todo feedback: G30 functions should do one thing
         from ..models import User, Tournament
 
         User.validate_user_id(user_id=user_id)
 
         Tournament.validate_tournament_id(tournament_id=tournament_id)
 
+        # todo feedback: inconsistency in naming
         cls._validate_user_tournament_exists(
             user_id=user_id, tournament_id=tournament_id
         )
@@ -47,6 +49,7 @@ class UserTournament(models.Model):
 
     @classmethod
     def level_up(cls, user_id, match_id):
+        # todo feedback: G30 functions should do one thing
         from .user import User
         User.validate_user_id(user_id=user_id)
 
@@ -75,6 +78,7 @@ class UserTournament(models.Model):
             tournament_id=tournament_id
         )
 
+        # todo feedback: encapsulating conditionals
         if tournament.total_rounds == match.round_number:
             from tournaments.constants.general import TournamentStatus
             tournament.update_status(status=TournamentStatus.COMPLETED.value)
@@ -110,6 +114,8 @@ class UserTournament(models.Model):
         from .match import Match
         match = Match.validate_and_get_match_by_id(match_id=match_id)
 
+        # todo feedback: G30 functions should do one thing
+        # todo feedback feature envy ???
         from .user_match import UserMatch
         user_matches = UserMatch.get_user_matches(match_id=match_id)
 
@@ -257,6 +263,7 @@ class UserTournament(models.Model):
         registered_tournament_members_count = \
             cls.objects.filter(tournament_id=tournament_id).count()
 
+        # todo not standard convention ???
         is_last_person = \
             max_num_of_participants - 1 == registered_tournament_members_count
 
