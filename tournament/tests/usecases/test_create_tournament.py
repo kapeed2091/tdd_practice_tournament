@@ -7,7 +7,7 @@ import mock
 class TestCreateTournament(TestCase):
 
     NO_OF_ROUNDS = 4
-    START_DATETIME = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    START_DATETIME = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%m/%d/%Y, %H:%M:%S")
 
     def test_create_tournament(self):
         storage = mock.Mock()
