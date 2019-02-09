@@ -1,10 +1,11 @@
+import datetime
 from unittest import TestCase
 
 import mock
 
 
 class TestCreateTournament(TestCase):
-    import datetime
+
     NO_OF_ROUNDS = 4
     START_DATETIME = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
@@ -47,6 +48,23 @@ class TestCreateTournament(TestCase):
         )
         create_tournament_interactor.setup(no_of_rounds=2,
                                            start_datetime=self.START_DATETIME)
+
+        with self.assertRaises(Exception):
+            create_tournament_interactor.execute()
+
+    def test_create_tournament_start_datetime_validation(self):
+        storage = mock.Mock()
+        presenter = mock.Mock()
+
+        from tournament.usecases.interactors import CreateTournamentInteractor
+        create_tournament_interactor = CreateTournamentInteractor(
+            storage=storage, presenter=presenter
+        )
+
+        start_datetime = datetime.datetime.now() - datetime.timedelta(days=1)
+        start_datetime = start_datetime.strftime("%m/%d/%Y, %H:%M:%S")
+        create_tournament_interactor.setup(no_of_rounds=self.NO_OF_ROUNDS,
+                                           start_datetime=start_datetime)
 
         with self.assertRaises(Exception):
             create_tournament_interactor.execute()
