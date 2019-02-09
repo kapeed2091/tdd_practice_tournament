@@ -30,8 +30,8 @@ TodoList:
     User can play matches once the tournament is started
         Creates matches in tournament
             2**n-1 matches
-            [Each match two players]
-            Each player should have only 1 match
+            Each match two players
+            [Each player should have only 1 match]
 
 Completed TodoList:
     User can create a knock-out tournament with configurable number of rounds and start datetime
