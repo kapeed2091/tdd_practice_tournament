@@ -32,6 +32,7 @@ class UserMatch(models.Model):
         # todo: feedback make logical dependencies physical --> assumed user
         #  no longer available tournament when status is DEAD
         # todo: feedback encapsulating boundary condition
+        # todo: feedback one level of abstraction
         is_user_dead = UserTournament.objects.filter(
             user_id=user_id, tournament_id=tournament_id,
             status=UserTournamentStatus.DEAD.value

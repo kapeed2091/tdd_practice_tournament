@@ -37,6 +37,8 @@ class Tournament(models.Model):
             details.append(each_obj.convert_to_dict())
 
         # todo: feedback function should only one thing
+        # todo: if sorted is considered as function call, violating one level
+        # of abstraction ???
         details = sorted(details, key=lambda k: k['start_datetime'])
         return details
 
@@ -57,6 +59,7 @@ class Tournament(models.Model):
         )
         # todo: feedback function should only one thing
         # todo: feedback more clarity in the calculation
+        # todo: feedback one level of abstraction
         total_players = 2 ** (total_rounds + 1 - round_number)
 
         return total_players
