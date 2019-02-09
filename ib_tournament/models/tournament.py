@@ -70,6 +70,7 @@ class Tournament(models.Model):
                 INVALID_TOURNAMENT
             raise BadRequest(*INVALID_TOURNAMENT)
 
+    # TODO: FEEDBACK misplaced responsibility
     def update_status_to_full_yet_to_start(self):
         from ib_tournament.constants.general import TournamentStatus
         if self._get_max_participants_count_reached():
