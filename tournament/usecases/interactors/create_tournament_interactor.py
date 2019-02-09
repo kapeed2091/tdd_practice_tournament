@@ -1,5 +1,7 @@
 class CreateTournamentInteractor(object):
-    def __init__(self):
+    def __init__(self, storage, presenter):
+        self.storage = storage
+        self.presenter = presenter
         self.no_of_rounds = 0
         self.start_datetime = ''
 
@@ -9,5 +11,13 @@ class CreateTournamentInteractor(object):
         pass
 
     def execute(self):
-        return {'no_of_rounds': self.no_of_rounds,
-                'start_datetime': self.start_datetime}
+        tournament_id = self.storage.create_tournament(
+            self.no_of_rounds,
+            self.start_datetime
+        )
+        tournament_data = self.storage.get_tournament(
+            tournament_id
+        )
+        return self.presenter.present_create_tournament(
+            tournament_data
+        )
