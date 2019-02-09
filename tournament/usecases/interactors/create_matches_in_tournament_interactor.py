@@ -11,7 +11,7 @@ class CreateMatchesInTournamentInteractor(object):
         no_of_rounds = tournament_data['no_of_rounds']
         matches = []
         for i in range(0, 2**(no_of_rounds-1)):
-            matches.append({})
+            matches.append({'player_usernames': []})
         return matches
 
     def execute(self):

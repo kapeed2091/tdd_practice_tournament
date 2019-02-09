@@ -30,7 +30,7 @@ TodoList:
     User can play matches once the tournament is started
         Creates matches in tournament
             2**n-1 matches
-            Each match two players
+            [Each match two players]
             Each player should have only 1 match
 
 Completed TodoList:
