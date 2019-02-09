@@ -127,7 +127,7 @@ class Tournament(models.Model):
             get_current_local_date_time
         now = get_current_local_date_time()
 
-        # todo feedback: G28 encapsulate consitionals
+        # todo feedback: G28 encapsulate conditionals
         # todo: feedback encapsulating conditionals
         if start_datetime <= now:
             from ..exceptions.custom_exceptions import InvalidStartDateTime
