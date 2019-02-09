@@ -31,6 +31,7 @@ class Tournament(models.Model):
     @classmethod
     def get_all_tournament_details(cls):
         details = []
+        # todo: feedback function should descend only one level of abstraction
         for each_obj in cls.objects.all():
             details.append(each_obj.convert_to_dict())
 

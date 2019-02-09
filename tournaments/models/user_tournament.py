@@ -94,6 +94,7 @@ class UserTournament(models.Model):
             user_id=user_id, tournament_id=tournament_id
         )
 
+        # todo: feedback encapsulating boundary condition
         # todo: feedback negative conditionals
         if not user_in_tournament:
             raise UserNotInTournament
@@ -180,6 +181,7 @@ class UserTournament(models.Model):
 
         from tournaments.constants.general import UserTournamentStatus
 
+        # todo: feedback function should descend only one level of abstraction
         total_rounds = tournament.total_rounds
         user_tournament = cls.objects.get(
             tournament_id=tournament_id, round_number=total_rounds,
@@ -267,6 +269,7 @@ class UserTournament(models.Model):
         registered_tournament_members_count = \
             cls.objects.filter(tournament_id=tournament_id).count()
 
+        # todo: feedback encapsulating conditionals
         is_last_person = \
             max_num_of_participants - 1 == registered_tournament_members_count
 
@@ -292,6 +295,8 @@ class UserTournament(models.Model):
 
     @staticmethod
     def _validate_if_user_in_match(user_id, match_id):
+        # todo: feedback artificial coupling, feature envy,
+        #  misplaced responsibility
         from .user_match import UserMatch
         user_match_exists = UserMatch.objects.filter(
             user_id=user_id, match_id=match_id
@@ -305,6 +310,8 @@ class UserTournament(models.Model):
     # todo: feedback function should only one thing
     @staticmethod
     def _validate_if_user_is_winner(user_id, match_id):
+        # todo: feedback artificial coupling, feature envy,
+        #  misplaced responsibility
         from .user_match import UserMatch
         user_matches = UserMatch.objects.filter(match_id=match_id)
         # todo: feedback make logical dependencies physical
