@@ -9,7 +9,12 @@ class CreateTournamentInteractor(object):
         self.no_of_rounds = no_of_rounds
         self.start_datetime = start_datetime
 
+    def _validate_no_of_rounds(self):
+        if self.no_of_rounds < 3:
+            raise Exception("No of rounds is less than 3")
+
     def execute(self):
+        self._validate_no_of_rounds()
         tournament_id = self.storage.create_tournament(
             self.no_of_rounds,
             self.start_datetime
