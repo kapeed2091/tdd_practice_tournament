@@ -1,1 +1,2 @@
 from tournament.usecases.interactors.create_tournament_interactor import CreateTournamentInteractor
+from tournament.usecases.interactors.create_matches_in_tournament_interactor import CreateMatchesInTournamentInteractor
