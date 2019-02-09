@@ -173,6 +173,7 @@ class UserMatch(models.Model):
             from tournaments.exceptions.custom_exceptions import InvalidScore
             raise InvalidScore
 
+        # todo: feedback encapsulating conditionals to make it more readable
         if self.score != DEFAULT_SCORE:
             from tournaments.exceptions.custom_exceptions import \
                 ScoreCannotBeUpdated
@@ -192,6 +193,7 @@ class UserMatch(models.Model):
     def validate_number_of_matches(total_matches, total_players):
         from tournaments.constants.general import MAX_NUM_OF_PEOPLE_FOR_MATCH
 
+        # todo: feedback encapsulating conditionals
         if total_matches * MAX_NUM_OF_PEOPLE_FOR_MATCH != total_players:
             from tournaments.exceptions.custom_exceptions import \
                 InadequateNumberOfMatches
@@ -221,6 +223,8 @@ class UserMatch(models.Model):
         user_matches = cls.objects.filter(match_id=match_id)
 
         for each_user_match in user_matches:
+            # todo: feedback DEFAULT_SCORE is doing two things: maintaining 
+            #  score and state of Match
             if each_user_match.score == DEFAULT_SCORE:
                 from tournaments.exceptions.custom_exceptions import \
                     MatchInProgress
@@ -245,6 +249,7 @@ class UserMatch(models.Model):
     def _validate_if_opponent_is_assigned_and_get_opponents(
             cls, match_id, user_id
     ):
+        # todo: feedback function should only one thing
         opponents = cls.objects.filter(match_id=match_id).exclude(
             user_id=user_id)
         if not opponents:
