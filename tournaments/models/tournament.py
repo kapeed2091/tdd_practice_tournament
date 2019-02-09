@@ -34,6 +34,7 @@ class Tournament(models.Model):
         for each_obj in cls.objects.all():
             details.append(each_obj.convert_to_dict())
 
+        # todo: feedback function should only one thing
         details = sorted(details, key=lambda k: k['start_datetime'])
         return details
 
@@ -52,6 +53,7 @@ class Tournament(models.Model):
         total_rounds = cls.get_total_rounds_in_tournament(
             tournament_id=tournament_id
         )
+        # todo: feedback function should only one thing
         # todo: feedback more clarity in the calculation
         total_players = 2 ** (total_rounds + 1 - round_number)
 
@@ -75,10 +77,12 @@ class Tournament(models.Model):
     def validate_tournament_id(cls, tournament_id):
         tournament_exists = cls.objects.filter(id=tournament_id).exists()
 
+        # todo: feedback negative conditionals
         if not tournament_exists:
             from ..exceptions.custom_exceptions import InvalidTournamentId
             raise InvalidTournamentId
 
+    # todo: feedback obscured intent
     def validate_tournament_status(self):
         from ..constants.general import TournamentStatus
         from ..exceptions.custom_exceptions import \
@@ -119,6 +123,7 @@ class Tournament(models.Model):
             get_current_local_date_time
         now = get_current_local_date_time()
 
+        # todo: feedback encapsulating conditionals
         if start_datetime <= now:
             from ..exceptions.custom_exceptions import InvalidStartDateTime
             raise InvalidStartDateTime

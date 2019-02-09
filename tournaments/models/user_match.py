@@ -25,7 +25,10 @@ class UserMatch(models.Model):
 
         from tournaments.constants.general import UserTournamentStatus
         from .user_tournament import UserTournament
-        # todo: feedback artificial coupling and feature envy
+        # todo: feedback artificial coupling, feature envy,
+        #  misplaced responsibility
+        # todo: feedback make logical dependencies physical --> assumed user
+        #  no longer available tournament when status is DEAD
         is_user_dead = UserTournament.objects.filter(
             user_id=user_id, tournament_id=tournament_id,
             status=UserTournamentStatus.DEAD.value
@@ -51,6 +54,7 @@ class UserMatch(models.Model):
                 tournament_id=tournament_id, round_number=round_number
             )
 
+        # todo: feedback encapsulating conditionals
         if current_players_count < players_count:
             from tournaments.exceptions.custom_exceptions import \
                 InsufficientMembersInRoundToPlayMatch

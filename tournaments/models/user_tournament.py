@@ -113,6 +113,7 @@ class UserTournament(models.Model):
         from .user_match import UserMatch
         user_matches = UserMatch.get_user_matches(match_id=match_id)
 
+        # todo: feedback make logical dependencies physical
         user_matches_sorted = sorted(user_matches, key=lambda x: x.score)
         user_match_with_lowest_score = user_matches_sorted[0]
 
@@ -252,6 +253,7 @@ class UserTournament(models.Model):
     @classmethod
     def _is_last_person(cls, tournament_id, total_rounds):
         total_rounds = total_rounds
+        # todo: feedback make logical dependencies physical
         max_num_of_participants = 2 ** total_rounds
         registered_tournament_members_count = \
             cls.objects.filter(tournament_id=tournament_id).count()
@@ -293,6 +295,7 @@ class UserTournament(models.Model):
     def _validate_if_user_is_winner(user_id, match_id):
         from .user_match import UserMatch
         user_matches = UserMatch.objects.filter(match_id=match_id)
+        # todo: feedback make logical dependencies physical
         user_matches = sorted(user_matches, key=lambda x: x.score,
                               reverse=True)
         user_match_with_max_score = user_matches[0]

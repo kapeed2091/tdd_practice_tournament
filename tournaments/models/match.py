@@ -75,6 +75,7 @@ class Match(models.Model):
                 TournamentMatchesAlreadyExist
             raise TournamentMatchesAlreadyExist
 
+    # todo: feedback function should do only one thing
     @classmethod
     def _create_objects_for_all_rounds(cls, tournament_id, total_rounds):
         for round_number in range(total_rounds, 0, -1):
@@ -94,6 +95,7 @@ class Match(models.Model):
         tournament_id = match_detail["tournament_id"]
         round_number = match_detail["round_number"]
 
+        # todo: feedback missed one level of abstraction
         objs = []
         for each in range(count):
             objs.append(
