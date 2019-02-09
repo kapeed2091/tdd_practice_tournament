@@ -2,10 +2,20 @@ class CreateMatchesInTournamentInteractor(object):
     def __init__(self, storage, presenter):
         self.storage = storage
         self.presenter = presenter
+        self.tournament_id = -1
 
     def setup(self, tournament_id):
-        pass
+        self.tournament_id = tournament_id
+
+    def _prepare_matches(self, tournament_data):
+        no_of_rounds = tournament_data['no_of_rounds']
+        matches = []
+        for i in range(0, 2**(no_of_rounds-1)):
+            matches.append({})
+        return matches
 
     def execute(self):
-        self.storage.create_matches([])
-        pass
+        tournament_data = self.storage.get_tournament_data(self.tournament_id)
+        matches = self._prepare_matches(tournament_data)
+        self.storage.create_matches(matches)
+        return self.presenter.present_create_matches_in_tournament()

@@ -15,3 +15,7 @@ class BaseStorage(object):
     @abc.abstractmethod
     def get_tournament(self, tournament_id):
         pass
+
+    @abc.abstractmethod
+    def create_matches(self, matches):
+        pass
