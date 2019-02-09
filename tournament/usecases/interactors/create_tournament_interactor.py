@@ -1,4 +1,4 @@
-class CreateTournamentUsecase(object):
+class CreateTournamentInteractor(object):
     def __init__(self):
         self.no_of_rounds = 0
         self.start_datetime = ''

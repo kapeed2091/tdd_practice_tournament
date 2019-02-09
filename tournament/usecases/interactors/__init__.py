@@ -1,0 +1,1 @@
+from tournament.usecases.interactors.create_tournament_interactor import CreateTournamentInteractor
