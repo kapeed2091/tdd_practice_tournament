@@ -1,4 +1,4 @@
-Usecases:
+User Stories / Usecases:
    - User can create a knock-out tournament with configurable number of rounds and start datetime
    - User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)
    - User can subscribe to a tournament which is not yet started
@@ -18,21 +18,13 @@ Assumptions:
    - User profile has Name, Age, Gender
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
 
-TodoList
-    Critical Business Rules
-        create matches for first round
-            [two players in each match]
-            unique players
-        play matches in a tournament
+Common Ground:
+    We do not differentiate between 'Entities' and 'Usecases'
+    We start development with Usecases
 
+    We need abstractions for database, presenter.
+        We are separating database, presenter coupling from usecases
+        This allows TDD to be simpler for usecases
 
-        progress in a tournament
-
-    Completed
-        create tournament
-        join a tournament
-            duplicate username
-            tournament users exceeding maximum count
-        change name 'tournament' to avoid import issues
-        create matches for first round
-            2**(n-1) matches
+TodoList:
+    [User can create a knock-out tournament with configurable number of rounds and start datetime]
