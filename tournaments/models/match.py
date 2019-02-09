@@ -27,6 +27,7 @@ class Match(models.Model):
         # todo: feedback inconsistency in naming
         cls._validate_if_matches_exist(tournament_id=tournament_id)
 
+        # todo feedback too many arguments (can reduce by having object)
         total_rounds = Tournament.get_total_rounds_in_tournament(
             tournament_id=tournament_id
         )
@@ -59,7 +60,7 @@ class Match(models.Model):
 
     @staticmethod
     def _validate_round_number(round_number):
-        # todo: feedback bug round number inconsistency
+        # todo: feedback bug round number inconsistency and max limit of it
         if round_number < 0:
             from ..exceptions.custom_exceptions import InvalidRoundNumber
             raise InvalidRoundNumber
@@ -84,6 +85,9 @@ class Match(models.Model):
             }
 
             # todo: feedback obscured intent
+            # todo : feedback G25 magic numbers
+            # todo: artificial coupling and logical dependency
+            # no of matches for round calculation ???
             matches_to_be_created = 2 ** (total_rounds - round_number)
             cls._create_multiple_objects(
                 match_detail=match_detail, count=matches_to_be_created

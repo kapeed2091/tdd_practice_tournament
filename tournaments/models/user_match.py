@@ -8,6 +8,7 @@ class UserMatch(models.Model):
     score = models.IntegerField(default=DEFAULT_SCORE)
 
     # todo: feedback too much information
+    # todo: renaming function - play match
     @classmethod
     def create_user_match(cls, user_id, match_id):
         # todo feedback obscured intent
@@ -75,6 +76,7 @@ class UserMatch(models.Model):
             tournament_id=tournament_id
         )
 
+        # todo feedback: misplaced responsibility, artificial coupling
         cls.validate_round_number(
             total_rounds=tournament.total_rounds, round_number=round_number
         )
@@ -91,6 +93,7 @@ class UserMatch(models.Model):
         )
         total_players = len(players)
 
+        # todo feedback: misplaced responsibility, artificial coupling
         cls.validate_players_count_in_round(
             total_players=total_players,
             players_count_in_a_round=players_count_in_a_round

@@ -79,6 +79,7 @@ class Tournament(models.Model):
             from ..exceptions.custom_exceptions import InvalidTournamentId
             raise InvalidTournamentId
 
+    # todo feedback refactor the name
     def validate_tournament_status(self):
         from ..constants.general import TournamentStatus
         from ..exceptions.custom_exceptions import \
@@ -109,6 +110,7 @@ class Tournament(models.Model):
 
     @staticmethod
     def _validate_total_rounds(total_rounds):
+        # todo: feedback magic number
         if total_rounds < 1:
             from ..exceptions.custom_exceptions import InvalidTotalRounds
             raise InvalidTotalRounds
