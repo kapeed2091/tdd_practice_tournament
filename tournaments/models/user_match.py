@@ -77,6 +77,7 @@ class UserMatch(models.Model):
 
         self._update_score(score=score)
 
+    # todo: feedback choose descriptive names
     # todo feedback artificial coupling ???
     @classmethod
     def assign_players(cls, tournament_id, round_number):

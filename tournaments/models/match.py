@@ -48,6 +48,7 @@ class Match(models.Model):
         return obj
 
     # todo: feedback standard nomenclature where possible
+    # todo: feedback choose names at appropriate level of abstraction
     @classmethod
     def get_matches_by_tournament_and_round(cls, tournament_id, round_number):
         matches = cls.objects.filter(
@@ -76,6 +77,7 @@ class Match(models.Model):
     # todo: feedback standard nomenclature where possible
     @classmethod
     def _validate_if_matches_exist(cls, tournament_id):
+        # Todo FEEDBACK function naming
         matches_exist = cls.objects.filter(
             tournament_id=tournament_id).exists()
 
@@ -107,6 +109,7 @@ class Match(models.Model):
             )
 
     # todo: feedback standard nomenclature where possible
+    # todo: feedback Use Standard Nomenclature Where Possible
     @classmethod
     def _create_multiple_objects(cls, match_detail, count):
         tournament_id = match_detail["tournament_id"]
