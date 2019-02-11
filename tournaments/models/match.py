@@ -43,6 +43,7 @@ class Match(models.Model):
         obj = cls.objects.get(id=match_id)
         return obj
 
+    # todo: feedback choose names at appropriate level of abstraction
     @classmethod
     def get_matches_by_tournament_and_round(cls, tournament_id, round_number):
         matches = cls.objects.filter(
@@ -96,6 +97,7 @@ class Match(models.Model):
                 match_detail=match_detail, count=matches_to_be_created
             )
 
+    # todo: feedback Use Standard Nomenclature Where Possible
     @classmethod
     def _create_multiple_objects(cls, match_detail, count):
         tournament_id = match_detail["tournament_id"]

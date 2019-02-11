@@ -20,6 +20,7 @@ class User(models.Model):
         user_id = user_tournament.user_id
 
         user_obj = cls.get_user_by_id(user_id=user_id)
+        # todo: feedback Inconsistency in naming, user_details --> user_profile
         user_details = user_obj.convert_to_dict()
 
         return user_details
