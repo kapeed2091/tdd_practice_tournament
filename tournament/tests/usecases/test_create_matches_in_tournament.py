@@ -16,7 +16,7 @@ class TestCreateMatchesInTournament(TestCase):
             'start_datetime': self.START_DATETIME,
             'player_usernames': ['USERNAME_' + str(i + 1) for i in range(0, 2 ** (self.NO_OF_ROUNDS))]
         }
-        presenter.present_create_tournament.return_value = {}
+        presenter.present_create_matches_in_tournament.return_value = {}
 
         from tournament.usecases.interactors import \
             CreateMatchesInTournamentInteractor
@@ -44,7 +44,7 @@ class TestCreateMatchesInTournament(TestCase):
             'start_datetime': self.START_DATETIME,
             'player_usernames': ['USERNAME_'+str(i+1) for i in range(0, 2**(self.NO_OF_ROUNDS))]
         }
-        presenter.present_create_tournament.return_value = {}
+        presenter.present_create_matches_in_tournament.return_value = {}
 
         from tournament.usecases.interactors import \
             CreateMatchesInTournamentInteractor
@@ -73,7 +73,7 @@ class TestCreateMatchesInTournament(TestCase):
             'start_datetime': self.START_DATETIME,
             'player_usernames': ['USERNAME_'+str(i+1) for i in range(0, 2**(self.NO_OF_ROUNDS))]
         }
-        presenter.present_create_tournament.return_value = {}
+        presenter.present_create_matches_in_tournament.return_value = {}
 
         from tournament.usecases.interactors import \
             CreateMatchesInTournamentInteractor
