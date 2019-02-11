@@ -27,6 +27,8 @@ class UserTournament(models.Model):
         tournament = Tournament.get_tournament_by_id(
             tournament_id=tournament_id
         )
+
+        # todo feedback: artificial coupling
         tournament.validate_tournament_status()
 
         is_last_person = cls._is_last_person(
@@ -124,6 +126,7 @@ class UserTournament(models.Model):
         user_matches = UserMatch.get_user_matches(match_id=match_id)
 
         # todo: feedback make logical dependencies physical
+        # todo: feedback should sorted be included ???
         user_matches_sorted = sorted(user_matches, key=lambda x: x.score)
         user_match_with_lowest_score = user_matches_sorted[0]
 
@@ -150,6 +153,7 @@ class UserTournament(models.Model):
         self.save()
 
     # todo: feedback obvious behavior is unimplemented
+    # todo: feedback Unambiguous names
     @classmethod
     def get_players_that_reached_round_alive(cls, tournament_id, round_number):
         from tournaments.constants.general import UserTournamentStatus
@@ -204,6 +208,7 @@ class UserTournament(models.Model):
 
         return user_tournament_exists
 
+    # todo feedback: standard nomenclature
     @classmethod
     def get_user_tournament_by_details(cls, user_id, tournament_id):
         obj = cls.objects.get(
@@ -211,7 +216,7 @@ class UserTournament(models.Model):
         )
         return obj
 
-    # todo: feedback name should be changed ???
+    # todo: feedback name should be changed ??? (get_alive_players_count )
     @classmethod
     def get_current_players_count_in_round(cls, tournament_id, round_number):
         from tournaments.constants.general import UserTournamentStatus
@@ -224,6 +229,7 @@ class UserTournament(models.Model):
 
         return players_count
 
+    # todo feedback: standard nomenclature ???
     @classmethod
     def validate_user_in_tournament(cls, user_id, tournament_id):
         # ToDo FEEDBACK Duplication
@@ -237,6 +243,7 @@ class UserTournament(models.Model):
                 UserNotInTournament
             raise UserNotInTournament
 
+    # todo feedback: standard nomenclature
     @classmethod
     def validate_and_get_user_tournament(cls, user_id, tournament_id):
         try:
@@ -249,7 +256,7 @@ class UserTournament(models.Model):
                 UserNotInTournament
             raise UserNotInTournament
 
-    # todo: feedback obvious behavior is unimplemented
+    # todo: feedback obvious behavior is unimplemented ???
     def validate_if_user_is_alive(self):
         from tournaments.constants.general import UserTournamentStatus
 
@@ -268,6 +275,7 @@ class UserTournament(models.Model):
             raise LoserStatusAlreadyUpdated
 
     # todo: feedback vertical separation
+    # todo: feedback Ambiguous name ???
     @classmethod
     def _is_last_person(cls, tournament_id, total_rounds):
         total_rounds = total_rounds

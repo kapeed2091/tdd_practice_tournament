@@ -15,6 +15,7 @@ class Tournament(models.Model):
     def create_tournament(cls, user_id, total_rounds, start_datetime):
         from .user import User
         # todo feedback: G30 functions should do one thing
+        # todo feedback: G20 Function Names should do what they say
         User.validate_user_id(user_id=user_id)
 
         cls._validate_total_rounds(total_rounds=total_rounds)
@@ -52,6 +53,7 @@ class Tournament(models.Model):
             "status": self.status
         }
 
+    # todo: feedback unambiguous names
     @classmethod
     def get_players_count_in_a_round(cls, tournament_id, round_number):
         total_rounds = cls.get_total_rounds_in_tournament(
@@ -64,11 +66,13 @@ class Tournament(models.Model):
 
         return total_players
 
+    # todo: feedback unambiguous names
     @classmethod
     def get_total_rounds_in_tournament(cls, tournament_id):
         obj = cls.get_tournament_by_id(tournament_id=tournament_id)
         return obj.total_rounds
 
+    # todo: feedback standard nomenclature
     @classmethod
     def get_tournament_by_id(cls, tournament_id):
         obj = cls.objects.get(id=tournament_id)
@@ -78,6 +82,7 @@ class Tournament(models.Model):
         self.status = status
         self.save()
 
+    # todo: feedback G20 function names should say what they do
     @classmethod
     def validate_tournament_id(cls, tournament_id):
         tournament_exists = cls.objects.filter(id=tournament_id).exists()
@@ -104,7 +109,7 @@ class Tournament(models.Model):
         elif self.status == TournamentStatus.COMPLETED.value:
             raise InvalidCompletedRegister
 
-    # todo: feedback more proper name standards
+    # todo: feedback unambiguos name
     def validate_if_status_is_completed(self):
         from tournaments.constants.general import TournamentStatus
         if self.status == TournamentStatus.IN_PROGRESS.value:

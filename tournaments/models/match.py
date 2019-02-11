@@ -9,6 +9,8 @@ class Match(models.Model):
     def create_match(cls, tournament_id, round_number):
         # todo feedback: G30 functions should do one thing
         from .tournament import Tournament
+
+        # todo: feedback G20 function names should say what they do
         Tournament.validate_tournament_id(tournament_id=tournament_id)
 
         cls._validate_round_number(round_number=round_number)
@@ -18,6 +20,7 @@ class Match(models.Model):
             round_number=round_number
         )
 
+    # todo: feedback misplaced responsibility and artificial coupling
     @classmethod
     def create_all_matches(cls, tournament_id):
         # todo feedback: G30 functions should do one thing
@@ -44,6 +47,7 @@ class Match(models.Model):
         obj = cls.objects.get(id=match_id)
         return obj
 
+    # todo: feedback standard nomenclature where possible
     @classmethod
     def get_matches_by_tournament_and_round(cls, tournament_id, round_number):
         matches = cls.objects.filter(
@@ -51,6 +55,7 @@ class Match(models.Model):
         )
         return matches
 
+    # todo: feedback standard nomenclature where possible
     @classmethod
     def validate_and_get_match_by_id(cls, match_id):
         # ToDo FEEDBACK method name appearing as Query and Command
@@ -68,9 +73,9 @@ class Match(models.Model):
             from ..exceptions.custom_exceptions import InvalidRoundNumber
             raise InvalidRoundNumber
 
+    # todo: feedback standard nomenclature where possible
     @classmethod
     def _validate_if_matches_exist(cls, tournament_id):
-        # Todo FEEDBACK function naming
         matches_exist = cls.objects.filter(
             tournament_id=tournament_id).exists()
 
@@ -79,9 +84,11 @@ class Match(models.Model):
                 TournamentMatchesAlreadyExist
             raise TournamentMatchesAlreadyExist
 
+    # todo: feedback standard nomenclature where possible
     # todo: feedback function should do only one thing
     @classmethod
     def _create_objects_for_all_rounds(cls, tournament_id, total_rounds):
+        # todo: feedback standard nomenclature where possible
         for round_number in range(total_rounds, 0, -1):
             match_detail = {
                 "tournament_id": tournament_id,
@@ -92,11 +99,14 @@ class Match(models.Model):
             # todo : feedback G25 magic numbers
             # todo: artificial coupling and logical dependency
             # no of matches for round calculation ???
+            # todo: feedback use explanatory variables
+            # todo: feedback unambiguous names
             matches_to_be_created = 2 ** (total_rounds - round_number)
             cls._create_multiple_objects(
                 match_detail=match_detail, count=matches_to_be_created
             )
 
+    # todo: feedback standard nomenclature where possible
     @classmethod
     def _create_multiple_objects(cls, match_detail, count):
         tournament_id = match_detail["tournament_id"]

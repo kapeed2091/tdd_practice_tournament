@@ -24,6 +24,7 @@ class User(models.Model):
 
         return user_details
 
+    # todo: feedback more proper name standards
     @classmethod
     def get_user_by_id(cls, user_id):
         user = cls.objects.get(id=user_id)
@@ -38,6 +39,7 @@ class User(models.Model):
             "gender": self.gender
         }
 
+    # todo feedback: G20 functions should say what they do
     @classmethod
     def validate_user_id(cls, user_id):
         user_exists = User.objects.filter(id=user_id).exists()

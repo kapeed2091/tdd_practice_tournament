@@ -21,6 +21,7 @@ class UserMatch(models.Model):
 
         from .user_tournament import UserTournament
         tournament_id = match.tournament_id
+        # todo: is validate_user_tournament a better name ???
         UserTournament.validate_user_in_tournament(
             user_id=user_id, tournament_id=tournament_id
         )
@@ -33,6 +34,7 @@ class UserMatch(models.Model):
         #  no longer available tournament when status is DEAD
         # todo: feedback encapsulating boundary condition
         # todo: feedback one level of abstraction
+        # todo: feedback too many arguments
         is_user_dead = UserTournament.objects.filter(
             user_id=user_id, tournament_id=tournament_id,
             status=UserTournamentStatus.DEAD.value
@@ -100,9 +102,12 @@ class UserMatch(models.Model):
         players = UserTournament.get_players_that_reached_round_alive(
             tournament_id=tournament_id, round_number=round_number
         )
+
+        # todo feedback: should total be used in this context ???
         total_players = len(players)
 
         # todo feedback: misplaced responsibility, artificial coupling
+        # todo feedback: too many arguments (using tournament object)
         cls.validate_players_count_in_round(
             total_players=total_players,
             players_count_in_a_round=players_count_in_a_round
@@ -112,6 +117,7 @@ class UserMatch(models.Model):
         matches = Match.get_matches_by_tournament_and_round(
             tournament_id=tournament_id, round_number=round_number
         )
+        # todo feedback: should total be used in this context ???
         total_matches = len(matches)
 
         cls.validate_number_of_matches(
@@ -125,6 +131,7 @@ class UserMatch(models.Model):
         for index, match in enumerate(matches):
             # todo: feedback inconsistency in naming of players and user_ids
             # todo feedback coupling of match making and object creation
+            # todo feedback: shouldn't we have a loop for these two ???
             player = players[index]
             user_id_1 = player.user_id
             cls.objects.create(
@@ -163,7 +170,7 @@ class UserMatch(models.Model):
             user_id=user_id, match_id=match.id
         )
 
-        # todo: feedback function should descend only one level of abstraction
+        # todo: feedback function should descend only one level of abstraction ???
         opponent = opponents[0]
         opponent_user_id = opponent.user_id
 
@@ -185,7 +192,6 @@ class UserMatch(models.Model):
             raise InvalidScore
 
         # todo feedback: misplaced responsibility
-
         # todo: feedback encapsulating boundary condition
         # todo: feedback encapsulating conditionals to make it more readable
         if self.score != DEFAULT_SCORE:
@@ -213,6 +219,7 @@ class UserMatch(models.Model):
                 InadequateNumberOfMatches
             raise InadequateNumberOfMatches
 
+    # todo feedback: is validate_user_matches proper name ??(_exists ??)
     @classmethod
     def validate_user_matches(cls, match_ids):
         user_matches_exist = cls.objects.filter(
@@ -224,6 +231,7 @@ class UserMatch(models.Model):
                 ReAssignmentOfPlayers
             raise ReAssignmentOfPlayers
 
+    # todo: feedback unambiguous names
     # todo: feedback misplaced responsibility
     @staticmethod
     def validate_round_number(total_rounds, round_number):
@@ -232,12 +240,14 @@ class UserMatch(models.Model):
                 RoundNumberOutOfBounds
             raise RoundNumberOutOfBounds
 
+    # todo: feedback more proper name standards, unambiguous names
     # todo feedback be precise
     @classmethod
     def validate_if_match_in_progress(cls, match_id):
         # todo: feedback duplicate
         user_matches = cls.objects.filter(match_id=match_id)
 
+        # todo feedback: redundancy in "each_user_match" ???
         for each_user_match in user_matches:
             # todo: feedback DEFAULT_SCORE is doing two things: maintaining
             #  score and state of Match
@@ -251,8 +261,10 @@ class UserMatch(models.Model):
         self.score = score
         self.save()
 
+    # todo feedback: Unambiguous names
     @classmethod
     def _validate_match_users_count(cls, match_id):
+        # todo feedback: Unambiguous names
         match_id_users_count = cls.objects.filter(match_id=match_id).count()
 
         from tournaments.constants.general import MAX_NUM_OF_PEOPLE_FOR_MATCH
@@ -261,6 +273,7 @@ class UserMatch(models.Model):
                 MatchIdOverused
             raise MatchIdOverused
 
+    # todo: feedback more proper name standards
     # todo feedback be precise
     @classmethod
     def _validate_if_opponent_is_assigned_and_get_opponents(
