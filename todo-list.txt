@@ -27,7 +27,8 @@ Common Ground:
         This allows TDD to be simpler for usecases
 
 TodoList:
-    [User can create a knock-out tournament with configurable number of rounds and start datetime]
+    [User can get list of all tournaments (id, name, number of rounds, start_datetime, tournament_status)]
 
 
 Completed TodoList:
+    User can create a knock-out tournament with configurable number of rounds and start datetime
