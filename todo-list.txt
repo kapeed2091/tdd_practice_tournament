@@ -30,11 +30,3 @@ TodoList:
 
 
 Completed TodoList:
-    User can create a knock-out tournament with configurable number of rounds and start datetime
-        no of rounds should be >= 3
-        start datetime should not be less than current datetime
-    User can play matches once the tournament is started
-        Creates matches in tournament
-            2**n-1 matches
-            Each match two players
-            Each player should have only 1 match
