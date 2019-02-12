@@ -1,1 +1,2 @@
 from .create_tournament_interactor import CreateTournamentInteractor
+from .get_tournaments_interactor import GetTournamentsInteractor
