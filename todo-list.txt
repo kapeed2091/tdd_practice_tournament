@@ -27,6 +27,7 @@ Common Ground:
         This allows TDD to be simpler for usecases
 
 TodoList:
+    [User can create a knock-out tournament with configurable number of rounds and start datetime]
 
 
 Completed TodoList:
