@@ -31,67 +31,29 @@ class KOTournament(models.Model):
         return tournament.convert_to_dict()
 
     @classmethod
-    def get_all_tournaments(cls, user_id):
-        from tournament.models import UserProfile
-        UserProfile.is_registered_user(user_id=user_id)
-
-        tournaments = cls.all_tournaments()
-        tournament_list = cls.all_tournaments_list(tournaments=tournaments)
-
-        return tournament_list
-
-    @staticmethod
-    def generate_t_id():
-        import uuid
-        from tournament.constants.general import T_ID_MAX_LENGTH
-
-        return str(uuid.uuid4())[0:T_ID_MAX_LENGTH]
-
-    @classmethod
-    def assign_t_id_to_tournament(cls, t_id, name, number_of_rounds,
-                                  start_datetime, status):
-        return cls.objects.create(
-            t_id=t_id, name=name, number_of_rounds=number_of_rounds,
-            start_datetime=start_datetime, status=status)
-
-    @classmethod
     def validate_create_request(cls, user_id, number_of_rounds, start_datetime,
                                 status):
         from tournament.models import UserProfile
 
-        UserProfile.is_registered_user(user_id=user_id)
+        UserProfile.validate_user(user_id=user_id)
         cls.validate_number_of_rounds(number_of_rounds=number_of_rounds)
         cls.validate_start_datetime_to_create(start_datetime=start_datetime)
         cls.validate_status_to_create(status=status)
-
-    def convert_to_dict(self):
-        return {'t_id': str(self.t_id), 'name': str(self.name),
-                'number_of_rounds': self.number_of_rounds,
-                'start_datetime': self.start_datetime,
-                'status': str(self.status)}
-
-    @classmethod
-    def all_tournaments(cls):
-        return cls.objects.all()
-
-    @classmethod
-    def all_tournaments_list(cls, tournaments):
-        all_tournaments = list()
-        for tournament in tournaments:
-            all_tournaments.append(tournament.convert_to_dict())
-
-        return all_tournaments
 
     @classmethod
     def validate_number_of_rounds(cls, number_of_rounds):
         cls.is_non_int_type(number_of_rounds=number_of_rounds)
         cls.is_non_positive(number_of_rounds=number_of_rounds)
 
-    @classmethod
-    def validate_tournament_for_play_match(cls, tournament_id):
-        cls.validate_tournament(tournament_id=tournament_id)
-        cls.validate_start_datetime_for_play_match(tournament_id=tournament_id)
-        cls.validate_tournament_status_for_play_match(tournament_id=tournament_id)
+    @staticmethod
+    def is_non_int_type(number_of_rounds):
+        if type(number_of_rounds) != int:
+            raise Exception('Float type number of rounds given')
+
+    @staticmethod
+    def is_non_positive(number_of_rounds):
+        if number_of_rounds <= 0:
+            raise Exception('Non-positive number of rounds given')
 
     @classmethod
     def validate_start_datetime_to_create(cls, start_datetime):
@@ -113,18 +75,66 @@ class KOTournament(models.Model):
             raise Exception('Invalid Tournament Status at creation')
 
     @staticmethod
-    def is_non_positive(number_of_rounds):
-        if number_of_rounds <= 0:
-            raise Exception('Non-positive number of rounds given')
+    def is_status_can_join(status):
+        if status == TournamentStatus.CAN_JOIN.value:
+            return True
+        return False
 
     @staticmethod
-    def is_non_int_type(number_of_rounds):
-        if type(number_of_rounds) != int:
-            raise Exception('Float type number of rounds given')
+    def generate_t_id():
+        import uuid
+        from tournament.constants.general import T_ID_MAX_LENGTH
+
+        return str(uuid.uuid4())[0:T_ID_MAX_LENGTH]
+
+    @classmethod
+    def assign_t_id_to_tournament(cls, t_id, name, number_of_rounds,
+                                  start_datetime, status):
+        # ToDo: function name
+        return cls.objects.create(
+            t_id=t_id, name=name, number_of_rounds=number_of_rounds,
+            start_datetime=start_datetime, status=status)
+
+    def convert_to_dict(self):
+        return {'t_id': str(self.t_id), 'name': str(self.name),
+                'number_of_rounds': self.number_of_rounds,
+                'start_datetime': self.start_datetime,
+                'status': str(self.status)}
+
+    @classmethod
+    def get_all_tournaments(cls, user_id):
+        # ToDo: naming of internal functions
+        from tournament.models import UserProfile
+        UserProfile.validate_user(user_id=user_id)
+
+        tournaments = cls.all_tournaments()
+        tournament_list = cls.all_tournaments_list(tournaments=tournaments)
+
+        return tournament_list
+
+    @classmethod
+    def all_tournaments(cls):
+        return cls.objects.all()
+
+    @classmethod
+    def all_tournaments_list(cls, tournaments):
+        all_tournaments = list()
+        for tournament in tournaments:
+            all_tournaments.append(tournament.convert_to_dict())
+
+        return all_tournaments
+
+    @classmethod
+    def validate_tournament_for_play_match(cls, tournament_id):
+        # ToDo: move this to match model
+        cls.validate_tournament(tournament_id=tournament_id)
+        cls.validate_start_datetime_for_play_match(tournament_id=tournament_id)
+        cls.validate_tournament_status_for_play_match(tournament_id=tournament_id)
 
     @classmethod
     def validate_tournament(cls, tournament_id):
         try:
+            # ToDo: refactor with get_tournament method
             cls.objects.get(t_id=tournament_id)
         except:
             from tournament.constants.exception_messages import \
@@ -135,6 +145,7 @@ class KOTournament(models.Model):
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time
 
+        # ToDo: use is start datetime in past method
         if self.start_datetime < get_current_local_date_time():
             raise Exception('Tournament has started')
 
@@ -143,14 +154,9 @@ class KOTournament(models.Model):
         return cls.objects.get(t_id=tournament_id)
 
     def validate_status_to_subscribe(self):
+        # ToDo: move this to TU
         if not self.is_status_can_join(self.status):
             raise Exception('Invalid Tournament Status to subscribe')
-
-    @staticmethod
-    def is_status_can_join(status):
-        if status == TournamentStatus.CAN_JOIN.value:
-            return True
-        return False
 
     @classmethod
     def get_max_users_count(cls, tournament_id):
@@ -165,6 +171,8 @@ class KOTournament(models.Model):
 
     @classmethod
     def validate_subscribe_request(cls, tournament_id):
+        # ToDo: Include validate tournament in get_tournament
+        # ToDo: move this to TU
         cls.validate_tournament(tournament_id=tournament_id)
         tournament_obj = cls.get_tournament(tournament_id=tournament_id)
         # ToDo: tournament is full covers is_tournament_started case also
@@ -174,6 +182,7 @@ class KOTournament(models.Model):
 
     @classmethod
     def validate_start_datetime_for_create_match(cls, tournament_id):
+        # TODO: move this to TM
         tournament_obj = cls.get_tournament(tournament_id=tournament_id)
         if tournament_obj.is_start_datetime_in_future():
             from tournament.constants.exception_messages import \
@@ -182,6 +191,7 @@ class KOTournament(models.Model):
 
     @classmethod
     def validate_start_datetime_for_play_match(cls, tournament_id):
+        # TODO: move this to TM
         tournament_obj = cls.get_tournament(tournament_id=tournament_id)
         if tournament_obj.is_start_datetime_in_future():
             from tournament.constants.exception_messages import \
@@ -189,6 +199,7 @@ class KOTournament(models.Model):
             raise Exception(*CANNOT_PLAY_MATCH_BEFORE_START_DATETIME)
 
     def is_start_datetime_in_future(self):
+        # ToDo: is_start_datetime_in_past method exists
         from ib_common.date_time_utils.get_current_local_date_time import \
             get_current_local_date_time
         if self.start_datetime > get_current_local_date_time():
@@ -198,6 +209,7 @@ class KOTournament(models.Model):
 
     @classmethod
     def validate_tournament_status_for_play_match(cls, tournament_id):
+        # TODO: move this to TM
         tournament_obj = cls.get_tournament(tournament_id=tournament_id)
         if tournament_obj.status != TournamentStatus.IN_PROGRESS.value:
             from tournament.constants.exception_messages import \
@@ -206,5 +218,6 @@ class KOTournament(models.Model):
 
     @classmethod
     def validate_tournament_for_create_match(cls, tournament_id):
+        # TODO: move this to TM
         cls.validate_tournament(tournament_id=tournament_id)
         cls.validate_start_datetime_for_create_match(tournament_id=tournament_id)

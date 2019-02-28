@@ -33,7 +33,8 @@ class UserProfile(models.Model):
         return cls.objects.get(user_id=user_id)
 
     @classmethod
-    def is_registered_user(cls, user_id):
+    def validate_user(cls, user_id):
+        # ToDo: Rename function
         try:
             cls.get_user(user_id=user_id)
         except:
@@ -44,8 +45,8 @@ class UserProfile(models.Model):
     @classmethod
     def validate_users(cls, user_id_1, user_id_2):
         try:
-            cls.get_user(user_id=user_id_1)
-            cls.get_user(user_id=user_id_2)
+            cls.validate_user(user_id=user_id_1)
+            cls.validate_user(user_id=user_id_2)
         except:
             from tournament.constants.exception_messages import \
                 USERS_OR_ONE_OF_THE_USER_NOT_REGISTERED

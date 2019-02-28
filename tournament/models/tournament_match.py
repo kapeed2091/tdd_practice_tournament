@@ -33,6 +33,7 @@ class TournamentMatch(models.Model):
     @classmethod
     def create_match(cls, request_data):
         from tournament.models import KOTournament, UserProfile, TournamentUser
+        # ToDo: one level of abstraction
         KOTournament.validate_tournament_for_create_match(
             tournament_id=request_data['tournament_id'])
         UserProfile.validate_users(user_id_1=request_data['player_one_user_id'],
@@ -49,18 +50,22 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def create_match_and_assign_match_id(cls, create_match_request, match_id):
+        # ToDo: merge this function with create_match
         cls.validate_match_id_to_assign(match_id=match_id)
         match_obj = cls.create_match(request_data=create_match_request)
         match_obj.assign_match_id_to_match(match_id=match_id)
 
     @classmethod
     def user_play_match(cls, user_id, tournament_id, match_id):
+        # ToDo: Can remove tournament id from input
+        # ToDo: get match object and use in further methods
+        # ToDo: validate user subscription method can be removed
         from tournament.models import KOTournament, UserProfile, TournamentUser
         KOTournament.validate_tournament_for_play_match(
             tournament_id=tournament_id)
         cls.validate_match_id(match_id=match_id)
-        UserProfile.is_registered_user(user_id=user_id)
-        TournamentUser.validate_user_subscription(
+        UserProfile.validate_user(user_id=user_id)
+        TournamentUser.validate_tournament_user(
             tournament_id=tournament_id, user_id=user_id)
         cls.validate_user_belong_to_match(user_id=user_id, match_id=match_id)
         cls.update_match_data_for_play_match(
@@ -73,6 +78,7 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def user_submit_score_with_time(cls, user_id, match_id, score, submit_time):
+        # ToDo refactor with user_submit_score
         cls.update_player_score_and_time(
             user_id=user_id, match_id=match_id, score=score,
             submit_time=submit_time)
@@ -84,6 +90,7 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def winner_progress_to_next_round(cls, match_id):
+        # ToDo: use get function rather than DB call
         from tournament.models import TournamentUser
 
         tournament_match_obj = cls.objects.get(match_id=match_id)
@@ -140,7 +147,8 @@ class TournamentMatch(models.Model):
     @classmethod
     def validate_user_and_match(cls, user_id, match_id):
         from tournament.models import UserProfile
-        UserProfile.is_registered_user(user_id=user_id)
+
+        UserProfile.validate_user(user_id=user_id)
         cls.validate_match_id(match_id=match_id)
         cls.validate_user_belong_to_match(user_id=user_id, match_id=match_id)
 
@@ -161,6 +169,7 @@ class TournamentMatch(models.Model):
     @classmethod
     def update_match_data_for_play_match(cls, user_id, match_id,
                                          tournament_id):
+        # ToDo: tournament_id not needed
         if cls.is_user_player_one(user_id=user_id, match_id=match_id):
             tournament_match_obj = cls.objects.get(
                 player_one=user_id, match_id=match_id,
@@ -175,12 +184,14 @@ class TournamentMatch(models.Model):
             tournament_match_obj.update_match_status_for_play_match()
 
     def assign_winner(self):
+        # ToDo: Modify this to if, elif
         self.assign_winner_as_player_one()
         self.assign_winner_as_player_two()
         self.decide_winner_during_tie()
 
     @classmethod
     def update_score(cls, user_id, match_id, score):
+        # ToDo: Modify this to if, elif
         cls.update_player_one_score(
             user_id=user_id, match_id=match_id, score=score)
         cls.update_player_two_score(
@@ -188,6 +199,7 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def update_player_one_score(cls, user_id, match_id, score):
+        # ToDo: Remove if condition and move to higher level function
         if cls.is_user_player_one(user_id=user_id, match_id=match_id):
             tournament_match_obj = cls.objects.get(
                 player_one=user_id, match_id=match_id)
@@ -195,6 +207,7 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def update_player_two_score(cls, user_id, match_id, score):
+        # ToDo: Remove if condition and move to higher level function
         if cls.is_user_player_two(user_id=user_id, match_id=match_id):
             tournament_match_obj = cls.objects.get(
                 player_two=user_id, match_id=match_id)
@@ -234,19 +247,23 @@ class TournamentMatch(models.Model):
         self.save()
 
     def change_player_one_score(self, score):
+        # ToDo: Change name
         self.player_one_score = score
         self.save()
 
     def change_player_two_score(self, score):
+        # ToDo: Change name
         self.player_two_score = score
         self.save()
 
     def assign_winner_as_player_one(self):
+        # ToDo: Remove if condition and move to higher level function
         if self.is_player_one_score_higher_than_player_two():
             self.winner_user_id = self.player_one
             self.save()
 
     def assign_winner_as_player_two(self):
+        # ToDo: Remove if condition and move to higher level function
         if self.is_player_two_score_higher_than_player_one():
             self.winner_user_id = self.player_two
             self.save()
@@ -268,6 +285,7 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def update_player_score_and_time(cls, user_id, match_id, score, submit_time):
+        # ToDo: Use if, elif
         cls.update_player_one_score_and_time(
             user_id=user_id, match_id=match_id, score=score,
             submit_time=submit_time)
@@ -278,6 +296,7 @@ class TournamentMatch(models.Model):
     @classmethod
     def update_player_one_score_and_time(cls, user_id, match_id, score,
                                          submit_time):
+        # ToDo: Remove if condition and move to higher level function
         if cls.is_user_player_one(user_id=user_id, match_id=match_id):
             tournament_match_obj = cls.objects.get(
                 player_one=user_id, match_id=match_id)
@@ -287,6 +306,7 @@ class TournamentMatch(models.Model):
     @classmethod
     def update_player_two_score_and_time(cls, user_id, match_id, score,
                                          submit_time):
+        # ToDo: Remove if condition and move to higher level function
         if cls.is_user_player_two(user_id=user_id, match_id=match_id):
             tournament_match_obj = cls.objects.get(
                 player_two=user_id, match_id=match_id)
@@ -304,16 +324,19 @@ class TournamentMatch(models.Model):
         self.save()
 
     def decide_winner_during_tie(self):
+        # ToDo: Change to if, elif
         if self.are_player_one_and_two_scores_equal():
             self.assign_player_one_as_winner_during_tie()
             self.assign_player_two_as_winner_during_tie()
 
     def assign_player_one_as_winner_during_tie(self):
+        # ToDo: Remove if condition and move to higher level function
         if self.did_player_one_submit_score_first():
             self.winner_user_id = self.player_one
             self.save()
 
     def assign_player_two_as_winner_during_tie(self):
+        # ToDo: Remove if condition and move to higher level function
         if self.did_player_two_submit_score_first():
             self.winner_user_id = self.player_two
             self.save()
@@ -330,10 +353,18 @@ class TournamentMatch(models.Model):
 
     @classmethod
     def get_opponent_user_id(cls, tournament_id, round_number, user_id):
-        tournament_match_obj = cls.objects.get(
-            t_id=tournament_id, t_round_number=round_number)
+        # ToDo: refactoring needed
+        tournament_match_obj = cls.objects.filter(
+            t_id=tournament_id, t_round_number=round_number, player_one=user_id)
+        if cls.objects.filter(
+                t_id=tournament_id, t_round_number=round_number,
+                player_one=user_id).exists():
+            return tournament_match_obj[0].player_two
 
-        return tournament_match_obj.get_opponent(user_id=user_id)
+        tournament_match_obj_2 = cls.objects.filter(
+            t_id=tournament_id, t_round_number=round_number, player_two=user_id)
+        if tournament_match_obj_2.exists():
+            return tournament_match_obj_2[0].player_one
 
     def get_opponent(self, user_id):
         if self.is_player_one(user_id=user_id):
@@ -355,9 +386,10 @@ class TournamentMatch(models.Model):
     @classmethod
     def validate_get_opponent_profile_request(
             cls, tournament_id, round_number, user_id):
+        # ToDo: change function name
         from tournament.models import TournamentUser
 
-        TournamentUser.validate_user_subscription(
+        TournamentUser.validate_tournament_user(
             tournament_id=tournament_id, user_id=user_id)
         TournamentUser.validate_requested_round_number(
             tournament_id=tournament_id, round_number=round_number,

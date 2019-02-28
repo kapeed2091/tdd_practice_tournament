@@ -9,11 +9,12 @@ class TournamentUser(models.Model):
 
     @classmethod
     def subscribe_to_tournament(cls, user_id, tournament_id):
+        # ToDo: One level of abstraction
         from tournament.models import UserProfile, KOTournament
 
         cls.is_user_already_subscribed(user_id=user_id,
                                        tournament_id=tournament_id)
-        UserProfile.is_registered_user(user_id=user_id)
+        UserProfile.validate_user(user_id=user_id)
         KOTournament.validate_subscribe_request(tournament_id=tournament_id)
 
         max_users_count = KOTournament.get_max_users_count(
@@ -30,8 +31,8 @@ class TournamentUser(models.Model):
 
     @classmethod
     def get_user_current_round(cls, tournament_id, user_id):
-        cls.validate_user_subscription(tournament_id=tournament_id,
-                                       user_id=user_id)
+        cls.validate_tournament_user(tournament_id=tournament_id,
+                                     user_id=user_id)
         tournament_user_obj = cls.objects.get(user_id=user_id,
                                               t_id=tournament_id)
         return tournament_user_obj.current_round_number
@@ -42,21 +43,24 @@ class TournamentUser(models.Model):
 
     @classmethod
     def is_user_already_subscribed(cls, user_id, tournament_id):
+        # ToDo: Rename function
         if cls.objects.filter(user_id=user_id, t_id=tournament_id).exists():
             raise Exception('Already Subscribed to Tournament')
 
     @classmethod
     def get_subscribed_users_count(cls, tournament_id):
-        return len(cls.objects.filter(t_id=tournament_id))
+        return cls.objects.filter(t_id=tournament_id).count()
 
     @staticmethod
     def is_tournament_full(subscribed_users_count, max_users_count):
+        # ToDo: Rename function
         if subscribed_users_count == max_users_count:
             raise Exception('Tournament is full')
 
     @classmethod
     def change_tournament_status_to_full(cls, subscribed_users_count,
                                          max_users_count, tournament_id):
+        # ToDo: Rename function
         if cls.is_last_subscriber(subscribed_users_count=subscribed_users_count,
                                   max_users_count=max_users_count):
             from tournament.models import KOTournament
@@ -82,9 +86,9 @@ class TournamentUser(models.Model):
                 *USERS_OR_ONE_OF_THE_USER_NOT_SUBSCRIBED_TO_TOURNAMENT)
 
     @classmethod
-    def validate_user_subscription(cls, tournament_id, user_id):
+    def validate_tournament_user(cls, tournament_id, user_id):
         try:
-            cls.objects.get(t_id=tournament_id, user_id=user_id)
+            return cls.objects.get(t_id=tournament_id, user_id=user_id)
         except:
             from tournament.constants.exception_messages import \
                 USER_NOT_SUBSCRIBED_TO_TOURNAMENT
@@ -103,6 +107,7 @@ class TournamentUser(models.Model):
     @classmethod
     def validate_requested_round_number(cls, tournament_id, round_number,
                                         user_id):
+        # ToDo: Rename function
         tournament_user_obj = cls.objects.get(user_id=user_id,
                                               t_id=tournament_id)
         if tournament_user_obj.is_current_round_less_than_requested(
