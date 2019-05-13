@@ -1,0 +1,25 @@
+User Stories:
+1. User should be able to upload payment reports
+2. User should be able to generate display_reports for selected date_range and franchises
+3. User should be able to view display_reports for selected date_range and franchises
+4. User should be able to download display_reports in csv for selected date_range and franchises
+5. User should be able to send display_reports to Franchise team for selected date_range and franchises
+
+
+Use Cases:
+1. Create Payment Reports
+2. Generate DisplayReports for selected date_range and franchises
+3. Get DisplayReports for selected date_range and franchises
+4. Send DisplayReports to franchise team for selected date_range and franchises
+
+
+Acceptance:
+1. Acceptance scenarios for UserStory-2:
+    a. If SaleReport reference no and amount matched with PaymentReport reference number and amount,
+        DisplayReport should be generated with status=Matched
+    b. If SaleReport reference no is matched with PaymentReport reference and amounts does not match,
+        DisplayReport should be generated with status=Amount Mismatch
+    c. If SaleReport amount is matched with PaymentReport amount and reference no does not match,
+        DisplayReport should be generated with status=RefNo Mismatch
+    d. Unmatched SaleReports should be created as status=ExtraSale
+    e. Unmatched PaymentReports should be created as status=UnBilled
