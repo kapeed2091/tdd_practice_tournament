@@ -48,7 +48,8 @@ class TestSubscribeToTournament(TestCase):
         storage = Mock()
         presenter = Mock()
 
-        storage.get_tournament.return_value = self.get_tournament_details()
+        storage.get_tournament.return_value = \
+            self.get_details_of_tournament_that_has_started()
 
         from tournament_clean_arch.use_cases. \
             subscribe_to_tournament_interactor import \
@@ -61,21 +62,20 @@ class TestSubscribeToTournament(TestCase):
         )
 
         from tournament_clean_arch.exceptions.custom_exceptions import \
-            UserAlreadySubscribed
-        with self.assertRaises(UserAlreadySubscribed):
+            TournamentHasStarted
+        with self.assertRaises(TournamentHasStarted):
             use_case.execute()
 
         self.assertFalse(storage.subscribe_to_tournament.called)
         self.assertFalse(presenter.present_subscribe_to_tournament.called)
 
     @staticmethod
-    def get_tournament_details():
+    def get_details_of_tournament_that_has_started():
         import datetime
         tournament_date_time = \
-            datetime.datetime.now() + datetime.timedelta(days=1)
+            datetime.datetime.now() - datetime.timedelta(days=1)
         return {
             "tournament_id": 1,
             "no_of_rounds": 4,
-            "start_datetime":
-                tournament_date_time.strftime("%m/%d/%Y, %H:%M:%S")
+            "start_datetime": tournament_date_time
         }

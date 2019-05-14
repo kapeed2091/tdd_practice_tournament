@@ -6,5 +6,5 @@ class InvalidStartDateTimeForTournament(Exception):
     pass
 
 
-class UserAlreadySubscribed(Exception):
+class TournamentHasStarted(Exception):
     pass
