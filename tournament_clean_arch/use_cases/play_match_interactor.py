@@ -11,7 +11,20 @@ class PlayMatchInteractor(object):
         self.round_number = round_number
         self.tournament_id = tournament_id
 
+    def validate_round_number(self):
+        tournament_details = self.storage.get_tournament(
+            tournament_id=self.tournament_id
+        )
+        no_of_rounds_in_tournament = tournament_details["no_of_rounds"]
+
+        if self.round_number > no_of_rounds_in_tournament:
+            from tournament_clean_arch.exceptions.custom_exceptions import \
+                InvalidRoundNumber
+            raise InvalidRoundNumber
+
     def execute(self):
+        self.validate_round_number()
+
         match_id = self.storage.get_unassigned_match_for_round(
             round_number=self.round_number,
             tournament_id=self.tournament_id
