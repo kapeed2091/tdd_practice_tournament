@@ -10,5 +10,13 @@ class Storage(object):
         pass
 
     @abc.abstractmethod
-    def generate_display_reports(self, date_range, franchise_ids):
+    def get_sale_reports(self, date_range, franchise_ids):
+        pass
+
+    @abc.abstractmethod
+    def get_payment_reports(self, date_range, franchise_ids):
+        pass
+
+    @abc.abstractmethod
+    def generate_display_reports(self, display_reports):
         pass
