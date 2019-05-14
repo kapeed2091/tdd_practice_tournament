@@ -44,8 +44,10 @@ def test_generate_display_reports_with_status_matched():
     storage_mock.create_display_reports.assert_called_once_with(
         display_reports=[
             {
-                "ref_no": "Ref1234",
-                "amount": 100,
+                "sale_report_ref_no": "Ref1234",
+                "payment_report_ref_no": "Ref1234",
+                "sale_report_amount": 100,
+                "payment_report_amount": 100,
                 "status": DisplayReportStatus.MATCHED.value
             }
         ]
