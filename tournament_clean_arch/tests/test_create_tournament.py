@@ -41,16 +41,19 @@ class TestCreateTournament(TestCase):
         self.assertEqual(use_case_response, tournament_data)
 
         self.assertTrue(storage.create_tournament.called)
-        (no_of_rounds, start_datetime), _ = storage.create_tournament.call_args
-        self.assertEqual(tournament_data["no_of_rounds"], no_of_rounds)
-        self.assertEqual(tournament_data["start_datetime"], start_datetime)
+        args_dict = storage.create_tournament.call_args[1]
+
+        self.assertEqual(
+            tournament_data["no_of_rounds"], args_dict.get("no_of_rounds"))
+        self.assertEqual(
+            tournament_data["start_datetime"], args_dict.get("start_datetime"))
 
         self.assertTrue(storage.get_tournament.called)
-        (get_tournament_tournament_id,), _ = storage.get_tournament.call_args
-        self.assertEqual(get_tournament_tournament_id, tournament_id)
+        args_dict = storage.get_tournament.call_args[1]
+        self.assertEqual(tournament_id, args_dict["tournament_id"])
 
         self.assertTrue(presenter.present_create_tournament.called)
-        (presenter_input_tournament_data), _ = \
-            presenter.present_create_tournament.call_args
-        self.assertEqual(presenter_input_tournament_data,
+        args_dict = presenter.present_create_tournament.call_args[1]
+
+        self.assertEqual(args_dict.get("tournament_details"),
                          tournament_data_with_date_as_obj)
