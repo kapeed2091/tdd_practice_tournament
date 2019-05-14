@@ -34,3 +34,58 @@ def test_create_payment_reports():
         } for payment_report in payment_reports
     ]
     assert payment_reports_data == payment_reports_data_created
+
+
+@pytest.mark.django_db
+def test_get_payment_reports():
+    from datetime import datetime
+    from display_reports.models import PaymentReport
+    payment_report_objects = [
+        PaymentReport(
+            reference_no="Ref1",
+            amount=100,
+            transaction_status=TransactionStatus.SUCCESS.value,
+            transaction_datetime=datetime(year=2019, month=03, day=10, hour=12),
+            franchise_id=1
+        ),
+        PaymentReport(
+            reference_no="Ref2",
+            amount=100,
+            transaction_status=TransactionStatus.SUCCESS.value,
+            transaction_datetime=datetime(year=2019, month=03, day=10, hour=12),
+            franchise_id=2
+        ),
+        PaymentReport(
+            reference_no="Ref3",
+            amount=100,
+            transaction_status=TransactionStatus.SUCCESS.value,
+            transaction_datetime=datetime(year=2019, month=03, day=10, hour=12),
+            franchise_id=3
+        ),
+        PaymentReport(
+            reference_no="Ref4",
+            amount=100,
+            transaction_status=TransactionStatus.SUCCESS.value,
+            transaction_datetime=datetime(year=2019, month=03, day=15, hour=12),
+            franchise_id=1
+        )
+    ]
+    PaymentReport.objects.bulk_create(payment_report_objects)
+
+    date_range = {
+        "from_date": datetime(year=2019, month=03, day=10).date(),
+        "to_date": datetime(year=2019, month=03, day=14).date()
+    }
+    franchise_ids = [1, 2]
+
+    from display_reports.storage.storage_impl import StorageImplementation
+    storage_impl = StorageImplementation()
+    payment_reports = storage_impl.get_payment_reports(
+        date_range=date_range, franchise_ids=franchise_ids)
+    payment_report_expected = [
+        {
+            "ref_no": payment_report.reference_no,
+            "amount": payment_report.amount
+        } for payment_report in payment_report_objects
+    ]
+    assert payment_report_expected == payment_reports
