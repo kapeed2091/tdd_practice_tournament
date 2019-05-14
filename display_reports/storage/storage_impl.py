@@ -37,7 +37,18 @@ class StorageImplementation(Storage):
         ]
 
     def get_sale_reports(self, date_range, franchise_ids):
-        pass
+        from display_reports.models import SaleReport
+        sale_reports = SaleReport.objects.filter(
+            transaction_datetime__date__lte=date_range['to_date'],
+            transaction_datetime__date__gte=date_range['from_date'],
+            franchise_id__in=franchise_ids
+        )
+        return [
+            {
+                "ref_no": sale_report.reference_no,
+                "amount": sale_report.amount
+            } for sale_report in sale_reports
+        ]
 
     def create_payment_reports(self, payment_reports_data):
         from display_reports.models import PaymentReport
