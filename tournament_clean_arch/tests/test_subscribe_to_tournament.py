@@ -71,6 +71,36 @@ class TestSubscribeToTournament(TestCase):
         self.assertFalse(storage.subscribe_to_tournament.called)
         self.assertFalse(presenter.present_subscribe_to_tournament.called)
 
+    def test_case_tournament_is_full(self):
+        user_id = 1
+        tournament_id = 2
+
+        storage = Mock()
+        presenter = Mock()
+
+        storage.get_tournament.return_value = \
+            self.get_details_of_tournament_that_has_not_started()
+        storage.get_total_subscribers_for_tournament.return_value = \
+            self.get_total_subscribers_for_completely_filled_tournament()
+
+        from tournament_clean_arch.use_cases. \
+            subscribe_to_tournament_interactor import \
+            SubscribeToTournamentInteractor
+        use_case = SubscribeToTournamentInteractor(
+            storage=storage, presenter=presenter)
+
+        use_case.setup(
+            user_id=user_id, tournament_id=tournament_id
+        )
+
+        from tournament_clean_arch.exceptions.custom_exceptions import \
+            TournamentIsFull
+        with self.assertRaises(TournamentIsFull):
+            use_case.execute()
+
+        self.assertFalse(storage.subscribe_to_tournament.called)
+        self.assertFalse(presenter.present_subscribe_to_tournament.called)
+
     @staticmethod
     def get_details_of_tournament_that_has_started():
         import datetime
@@ -92,3 +122,7 @@ class TestSubscribeToTournament(TestCase):
             "no_of_rounds": 4,
             "start_datetime": tournament_date_time
         }
+
+    @staticmethod
+    def get_total_subscribers_for_completely_filled_tournament():
+        return 16
