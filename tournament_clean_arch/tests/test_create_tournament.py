@@ -90,6 +90,6 @@ class TestCreateTournament(TestCase):
         )
 
         from tournament_clean_arch.constants.custom_exceptions import \
-            InvalidNumnberOfRounds
-        with self.assertRaises(InvalidNumnberOfRounds):
+            InvalidNumberOfRounds
+        with self.assertRaises(InvalidNumberOfRounds):
             use_case.execute()

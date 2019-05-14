@@ -1,0 +1,2 @@
+class InvalidNumberOfRounds(Exception):
+    pass
