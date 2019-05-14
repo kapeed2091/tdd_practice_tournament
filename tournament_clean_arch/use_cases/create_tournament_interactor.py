@@ -16,8 +16,19 @@ class CreateTournamentInteractor(object):
                 InvalidNumberOfRounds
             raise InvalidNumberOfRounds
 
+    @staticmethod
+    def validate_start_datetime(start_datetime):
+        import datetime
+        now = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+
+        if start_datetime < now:
+            from tournament_clean_arch.exceptions.custom_exceptions import \
+                InvalidStartDateTimeForTournament
+            raise InvalidStartDateTimeForTournament
+
     def execute(self):
         self.validate_no_of_rounds(no_of_rounds=self.no_of_rounds)
+        self.validate_start_datetime(start_datetime=self.start_datetime)
 
         tournament_id = self.storage.create_tournament(
             no_of_rounds=self.no_of_rounds,
