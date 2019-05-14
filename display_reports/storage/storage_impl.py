@@ -10,7 +10,17 @@ class StorageImplementation(Storage):
         pass
 
     def create_display_reports(self, display_reports):
-        pass
+        from display_reports.models import DisplayReport
+        display_report_objects = [
+            DisplayReport(
+                sale_report_reference_no=display_report['sale_report_ref_no'],
+                payment_report_reference_no=display_report['payment_report_ref_no'],
+                sale_report_amount=display_report['sale_report_amount'],
+                payment_report_amount=display_report['payment_report_amount'],
+                status=display_report['status']
+            ) for display_report in display_reports
+        ]
+        DisplayReport.objects.bulk_create(display_report_objects)
 
     def get_payment_reports(self, date_range, franchise_ids):
         from display_reports.models import PaymentReport
