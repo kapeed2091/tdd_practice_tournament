@@ -97,3 +97,43 @@ class TestCreateTournament(TestCase):
         self.assertFalse(storage.create_tournament.called)
         self.assertFalse(storage.create_tournament.called)
         self.assertFalse(presenter.present_create_tournament.called)
+
+    def test_create_tournament_invalid_date(self):
+        tournament_date_time = \
+            datetime.datetime.now() - datetime.timedelta(days=1)
+        tournament_data = {
+            "tournament_id": 1,
+            "no_of_rounds": 4,
+            "start_datetime":
+                tournament_date_time.strftime("%m/%d/%Y, %H:%M:%S")
+        }
+        tournament_data_with_date_as_obj = copy.deepcopy(tournament_data)
+        tournament_data_with_date_as_obj["start_datetime"] = \
+            tournament_date_time
+
+        storage = Mock()
+        presenter = Mock()
+
+        tournament_id = tournament_data["tournament_id"]
+        storage.create_tournament.return_value = tournament_id
+        storage.get_tournament.return_value = tournament_data_with_date_as_obj
+        presenter.present_create_tournament.return_value = tournament_data
+
+        from tournament_clean_arch.use_cases.create_tournament_interactor \
+            import CreateTournamentInteractor
+        use_case = CreateTournamentInteractor(
+            storage=storage, presenter=presenter)
+
+        use_case.setup(
+            no_of_rounds=tournament_data["no_of_rounds"],
+            start_datetime=tournament_data["start_datetime"]
+        )
+
+        from tournament_clean_arch.exceptions.custom_exceptions import \
+            InvalidStartDateTimeForTournament
+        with self.assertRaises(InvalidStartDateTimeForTournament):
+            use_case.execute()
+
+        self.assertFalse(storage.create_tournament.called)
+        self.assertFalse(storage.create_tournament.called)
+        self.assertFalse(presenter.present_create_tournament.called)
