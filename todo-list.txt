@@ -23,8 +23,7 @@ Assumptions:
 
 TodoList
     - As a user I should be able to play a match
-        [tournament is completed]
-        not a valid tournament
+        [not a valid tournament]
         user already played the round
         player is already dead in tournament
         other players are still playing the tournament
@@ -45,3 +44,4 @@ Completed list
     - As a user I should be able to play a match
         successful case
         invalid round number
+        tournament is completed

@@ -105,6 +105,35 @@ class TestPlayMatch(TestCase):
         self.assertFalse(storage.assign_match_to_user.called)
         self.assertFalse(presenter.present_play_match.called)
 
+    def test_case_invalid_tournament(self):
+        user_id = 1
+        round_number = 3
+        tournament_id = 1
+
+        storage = Mock()
+        presenter = Mock()
+
+        storage.get_tournament.return_value = self.get_tournament_details()
+        storage.does_tournament_exist.return_value = False
+
+        from tournament_clean_arch.use_cases.play_match_interactor \
+            import PlayMatchInteractor
+        use_case = PlayMatchInteractor(storage=storage, presenter=presenter)
+
+        use_case.setup(
+            user_id=user_id, round_number=round_number,
+            tournament_id=tournament_id
+        )
+
+        from tournament_clean_arch.exceptions.custom_exceptions import \
+            InvalidTournament
+        with self.assertRaises(InvalidTournament):
+            use_case.execute()
+
+        self.assertFalse(storage.get_unassigned_match_for_round.called)
+        self.assertFalse(storage.assign_match_to_user.called)
+        self.assertFalse(presenter.present_play_match.called)
+
     @staticmethod
     def get_tournament_details():
         tournament_date_time = \
