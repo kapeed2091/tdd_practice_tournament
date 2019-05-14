@@ -4,6 +4,7 @@ from mock import create_autospec
 def test_generate_display_reports_with_status_matched():
     from datetime import datetime
     from display_reports.storage.storage import Storage
+    from display_reports.utils.display_report_utils import DisplayReportUtils
 
     date_range = {
         "from_date": datetime(year=2019, month=03, day=10).date(),
