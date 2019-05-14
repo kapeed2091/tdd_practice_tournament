@@ -40,3 +40,42 @@ class TestSubscribeToTournament(TestCase):
         args_dict = presenter.present_subscribe_to_tournament.call_args[1]
 
         self.assertEqual(subscribe_id, args_dict.get("subscribe_id"))
+
+    def test_case_tournament_already_started(self):
+        user_id = 1
+        tournament_id = 2
+
+        storage = Mock()
+        presenter = Mock()
+
+        storage.get_tournament.return_value = self.get_tournament_details()
+
+        from tournament_clean_arch.use_cases. \
+            subscribe_to_tournament_interactor import \
+            SubscribeToTournamentInteractor
+        use_case = SubscribeToTournamentInteractor(
+            storage=storage, presenter=presenter)
+
+        use_case.setup(
+            user_id=user_id, tournament_id=tournament_id
+        )
+
+        from tournament_clean_arch.exceptions.custom_exceptions import \
+            UserAlreadySubscribed
+        with self.assertRaises(UserAlreadySubscribed):
+            use_case.execute()
+
+        self.assertFalse(storage.subscribe_to_tournament.called)
+        self.assertFalse(presenter.present_subscribe_to_tournament.called)
+
+    @staticmethod
+    def get_tournament_details():
+        import datetime
+        tournament_date_time = \
+            datetime.datetime.now() + datetime.timedelta(days=1)
+        return {
+            "tournament_id": 1,
+            "no_of_rounds": 4,
+            "start_datetime":
+                tournament_date_time.strftime("%m/%d/%Y, %H:%M:%S")
+        }
