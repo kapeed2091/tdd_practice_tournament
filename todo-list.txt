@@ -20,8 +20,11 @@ Assumptions:
 
 
 TodoList
-    - As a user I should be able to able to subscribe to tournament
-        [user already subscribed to tournament]
+    - As a user I should be able to play a match
+        [successful case]
+        invalid match_id
+        player is already dead in tournament
+        other players are still playing the tournament
 
 Completed list
     - As a user I should be able to create a tournament with configurable number of rounds and start datetime
@@ -33,3 +36,4 @@ Completed list
         successful case
         tournament has already started
         tournament is full with required number of players
+        user already subscribed to tournament
