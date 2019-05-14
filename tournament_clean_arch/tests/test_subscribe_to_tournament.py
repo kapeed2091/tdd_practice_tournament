@@ -11,6 +11,8 @@ class TestSubscribeToTournament(TestCase):
         storage = Mock()
         presenter = Mock()
 
+        storage.get_tournament.return_value = \
+            self.get_details_of_tournament_that_has_not_started()
         storage.subscribe_to_tournament.return_value = subscribe_id
 
         presenter_response = {"subscribe_id": subscribe_id}
@@ -74,6 +76,17 @@ class TestSubscribeToTournament(TestCase):
         import datetime
         tournament_date_time = \
             datetime.datetime.now() - datetime.timedelta(days=1)
+        return {
+            "tournament_id": 1,
+            "no_of_rounds": 4,
+            "start_datetime": tournament_date_time
+        }
+
+    @staticmethod
+    def get_details_of_tournament_that_has_not_started():
+        import datetime
+        tournament_date_time = \
+            datetime.datetime.now() + datetime.timedelta(days=1)
         return {
             "tournament_id": 1,
             "no_of_rounds": 4,
