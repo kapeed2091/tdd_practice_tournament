@@ -8,3 +8,7 @@ class InvalidStartDateTimeForTournament(Exception):
 
 class TournamentHasStarted(Exception):
     pass
+
+
+class TournamentIsFull(Exception):
+    pass
