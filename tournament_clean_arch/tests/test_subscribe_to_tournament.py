@@ -14,6 +14,8 @@ class TestSubscribeToTournament(TestCase):
         storage.get_tournament.return_value = \
             self.get_details_of_tournament_that_has_not_started()
         storage.subscribe_to_tournament.return_value = subscribe_id
+        storage.get_total_subscribers_for_tournament.return_value = \
+            self.get_total_subscribers_for_partially_filled_tournament()
 
         presenter_response = {"subscribe_id": subscribe_id}
         presenter.present_subscribe_to_tournament.return_value = \
@@ -52,6 +54,8 @@ class TestSubscribeToTournament(TestCase):
 
         storage.get_tournament.return_value = \
             self.get_details_of_tournament_that_has_started()
+        storage.get_total_subscribers_for_tournament.return_value = \
+            self.get_total_subscribers_for_partially_filled_tournament()
 
         from tournament_clean_arch.use_cases. \
             subscribe_to_tournament_interactor import \
@@ -126,3 +130,7 @@ class TestSubscribeToTournament(TestCase):
     @staticmethod
     def get_total_subscribers_for_completely_filled_tournament():
         return 16
+
+    @staticmethod
+    def get_total_subscribers_for_partially_filled_tournament():
+        return 10
