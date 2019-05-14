@@ -12,7 +12,7 @@ class CreateTournamentInteractor(object):
     @staticmethod
     def validate_no_of_rounds(no_of_rounds):
         if no_of_rounds < 3:
-            from tournament_clean_arch.constants.custom_exceptions import \
+            from tournament_clean_arch.exceptions.custom_exceptions import \
                 InvalidNumberOfRounds
             raise InvalidNumberOfRounds
 

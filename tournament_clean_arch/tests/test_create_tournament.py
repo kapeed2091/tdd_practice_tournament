@@ -89,7 +89,7 @@ class TestCreateTournament(TestCase):
             start_datetime=tournament_data["start_datetime"]
         )
 
-        from tournament_clean_arch.constants.custom_exceptions import \
+        from tournament_clean_arch.exceptions.custom_exceptions import \
             InvalidNumberOfRounds
         with self.assertRaises(InvalidNumberOfRounds):
             use_case.execute()
