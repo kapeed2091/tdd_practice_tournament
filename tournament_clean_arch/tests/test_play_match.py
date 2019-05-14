@@ -74,6 +74,35 @@ class TestPlayMatch(TestCase):
         self.assertFalse(storage.assign_match_to_user.called)
         self.assertFalse(presenter.present_play_match.called)
 
+    def test_case_tournament_is_completed(self):
+        user_id = 1
+        round_number = 3
+        tournament_id = 1
+
+        storage = Mock()
+        presenter = Mock()
+
+        storage.get_tournament.return_value = \
+            self.get_tournament_details_which_is_completed()
+
+        from tournament_clean_arch.use_cases.play_match_interactor \
+            import PlayMatchInteractor
+        use_case = PlayMatchInteractor(storage=storage, presenter=presenter)
+
+        use_case.setup(
+            user_id=user_id, round_number=round_number,
+            tournament_id=tournament_id
+        )
+
+        from tournament_clean_arch.exceptions.custom_exceptions import \
+            TournamentIsCompleted
+        with self.assertRaises(TournamentIsCompleted):
+            use_case.execute()
+
+        self.assertFalse(storage.get_unassigned_match_for_round.called)
+        self.assertFalse(storage.assign_match_to_user.called)
+        self.assertFalse(presenter.present_play_match.called)
+
     @staticmethod
     def get_tournament_details():
         import datetime
@@ -83,4 +112,16 @@ class TestPlayMatch(TestCase):
             "tournament_id": 1,
             "no_of_rounds": 4,
             "start_datetime": tournament_date_time
+        }
+
+    @staticmethod
+    def get_tournament_details_which_is_completed():
+        import datetime
+        tournament_date_time = \
+            datetime.datetime.now() - datetime.timedelta(days=1)
+        return {
+            "tournament_id": 1,
+            "no_of_rounds": 4,
+            "start_datetime": tournament_date_time,
+            "status": "COMPLETED"
         }
