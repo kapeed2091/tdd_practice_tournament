@@ -33,12 +33,14 @@ def test_get_display_reports_for_selected_date_range_and_franchises():
     ]
     storage_mock.get_display_reports.return_value = display_reports_data
 
+    from display_reports.presenters.presenter import Presenter
     presenter_mock = create_autospec(Presenter)
     presenter_mock.get_display_reports.return_value = None
 
     display_report_utils = DisplayReportUtils()
-    display_report_utils.get_display_reports(date_range=date_range,
-                                             franchise_ids=franchise_ids)
+    display_report_utils.get_display_reports(
+        date_range=date_range, franchise_ids=franchise_ids,
+        storage=storage_mock, presenter=presenter_mock)
 
     storage_mock.get_display_reports.assert_called_once_with(date_range=date_range,
                                                              franchise_ids=franchise_ids)
