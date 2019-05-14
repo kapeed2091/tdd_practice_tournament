@@ -1,10 +1,9 @@
 USE CASES IMPLEMENTATION
 
 To be Implemented:
-4. Send DisplayReports to franchise team for selected date_range and franchises
 
 InProgress:
-3. Get DisplayReports for selected date_range and franchises
+4. Send DisplayReports to franchise team for selected date_range and franchises
 
 Completed:
 1. Create Payment Reports
@@ -20,5 +19,6 @@ Completed:
    f. When generating display_reports once payment_report is matched with sale_report, matched_payment_report
    should not be considered for other sale_report
    g. All matched reports should be created first, then amount_mismatch reports , then ref_no_mismatch
+3. Get DisplayReports for selected date_range and franchises
 
 Additional_Todos:
