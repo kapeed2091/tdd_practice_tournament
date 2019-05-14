@@ -18,5 +18,5 @@ class Storage(object):
         pass
 
     @abc.abstractmethod
-    def generate_display_reports(self, display_reports):
+    def create_display_reports(self, display_reports):
         pass

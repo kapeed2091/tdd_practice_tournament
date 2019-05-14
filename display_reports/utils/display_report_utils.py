@@ -9,6 +9,12 @@ class DisplayReportUtils(object):
         payment_reports = storage.get_payment_reports(date_range=date_range,
                                                       franchise_ids=franchise_ids)
 
+        display_reports = self._get_matched_display_reports(
+            sale_reports=sale_reports, payment_reports=payment_reports)
+        storage.create_display_reports(display_reports)
+
+    @staticmethod
+    def _get_matched_display_reports(sale_reports, payment_reports):
         display_reports = []
         for sale_report in sale_reports:
             sale_report_ref_no = sale_report['ref_no']
@@ -25,4 +31,4 @@ class DisplayReportUtils(object):
                         }
                     )
                 break
-        storage.generate_display_reports(display_reports)
+        return display_reports

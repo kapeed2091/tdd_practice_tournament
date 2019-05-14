@@ -41,7 +41,7 @@ def test_generate_display_reports_with_status_matched():
     storage_mock.get_payment_reports.assert_called_once_with(
         date_range=date_range, franchise_ids=franchise_ids
     )
-    storage_mock.generate_display_reports.assert_called_once_with(
+    storage_mock.create_display_reports.assert_called_once_with(
         display_reports=[
             {
                 "ref_no": "Ref1234",
