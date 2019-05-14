@@ -1,9 +1,13 @@
 from freezegun import freeze_time
 from display_reports.constants.general import TransactionStatus
+import pytest
 
 
 @freeze_time('2019-03-10 12:00:00')
+@pytest.mark.django_db
 def test_create_payment_reports():
+    from display_reports.storage.storage_impl import StorageImplementation
+    from display_reports.models import PaymentReport
     import datetime
     payment_reports_data = [
         {
