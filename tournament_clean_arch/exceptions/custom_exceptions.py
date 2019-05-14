@@ -20,3 +20,7 @@ class UserAlreadySubscribed(Exception):
 
 class InvalidRoundNumber(Exception):
     pass
+
+
+class TournamentIsCompleted(Exception):
+    pass
