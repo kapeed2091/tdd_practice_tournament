@@ -32,18 +32,17 @@ class SubscribeToTournamentInteractor(object):
         )
 
         no_of_rounds = tournament_details["no_of_rounds"]
+
+        from tournament_clean_arch.utils. \
+            get_max_allowed_players_for_tournament import \
+            get_max_allowed_players_for_tournament
         max_allowed_players_for_tournament = \
-            self.get_max_allowed_players_for_tournament(
-                no_of_rounds=no_of_rounds)
+            get_max_allowed_players_for_tournament(no_of_rounds=no_of_rounds)
 
         if players_count >= max_allowed_players_for_tournament:
             from tournament_clean_arch.exceptions.custom_exceptions import \
                 TournamentIsFull
             raise TournamentIsFull
-
-    @staticmethod
-    def get_max_allowed_players_for_tournament(no_of_rounds):
-        return 2 ** no_of_rounds
 
     def execute(self):
         self.validate_tournament_has_started(
