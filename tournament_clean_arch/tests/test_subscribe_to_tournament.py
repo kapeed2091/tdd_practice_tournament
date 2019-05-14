@@ -16,6 +16,7 @@ class TestSubscribeToTournament(TestCase):
         storage.subscribe_to_tournament.return_value = subscribe_id
         storage.get_total_subscribers_for_tournament.return_value = \
             self.get_total_subscribers_for_partially_filled_tournament()
+        storage.is_user_in_tournament.return_value = False
 
         presenter_response = {"subscribe_id": subscribe_id}
         presenter.present_subscribe_to_tournament.return_value = \
@@ -56,6 +57,7 @@ class TestSubscribeToTournament(TestCase):
             self.get_details_of_tournament_that_has_started()
         storage.get_total_subscribers_for_tournament.return_value = \
             self.get_total_subscribers_for_partially_filled_tournament()
+        storage.is_user_in_tournament.return_value = False
 
         from tournament_clean_arch.use_cases. \
             subscribe_to_tournament_interactor import \
@@ -86,6 +88,7 @@ class TestSubscribeToTournament(TestCase):
             self.get_details_of_tournament_that_has_not_started()
         storage.get_total_subscribers_for_tournament.return_value = \
             self.get_total_subscribers_for_completely_filled_tournament()
+        storage.is_user_in_tournament.return_value = False
 
         from tournament_clean_arch.use_cases. \
             subscribe_to_tournament_interactor import \
