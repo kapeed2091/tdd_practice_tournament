@@ -32,7 +32,7 @@ class CreateTournamentInteractor(object):
 
         tournament_id = self.storage.create_tournament(
             no_of_rounds=self.no_of_rounds,
-            start_datetime=self.start_datetime,
+            start_datetime=self.start_datetime
         )
         tournament_details = self.storage.get_tournament(
             tournament_id=tournament_id)
