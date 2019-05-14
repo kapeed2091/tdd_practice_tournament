@@ -33,7 +33,18 @@ class PlayMatchInteractor(object):
                 TournamentIsCompleted
             raise TournamentIsCompleted
 
+    def validate_tournament(self):
+        tournament_does_not_exist = not self.storage.does_tournament_exist(
+            tournament_id=self.tournament_id
+        )
+
+        if tournament_does_not_exist:
+            from tournament_clean_arch.exceptions.custom_exceptions import \
+                InvalidTournament
+            raise InvalidTournament
+
     def execute(self):
+        self.validate_tournament()
         self.validate_round_number()
         self.validate_tournament_status()
 
