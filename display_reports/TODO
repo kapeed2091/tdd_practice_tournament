@@ -14,6 +14,9 @@ To be Implemented:
 4. Send DisplayReports to franchise team for selected date_range and franchises
 
 InProgress:
-1. Create Payment Reports
+2. Generate DisplayReports for selected date_range and franchises
+   a. If SaleReport reference no and amount matched with PaymentReport reference number and amount,
+      DisplayReport should be generated with status=Matched
 
 Completed:
+1. Create Payment Reports
