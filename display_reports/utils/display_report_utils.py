@@ -16,12 +16,16 @@ class DisplayReportUtils(object):
     def _get_display_reports(self, sale_reports, payment_reports):
         display_reports = []
         for sale_report in sale_reports:
+            display_report = None
             for payment_report in payment_reports:
                 display_report = self._get_mapped_display_report(
                     sale_report=sale_report, payment_report=payment_report
                 )
                 if display_report:
                     display_reports.append(display_report)
+            if not display_report:
+                display_report = self._get_extra_sale_display_report(sale_report)
+                display_reports.append(display_report)
 
         return display_reports
 
@@ -47,3 +51,13 @@ class DisplayReportUtils(object):
                 "status": status
             }
         return display_report
+
+    @staticmethod
+    def _get_extra_sale_display_report(sale_report):
+        return {
+            "sale_report_ref_no": sale_report['ref_no'],
+            "payment_report_ref_no": None,
+            "sale_report_amount": sale_report['amount'],
+            "payment_report_amount": None,
+            "status": DisplayReportStatus.EXTRA_SALE.value
+        }
