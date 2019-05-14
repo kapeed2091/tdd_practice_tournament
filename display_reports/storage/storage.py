@@ -24,3 +24,7 @@ class Storage(object):
     @abc.abstractmethod
     def get_display_reports(self, date_range, franchise_ids):
         pass
+
+    @abc.abstractmethod
+    def send_display_reports_to_franchise_team(self, display_reports_data):
+        pass
