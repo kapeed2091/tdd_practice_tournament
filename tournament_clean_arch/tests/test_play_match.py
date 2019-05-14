@@ -1,5 +1,7 @@
 from unittest import TestCase
 from mock import Mock
+import datetime
+from tournament_clean_arch.constants.general import TournamentStatus
 
 
 class TestPlayMatch(TestCase):
@@ -105,24 +107,22 @@ class TestPlayMatch(TestCase):
 
     @staticmethod
     def get_tournament_details():
-        import datetime
         tournament_date_time = \
             datetime.datetime.now() - datetime.timedelta(days=1)
         return {
             "tournament_id": 1,
             "no_of_rounds": 4,
             "start_datetime": tournament_date_time,
-            "status": "IN_PROGRESS"
+            "status": TournamentStatus.IN_PROGRESS.value
         }
 
     @staticmethod
     def get_tournament_details_which_is_completed():
-        import datetime
         tournament_date_time = \
             datetime.datetime.now() - datetime.timedelta(days=1)
         return {
             "tournament_id": 1,
             "no_of_rounds": 4,
             "start_datetime": tournament_date_time,
-            "status": "COMPLETED"
+            "status": TournamentStatus.COMPLETED.value
         }

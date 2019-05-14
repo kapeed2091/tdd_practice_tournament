@@ -15,6 +15,8 @@ class PlayMatchInteractor(object):
         tournament_details = self.storage.get_tournament(
             tournament_id=self.tournament_id
         )
+
+        self.tournament_details = tournament_details
         no_of_rounds_in_tournament = tournament_details["no_of_rounds"]
 
         if self.round_number > no_of_rounds_in_tournament:
@@ -23,12 +25,10 @@ class PlayMatchInteractor(object):
             raise InvalidRoundNumber
 
     def validate_tournament_status(self):
-        tournament_details = self.storage.get_tournament(
-            tournament_id=self.tournament_id
-        )
-        status = tournament_details["status"]
+        status = self.tournament_details["status"]
 
-        if status == "COMPLETED":
+        from tournament_clean_arch.constants.general import TournamentStatus
+        if status == TournamentStatus.COMPLETED.value:
             from tournament_clean_arch.exceptions.custom_exceptions import \
                 TournamentIsCompleted
             raise TournamentIsCompleted
