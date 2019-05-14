@@ -1,5 +1,5 @@
 from freezegun import freeze_time
-from mock import Mock
+from mock import create_autospec
 from display_reports.constants.general import TransactionStatus
 
 
@@ -18,10 +18,10 @@ def test_create_payment_reports():
     ]
 
     from display_reports.storage.storage import Storage
-    storage_mock = Mock({"create_payment_reports": None}, Storage, spec_set=True)
+    storage_mock = create_autospec(Storage)
 
     payment_report_utils.create_payment_reports(
         payment_reports_data=payment_reports_data,
         storage=storage_mock
     )
-    storage_mock.assert_called_once_with(payment_reports_data)
+    storage_mock.create_payment_reports.assert_called_once_with(payment_reports_data)

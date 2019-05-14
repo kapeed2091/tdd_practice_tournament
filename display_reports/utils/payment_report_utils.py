@@ -1,4 +1,7 @@
 class PaymentReportUtils(object):
 
-    def create_payment_reports(self, payment_reports_data, storage):
-        pass
+    @staticmethod
+    def create_payment_reports(payment_reports_data, storage):
+        storage.create_payment_reports(
+            payment_reports_data=payment_reports_data
+        )
