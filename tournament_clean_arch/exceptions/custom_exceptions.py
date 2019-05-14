@@ -16,3 +16,7 @@ class TournamentIsFull(Exception):
 
 class UserAlreadySubscribed(Exception):
     pass
+
+
+class InvalidRoundNumber(Exception):
+    pass
