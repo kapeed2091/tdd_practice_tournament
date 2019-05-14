@@ -10,12 +10,12 @@ class SubscribeToTournamentInteractor(object):
         self.tournament_id = tournament_id
 
     def execute(self):
-        user_tournament_id = self.storage.create_user_tournament(
+        subscribe_id = self.storage.subscribe_to_tournament(
             user_id=self.user_id,
             tournament_id=self.tournament_id
         )
 
-        presenter_details = self.presenter.present_create_user_tournament(
-            user_tournament_id=user_tournament_id
+        presenter_details = self.presenter.present_subscribe_to_tournament(
+            subscribe_id=subscribe_id
         )
         return presenter_details

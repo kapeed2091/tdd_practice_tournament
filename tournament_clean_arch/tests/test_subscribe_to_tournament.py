@@ -6,15 +6,15 @@ class TestSubscribeToTournament(TestCase):
     def test_case_subscribe_to_tournament(self):
         user_id = 1
         tournament_id = 2
-        user_tournament_id = 1
+        subscribe_id = 1
 
         storage = Mock()
         presenter = Mock()
 
-        storage.create_user_tournament.return_value = user_tournament_id
+        storage.subscribe_to_tournament.return_value = subscribe_id
 
-        presenter_response = {"subscribe_id": user_tournament_id}
-        presenter.present_create_user_tournament.return_value = \
+        presenter_response = {"subscribe_id": subscribe_id}
+        presenter.present_subscribe_to_tournament.return_value = \
             presenter_response
 
         from tournament_clean_arch.use_cases. \
@@ -30,14 +30,13 @@ class TestSubscribeToTournament(TestCase):
         use_case_response = use_case.execute()
         self.assertEqual(use_case_response, presenter_response)
 
-        self.assertTrue(storage.create_user_tournament.called)
-        args_dict = storage.create_user_tournament.call_args[1]
+        self.assertTrue(storage.subscribe_to_tournament.called)
+        args_dict = storage.subscribe_to_tournament.call_args[1]
 
         self.assertEqual(user_id, args_dict.get("user_id"))
         self.assertEqual(tournament_id, args_dict.get("tournament_id"))
 
-        self.assertTrue(presenter.present_create_user_tournament.called)
-        args_dict = presenter.present_create_user_tournament.call_args[1]
+        self.assertTrue(presenter.present_subscribe_to_tournament.called)
+        args_dict = presenter.present_subscribe_to_tournament.call_args[1]
 
-        self.assertEqual(
-            user_tournament_id, args_dict.get("user_tournament_id"))
+        self.assertEqual(subscribe_id, args_dict.get("subscribe_id"))
