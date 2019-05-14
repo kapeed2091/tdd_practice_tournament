@@ -37,5 +37,7 @@ class CreateTournamentInteractor(object):
         tournament_details = self.storage.get_tournament(
             tournament_id=tournament_id)
 
-        return self.presenter.present_create_tournament(
+        presenter_details = self.presenter.present_create_tournament(
             tournament_details=tournament_details)
+
+        return presenter_details
