@@ -111,7 +111,8 @@ class TestPlayMatch(TestCase):
         return {
             "tournament_id": 1,
             "no_of_rounds": 4,
-            "start_datetime": tournament_date_time
+            "start_datetime": tournament_date_time,
+            "status": "IN_PROGRESS"
         }
 
     @staticmethod
