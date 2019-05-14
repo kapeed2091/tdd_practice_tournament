@@ -24,3 +24,7 @@ class InvalidRoundNumber(Exception):
 
 class TournamentIsCompleted(Exception):
     pass
+
+
+class InvalidTournament(Exception):
+    pass
