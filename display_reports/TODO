@@ -17,11 +17,12 @@ InProgress:
 
 Completed:
 1. Create Payment Reports
+2. Generate DisplayReports for selected date_range and franchises
+   a. If SaleReport reference no and amount matched with PaymentReport reference number and amount,
+      DisplayReport should be generated with status=Matched
 
 
 Additional_Todos:
 1. When generating display_reports once payment_report is matched with sale_report, matched_payment_report
    should not be considered for other sale_report
-2. Generate DisplayReports for selected date_range and franchises
-   a. If SaleReport reference no and amount matched with PaymentReport reference number and amount,
-      DisplayReport should be generated with status=Matched
+
