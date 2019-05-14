@@ -93,3 +93,7 @@ class TestCreateTournament(TestCase):
             InvalidNumberOfRounds
         with self.assertRaises(InvalidNumberOfRounds):
             use_case.execute()
+
+        self.assertFalse(storage.create_tournament.called)
+        self.assertFalse(storage.create_tournament.called)
+        self.assertFalse(presenter.present_create_tournament.called)
