@@ -18,19 +18,22 @@ class DisplayReportUtils(object):
         matched_payment_reports = []
         for sale_report in sale_reports:
             display_report = None
+            matched_payment_report = None
             for payment_report in payment_reports:
                 display_report = self._get_mapped_display_report(
                     sale_report=sale_report, payment_report=payment_report
                 )
                 if display_report:
                     display_reports.append(display_report)
-                    matched_payment_reports.append(payment_report)
+                    matched_payment_report = payment_report
                     break
             if not display_report:
                 display_report = self._get_extra_sale_display_report(sale_report)
                 display_reports.append(display_report)
-        un_matched_payment_reports = [payment_report for payment_report in payment_reports
-                                      if payment_report not in matched_payment_reports]
+            else:
+                matched_payment_reports.append(matched_payment_report)
+                payment_reports.remove(matched_payment_report)
+        un_matched_payment_reports = payment_reports
         un_billed_display_reports = self._get_unbilled_display_reports(
             un_matched_payment_reports
         )
