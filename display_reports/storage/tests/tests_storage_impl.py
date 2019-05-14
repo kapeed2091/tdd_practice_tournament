@@ -1,7 +1,7 @@
 import pytest
 import pytz
 from freezegun import freeze_time
-from display_reports.constants.general import TransactionStatus
+from display_reports.constants.general import TransactionStatus, DisplayReportStatus
 
 
 @freeze_time('2019-03-10 12:00:00')
@@ -93,3 +93,33 @@ def test_get_payment_reports():
         }
     ]
     assert payment_report_expected == payment_reports
+
+
+@pytest.mark.django_db
+def test_create_display_reports():
+    from display_reports.models import DisplayReport
+    from display_reports.storage.storage_impl import StorageImplementation
+    display_reports_data = [
+        {
+            "sale_report_ref_no": "Ref1234",
+            "payment_report_ref_no": "Ref1234",
+            "sale_report_amount": 100,
+            "payment_report_amount": 100,
+            "status": DisplayReportStatus.MATCHED.value
+        }
+    ]
+
+    storage_impl = StorageImplementation()
+    storage_impl.create_display_reports(display_reports_data)
+    display_reports = DisplayReport.objects.all()
+    assert len(display_reports) == 1
+    display_reports_data_created = [
+        {
+            "sale_report_ref_no": display_report.sale_report_reference_no,
+            "payment_report_ref_no": display_report.payment_report_reference_no,
+            "sale_report_amount": display_report.sale_report_amount,
+            "payment_report_amount": display_report.payment_report_amount,
+            "status": display_report.status
+        } for display_report in display_reports
+    ]
+    assert display_reports_data == display_reports_data_created
