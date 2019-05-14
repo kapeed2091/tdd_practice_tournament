@@ -33,13 +33,13 @@ def test_send_display_reports_to_franchise_team():
     ]
     storage_mock.get_display_reports.return_value = display_reports_data
 
-    display_report_utils = DisplayReportUtils()
-    display_report_utils.send_display_reports_to_franchise_team(
+    display_report_utils = DisplayReportUtils(
         date_range=date_range, franchise_ids=franchise_ids,
         storage=storage_mock)
+    display_report_utils.send_display_reports_to_franchise_team()
 
-    storage_mock.get_display_reports.assert_called_once_with(date_range=date_range,
-                                                             franchise_ids=franchise_ids)
+    storage_mock.get_display_reports.assert_called_once_with(
+        date_range=date_range, franchise_ids=franchise_ids)
     storage_mock.send_display_reports_to_franchise_team.assert_called_once_with(
         display_reports_data
     )

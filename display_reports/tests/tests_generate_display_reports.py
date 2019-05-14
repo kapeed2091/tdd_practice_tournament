@@ -14,7 +14,6 @@ def test_generate_display_reports_with_status_matched():
     }
     franchise_ids = [1, 2, 3]
 
-    display_report_utils = DisplayReportUtils()
     storage_mock = create_autospec(Storage)
     storage_mock.get_sale_reports.return_value = [
         {
@@ -30,11 +29,12 @@ def test_generate_display_reports_with_status_matched():
         }
     ]
 
-    display_report_utils.generate_display_reports(
+    display_report_utils = DisplayReportUtils(
         date_range=date_range, franchise_ids=franchise_ids,
         storage=storage_mock
     )
 
+    display_report_utils.generate_display_reports()
     storage_mock.get_sale_reports.assert_called_once_with(
         date_range=date_range, franchise_ids=franchise_ids
     )
@@ -65,7 +65,6 @@ def test_generate_display_reports_with_status_amount_mismatch():
     }
     franchise_ids = [1, 2, 3]
 
-    display_report_utils = DisplayReportUtils()
     storage_mock = create_autospec(Storage)
     storage_mock.get_sale_reports.return_value = [
         {
@@ -81,10 +80,12 @@ def test_generate_display_reports_with_status_amount_mismatch():
         }
     ]
 
-    display_report_utils.generate_display_reports(
+    display_report_utils = DisplayReportUtils(
         date_range=date_range, franchise_ids=franchise_ids,
         storage=storage_mock
     )
+
+    display_report_utils.generate_display_reports()
 
     storage_mock.get_sale_reports.assert_called_once_with(
         date_range=date_range, franchise_ids=franchise_ids
@@ -115,7 +116,6 @@ def test_generate_display_reports_with_status_Ref_no_mismatch():
     }
     franchise_ids = [1, 2, 3]
 
-    display_report_utils = DisplayReportUtils()
     storage_mock = create_autospec(Storage)
     storage_mock.get_sale_reports.return_value = [
         {
@@ -131,11 +131,12 @@ def test_generate_display_reports_with_status_Ref_no_mismatch():
         }
     ]
 
-    display_report_utils.generate_display_reports(
+    display_report_utils = DisplayReportUtils(
         date_range=date_range, franchise_ids=franchise_ids,
         storage=storage_mock
     )
 
+    display_report_utils.generate_display_reports()
     storage_mock.get_sale_reports.assert_called_once_with(
         date_range=date_range, franchise_ids=franchise_ids
     )
@@ -165,7 +166,6 @@ def test_generate_display_reports_with_status_extra_sale():
     }
     franchise_ids = [1, 2, 3]
 
-    display_report_utils = DisplayReportUtils()
     storage_mock = create_autospec(Storage)
     storage_mock.get_sale_reports.return_value = [
         {
@@ -176,10 +176,12 @@ def test_generate_display_reports_with_status_extra_sale():
 
     storage_mock.get_payment_reports.return_value = []
 
-    display_report_utils.generate_display_reports(
+    display_report_utils = DisplayReportUtils(
         date_range=date_range, franchise_ids=franchise_ids,
         storage=storage_mock
     )
+
+    display_report_utils.generate_display_reports()
 
     storage_mock.get_sale_reports.assert_called_once_with(
         date_range=date_range, franchise_ids=franchise_ids
@@ -210,7 +212,6 @@ def test_generate_display_reports_with_status_unbilled():
     }
     franchise_ids = [1, 2, 3]
 
-    display_report_utils = DisplayReportUtils()
     storage_mock = create_autospec(Storage)
     storage_mock.get_sale_reports.return_value = []
 
@@ -221,10 +222,12 @@ def test_generate_display_reports_with_status_unbilled():
         }
     ]
 
-    display_report_utils.generate_display_reports(
+    display_report_utils = DisplayReportUtils(
         date_range=date_range, franchise_ids=franchise_ids,
         storage=storage_mock
     )
+
+    display_report_utils.generate_display_reports()
 
     storage_mock.get_sale_reports.assert_called_once_with(
         date_range=date_range, franchise_ids=franchise_ids
@@ -255,7 +258,6 @@ def test_generate_display_reports_payment_report_should_be_mapped_to_only_one_sa
     }
     franchise_ids = [1, 2, 3]
 
-    display_report_utils = DisplayReportUtils()
     storage_mock = create_autospec(Storage)
     storage_mock.get_sale_reports.return_value = [
         {
@@ -275,11 +277,11 @@ def test_generate_display_reports_payment_report_should_be_mapped_to_only_one_sa
         }
     ]
 
-    display_report_utils.generate_display_reports(
-        date_range=date_range, franchise_ids=franchise_ids,
-        storage=storage_mock
+    display_report_utils = DisplayReportUtils(
+        date_range=date_range, franchise_ids=franchise_ids, storage=storage_mock
     )
 
+    display_report_utils.generate_display_reports()
     storage_mock.get_sale_reports.assert_called_once_with(
         date_range=date_range, franchise_ids=franchise_ids
     )
@@ -316,7 +318,6 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
     }
     franchise_ids = [1, 2, 3]
 
-    display_report_utils = DisplayReportUtils()
     storage_mock = create_autospec(Storage)
     storage_mock.get_sale_reports.return_value = [
         {
@@ -348,11 +349,12 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
         }
     ]
 
-    display_report_utils.generate_display_reports(
+    display_report_utils = DisplayReportUtils(
         date_range=date_range, franchise_ids=franchise_ids,
         storage=storage_mock
     )
 
+    display_report_utils.generate_display_reports()
     storage_mock.get_sale_reports.assert_called_once_with(
         date_range=date_range, franchise_ids=franchise_ids
     )

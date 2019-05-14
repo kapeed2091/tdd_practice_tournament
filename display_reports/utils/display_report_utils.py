@@ -3,25 +3,30 @@ from display_reports.constants.general import DisplayReportStatus
 
 class DisplayReportUtils(object):
 
-    def send_display_reports_to_franchise_team(self, date_range, franchise_ids, storage):
-        display_reports = storage.get_display_reports(date_range=date_range,
-                                                      franchise_ids=franchise_ids)
-        storage.send_display_reports_to_franchise_team(display_reports)
+    def __init__(self, date_range, franchise_ids, storage):
+        self.date_range = date_range
+        self.franchise_ids = franchise_ids
+        self.storage = storage
 
-    def get_display_reports(self, date_range, franchise_ids, storage, presenter):
-        display_reports = storage.get_display_reports(date_range=date_range,
-                                                      franchise_ids=franchise_ids)
+    def send_display_reports_to_franchise_team(self):
+        display_reports = self.storage.get_display_reports(
+            date_range=self.date_range, franchise_ids=self.franchise_ids)
+        self.storage.send_display_reports_to_franchise_team(display_reports)
+
+    def get_display_reports(self, presenter):
+        display_reports = self.storage.get_display_reports(
+            date_range=self.date_range, franchise_ids=self.franchise_ids)
         return presenter.get_display_reports(display_reports)
 
-    def generate_display_reports(self, date_range, franchise_ids, storage):
-        sale_reports = storage.get_sale_reports(date_range=date_range,
-                                                franchise_ids=franchise_ids)
-        payment_reports = storage.get_payment_reports(date_range=date_range,
-                                                      franchise_ids=franchise_ids)
+    def generate_display_reports(self):
+        sale_reports = self.storage.get_sale_reports(
+            date_range=self.date_range, franchise_ids=self.franchise_ids)
+        payment_reports = self.storage.get_payment_reports(
+            date_range=self.date_range, franchise_ids=self.franchise_ids)
 
         display_reports = self._get_display_reports(
             sale_reports=sale_reports, payment_reports=payment_reports)
-        storage.create_display_reports(display_reports)
+        self.storage.create_display_reports(display_reports)
 
     def _get_display_reports(self, sale_reports, payment_reports):
         un_matched_sale_reports, un_matched_payment_reports, matched_display_reports = \
