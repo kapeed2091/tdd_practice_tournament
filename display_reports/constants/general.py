@@ -9,3 +9,4 @@ class TransactionStatus(BaseEnumClass, Enum):
 class DisplayReportStatus(BaseEnumClass, Enum):
     MATCHED = "MATCHED"
     AMOUNT_MISMATCH = "AMOUNT_MISMATCH"
+    REF_NO_MISMATCH = "REF_NO_MISMATCH"

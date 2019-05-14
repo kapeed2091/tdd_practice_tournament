@@ -2,8 +2,6 @@ USE CASES IMPLEMENTATION
 
 To be Implemented:
 2. Generate DisplayReports for selected date_range and franchises
-   c. If SaleReport amount is matched with PaymentReport amount and reference no does not match,
-      DisplayReport should be generated with status=RefNo Mismatch
    d. Unmatched SaleReports should be created as status=ExtraSale
    e. Unmatched PaymentReports should be created as status=UnBilled
 3. Get DisplayReports for selected date_range and franchises
@@ -11,15 +9,16 @@ To be Implemented:
 
 InProgress:
 2. Generate DisplayReports for selected date_range and franchises
-   b. If SaleReport reference no is matched with PaymentReport reference and amounts does not match,
-      DisplayReport should be generated with status=Amount Mismatch
-
+   c. If SaleReport amount is matched with PaymentReport amount and reference no does not match,
+      DisplayReport should be generated with status=RefNo Mismatch
 
 Completed:
 1. Create Payment Reports
 2. Generate DisplayReports for selected date_range and franchises
    a. If SaleReport reference no and amount matched with PaymentReport reference number and amount,
       DisplayReport should be generated with status=Matched
+   b. If SaleReport reference no is matched with PaymentReport reference and amounts does not match,
+      DisplayReport should be generated with status=Amount Mismatch
 
 
 Additional_Todos:
