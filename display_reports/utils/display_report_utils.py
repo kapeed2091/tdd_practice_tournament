@@ -25,7 +25,10 @@ class DisplayReportUtils(object):
                     status = DisplayReportStatus.MATCHED.value \
                         if sale_report_amount == payment_report['amount'] else \
                         DisplayReportStatus.AMOUNT_MISMATCH.value
+                elif sale_report_amount == payment_report['amount']:
+                    status = DisplayReportStatus.REF_NO_MISMATCH.value
 
+                if status:
                     display_reports.append(
                         {
                             "sale_report_ref_no": sale_report_ref_no,
@@ -35,5 +38,6 @@ class DisplayReportUtils(object):
                             "status": status
                         }
                     )
-                break
+                    break
+
         return display_reports
