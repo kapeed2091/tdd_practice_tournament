@@ -20,3 +20,8 @@ InProgress:
 
 Completed:
 1. Create Payment Reports
+
+
+Additional_Todos:
+1. When generating display_reports once payment_report is matched with sale_report, matched_payment_report
+   should not be considered for other sale_report
