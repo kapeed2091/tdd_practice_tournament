@@ -13,6 +13,7 @@ class TestPlayMatch(TestCase):
         storage = Mock()
         presenter = Mock()
 
+        storage.get_tournament.return_value = self.get_tournament_details()
         storage.get_unassigned_match_for_round.return_value = match_id
         storage.assign_match_to_user.return_value = user_match_id
 
