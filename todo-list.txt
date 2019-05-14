@@ -21,8 +21,10 @@ Assumptions:
 
 TodoList
     - As a user I should be able to play a match
-        [successful case]
-        invalid match_id
+        [invalid round number]
+        tournament is completed
+        not a valid tournament
+        user already played the round
         player is already dead in tournament
         other players are still playing the tournament
 
@@ -37,3 +39,6 @@ Completed list
         tournament has already started
         tournament is full with required number of players
         user already subscribed to tournament
+
+    - As a user I should be able to play a match
+        successful case
