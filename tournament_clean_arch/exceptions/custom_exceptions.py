@@ -12,3 +12,7 @@ class TournamentHasStarted(Exception):
 
 class TournamentIsFull(Exception):
     pass
+
+
+class UserAlreadySubscribed(Exception):
+    pass
