@@ -4,7 +4,9 @@ from display_reports.constants.general import DisplayReportStatus
 class DisplayReportUtils(object):
 
     def get_display_reports(self, date_range, franchise_ids, storage, presenter):
-        pass
+        display_reports = storage.get_display_reports(date_range=date_range,
+                                                      franchise_ids=franchise_ids)
+        return presenter.get_display_reports(display_reports)
 
     def generate_display_reports(self, date_range, franchise_ids, storage):
         sale_reports = storage.get_sale_reports(date_range=date_range,
