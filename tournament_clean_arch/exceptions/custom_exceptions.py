@@ -4,3 +4,7 @@ class InvalidNumberOfRounds(Exception):
 
 class InvalidStartDateTimeForTournament(Exception):
     pass
+
+
+class UserAlreadySubscribed(Exception):
+    pass
