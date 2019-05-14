@@ -6,8 +6,7 @@ To be Implemented:
 
 InProgress:
 2. Generate DisplayReports for selected date_range and franchises
-   f. When generating display_reports once payment_report is matched with sale_report, matched_payment_report
-   should not be considered for other sale_report
+   g. All matched reports should be created first, then amount_mismatch reports , then ref_no_mismatch
 
 Completed:
 1. Create Payment Reports
@@ -20,6 +19,7 @@ Completed:
       DisplayReport should be generated with status=RefNo Mismatch
    d. Unmatched SaleReports should be created as status=ExtraSale
    e. Unmatched PaymentReports should be created as status=UnBilled
+   f. When generating display_reports once payment_report is matched with sale_report, matched_payment_report
+   should not be considered for other sale_report
 
 Additional_Todos:
-2. Order of creation of display_reports
