@@ -1,6 +1,7 @@
+import pytest
+import pytz
 from freezegun import freeze_time
 from display_reports.constants.general import TransactionStatus
-import pytest
 
 
 @freeze_time('2019-03-10 12:00:00')
@@ -14,7 +15,7 @@ def test_create_payment_reports():
             "ref_no": "Ref1234",
             "amount": 100,
             "transaction_status": TransactionStatus.SUCCESS.value,
-            "transaction_datetime": datetime.datetime.now(),
+            "transaction_datetime": pytz.utc.localize(datetime.datetime.now()),
             "franchise_id": 1
         }
     ]

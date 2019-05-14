@@ -19,4 +19,15 @@ class StorageImplementation(Storage):
         pass
 
     def create_payment_reports(self, payment_reports_data):
-        pass
+        from display_reports.models import PaymentReport
+        payment_report_objects = [
+            PaymentReport(
+                reference_no=payment_report_data['ref_no'],
+                amount=payment_report_data['amount'],
+                transaction_status=payment_report_data['transaction_status'],
+                transaction_datetime=payment_report_data['transaction_datetime'],
+                franchise_id=payment_report_data['franchise_id']
+            ) for payment_report_data in payment_reports_data
+        ]
+
+        PaymentReport.objects.bulk_create(payment_report_objects)
