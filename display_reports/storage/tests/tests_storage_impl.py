@@ -84,8 +84,12 @@ def test_get_payment_reports():
         date_range=date_range, franchise_ids=franchise_ids)
     payment_report_expected = [
         {
-            "ref_no": payment_report.reference_no,
-            "amount": payment_report.amount
-        } for payment_report in payment_report_objects
+            "ref_no": "Ref1",
+            "amount": 100
+        },
+        {
+            "ref_no": "Ref2",
+            "amount": 100
+        }
     ]
     assert payment_report_expected == payment_reports
