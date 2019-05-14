@@ -44,3 +44,42 @@ class TestPlayMatch(TestCase):
         self.assertTrue(presenter.present_play_match.called)
         args_dict = presenter.present_play_match.call_args[1]
         self.assertEqual(user_match_id, args_dict["user_match_id"])
+
+    def test_case_invalid_round_number(self):
+        user_id = 1
+        round_number = 5
+        tournament_id = 1
+
+        storage = Mock()
+        presenter = Mock()
+
+        storage.get_tournament.return_value = self.get_tournament_details()
+
+        from tournament_clean_arch.use_cases.play_match_interactor \
+            import PlayMatchInteractor
+        use_case = PlayMatchInteractor(storage=storage, presenter=presenter)
+
+        use_case.setup(
+            user_id=user_id, round_number=round_number,
+            tournament_id=tournament_id
+        )
+
+        from tournament_clean_arch.exceptions.custom_exceptions import \
+            InvalidRoundNumber
+        with self.assertRaises(InvalidRoundNumber):
+            use_case.execute()
+
+        self.assertFalse(storage.get_unassigned_match_for_round.called)
+        self.assertFalse(storage.assign_match_to_user.called)
+        self.assertFalse(presenter.present_play_match.called)
+
+    @staticmethod
+    def get_tournament_details():
+        import datetime
+        tournament_date_time = \
+            datetime.datetime.now() - datetime.timedelta(days=1)
+        return {
+            "tournament_id": 1,
+            "no_of_rounds": 4,
+            "start_datetime": tournament_date_time
+        }

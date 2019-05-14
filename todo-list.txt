@@ -17,6 +17,8 @@ Assumptions:
    - In case of tie, Whoever submits the score first is winner
    - User profile has Name, Age, Gender
    - tournament_status - CAN_JOIN, FULL_YET_TO_START, IN_PROGRESS, COMPLETED.
+   - If round number got in play_match is out of bounds for the tournament or user is skipping a level, in both
+   cases we get same error - InvalidRoundNumber
 
 
 TodoList
@@ -27,6 +29,7 @@ TodoList
         user already played the round
         player is already dead in tournament
         other players are still playing the tournament
+        player is still in middle of a game
 
 Completed list
     - As a user I should be able to create a tournament with configurable number of rounds and start datetime
