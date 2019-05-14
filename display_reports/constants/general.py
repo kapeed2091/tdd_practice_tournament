@@ -11,3 +11,4 @@ class DisplayReportStatus(BaseEnumClass, Enum):
     AMOUNT_MISMATCH = "AMOUNT_MISMATCH"
     REF_NO_MISMATCH = "REF_NO_MISMATCH"
     EXTRA_SALE = "EXTRA_SALE"
+    UN_BILLED = "UN_BILLED"
