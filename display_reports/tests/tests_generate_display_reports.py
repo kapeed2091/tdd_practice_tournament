@@ -369,7 +369,7 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
                 "status": DisplayReportStatus.MATCHED.value
             },
             {
-                "sale_report_ref_no": "Ref24",
+                "sale_report_ref_no": "Ref234",
                 "payment_report_ref_no": "Ref234",
                 "sale_report_amount": 150,
                 "payment_report_amount": 100,
@@ -377,7 +377,7 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
             },
             {
                 "sale_report_ref_no": "Ref24",
-                "payment_report_ref_no": "Ref24",
+                "payment_report_ref_no": "Ref23",
                 "sale_report_amount": 150,
                 "payment_report_amount": 150,
                 "status": DisplayReportStatus.REF_NO_MISMATCH.value
