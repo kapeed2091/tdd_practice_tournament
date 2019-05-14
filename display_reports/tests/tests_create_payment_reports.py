@@ -13,7 +13,8 @@ def test_create_payment_reports():
             "ref_no": "Ref1234",
             "amount": 100,
             "transaction_status": TransactionStatus.SUCCESS.value,
-            "transaction_datetime": datetime.datetime.now()
+            "transaction_datetime": datetime.datetime.now(),
+            "franchise_id": 1
         }
     ]
 
