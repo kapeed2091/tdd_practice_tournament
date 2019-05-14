@@ -44,11 +44,25 @@ class SubscribeToTournamentInteractor(object):
                 TournamentIsFull
             raise TournamentIsFull
 
+    def validate_if_user_already_in_tournament(self, tournament_id, user_id):
+        user_in_tournament = self.storage.is_user_in_tournament(
+            tournament_id=tournament_id,
+            user_id=user_id
+        )
+        if user_in_tournament:
+            from tournament_clean_arch.exceptions.custom_exceptions import \
+                UserAlreadySubscribed
+            raise UserAlreadySubscribed
+
     def execute(self):
         self.validate_tournament_has_started(
             tournament_id=self.tournament_id
         )
         self.validate_if_tournament_is_full(tournament_id=self.tournament_id)
+        self.validate_if_user_already_in_tournament(
+            tournament_id=self.tournament_id,
+            user_id=self.user_id
+        )
 
         subscribe_id = self.storage.subscribe_to_tournament(
             user_id=self.user_id,
