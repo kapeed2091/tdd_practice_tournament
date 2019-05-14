@@ -22,8 +22,20 @@ class PlayMatchInteractor(object):
                 InvalidRoundNumber
             raise InvalidRoundNumber
 
+    def validate_tournament_status(self):
+        tournament_details = self.storage.get_tournament(
+            tournament_id=self.tournament_id
+        )
+        status = tournament_details["status"]
+
+        if status == "COMPLETED":
+            from tournament_clean_arch.exceptions.custom_exceptions import \
+                TournamentIsCompleted
+            raise TournamentIsCompleted
+
     def execute(self):
         self.validate_round_number()
+        self.validate_tournament_status()
 
         match_id = self.storage.get_unassigned_match_for_round(
             round_number=self.round_number,
