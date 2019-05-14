@@ -20,5 +20,14 @@ Assumptions:
 
 
 TodoList
+    - As a user I should be able to able to subscribe to tournament
+        [successful case]
+        tournament has already started
+        tournament is full with required number of players
+        user already subscribed to tournament
+
+Completed list
     - As a user I should be able to create a tournament with configurable number of rounds and start datetime
-        [no of rounds >= 3]
+        successful case
+        no of rounds >= 3
+        invalid start_datetime
