@@ -15,6 +15,7 @@ class DisplayReportUtils(object):
 
     def _get_display_reports(self, sale_reports, payment_reports):
         display_reports = []
+        matched_payment_reports = []
         for sale_report in sale_reports:
             display_report = None
             for payment_report in payment_reports:
@@ -23,10 +24,17 @@ class DisplayReportUtils(object):
                 )
                 if display_report:
                     display_reports.append(display_report)
+                    matched_payment_reports.append(payment_report)
+                    break
             if not display_report:
                 display_report = self._get_extra_sale_display_report(sale_report)
                 display_reports.append(display_report)
-
+        un_matched_payment_reports = [payment_report for payment_report in payment_reports
+                                      if payment_report not in matched_payment_reports]
+        un_billed_display_reports = self._get_unbilled_display_reports(
+            un_matched_payment_reports
+        )
+        display_reports += un_billed_display_reports
         return display_reports
 
     @staticmethod
@@ -61,3 +69,15 @@ class DisplayReportUtils(object):
             "payment_report_amount": None,
             "status": DisplayReportStatus.EXTRA_SALE.value
         }
+
+    @staticmethod
+    def _get_unbilled_display_reports(payment_reports):
+        return [
+            {
+                "sale_report_ref_no": None,
+                "payment_report_ref_no": payment_report['ref_no'],
+                "sale_report_amount": None,
+                "payment_report_amount": payment_report['amount'],
+                "status": DisplayReportStatus.UN_BILLED.value
+            } for payment_report in payment_reports
+        ]
