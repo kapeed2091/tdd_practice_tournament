@@ -1,15 +1,17 @@
 """
-# TODO: Update test case description
+# Positive Test Case
 """
 
 from django_swagger_utils.utils.test import CustomAPITestCase
+
+from display_reports.constants.general import DisplayReportStatus
 from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
 
 REQUEST_BODY = """
 {
     "date_range": {
-        "from_date": "2099-12-31", 
-        "to_date": "2099-12-31"
+        "from_date": "2019-03-10", 
+        "to_date": "2019-03-15"
     }, 
     "franchise_ids": [
         1
@@ -35,7 +37,71 @@ class TestCase01GetDisplayReportsAPITestCase(CustomAPITestCase):
     url_suffix = URL_SUFFIX
     test_case_dict = TEST_CASE
 
+    def setUp(self):
+        from datetime import datetime
+        from display_reports.models import DisplayReport
+        display_report_objects = [
+            DisplayReport(
+                sale_report_reference_no="Ref11",
+                payment_report_reference_no="Ref11",
+                sale_report_amount=100,
+                payment_report_amount=100,
+                status=DisplayReportStatus.MATCHED.value,
+                transaction_datetime=datetime(year=2019, month=03, day=12, hour=12),
+                franchise_id=1
+            ),
+            DisplayReport(
+                sale_report_reference_no="Ref12",
+                payment_report_reference_no="Ref12",
+                sale_report_amount=100,
+                payment_report_amount=100,
+                status=DisplayReportStatus.MATCHED.value,
+                transaction_datetime=datetime(year=2019, month=03, day=9, hour=12),
+                franchise_id=1
+            ),
+            DisplayReport(
+                sale_report_reference_no="Ref13",
+                payment_report_reference_no="Ref13",
+                sale_report_amount=100,
+                payment_report_amount=100,
+                status=DisplayReportStatus.MATCHED.value,
+                transaction_datetime=datetime(year=2019, month=03, day=10, hour=12),
+                franchise_id=1
+            ),
+            DisplayReport(
+                sale_report_reference_no="Ref21",
+                payment_report_reference_no="Ref21",
+                sale_report_amount=100,
+                payment_report_amount=100,
+                status=DisplayReportStatus.MATCHED.value,
+                transaction_datetime=datetime(year=2019, month=03, day=12, hour=12),
+                franchise_id=2
+            )
+        ]
+        DisplayReport.objects.bulk_create(display_report_objects)
+
     def test_case(self):
-        self.default_test_case() # Returns response object.
-        # Which can be used for further response object checks.
-        # Add database state checks here.
+        response = self.default_test_case()
+        response = response.json()
+
+        display_reports_expected = [
+            {
+                "sale_report_ref_no": "Ref11",
+                "payment_report_ref_no": "Ref11",
+                "sale_report_amount": 100,
+                "payment_report_amount": 100,
+                "status": DisplayReportStatus.MATCHED.value
+            },
+            {
+                "sale_report_ref_no": "Ref13",
+                "payment_report_ref_no": "Ref13",
+                "sale_report_amount": 100,
+                "payment_report_amount": 100,
+                "status": DisplayReportStatus.MATCHED.value
+            }
+        ]
+        response_expected = {
+            "display_reports": display_reports_expected
+        }
+
+        self.assertEqual(response, response_expected)

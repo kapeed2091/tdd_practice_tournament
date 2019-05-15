@@ -45,3 +45,5 @@ MEDIA_URL = '/media/'
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', '')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
 AWS_IOT_REGION = os.environ.get('AWS_IOT_REGION', '')
+
+MOCK_X_IB_REQUEST_ID = 'a'
