@@ -11,9 +11,9 @@ class DisplayReportUtils(object):
         self.storage = storage
 
     def send_display_reports_to_franchise_team(self):
-        display_reports = self.storage.get_display_reports(
-            date_range=self.date_range, franchise_ids=self.franchise_ids)
-        self.storage.send_display_reports_to_franchise_team(display_reports)
+        self.storage.send_display_reports_to_franchise_team(
+            date_range=self.date_range, franchise_ids=self.franchise_ids
+        )
 
     def get_display_reports(self, presenter):
         display_reports = self.storage.get_display_reports(

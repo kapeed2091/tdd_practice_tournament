@@ -26,5 +26,5 @@ class Storage(object):
         pass
 
     @abc.abstractmethod
-    def send_display_reports_to_franchise_team(self, display_reports_data):
+    def send_display_reports_to_franchise_team(self, date_range, franchise_ids):
         pass
