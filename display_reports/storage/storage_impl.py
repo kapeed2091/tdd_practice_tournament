@@ -4,7 +4,13 @@ from display_reports.storage.storage import Storage
 class StorageImplementation(Storage):
 
     def send_display_reports_to_franchise_team(self, date_range, franchise_ids):
-        pass
+        from display_reports.models import DisplayReport
+        display_reports = DisplayReport.objects.filter(
+            transaction_datetime__date__lte=date_range['to_date'],
+            transaction_datetime__date__gte=date_range['from_date'],
+            franchise_id__in=franchise_ids
+        )
+        display_reports.update(sent_to_franchise_team=True)
 
     def get_display_reports(self, date_range, franchise_ids):
         from display_reports.models import DisplayReport
