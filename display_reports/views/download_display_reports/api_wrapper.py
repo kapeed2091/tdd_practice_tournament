@@ -5,24 +5,20 @@ from .validator_class import ValidatorClass
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
-    # ---------MOCK IMPLEMENTATION---------
-    try:
-        from display_reports.views.download_display_reports.tests.test_case_01 \
-            import TEST_CASE as test_case
-    except ImportError:
-        from display_reports.views.download_display_reports.tests.test_case_01 \
-            import test_case
+    request_data = kwargs['request_data']
+    date_range = request_data['date_range']
+    franchise_ids = request_data['franchise_ids']
 
-    from django_swagger_utils.drf_server.utils.server_gen.mock_response \
-        import mock_response
-    try:
-        from display_reports.views.download_display_reports.request_response_mocks \
-            import RESPONSE_200_JSON
-    except ImportError:
-        RESPONSE_200_JSON = ''
-    response_tuple = mock_response(
-        app_name="display_reports", test_case=test_case,
-        operation_name="download_display_reports",
-        kwargs=kwargs, default_response_body=RESPONSE_200_JSON)
-    return response_tuple[1]
+    from display_reports.interactors.display_report_interactor import DisplayReportInteractor
+    from display_reports.storage.storage_impl import StorageImplementation
+    from display_reports.presenters.preseenter_csv_impl import PresenterCsvImpl
 
+    storage = StorageImplementation()
+    presenter = PresenterCsvImpl()
+    display_report_interactor = DisplayReportInteractor(
+        date_range=date_range, franchise_ids=franchise_ids, storage=storage
+    )
+    file_path = display_report_interactor.get_display_reports(presenter)
+    return {
+        "file_path": file_path
+    }
