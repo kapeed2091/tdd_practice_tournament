@@ -264,3 +264,68 @@ def test_get_display_reports():
         }
     ]
     assert display_reports_expected == display_reports
+
+
+@pytest.mark.django_db
+def test_send_display_reports_to_franchise_team():
+    from datetime import datetime
+    from display_reports.models import DisplayReport
+    payment_report_objects = [
+        DisplayReport(
+            sale_report_reference_no="Ref1",
+            payment_report_reference_no="Ref1",
+            sale_report_amount=100,
+            payment_report_amount=100,
+            status=DisplayReportStatus.MATCHED.value,
+            transaction_datetime=pytz.utc.localize(datetime(year=2019, month=03, day=10, hour=12)),
+            franchise_id=1
+        ),
+        DisplayReport(
+            sale_report_reference_no="Ref2",
+            payment_report_reference_no="Ref2",
+            sale_report_amount=100,
+            payment_report_amount=100,
+            status=DisplayReportStatus.MATCHED.value,
+            transaction_datetime=pytz.utc.localize(datetime(year=2019, month=03, day=10, hour=12)),
+            franchise_id=2
+        ),
+        DisplayReport(
+            sale_report_reference_no="Ref3",
+            payment_report_reference_no="Ref3",
+            sale_report_amount=100,
+            payment_report_amount=100,
+            status=DisplayReportStatus.MATCHED.value,
+            transaction_datetime=pytz.utc.localize(datetime(year=2019, month=03, day=10, hour=12)),
+            franchise_id=3
+        ),
+        DisplayReport(
+            sale_report_reference_no="Ref4",
+            payment_report_reference_no="Ref4",
+            sale_report_amount=100,
+            payment_report_amount=100,
+            status=DisplayReportStatus.MATCHED.value,
+            transaction_datetime=pytz.utc.localize(datetime(year=2019, month=03, day=15, hour=12)),
+            franchise_id=1
+        )
+    ]
+    DisplayReport.objects.bulk_create(payment_report_objects)
+
+    date_range = {
+        "from_date": datetime(year=2019, month=03, day=10).date(),
+        "to_date": datetime(year=2019, month=03, day=14).date()
+    }
+    franchise_ids = [1, 2]
+
+    from display_reports.storage.storage_impl import StorageImplementation
+    storage_impl = StorageImplementation()
+    storage_impl.send_display_reports_to_franchise_team(
+        date_range=date_range, franchise_ids=franchise_ids)
+
+    display_reports = DisplayReport.objects.filter(
+        transaction_datetime__date__lte=date_range['to_date'],
+        transaction_datetime__date__gte=date_range['from_date'],
+        franchise_id__in=franchise_ids
+    )
+
+    for display_report in display_reports:
+        assert display_report.sent_to_franchise_team is True

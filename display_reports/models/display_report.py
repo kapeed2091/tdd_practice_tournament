@@ -14,3 +14,4 @@ class DisplayReport(AbstractDateTimeModel):
     franchise_id = models.PositiveIntegerField()
     transaction_datetime = models.DateTimeField()
     status = models.CharField(max_length=125)
+    sent_to_franchise_team = models.BooleanField(default=False)
