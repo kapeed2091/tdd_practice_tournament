@@ -18,14 +18,16 @@ def test_generate_display_reports_with_status_matched():
     storage_mock.get_sale_reports.return_value = [
         {
             "ref_no": "Ref1234",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         }
     ]
 
     storage_mock.get_payment_reports.return_value = [
         {
             "ref_no": "Ref1234",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         }
     ]
 
@@ -48,6 +50,7 @@ def test_generate_display_reports_with_status_matched():
                 "payment_report_ref_no": "Ref1234",
                 "sale_report_amount": 100,
                 "payment_report_amount": 100,
+                "franchise_id": 1,
                 "status": DisplayReportStatus.MATCHED.value
             }
         ]
@@ -69,14 +72,16 @@ def test_generate_display_reports_with_status_amount_mismatch():
     storage_mock.get_sale_reports.return_value = [
         {
             "ref_no": "Ref1234",
-            "amount": 150
+            "amount": 150,
+            "franchise_id": 1
         }
     ]
 
     storage_mock.get_payment_reports.return_value = [
         {
             "ref_no": "Ref1234",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         }
     ]
 
@@ -100,6 +105,7 @@ def test_generate_display_reports_with_status_amount_mismatch():
                 "payment_report_ref_no": "Ref1234",
                 "sale_report_amount": 150,
                 "payment_report_amount": 100,
+                "franchise_id": 1,
                 "status": DisplayReportStatus.AMOUNT_MISMATCH.value
             }
         ]
@@ -121,14 +127,16 @@ def test_generate_display_reports_with_status_Ref_no_mismatch():
     storage_mock.get_sale_reports.return_value = [
         {
             "ref_no": "Ref1234",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         }
     ]
 
     storage_mock.get_payment_reports.return_value = [
         {
             "ref_no": "Ref2345",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         }
     ]
 
@@ -151,6 +159,7 @@ def test_generate_display_reports_with_status_Ref_no_mismatch():
                 "payment_report_ref_no": "Ref2345",
                 "sale_report_amount": 100,
                 "payment_report_amount": 100,
+                "franchise_id": 1,
                 "status": DisplayReportStatus.REF_NO_MISMATCH.value
             }
         ]
@@ -172,7 +181,8 @@ def test_generate_display_reports_with_status_extra_sale():
     storage_mock.get_sale_reports.return_value = [
         {
             "ref_no": "Ref1234",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         }
     ]
 
@@ -198,6 +208,7 @@ def test_generate_display_reports_with_status_extra_sale():
                 "payment_report_ref_no": None,
                 "sale_report_amount": 100,
                 "payment_report_amount": None,
+                "franchise_id": 1,
                 "status": DisplayReportStatus.EXTRA_SALE.value
             }
         ]
@@ -221,7 +232,8 @@ def test_generate_display_reports_with_status_unbilled():
     storage_mock.get_payment_reports.return_value = [
         {
             "ref_no": "Ref1234",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         }
     ]
 
@@ -245,6 +257,7 @@ def test_generate_display_reports_with_status_unbilled():
                 "payment_report_ref_no": "Ref1234",
                 "sale_report_amount": None,
                 "payment_report_amount": 100,
+                "franchise_id": 1,
                 "status": DisplayReportStatus.UN_BILLED.value
             }
         ]
@@ -266,18 +279,21 @@ def test_generate_display_reports_payment_report_should_be_mapped_to_only_one_sa
     storage_mock.get_sale_reports.return_value = [
         {
             "ref_no": "Ref1234",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         },
         {
             "ref_no": "Ref23",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         }
     ]
 
     storage_mock.get_payment_reports.return_value = [
         {
             "ref_no": "Ref1234",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         }
     ]
 
@@ -299,6 +315,7 @@ def test_generate_display_reports_payment_report_should_be_mapped_to_only_one_sa
                 "payment_report_ref_no": "Ref1234",
                 "sale_report_amount": 100,
                 "payment_report_amount": 100,
+                "franchise_id": 1,
                 "status": DisplayReportStatus.MATCHED.value
             },
             {
@@ -306,6 +323,7 @@ def test_generate_display_reports_payment_report_should_be_mapped_to_only_one_sa
                 "payment_report_ref_no": None,
                 "sale_report_amount": 100,
                 "payment_report_amount": None,
+                "franchise_id": 1,
                 "status": DisplayReportStatus.EXTRA_SALE.value
             }
         ]
@@ -327,30 +345,36 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
     storage_mock.get_sale_reports.return_value = [
         {
             "ref_no": "Ref1234",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         },
         {
             "ref_no": "Ref234",
-            "amount": 150
+            "amount": 150,
+            "franchise_id": 1
         },
         {
             "ref_no": "Ref24",
-            "amount": 150
+            "amount": 150,
+            "franchise_id": 1
         }
     ]
 
     storage_mock.get_payment_reports.return_value = [
         {
             "ref_no": "Ref23",
-            "amount": 150
+            "amount": 150,
+            "franchise_id": 1
         },
         {
             "ref_no": "Ref234",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         },
         {
             "ref_no": "Ref1234",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         }
     ]
 
@@ -373,6 +397,7 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
                 "payment_report_ref_no": "Ref1234",
                 "sale_report_amount": 100,
                 "payment_report_amount": 100,
+                "franchise_id": 1,
                 "status": DisplayReportStatus.MATCHED.value
             },
             {
@@ -380,6 +405,7 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
                 "payment_report_ref_no": "Ref234",
                 "sale_report_amount": 150,
                 "payment_report_amount": 100,
+                "franchise_id": 1,
                 "status": DisplayReportStatus.AMOUNT_MISMATCH.value
             },
             {
@@ -387,6 +413,7 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
                 "payment_report_ref_no": "Ref23",
                 "sale_report_amount": 150,
                 "payment_report_amount": 150,
+                "franchise_id": 1,
                 "status": DisplayReportStatus.REF_NO_MISMATCH.value
             }
         ]
