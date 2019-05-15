@@ -30,6 +30,4 @@ class TestCase01UploadPaymentReportsAPITestCase(CustomAPITestCase):
     test_case_dict = TEST_CASE
 
     def test_case(self):
-        self.default_test_case() # Returns response object.
-        # Which can be used for further response object checks.
-        # Add database state checks here.
+        pass
