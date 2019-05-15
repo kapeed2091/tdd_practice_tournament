@@ -12,6 +12,7 @@ def test_get_display_reports():
         }
     ]
 
+    from display_reports.presenters.presenter_json_impl import PresenterJsonImpl
     presenter_json_impl = PresenterJsonImpl()
     display_reports_response = \
         presenter_json_impl.get_display_reports(display_reports_data)
