@@ -188,6 +188,8 @@ class DisplayReportUtils(object):
                 "payment_report_amount": payment_report['amount'] if payment_report else None,
                 "franchise_id": sale_report['franchise_id']
                 if sale_report else payment_report['franchise_id'],
+                "transaction_datetime": sale_report['transaction_datetime']
+                if sale_report else payment_report['transaction_datetime'],
                 "status": status
             }
         else:

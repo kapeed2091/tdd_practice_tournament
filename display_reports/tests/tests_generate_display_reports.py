@@ -556,7 +556,7 @@ def test_generate_display_reports_transaction_datetime_is_considered_from_sale_r
                 "sale_report_amount": None,
                 "payment_report_amount": 100,
                 "franchise_id": 1,
-                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
+                "transaction_datetime": datetime(year=2019, month=03, day=13, hour=12),
                 "status": DisplayReportStatus.UN_BILLED.value
             }
         ]
