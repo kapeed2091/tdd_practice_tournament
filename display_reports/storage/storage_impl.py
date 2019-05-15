@@ -17,6 +17,7 @@ class StorageImplementation(Storage):
                 payment_report_reference_no=display_report['payment_report_ref_no'],
                 sale_report_amount=display_report['sale_report_amount'],
                 payment_report_amount=display_report['payment_report_amount'],
+                franchise_id=display_report['franchise_id'],
                 status=display_report['status']
             ) for display_report in display_reports
         ]

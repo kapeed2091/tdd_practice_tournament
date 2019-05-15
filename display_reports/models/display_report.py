@@ -7,4 +7,5 @@ class DisplayReport(AbstractDateTimeModel):
     payment_report_reference_no = models.CharField(max_length=125)
     sale_report_amount = models.FloatField()
     payment_report_amount = models.FloatField()
+    franchise_id = models.PositiveIntegerField()
     status = models.CharField(max_length=125)

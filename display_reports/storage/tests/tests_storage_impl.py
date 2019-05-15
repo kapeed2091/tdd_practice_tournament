@@ -107,6 +107,7 @@ def test_create_display_reports():
             "payment_report_ref_no": "Ref1234",
             "sale_report_amount": 100,
             "payment_report_amount": 100,
+            "franchise_id": 1,
             "status": DisplayReportStatus.MATCHED.value
         }
     ]
@@ -121,6 +122,7 @@ def test_create_display_reports():
             "payment_report_ref_no": display_report.payment_report_reference_no,
             "sale_report_amount": display_report.sale_report_amount,
             "payment_report_amount": display_report.payment_report_amount,
+            "franchise_id": display_report.franchise_id,
             "status": display_report.status
         } for display_report in display_reports
     ]
