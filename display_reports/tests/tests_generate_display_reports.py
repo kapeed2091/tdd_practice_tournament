@@ -490,3 +490,74 @@ def test_generate_display_reports_only_same_franchise_reports_should_be_mapped()
             }
         ]
     )
+
+
+def test_generate_display_reports_transaction_datetime_is_considered_from_sale_report_if_exists_else_of_payment_report():
+    from datetime import datetime
+    from display_reports.storage.storage import Storage
+    from display_reports.utils.display_report_utils import DisplayReportUtils
+
+    date_range = {
+        "from_date": datetime(year=2019, month=03, day=10).date(),
+        "to_date": datetime(year=2019, month=03, day=15).date()
+    }
+    franchise_ids = [1, 2, 3]
+
+    storage_mock = create_autospec(Storage)
+    storage_mock.get_sale_reports.return_value = [
+        {
+            "ref_no": "Ref1234",
+            "amount": 100,
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
+        }
+    ]
+
+    storage_mock.get_payment_reports.return_value = [
+        {
+            "ref_no": "Ref1234",
+            "amount": 100,
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=13)
+        },
+        {
+            "ref_no": "Ref234",
+            "amount": 100,
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=13, hour=12)
+        }
+    ]
+
+    display_report_utils = DisplayReportUtils(
+        date_range=date_range, franchise_ids=franchise_ids, storage=storage_mock
+    )
+
+    display_report_utils.generate_display_reports()
+    storage_mock.get_sale_reports.assert_called_once_with(
+        date_range=date_range, franchise_ids=franchise_ids
+    )
+    storage_mock.get_payment_reports.assert_called_once_with(
+        date_range=date_range, franchise_ids=franchise_ids
+    )
+    storage_mock.create_display_reports.assert_called_once_with(
+        display_reports=[
+            {
+                "sale_report_ref_no": "Ref1234",
+                "payment_report_ref_no": "Ref1234",
+                "sale_report_amount": 100,
+                "payment_report_amount": 100,
+                "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
+                "status": DisplayReportStatus.MATCHED.value
+            },
+            {
+                "sale_report_ref_no": None,
+                "payment_report_ref_no": "Ref234",
+                "sale_report_amount": None,
+                "payment_report_amount": 100,
+                "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
+                "status": DisplayReportStatus.UN_BILLED.value
+            }
+        ]
+    )

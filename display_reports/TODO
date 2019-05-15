@@ -4,7 +4,7 @@ To be Implemented:
 
 InProgress:
 2. Generate DisplayReports for selected date_range and franchises
-   h. Only reports of same franchise should be mapped
+   i. Updated transaction_datetime in display_report
 
 Completed:
 1. Create Payment Reports
@@ -20,8 +20,13 @@ Completed:
    f. When generating display_reports once payment_report is matched with sale_report, matched_payment_report
    should not be considered for other sale_report
    g. All matched reports should be created first, then amount_mismatch reports , then ref_no_mismatch
+   h. Only reports of same franchise should be mapped
+
 3. Get DisplayReports for selected date_range and franchises
 4. Send DisplayReports to franchise team for selected date_range and franchises
 
 Additional_Todos:
-1. Updated transaction_datetime in display_report
+
+Assumptions:
+1. While creating display_reports transaction_datetime is considered from sale_report, is sale_report is not present
+   then considered from payment_report
