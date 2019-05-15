@@ -85,11 +85,13 @@ def test_get_payment_reports():
     payment_report_expected = [
         {
             "ref_no": "Ref1",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         },
         {
             "ref_no": "Ref2",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 2
         }
     ]
     assert payment_report_expected == payment_reports
