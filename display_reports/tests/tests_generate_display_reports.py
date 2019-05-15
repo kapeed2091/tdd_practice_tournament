@@ -19,7 +19,8 @@ def test_generate_display_reports_with_status_matched():
         {
             "ref_no": "Ref1234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -27,7 +28,8 @@ def test_generate_display_reports_with_status_matched():
         {
             "ref_no": "Ref1234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -51,6 +53,7 @@ def test_generate_display_reports_with_status_matched():
                 "sale_report_amount": 100,
                 "payment_report_amount": 100,
                 "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
                 "status": DisplayReportStatus.MATCHED.value
             }
         ]
@@ -73,7 +76,8 @@ def test_generate_display_reports_with_status_amount_mismatch():
         {
             "ref_no": "Ref1234",
             "amount": 150,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -81,7 +85,8 @@ def test_generate_display_reports_with_status_amount_mismatch():
         {
             "ref_no": "Ref1234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -106,6 +111,7 @@ def test_generate_display_reports_with_status_amount_mismatch():
                 "sale_report_amount": 150,
                 "payment_report_amount": 100,
                 "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
                 "status": DisplayReportStatus.AMOUNT_MISMATCH.value
             }
         ]
@@ -128,7 +134,8 @@ def test_generate_display_reports_with_status_Ref_no_mismatch():
         {
             "ref_no": "Ref1234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -136,7 +143,8 @@ def test_generate_display_reports_with_status_Ref_no_mismatch():
         {
             "ref_no": "Ref2345",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -160,6 +168,7 @@ def test_generate_display_reports_with_status_Ref_no_mismatch():
                 "sale_report_amount": 100,
                 "payment_report_amount": 100,
                 "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
                 "status": DisplayReportStatus.REF_NO_MISMATCH.value
             }
         ]
@@ -182,7 +191,8 @@ def test_generate_display_reports_with_status_extra_sale():
         {
             "ref_no": "Ref1234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -209,6 +219,7 @@ def test_generate_display_reports_with_status_extra_sale():
                 "sale_report_amount": 100,
                 "payment_report_amount": None,
                 "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
                 "status": DisplayReportStatus.EXTRA_SALE.value
             }
         ]
@@ -233,7 +244,8 @@ def test_generate_display_reports_with_status_unbilled():
         {
             "ref_no": "Ref1234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -258,6 +270,7 @@ def test_generate_display_reports_with_status_unbilled():
                 "sale_report_amount": None,
                 "payment_report_amount": 100,
                 "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
                 "status": DisplayReportStatus.UN_BILLED.value
             }
         ]
@@ -280,12 +293,14 @@ def test_generate_display_reports_payment_report_should_be_mapped_to_only_one_sa
         {
             "ref_no": "Ref1234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         },
         {
             "ref_no": "Ref23",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -293,7 +308,8 @@ def test_generate_display_reports_payment_report_should_be_mapped_to_only_one_sa
         {
             "ref_no": "Ref1234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -316,6 +332,7 @@ def test_generate_display_reports_payment_report_should_be_mapped_to_only_one_sa
                 "sale_report_amount": 100,
                 "payment_report_amount": 100,
                 "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
                 "status": DisplayReportStatus.MATCHED.value
             },
             {
@@ -324,6 +341,7 @@ def test_generate_display_reports_payment_report_should_be_mapped_to_only_one_sa
                 "sale_report_amount": 100,
                 "payment_report_amount": None,
                 "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
                 "status": DisplayReportStatus.EXTRA_SALE.value
             }
         ]
@@ -346,17 +364,20 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
         {
             "ref_no": "Ref1234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         },
         {
             "ref_no": "Ref234",
             "amount": 150,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         },
         {
             "ref_no": "Ref24",
             "amount": 150,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -364,17 +385,20 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
         {
             "ref_no": "Ref23",
             "amount": 150,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         },
         {
             "ref_no": "Ref234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         },
         {
             "ref_no": "Ref1234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -398,6 +422,7 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
                 "sale_report_amount": 100,
                 "payment_report_amount": 100,
                 "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
                 "status": DisplayReportStatus.MATCHED.value
             },
             {
@@ -406,6 +431,7 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
                 "sale_report_amount": 150,
                 "payment_report_amount": 100,
                 "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
                 "status": DisplayReportStatus.AMOUNT_MISMATCH.value
             },
             {
@@ -414,6 +440,7 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
                 "sale_report_amount": 150,
                 "payment_report_amount": 150,
                 "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
                 "status": DisplayReportStatus.REF_NO_MISMATCH.value
             }
         ]
@@ -436,12 +463,14 @@ def test_generate_display_reports_only_same_franchise_reports_should_be_mapped()
         {
             "ref_no": "Ref1234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         },
         {
             "ref_no": "Ref234",
             "amount": 100,
-            "franchise_id": 2
+            "franchise_id": 2,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -449,12 +478,14 @@ def test_generate_display_reports_only_same_franchise_reports_should_be_mapped()
         {
             "ref_no": "Ref234",
             "amount": 100,
-            "franchise_id": 2
+            "franchise_id": 2,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         },
         {
             "ref_no": "Ref1234",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12)
         }
     ]
 
@@ -478,6 +509,7 @@ def test_generate_display_reports_only_same_franchise_reports_should_be_mapped()
                 "sale_report_amount": 100,
                 "payment_report_amount": 100,
                 "franchise_id": 1,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
                 "status": DisplayReportStatus.MATCHED.value
             },
             {
@@ -486,6 +518,7 @@ def test_generate_display_reports_only_same_franchise_reports_should_be_mapped()
                 "sale_report_amount": 100,
                 "payment_report_amount": 100,
                 "franchise_id": 2,
+                "transaction_datetime": datetime(year=2019, month=03, day=12, hour=12),
                 "status": DisplayReportStatus.MATCHED.value
             }
         ]
