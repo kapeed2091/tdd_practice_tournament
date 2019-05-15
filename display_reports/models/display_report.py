@@ -8,4 +8,5 @@ class DisplayReport(AbstractDateTimeModel):
     sale_report_amount = models.FloatField()
     payment_report_amount = models.FloatField()
     franchise_id = models.PositiveIntegerField()
+    transaction_datetime = models.DateTimeField()
     status = models.CharField(max_length=125)

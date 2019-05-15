@@ -101,6 +101,7 @@ def test_get_payment_reports():
 
 @pytest.mark.django_db
 def test_create_display_reports():
+    from datetime import datetime
     from display_reports.models import DisplayReport
     from display_reports.storage.storage_impl import StorageImplementation
     display_reports_data = [
@@ -110,6 +111,7 @@ def test_create_display_reports():
             "sale_report_amount": 100,
             "payment_report_amount": 100,
             "franchise_id": 1,
+            "transaction_datetime": pytz.utc.localize(datetime(year=2019, month=03, day=10, hour=12)),
             "status": DisplayReportStatus.MATCHED.value
         }
     ]
@@ -125,6 +127,7 @@ def test_create_display_reports():
             "sale_report_amount": display_report.sale_report_amount,
             "payment_report_amount": display_report.payment_report_amount,
             "franchise_id": display_report.franchise_id,
+            "transaction_datetime": display_report.transaction_datetime,
             "status": display_report.status
         } for display_report in display_reports
     ]
