@@ -174,11 +174,13 @@ def test_get_sale_reports():
     sale_report_expected = [
         {
             "ref_no": "Ref1",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 1
         },
         {
             "ref_no": "Ref2",
-            "amount": 100
+            "amount": 100,
+            "franchise_id": 2
         }
     ]
     assert sale_report_expected == sale_reports

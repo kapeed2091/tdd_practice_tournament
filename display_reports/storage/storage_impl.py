@@ -48,7 +48,8 @@ class StorageImplementation(Storage):
         return [
             {
                 "ref_no": sale_report.reference_no,
-                "amount": sale_report.amount
+                "amount": sale_report.amount,
+                "franchise_id": sale_report.franchise_id
             } for sale_report in sale_reports
         ]
 
