@@ -5,6 +5,7 @@
 from django_swagger_utils.utils.test import CustomAPITestCase
 
 from display_reports.constants.general import DisplayReportStatus
+from display_reports.utils.convert_unicode_strings import convert_unicode_strings
 from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
 
 REQUEST_BODY = """
@@ -82,19 +83,19 @@ class TestCase01GetDisplayReportsAPITestCase(CustomAPITestCase):
 
     def test_case(self):
         response = self.default_test_case()
-        response = response.json()
+        response = convert_unicode_strings(response.json())
 
         display_reports_expected = [
             {
-                "sale_report_ref_no": "Ref11",
-                "payment_report_ref_no": "Ref11",
+                "sale_report_reference_no": "Ref11",
+                "payment_report_reference_no": "Ref11",
                 "sale_report_amount": 100,
                 "payment_report_amount": 100,
                 "status": DisplayReportStatus.MATCHED.value
             },
             {
-                "sale_report_ref_no": "Ref13",
-                "payment_report_ref_no": "Ref13",
+                "sale_report_reference_no": "Ref13",
+                "payment_report_reference_no": "Ref13",
                 "sale_report_amount": 100,
                 "payment_report_amount": 100,
                 "status": DisplayReportStatus.MATCHED.value
