@@ -1,212 +1,323 @@
 {
-        "swagger": "2.0",
-        "host": "127.0.0.1:8000",
-        "basePath": "/api/display_reports/",
-        "info": {
-            "version": "1.0.0",
-            "title": "Simple API",
-            "description": "A simple API to learn how to write OpenAPI Specification"
-        },
-        "schemes": [
-            "http"
-        ],
-        "consumes": [
-            "application/json"
-        ],
-        "produces": [
-            "application/json"
-        ],
-        "securityDefinitions": {
-            "oauth": {
-                "tokenUrl": "http://auth.ibtspl.com/oauth2/",
-                "flow": "password",
-                "scopes": {
-                    "read": "read users",
-                    "write": "create users",
-                    "update": "update users",
-                    "delete": "delete users"
-                },
-                "type": "oauth2"
-            }
-        },
-        "security": [],
-        "definitions": {
-            "TodoId": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    }
-                }
-            },
-            "BasicTodo": {
-                "type": "object",
-                "properties": {
-                    "description": {
-                        "type": "string"
-                    },
-                    "is_completed": {
-                        "type": "boolean"
-                    },
-                    "remind_at": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "description"
-                ]
-            },
-            "Todo": {
-                "allOf": [
-                    {
-                        "$ref": "#/definitions/BasicTodo"
-                    },
-                    {
-                        "$ref": "#/definitions/TodoId"
-                    }
-                ]
-            }
-        },
-        "parameters": {
-            "TodoId": {
-                "description": "todo id",
-                "in": "path",
-                "name": "id",
-                "required": true,
-                "type": "integer"
-            },
-            "BasicTodo": {
-                "description": "Todo Parameter",
-                "in": "body",
-                "name": "todo",
-                "required": true,
-                "schema": {
-                    "$ref": "#/definitions/BasicTodo"
-                }
-            }
-        },
-        "responses": {
-            "SuccessResponse": {
-                "description": "success response"
-            }
-        },
-        "paths": {
-            "/todos/": {
-                "get": {
-                    "summary": "Get all todos",
-                    "description": "Returns a list containing all todos.",
-                    "operationId": "get_todos",
-                    "security": [
-                        {
-                            "oauth": [
-                                "read"
-                            ]
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "description": "A list of todos",
-                            "schema": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/definitions/Todo"
-                                }
-                            }
-                        }
-                    }
-                },
-                "post": {
-                    "summary": "create a todo",
-                    "description": "Create a todo",
-                    "operationId": "create_todo",
-                    "security": [
-                        {
-                            "oauth": [
-                                "write"
-                            ]
-                        }
-                    ],
-                    "parameters": [
-                        {
-                            "$ref": "#/parameters/BasicTodo"
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "description": "create a todo",
-                            "schema": {
-                                "$ref": "#/definitions/TodoId"
-                            }
-                        }
-                    }
-                }
-            },
-            "/todos/{id}/": {
-                "parameters": [
-                    {
-                        "$ref": "#/parameters/TodoId"
-                    }
-                ],
-                "get": {
-                    "summary": "Get a todo",
-                    "description": "Returns a todo.",
-                    "operationId": "get_todo",
-                    "security": [
-                        {
-                            "oauth": [
-                                "read"
-                            ]
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "description": "A todo",
-                            "schema": {
-                                "$ref": "#/definitions/Todo"
-                            }
-                        }
-                    }
-                },
-                "put": {
-                    "parameters": [
-                        {
-                            "$ref": "#/parameters/BasicTodo"
-                        }
-                    ],
-                    "summary": "Updates a todo",
-                    "description": "Updates a todo.",
-                    "operationId": "update_todo",
-                    "security": [
-                        {
-                            "oauth": [
-                                "update"
-                            ]
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "$ref": "#/responses/SuccessResponse"
-                        }
-                    }
-                },
-                "delete": {
-                    "summary": "Deletes a todo",
-                    "description": "Deletes a todo.",
-                    "operationId": "delete_todo",
-                    "security": [
-                        {
-                            "oauth": [
-                                "delete"
-                            ]
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "$ref": "#/responses/SuccessResponse"
-                        }
-                    }
-                }
-            }
-        }
+  "swagger": "2.0",
+  "host": "127.0.0.1:8000",
+  "basePath": "/api/display_reports/",
+  "info": {
+    "version": "1.0.0",
+    "title": "Simple API",
+    "description": "A simple API to learn how to write OpenAPI Specification"
+  },
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "oauth": {
+      "tokenUrl": "http://auth.ibtspl.com/oauth2/",
+      "flow": "password",
+      "scopes": {
+        "read": "read users",
+        "write": "create users",
+        "update": "update users",
+        "delete": "delete users"
+      },
+      "type": "oauth2"
     }
+  },
+  "security": [
+    {
+      "oauth": [
+        "read",
+        "write"
+      ]
+    }
+  ],
+  "definitions": {
+    "DateRange": {
+      "type": "object",
+      "properties": {
+        "from_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "to_date": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "from_date",
+        "to_date"
+      ]
+    },
+    "DisplayReport": {
+      "type": "object",
+      "properties": {
+        "sale_report_reference_no": {
+          "type": "string"
+        },
+        "payment_report_reference_no": {
+          "type": "string"
+        },
+        "sale_report_amount": {
+          "type": "number",
+          "format": "float"
+        },
+        "payment_report_amount": {
+          "type": "number",
+          "format": "float"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    }
+  },
+  "parameters": {
+    "UploadPaymentReportsParameter": {
+      "description": "",
+      "in": "body",
+      "name": "UploadPaymentReportsParameter",
+      "required": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "file_path"
+        ]
+      }
+    },
+    "GenerateDisplayReportsParameter": {
+      "description": "",
+      "in": "body",
+      "name": "GenerateDisplayReportsParameter",
+      "required": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "date_range": {
+            "$ref": "#/definitions/DateRange"
+          },
+          "franchise_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        "required": [
+          "date_range",
+          "franchise_ids"
+        ]
+      }
+    },
+    "GetDisplayReportsParameter": {
+      "description": "",
+      "in": "body",
+      "name": "GetDisplayReportsParameter",
+      "required": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "date_range": {
+            "$ref": "#/definitions/DateRange"
+          },
+          "franchise_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        "required": [
+          "date_range",
+          "franchise_ids"
+        ]
+      }
+    },
+    "DownloadDisplayReportsParameter": {
+      "description": "",
+      "in": "body",
+      "name": "DownloadDisplayReportsParameter",
+      "required": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "date_range": {
+            "$ref": "#/definitions/DateRange"
+          },
+          "franchise_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        "required": [
+          "date_range",
+          "franchise_ids"
+        ]
+      }
+    },
+    "SendDisplayReportsToFranchiseTeamParameter": {
+      "description": "",
+      "in": "body",
+      "name": "SendDisplayReportsToFranchiseTeamParameter",
+      "required": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "date_range": {
+            "$ref": "#/definitions/DateRange"
+          },
+          "franchise_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        "required": [
+          "date_range",
+          "franchise_ids"
+        ]
+      }
+    }
+  },
+  "responses": {
+    "SuccessResponse": {
+      "description": "success response"
+    },
+    "GetDisplayReportsResponse": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "display_reports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/DisplayReport"
+            }
+          }
+        },
+        "required": [
+          "display_reports"
+        ]
+      }
+    },
+    "DownloadDisplayReportsResponse": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "file_path"
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/upload/payment_reports/v1/": {
+      "post": {
+        "summary": "",
+        "description": "",
+        "operationId": "upload_payment_reports",
+        "parameters": [
+          {
+            "$ref": "#/parameters/UploadPaymentReportsParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SuccessResponse"
+          }
+        }
+      }
+    },
+    "/generate/display_reports/v1/": {
+      "post": {
+        "summary": "",
+        "description": "",
+        "operationId": "generate_display_reports",
+        "parameters": [
+          {
+            "$ref": "#/parameters/GenerateDisplayReportsParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SuccessResponse"
+          }
+        }
+      }
+    },
+    "/get/display_reports/v1/": {
+      "post": {
+        "summary": "",
+        "description": "",
+        "operationId": "get_display_reports",
+        "parameters": [
+          {
+            "$ref": "#/parameters/GetDisplayReportsParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetDisplayReportsResponse"
+          }
+        }
+      }
+    },
+    "/download/display_reports/v1/": {
+      "post": {
+        "summary": "",
+        "description": "",
+        "operationId": "download_display_reports",
+        "parameters": [
+          {
+            "$ref": "#/parameters/DownloadDisplayReportsParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/DownloadDisplayReportsResponse"
+          }
+        }
+      }
+    },
+    "/send/display_reports/franchise_team/v1/": {
+      "post": {
+        "summary": "",
+        "description": "",
+        "operationId": "send_display_reports_to_franchise_team",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SendDisplayReportsToFranchiseTeamParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SuccessResponse"
+          }
+        }
+      }
+    }
+  }
+}
     
