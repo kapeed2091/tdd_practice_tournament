@@ -1,5 +1,8 @@
+from django_swagger_utils.drf_server.exceptions import BadRequest
 from django_swagger_utils.drf_server.utils.decorator.interface_decorator \
     import ValidatorAbstractClass
+
+from display_reports.constants import exception_messages
 
 
 class ValidatorClass(ValidatorAbstractClass):
@@ -8,20 +11,10 @@ class ValidatorClass(ValidatorAbstractClass):
         self.user = kwargs['user']
         self.access_token = kwargs['access_token']
 
-    def sample_validation(self):
-        """
-        sample validations to be carried out here
-        return True or False
-        """
-        return self.request_data
+    def validate_date_range(self):
+        date_range = self.request_data['date_range']
+        if date_range['from_date'] > date_range['to_date']:
+            raise BadRequest(*exception_messages.FROM_DATE_CAN_NOT_BE_GREATER_THAN_TO_DATE)
 
     def validate(self):
-        """
-        A wrapper function that calls all the validations and sends back
-        necessary data.
-        :return: A dictionary with values that are to be carry-forwarded to
-        api_wrapper.
-        """
-        dict_ = dict()
-        dict_['some_key'] = self.sample_validation()
-        return dict_
+        self.validate_date_range()

@@ -39,6 +39,4 @@ class TestCase02GetDisplayReportsAPITestCase(CustomAPITestCase):
     test_case_dict = TEST_CASE
 
     def test_case(self):
-
-        with self.assertRaisesMessage(BadRequest, 'From date can not be greater than To date'):
-            self.default_test_case()
+        self.default_test_case()
