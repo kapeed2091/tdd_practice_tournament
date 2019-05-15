@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from display_reports.constants.general import DisplayReportStatus
 
 
@@ -21,32 +23,65 @@ class DisplayReportUtils(object):
     def generate_display_reports(self):
         sale_reports = self.storage.get_sale_reports(
             date_range=self.date_range, franchise_ids=self.franchise_ids)
+        franchise_sale_reports_dict = \
+            self._get_franchise_sale_reports_dict(sale_reports)
         payment_reports = self.storage.get_payment_reports(
             date_range=self.date_range, franchise_ids=self.franchise_ids)
+        franchise_payment_reports_dict = \
+            self._get_franchise_payment_reports_dict(payment_reports)
 
         display_reports = self._get_display_reports(
-            sale_reports=sale_reports, payment_reports=payment_reports)
+            franchise_sale_reports_dict=franchise_sale_reports_dict,
+            franchise_payment_reports_dict=franchise_payment_reports_dict
+        )
         self.storage.create_display_reports(display_reports)
 
-    def _get_display_reports(self, sale_reports, payment_reports):
-        un_matched_sale_reports, un_matched_payment_reports, matched_display_reports = \
-            self._get_matched_display_reports(sale_reports=sale_reports,
-                                              payment_reports=payment_reports)
-        un_matched_sale_reports, un_matched_payment_reports, amount_mismatch_display_reports = \
-            self._get_amount_mismatch_display_reports(
-                sale_reports=un_matched_sale_reports,
-                payment_reports=un_matched_payment_reports)
-        un_matched_sale_reports, un_matched_payment_reports, ref_no_mismatch_display_reports = \
-            self._get_ref_no_mismatch_display_reports(
-                sale_reports=un_matched_sale_reports,
-                payment_reports=un_matched_payment_reports)
-        extra_sale_display_reports = self._get_extra_sale_display_reports(un_matched_sale_reports)
-        unbilled_display_reports = self._get_unbilled_display_reports(un_matched_payment_reports)
+    @staticmethod
+    def _get_franchise_sale_reports_dict(sale_reports):
+        franchise_sale_reports_dict = defaultdict(lambda: [])
+        for sale_report in sale_reports:
+            franchise_sale_reports_dict[sale_report['franchise_id']].\
+                append(sale_report)
+        return franchise_sale_reports_dict
 
-        return matched_display_reports + amount_mismatch_display_reports + \
-               ref_no_mismatch_display_reports + extra_sale_display_reports + \
-               unbilled_display_reports
+    @staticmethod
+    def _get_franchise_payment_reports_dict(payment_reports):
+        franchise_payment_reports_dict = defaultdict(lambda: [])
+        for payment_report in payment_reports:
+            franchise_payment_reports_dict[payment_report['franchise_id']].\
+                append(payment_report)
+        return franchise_payment_reports_dict
 
+    def _get_display_reports(self, franchise_sale_reports_dict, franchise_payment_reports_dict):
+
+        display_reports = []
+        for franchise_id in self.franchise_ids:
+            sale_reports = franchise_sale_reports_dict[franchise_id]
+            payment_reports = franchise_payment_reports_dict[franchise_id]
+            un_matched_sale_reports, un_matched_payment_reports, matched_display_reports = \
+                self._get_matched_display_reports(sale_reports=sale_reports,
+                                                  payment_reports=payment_reports)
+            display_reports += matched_display_reports
+
+            un_matched_sale_reports, un_matched_payment_reports, amount_mismatch_display_reports = \
+                self._get_amount_mismatch_display_reports(
+                    sale_reports=un_matched_sale_reports,
+                    payment_reports=un_matched_payment_reports)
+            display_reports += amount_mismatch_display_reports
+
+            un_matched_sale_reports, un_matched_payment_reports, ref_no_mismatch_display_reports = \
+                self._get_ref_no_mismatch_display_reports(
+                    sale_reports=un_matched_sale_reports,
+                    payment_reports=un_matched_payment_reports)
+            display_reports += ref_no_mismatch_display_reports
+
+            extra_sale_display_reports = self._get_extra_sale_display_reports(un_matched_sale_reports)
+            display_reports += extra_sale_display_reports
+
+            unbilled_display_reports = self._get_unbilled_display_reports(un_matched_payment_reports)
+            display_reports += unbilled_display_reports
+
+        return display_reports
 
     def _get_matched_display_reports(self, sale_reports, payment_reports):
         matched_payment_reports = []
@@ -151,6 +186,8 @@ class DisplayReportUtils(object):
                 "sale_report_amount": sale_report['amount'] if sale_report else None,
                 "payment_report_ref_no": payment_report['ref_no'] if payment_report else None,
                 "payment_report_amount": payment_report['amount'] if payment_report else None,
+                "franchise_id": sale_report['franchise_id']
+                if sale_report else payment_report['franchise_id'],
                 "status": status
             }
         else:
