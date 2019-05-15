@@ -50,7 +50,8 @@ class StorageImplementation(Storage):
             {
                 "ref_no": sale_report.reference_no,
                 "amount": sale_report.amount,
-                "franchise_id": sale_report.franchise_id
+                "franchise_id": sale_report.franchise_id,
+                "transaction_datetime": sale_report.transaction_datetime
             } for sale_report in sale_reports
         ]
 
