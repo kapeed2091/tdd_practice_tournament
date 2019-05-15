@@ -6,7 +6,7 @@ from display_reports.constants.general import DisplayReportStatus
 def test_get_display_reports_for_selected_date_range_and_franchises():
     from datetime import datetime
     from display_reports.storage.storage import Storage
-    from display_reports.utils.display_report_utils import DisplayReportUtils
+    from display_reports.interactors.display_report_interactor import DisplayReportInteractor
 
     date_range = {
         "from_date": datetime(year=2019, month=03, day=10).date(),
@@ -37,11 +37,11 @@ def test_get_display_reports_for_selected_date_range_and_franchises():
     presenter_mock = create_autospec(Presenter)
     presenter_mock.get_display_reports.return_value = None
 
-    display_report_utils = DisplayReportUtils(
+    display_report_interactor = DisplayReportInteractor(
         date_range=date_range, franchise_ids=franchise_ids,
         storage=storage_mock
     )
-    display_report_utils.get_display_reports(presenter=presenter_mock)
+    display_report_interactor.get_display_reports(presenter=presenter_mock)
     storage_mock.get_display_reports.assert_called_once_with(date_range=date_range,
                                                              franchise_ids=franchise_ids)
 

@@ -3,7 +3,7 @@ from collections import defaultdict
 from display_reports.constants.general import DisplayReportStatus
 
 
-class DisplayReportUtils(object):
+class DisplayReportInteractor(object):
 
     def __init__(self, date_range, franchise_ids, storage):
         self.date_range = date_range

@@ -1,4 +1,4 @@
-class PaymentReportUtils(object):
+class PaymentReportInteractor(object):
 
     @staticmethod
     def create_payment_reports(payment_reports_data, storage):

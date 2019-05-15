@@ -6,8 +6,8 @@ from display_reports.constants.general import TransactionStatus
 @freeze_time('2019-03-10 12:00:00')
 def test_create_payment_reports():
     import datetime
-    from display_reports.utils.payment_report_utils import PaymentReportUtils
-    payment_report_utils = PaymentReportUtils()
+    from display_reports.interactors.payment_report_interactor import PaymentReportInteractor
+    payment_report_utils = PaymentReportInteractor()
     payment_reports_data = [
         {
             "ref_no": "Ref1234",
