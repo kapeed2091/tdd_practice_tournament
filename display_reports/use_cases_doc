@@ -23,3 +23,5 @@ Acceptance:
         DisplayReport should be generated with status=RefNo Mismatch
     d. Unmatched SaleReports should be created as status=ExtraSale
     e. Unmatched PaymentReports should be created as status=UnBilled
+    f. Only reports of same franchise should be mapped
+

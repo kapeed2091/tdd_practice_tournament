@@ -3,6 +3,8 @@ USE CASES IMPLEMENTATION
 To be Implemented:
 
 InProgress:
+2. Generate DisplayReports for selected date_range and franchises
+   h. Only reports of same franchise should be mapped
 
 Completed:
 1. Create Payment Reports
@@ -22,3 +24,4 @@ Completed:
 4. Send DisplayReports to franchise team for selected date_range and franchises
 
 Additional_Todos:
+1. Updated transaction_datetime in display_report

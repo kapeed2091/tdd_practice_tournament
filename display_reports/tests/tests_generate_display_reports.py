@@ -391,3 +391,75 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
             }
         ]
     )
+
+
+def test_generate_display_reports_only_same_franchise_reports_should_be_mapped():
+    from datetime import datetime
+    from display_reports.storage.storage import Storage
+    from display_reports.utils.display_report_utils import DisplayReportUtils
+
+    date_range = {
+        "from_date": datetime(year=2019, month=03, day=10).date(),
+        "to_date": datetime(year=2019, month=03, day=15).date()
+    }
+    franchise_ids = [1, 2, 3]
+
+    storage_mock = create_autospec(Storage)
+    storage_mock.get_sale_reports.return_value = [
+        {
+            "ref_no": "Ref1234",
+            "amount": 100,
+            "franchise_id": 1
+        },
+        {
+            "ref_no": "Ref234",
+            "amount": 100,
+            "franchise_id": 2
+        }
+    ]
+
+    storage_mock.get_payment_reports.return_value = [
+        {
+            "ref_no": "Ref234",
+            "amount": 100,
+            "franchise_id": 2
+        },
+        {
+            "ref_no": "Ref1234",
+            "amount": 100,
+            "franchise_id": 1
+        }
+    ]
+
+    display_report_utils = DisplayReportUtils(
+        date_range=date_range, franchise_ids=franchise_ids,
+        storage=storage_mock
+    )
+
+    display_report_utils.generate_display_reports()
+    storage_mock.get_sale_reports.assert_called_once_with(
+        date_range=date_range, franchise_ids=franchise_ids
+    )
+    storage_mock.get_payment_reports.assert_called_once_with(
+        date_range=date_range, franchise_ids=franchise_ids
+    )
+    storage_mock.create_display_reports.assert_called_once_with(
+        display_reports=[
+            {
+                "sale_report_ref_no": "Ref1234",
+                "payment_report_ref_no": "Ref1234",
+                "sale_report_amount": 100,
+                "payment_report_amount": 100,
+                "franchise_id": 1,
+                "status": DisplayReportStatus.MATCHED.value
+            },
+            {
+                "sale_report_ref_no": "Ref234",
+                "payment_report_ref_no": "Ref234",
+                "sale_report_amount": 100,
+                "payment_report_amount": 100,
+                "franchise_id": 2,
+                "status": DisplayReportStatus.MATCHED.value
+            }
+        ]
+    )
