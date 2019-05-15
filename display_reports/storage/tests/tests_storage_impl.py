@@ -45,28 +45,28 @@ def test_get_payment_reports():
             reference_no="Ref1",
             amount=100,
             transaction_status=TransactionStatus.SUCCESS.value,
-            transaction_datetime=datetime(year=2019, month=03, day=10, hour=12),
+            transaction_datetime=pytz.utc.localize(datetime(year=2019, month=03, day=10, hour=12)),
             franchise_id=1
         ),
         PaymentReport(
             reference_no="Ref2",
             amount=100,
             transaction_status=TransactionStatus.SUCCESS.value,
-            transaction_datetime=datetime(year=2019, month=03, day=10, hour=12),
+            transaction_datetime=pytz.utc.localize(datetime(year=2019, month=03, day=10, hour=12)),
             franchise_id=2
         ),
         PaymentReport(
             reference_no="Ref3",
             amount=100,
             transaction_status=TransactionStatus.SUCCESS.value,
-            transaction_datetime=datetime(year=2019, month=03, day=10, hour=12),
+            transaction_datetime=pytz.utc.localize(datetime(year=2019, month=03, day=10, hour=12)),
             franchise_id=3
         ),
         PaymentReport(
             reference_no="Ref4",
             amount=100,
             transaction_status=TransactionStatus.SUCCESS.value,
-            transaction_datetime=datetime(year=2019, month=03, day=15, hour=12),
+            transaction_datetime=pytz.utc.localize(datetime(year=2019, month=03, day=15, hour=12)),
             franchise_id=1
         )
     ]
@@ -86,12 +86,14 @@ def test_get_payment_reports():
         {
             "ref_no": "Ref1",
             "amount": 100,
-            "franchise_id": 1
+            "franchise_id": 1,
+            "transaction_datetime": pytz.utc.localize(datetime(year=2019, month=03, day=10, hour=12))
         },
         {
             "ref_no": "Ref2",
             "amount": 100,
-            "franchise_id": 2
+            "franchise_id": 2,
+            "transaction_datetime": pytz.utc.localize(datetime(year=2019, month=03, day=10, hour=12))
         }
     ]
     assert payment_report_expected == payment_reports
