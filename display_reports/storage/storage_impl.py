@@ -32,7 +32,8 @@ class StorageImplementation(Storage):
         return [
             {
                 "ref_no": payment_report.reference_no,
-                "amount": payment_report.amount
+                "amount": payment_report.amount,
+                "franchise_id": payment_report.franchise_id
             } for payment_report in payment_reports
         ]
 
