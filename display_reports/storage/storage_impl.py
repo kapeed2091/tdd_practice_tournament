@@ -3,7 +3,7 @@ from display_reports.storage.storage import Storage
 
 class StorageImplementation(Storage):
 
-    def send_display_reports_to_franchise_team(self, display_reports_data):
+    def send_display_reports_to_franchise_team(self, date_range, franchise_ids):
         pass
 
     def get_display_reports(self, date_range, franchise_ids):
