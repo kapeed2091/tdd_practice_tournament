@@ -1,7 +1,11 @@
 def test_convert_payment_report_csv_file():
     from datetime import datetime
+    from display_reports.views.upload_payment_reports.api_wrapper import get_display_reports_from_csv
+
     file_path = "/Users/phaneeswar/Documents/projects/tdd_practice_tournament/display_reports/tests/tests_controllers/test_files/payment_report_test_file.csv"
+
     display_reports = get_display_reports_from_csv(file_path)
+
     display_reports_expected = [
         {
             "ref_no": "Ref123",

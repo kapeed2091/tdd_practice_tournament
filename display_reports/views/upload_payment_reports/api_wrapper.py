@@ -26,3 +26,6 @@ def api_wrapper(*args, **kwargs):
         kwargs=kwargs, default_response_body=RESPONSE_200_JSON)
     return response_tuple[1]
 
+
+def get_display_reports_from_csv(file_path):
+    pass
