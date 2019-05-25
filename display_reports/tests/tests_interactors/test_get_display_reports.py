@@ -5,7 +5,7 @@ from display_reports.constants.general import DisplayReportStatus
 
 def test_get_display_reports_for_selected_date_range_and_franchises():
     from datetime import datetime
-    from display_reports.storage.storage import Storage
+    from display_reports.interactors.storage.storage import Storage
     from display_reports.interactors.display_report_interactor import DisplayReportInteractor
 
     date_range = {
@@ -33,7 +33,7 @@ def test_get_display_reports_for_selected_date_range_and_franchises():
     ]
     storage_mock.get_display_reports.return_value = display_reports_data
 
-    from display_reports.presenters.presenter import Presenter
+    from display_reports.interactors.presenter.presenter import Presenter
     presenter_mock = create_autospec(Presenter)
     presenter_mock.get_display_reports.return_value = None
 

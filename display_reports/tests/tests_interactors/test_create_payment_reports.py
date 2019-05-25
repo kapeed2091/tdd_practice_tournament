@@ -18,7 +18,7 @@ def test_create_payment_reports():
         }
     ]
 
-    from display_reports.storage.storage import Storage
+    from display_reports.interactors.storage.storage import Storage
     storage_mock = create_autospec(Storage)
 
     payment_report_utils.create_payment_reports(

@@ -3,7 +3,7 @@ from mock import create_autospec
 
 def test_send_display_reports_to_franchise_team():
     from datetime import datetime
-    from display_reports.storage.storage import Storage
+    from display_reports.interactors.storage.storage import Storage
     from display_reports.interactors.display_report_interactor import DisplayReportInteractor
 
     date_range = {

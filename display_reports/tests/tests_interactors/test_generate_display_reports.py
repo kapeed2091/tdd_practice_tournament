@@ -5,7 +5,7 @@ from display_reports.constants.general import DisplayReportStatus
 
 def test_generate_display_reports_with_status_matched():
     from datetime import datetime
-    from display_reports.storage.storage import Storage
+    from display_reports.interactors.storage.storage import Storage
 
     date_range = {
         "from_date": datetime(year=2019, month=03, day=10).date(),
@@ -62,7 +62,7 @@ def test_generate_display_reports_with_status_matched():
 
 def test_generate_display_reports_with_status_amount_mismatch():
     from datetime import datetime
-    from display_reports.storage.storage import Storage
+    from display_reports.interactors.storage.storage import Storage
     from display_reports.interactors.display_report_interactor import DisplayReportInteractor
 
     date_range = {
@@ -120,7 +120,7 @@ def test_generate_display_reports_with_status_amount_mismatch():
 
 def test_generate_display_reports_with_status_Ref_no_mismatch():
     from datetime import datetime
-    from display_reports.storage.storage import Storage
+    from display_reports.interactors.storage.storage import Storage
     from display_reports.interactors.display_report_interactor import DisplayReportInteractor
 
     date_range = {
@@ -177,7 +177,7 @@ def test_generate_display_reports_with_status_Ref_no_mismatch():
 
 def test_generate_display_reports_with_status_extra_sale():
     from datetime import datetime
-    from display_reports.storage.storage import Storage
+    from display_reports.interactors.storage.storage import Storage
     from display_reports.interactors.display_report_interactor import DisplayReportInteractor
 
     date_range = {
@@ -228,7 +228,7 @@ def test_generate_display_reports_with_status_extra_sale():
 
 def test_generate_display_reports_with_status_unbilled():
     from datetime import datetime
-    from display_reports.storage.storage import Storage
+    from display_reports.interactors.storage.storage import Storage
     from display_reports.interactors.display_report_interactor import DisplayReportInteractor
 
     date_range = {
@@ -279,7 +279,7 @@ def test_generate_display_reports_with_status_unbilled():
 
 def test_generate_display_reports_payment_report_should_be_mapped_to_only_one_sale_report():
     from datetime import datetime
-    from display_reports.storage.storage import Storage
+    from display_reports.interactors.storage.storage import Storage
     from display_reports.interactors.display_report_interactor import DisplayReportInteractor
 
     date_range = {
@@ -350,7 +350,7 @@ def test_generate_display_reports_payment_report_should_be_mapped_to_only_one_sa
 
 def test_generate_display_reports_with_order_of_generation_matched_and_amount_mismatch_and_ref_no_mismatch():
     from datetime import datetime
-    from display_reports.storage.storage import Storage
+    from display_reports.interactors.storage.storage import Storage
     from display_reports.interactors.display_report_interactor import DisplayReportInteractor
 
     date_range = {
@@ -449,7 +449,7 @@ def test_generate_display_reports_with_order_of_generation_matched_and_amount_mi
 
 def test_generate_display_reports_only_same_franchise_reports_should_be_mapped():
     from datetime import datetime
-    from display_reports.storage.storage import Storage
+    from display_reports.interactors.storage.storage import Storage
     from display_reports.interactors.display_report_interactor import DisplayReportInteractor
 
     date_range = {
@@ -527,7 +527,7 @@ def test_generate_display_reports_only_same_franchise_reports_should_be_mapped()
 
 def test_generate_display_reports_transaction_datetime_is_considered_from_sale_report_if_exists_else_of_payment_report():
     from datetime import datetime
-    from display_reports.storage.storage import Storage
+    from display_reports.interactors.storage.storage import Storage
     from display_reports.interactors.display_report_interactor import DisplayReportInteractor
 
     date_range = {

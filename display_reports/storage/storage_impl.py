@@ -1,4 +1,4 @@
-from display_reports.storage.storage import Storage
+from display_reports.interactors.storage.storage import Storage
 
 
 class StorageImplementation(Storage):

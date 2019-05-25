@@ -1,4 +1,4 @@
-from display_reports.presenters.presenter import Presenter
+from display_reports.interactors.presenter.presenter import Presenter
 
 
 class PresenterCsvImpl(Presenter):
