@@ -1,8 +1,11 @@
+from django.conf import settings
+import os
+
 def test_convert_payment_report_csv_file():
     from datetime import datetime
     from display_reports.views.upload_payment_reports.api_wrapper import get_payment_reports_from_csv
 
-    file_path = "/Users/phaneeswar/Documents/projects/tdd_practice_tournament/display_reports/tests/tests_controllers/test_files/payment_report_test_file.csv"
+    file_path = os.path.join(settings.BASE_DIR, "display_reports", "tests", "tests_controllers", "test_files", "payment_report_test_file.csv")
 
     display_reports = get_payment_reports_from_csv(file_path)
 
